@@ -1,15 +1,10 @@
 package com.mordag.crouton;
 
 public final class CroutonButton {
-    final CroutonButtonListener defaultListener = new CroutonButtonListener() {
-        @Override
-        public void onClick() {
-            //do nothing if using default
-        }
-    };
     String text;
-    int viewId;
-    CroutonButtonListener listener = defaultListener;
+    Integer[] viewIds;
+    CroutonButtonListener listener;
+    boolean isCloseButton;
 
     CroutonButton() {
         //do nothing here - just hide the constructor for other packages
@@ -19,8 +14,8 @@ public final class CroutonButton {
         return text;
     }
 
-    public int getViewId() {
-        return viewId;
+    public Integer[] getViewIds() {
+        return viewIds;
     }
 
     public CroutonButtonListener getListener() {

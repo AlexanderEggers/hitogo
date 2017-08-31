@@ -7,7 +7,7 @@ import android.view.View;
 
 public interface CroutonContainer {
     @NonNull CroutonController getController();
-    @Nullable View getRootView();
+    @Nullable View getView();
     @NonNull Activity getActivity();
-    void initialiseController(CroutonController controller);
+    CroutonController initialiseController();
 }

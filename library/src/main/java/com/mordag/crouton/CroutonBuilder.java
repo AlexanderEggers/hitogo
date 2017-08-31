@@ -2,7 +2,8 @@ package com.mordag.crouton;
 
 import android.app.Activity;
 import android.content.Context;
-import android.support.annotation.Nullable;
+import android.support.annotation.NonNull;
+import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +15,7 @@ import java.lang.ref.WeakReference;
 import java.security.InvalidParameterException;
 import java.util.ArrayList;
 import java.util.List;
+
 import android.os.Handler;
 
 public final class CroutonBuilder {
@@ -23,8 +25,6 @@ public final class CroutonBuilder {
 
     private Integer state;
     private Integer containerId;
-    private Integer closeIconViewId;
-    private Integer closeClickViewId;
     private Integer titleViewId;
     private Integer textViewId;
 
@@ -32,74 +32,121 @@ public final class CroutonBuilder {
     private boolean isDialog;
     private boolean isDismissible;
 
+    private CroutonAnimation croutonAnimation;
     private WeakReference<Context> contextRef;
     private View rootView;
     private CroutonController controller;
-    private List<CroutonButton> buttonList;
+    private List<CroutonButton> callToActionButtons;
+    private List<CroutonButton> closeButtons;
 
     CroutonBuilder(Context context, View rootView, CroutonController controller) {
         this.contextRef = new WeakReference<>(context);
         this.rootView = rootView;
         this.controller = controller;
-        this.buttonList = new ArrayList<>();
+        this.callToActionButtons = new ArrayList<>();
+        this.closeButtons = new ArrayList<>();
     }
 
     private CroutonBuilder() {
-        throw new IllegalStateException("Cannot initialise Builder without crouton factory (Crouton.class).");
+        throw new IllegalStateException("Cannot initialise Builder without crouton factory " +
+                "(Crouton.class).");
     }
 
+    @NonNull
     public CroutonBuilder setTitle(int viewId, String title) {
         this.titleViewId = viewId;
         this.title = title;
         return this;
     }
 
+    @NonNull
     public CroutonBuilder setText(int viewId, String text) {
         this.textViewId = viewId;
         this.text = text;
         return this;
     }
 
+    @NonNull
     public CroutonBuilder setTitle(String title) {
         this.titleViewId = controller.getDefaultTitleViewId();
         this.title = title;
         return this;
     }
 
+    @NonNull
     public CroutonBuilder setText(String text) {
         this.textViewId = controller.getDefaultTextViewId();
         this.text = text;
         return this;
     }
 
-    public CroutonBuilder withoutAnimation() {
+    @NonNull
+    public CroutonBuilder withAnimations() {
+        this.showAnimation = true;
+        this.croutonAnimation = controller.getCroutonAnimation();
+        return this;
+    }
+
+    @NonNull
+    public CroutonBuilder withAnimations(@NonNull CroutonAnimation animation) {
+        this.showAnimation = true;
+        this.croutonAnimation = animation;
+        return this;
+    }
+
+    @NonNull
+    public CroutonBuilder withoutAnimations() {
         this.showAnimation = false;
+        this.croutonAnimation = null;
         return this;
     }
 
-    public CroutonBuilder asDismissible(int removeViewId, @Nullable Integer closeClickViewId) {
-        this.isDismissible = true;
-        this.closeIconViewId = removeViewId;
-        this.closeClickViewId = closeClickViewId != null ? closeClickViewId : removeViewId;
+    @NonNull
+    public CroutonBuilder asDismissible(@NonNull CroutonButton closeButton) {
+        if(closeButton.isCloseButton) {
+            this.isDismissible = true;
+            closeButtons.add(closeButton);
+        } else {
+            Log.d(CroutonBuilder.class.getName(), "Cannot add call to action button as close " +
+                    "buttons...");
+            Log.d(CroutonBuilder.class.getName(), "Trying to add default dismissible button...");
+            asDismissible();
+        }
         return this;
     }
 
+    @NonNull
     public CroutonBuilder asDismissible() {
         this.isDismissible = true;
-        this.closeIconViewId = controller.getDefaultCloseIconId();
-        this.closeClickViewId = controller.getDefaultCloseClickId() != null ?
-                controller.getDefaultCloseClickId() : controller.getDefaultCloseIconId();
+
+        try {
+            CroutonButton button = CroutonButtonBuilder.with(rootView)
+                    .asCloseButton(controller.getDefaultCloseIconId(),
+                            controller.getDefaultCloseClickId())
+                    .build();
+            closeButtons.add(button);
+        } catch (InvalidParameterException ex) {
+            this.isDismissible = false;
+            Log.d(CroutonBuilder.class.getName(), "Cannot make this crouton dismissible.");
+            Log.d(CroutonBuilder.class.getName(), "Reason: " + ex.getMessage());
+        }
+
         return this;
     }
 
+    @NonNull
     public CroutonBuilder asDialog() {
         this.isDialog = true;
         return this;
     }
 
-    public CroutonBuilder addButton(@Nullable CroutonButton button) {
-        if(button != null) {
-            buttonList.add(button);
+    @NonNull
+    public CroutonBuilder addButton(@NonNull CroutonButton callToActionButton) {
+        if(!callToActionButton.isCloseButton) {
+            callToActionButtons.add(callToActionButton);
+        } else {
+            Log.d(CroutonBuilder.class.getName(), "Cannot add close buttons as call to " +
+                    "action buttons...");
         }
         return this;
     }
@@ -110,12 +157,14 @@ public final class CroutonBuilder {
      *
      * @return builder for the crouton
      */
+    @NonNull
     public CroutonBuilder asIgnoreLayout() {
         this.isDialog = false;
         this.containerId = null;
         return this;
     }
 
+    @NonNull
     public CroutonBuilder asOverlay() {
         this.isDialog = false;
         this.containerId = controller.getOverlayContainerId();
@@ -123,34 +172,40 @@ public final class CroutonBuilder {
         if (rootView != null) {
             View container = rootView.findViewById(this.containerId);
             if (container == null) {
-                Log.d(CroutonBuilder.class.getName(), "Trying to use fallback to let the crouton ignore the given layout...");
+                Log.d(CroutonBuilder.class.getName(), "Trying to use fallback to let the crouton " +
+                        "ignore the given layout...");
                 return asIgnoreLayout();
             }
         } else {
-            Log.d(CroutonBuilder.class.getName(), "Trying to use fallback to let the crouton ignore the given layout...");
+            Log.d(CroutonBuilder.class.getName(), "Trying to use fallback to let the crouton " +
+                    "ignore the given layout...");
             return asIgnoreLayout();
         }
 
         return this;
     }
 
-    public CroutonBuilder asSimple(String infoText) {
+    @NonNull
+    public CroutonBuilder asSimple(@NonNull String infoText) {
         this.text = infoText;
         return asLayoutChild()
                 .asDismissible()
                 .withState(controller.getDefaultState());
     }
 
+    @NonNull
     public CroutonBuilder controlledBy(CroutonController controller) {
         this.controller = controller;
         return this;
     }
 
+    @NonNull
     public CroutonBuilder withState(int state) {
         this.state = state;
         return this;
     }
 
+    @NonNull
     public CroutonBuilder asLayoutChild() {
         this.isDialog = false;
         this.containerId = controller.getLayoutContainerId();
@@ -158,17 +213,20 @@ public final class CroutonBuilder {
         if (rootView != null) {
             View container = rootView.findViewById(this.containerId);
             if (container == null) {
-                Log.d(CroutonBuilder.class.getName(), "Trying to use fallback to display crouton as overlay...");
+                Log.d(CroutonBuilder.class.getName(), "Trying to use fallback to display crouton " +
+                        "as overlay...");
                 return asOverlay();
             }
         } else {
-            Log.d(CroutonBuilder.class.getName(), "Trying to use fallback to let the crouton ignore the given layout...");
+            Log.d(CroutonBuilder.class.getName(), "Trying to use fallback to let the crouton " +
+                    "ignore the given layout...");
             return asIgnoreLayout();
         }
 
         return this;
     }
 
+    @NonNull
     public CroutonBuilder asLayoutChild(int containerId) {
         this.isDialog = false;
         this.containerId = containerId;
@@ -176,7 +234,8 @@ public final class CroutonBuilder {
         if (rootView != null) {
             View container = rootView.findViewById(this.containerId);
             if (container == null) {
-                Log.d(CroutonBuilder.class.getName(), "Trying to use fallback to display crouton inside the default container layout...");
+                Log.d(CroutonBuilder.class.getName(), "Trying to use fallback to display crouton " +
+                        "inside the default container layout...");
                 return asLayoutChild();
             }
         } else {
@@ -206,12 +265,33 @@ public final class CroutonBuilder {
         }, millis);
     }
 
+    public void show(Fragment fragment) {
+        showNow(fragment);
+    }
+
+    public void showNow(Fragment fragment) {
+        build().show(fragment.getActivity());
+    }
+
+    public void showPost(final Fragment fragment, long millis) {
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if(fragment.isAdded()) {
+                    build().show(fragment.getActivity());
+                }
+            }
+        }, millis);
+    }
+
+    @NonNull
     public CroutonObject build() {
         if (this.text == null) {
             throw new InvalidParameterException("Info text parameter cannot be null.");
         }
 
-        if (this.isDialog && (this.state == null || buttonList.isEmpty())) {
+        if (this.isDialog && (this.state == null || callToActionButtons.isEmpty())) {
             throw new InvalidParameterException("State and title parameter cannot be " +
                     "null and this crouton needs button to be displayed if crouton is from type " +
                     "dialog.");
@@ -228,11 +308,13 @@ public final class CroutonBuilder {
         }
     }
 
+    @NonNull
     private CroutonObject createDialog() {
         return CroutonDialog.create(getContext(), this.title, this.text,
-                buttonList, this.text.hashCode(), controller);
+                callToActionButtons, this.text.hashCode(), controller);
     }
 
+    @NonNull
     private CroutonObject createOverlayOrLayout() {
         LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View view = inflater.inflate(controller.getLayout(state), null);
@@ -247,15 +329,21 @@ public final class CroutonBuilder {
             }
         }
 
-        view = buildLayoutOrOverlayContent(view);
-        view = buildLayoutOrOverlayButtons(view);
+        if(view != null) {
+            view = buildLayoutOrOverlayContent(view);
+            view = buildLayoutOrOverlayButtons(view);
+        } else {
+            throw new InvalidParameterException("Crouton is null. Is the layout existing for " +
+                    "the state: '" + state + "'?");
+        }
 
-        return CroutonView.make(view, holder, this.showAnimation,
-                this.text.hashCode(), controller);
+        return CroutonView.make(view, holder, this.showAnimation, this.text.hashCode(), controller,
+                croutonAnimation);
     }
 
-    private View buildLayoutOrOverlayContent(View view) {
-        if(titleViewId != null) {
+    @NonNull
+    private View buildLayoutOrOverlayContent(@NonNull View view) {
+        if (titleViewId != null) {
             TextView titleView = view.findViewById(titleViewId);
 
             if (title != null && StringUtils.isNotEmpty(title)) {
@@ -266,7 +354,7 @@ public final class CroutonBuilder {
             }
         }
 
-        if(textViewId != null) {
+        if (textViewId != null) {
             TextView textView = view.findViewById(textViewId);
 
             if (text != null && StringUtils.isNotEmpty(text)) {
@@ -280,26 +368,27 @@ public final class CroutonBuilder {
         return view;
     }
 
-    private View buildLayoutOrOverlayButtons(View view) {
-        for(final CroutonButton croutonButton : buttonList) {
-            Button button = view.findViewById(croutonButton.viewId);
+    @NonNull
+    private View buildLayoutOrOverlayButtons(@NonNull View view) {
+        for (final CroutonButton callToActionButton : callToActionButtons) {
+            Button button = view.findViewById(callToActionButton.viewIds[0]);
 
             if (button != null && StringUtils.isNotEmpty(text)) {
                 button.setVisibility(View.VISIBLE);
-                button.setText(croutonButton.text);
+                button.setText(callToActionButton.text);
                 button.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        croutonButton.listener.onClick();
+                        callToActionButton.listener.onClick();
                         controller.hide();
                     }
                 });
             }
         }
 
-        if(closeIconViewId != null && closeClickViewId != null) {
-            final View removeIcon = view.findViewById(closeIconViewId);
-            final View removeClick = view.findViewById(closeClickViewId);
+        for (final CroutonButton closeButton : closeButtons) {
+            final View removeIcon = view.findViewById(closeButton.viewIds[0]);
+            final View removeClick = view.findViewById(closeButton.viewIds[1]);
 
             if (removeIcon != null && removeClick != null) {
                 removeIcon.setVisibility(this.isDismissible ? View.VISIBLE : View.GONE);
@@ -316,6 +405,7 @@ public final class CroutonBuilder {
         return view;
     }
 
+    @NonNull
     private Context getContext() {
         return contextRef.get();
     }

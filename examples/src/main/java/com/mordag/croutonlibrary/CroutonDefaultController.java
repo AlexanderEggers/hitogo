@@ -4,7 +4,7 @@ import android.support.annotation.Nullable;
 
 import com.mordag.crouton.CroutonAnimation;
 import com.mordag.crouton.CroutonController;
-import com.mordag.crouton.R;
+import com.mordag.crouton.CroutonDefaultAnimation;
 
 public class CroutonDefaultController extends CroutonController {
 
@@ -14,16 +14,16 @@ public class CroutonDefaultController extends CroutonController {
     public static final int DANGER = 3;
 
     public static int getDefaultButtonId() {
-        return R.id.button;
+        return 0;
     }
 
     public static int getDefaultButtonLinkId() {
-        return R.id.button_link;
+        return 0;
     }
 
     @Override
     public int getLayout(int state) {
-        switch (state) {
+        /*switch (state) {
             case SUCCESS:
                 return R.layout.o2theme_crouton_success;
             case WARNING:
@@ -33,7 +33,8 @@ public class CroutonDefaultController extends CroutonController {
             case HINT:
             default:
                 return R.layout.o2theme_crouton_hint;
-        }
+        }*/
+        return 0;
     }
 
     @Override
@@ -43,17 +44,17 @@ public class CroutonDefaultController extends CroutonController {
 
     @Override
     public int getLayoutContainerId() {
-        return R.id.crouton_container;
+        return 0;
     }
 
     @Override
     public int getOverlayContainerId() {
-        return R.id.crouton_overlay_container;
+        return 0;
     }
 
     @Override
     public int getDefaultCloseIconId() {
-        return R.id.remove;
+        return 0;
     }
 
     @Override
@@ -69,7 +70,7 @@ public class CroutonDefaultController extends CroutonController {
     @Nullable
     @Override
     public Integer getDefaultCloseClickId() {
-        return R.id.clickRemove;
+        return 0;
     }
 
     @Nullable

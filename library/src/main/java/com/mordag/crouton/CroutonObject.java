@@ -9,7 +9,7 @@ public abstract class CroutonObject {
         this.controller = controller;
     }
 
-    public void show(Activity activity) {
+    public final void show(Activity activity) {
         CroutonObject object = controller.validate(this);
         if(object != null && !object.isVisible()) {
             object.makeVisible(activity);

@@ -18,23 +18,24 @@ final class CroutonView extends CroutonObject {
     private int hashCode;
 
     private CroutonView(View customView, ViewGroup viewGroup, boolean showAnimations, int hashCode,
-                        CroutonController controller) {
+                        CroutonController controller, CroutonAnimation animation) {
         super(controller);
         this.customView = customView;
         this.viewGroup = viewGroup;
         this.showAnimations = showAnimations;
         this.hashCode = hashCode;
 
-        if(controller.getCroutonAnimation() != null) {
-            this.animation = controller.getCroutonAnimation();
+        if (animation != null) {
+            this.animation = animation;
         } else {
             this.animation = new CroutonDefaultAnimation();
         }
     }
 
     static CroutonView make(View customView, ViewGroup viewGroup, boolean showAnimations,
-                                   int hashCode, CroutonController controller) {
-        return new CroutonView(customView, viewGroup, showAnimations, hashCode, controller);
+                            int hashCode, CroutonController controller,
+                            CroutonAnimation animation) {
+        return new CroutonView(customView, viewGroup, showAnimations, hashCode, controller, animation);
     }
 
     @Override
@@ -58,7 +59,7 @@ final class CroutonView extends CroutonObject {
             activity.addContentView(customView, params);
         }
 
-        if(showAnimations) {
+        if (showAnimations) {
             customView.startAnimation(getInAnimation(activity));
         }
     }
@@ -68,8 +69,8 @@ final class CroutonView extends CroutonObject {
         isVisible = false;
 
         final ViewManager manager = (ViewManager) customView.getParent();
-        if(manager != null) {
-            if(showAnimations) {
+        if (manager != null) {
+            if (showAnimations) {
                 customView.startAnimation(getOutAnimation());
             }
 

@@ -24,12 +24,16 @@ public abstract class CroutonController {
     }
 
     public abstract int getLayout(int state);
+
     public abstract int getDefaultState();
     public abstract int getLayoutContainerId();
     public abstract int getOverlayContainerId();
-    public abstract int getDefaultCloseIconId();
+
     public abstract int getDefaultTextViewId();
     public abstract int getDefaultTitleViewId();
+
+    public abstract int getDefaultCloseIconId();
     @Nullable public abstract Integer getDefaultCloseClickId();
+
     @Nullable public abstract CroutonAnimation getCroutonAnimation();
 }
