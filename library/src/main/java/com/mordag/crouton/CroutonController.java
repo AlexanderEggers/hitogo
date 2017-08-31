@@ -35,5 +35,5 @@ public abstract class CroutonController {
     public abstract int getDefaultCloseIconId();
     @Nullable public abstract Integer getDefaultCloseClickId();
 
-    @Nullable public abstract CroutonAnimation getCroutonAnimation();
+    @Nullable public abstract CroutonAnimation getDefaultAnimation();
 }

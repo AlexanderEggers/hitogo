@@ -75,7 +75,7 @@ public class CroutonDefaultController extends CroutonController {
 
     @Nullable
     @Override
-    public CroutonAnimation getCroutonAnimation() {
+    public CroutonAnimation getDefaultAnimation() {
         return new CroutonDefaultAnimation();
     }
 }

@@ -83,7 +83,7 @@ public final class CroutonBuilder {
     @NonNull
     public CroutonBuilder withAnimations() {
         this.showAnimation = true;
-        this.croutonAnimation = controller.getCroutonAnimation();
+        this.croutonAnimation = controller.getDefaultAnimation();
         return this;
     }
 

@@ -27,6 +27,8 @@ final class CroutonView extends CroutonObject {
 
         if (animation != null) {
             this.animation = animation;
+        } else if(controller.getDefaultAnimation() != null) {
+            this.animation = controller.getDefaultAnimation();
         } else {
             this.animation = new CroutonDefaultAnimation();
         }
