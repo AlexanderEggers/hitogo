@@ -80,8 +80,5 @@ License
 -------
 Apache 2.0. See the [LICENSE][2] file for details.
 
-Disclaimer
----------
-This is not an official Google product.
 
 [1]: https://github.com/Mordag/hitogo/blob/master/LICENSE
