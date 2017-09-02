@@ -124,7 +124,7 @@ public final class HitogoBuilder {
         this.isDismissible = true;
 
         try {
-            HitogoButton button = HitogoButtonBuilder.with(rootView)
+            HitogoButton button = HitogoButton.with(rootView)
                     .asCloseButton(controller.getDefaultCloseIconId(),
                             controller.getDefaultCloseClickId())
                     .build();

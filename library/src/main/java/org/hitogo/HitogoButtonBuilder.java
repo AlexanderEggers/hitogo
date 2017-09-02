@@ -15,24 +15,14 @@ public final class HitogoButtonBuilder {
     private HitogoButton button;
     private View containerView;
 
-    private HitogoButtonBuilder(@NonNull HitogoContainer container) {
+    HitogoButtonBuilder(@NonNull HitogoContainer container) {
         button = new HitogoButton();
         this.containerView = container.getView();
     }
 
-    private HitogoButtonBuilder(@NonNull View containerView) {
+    HitogoButtonBuilder(@NonNull View containerView) {
         button = new HitogoButton();
         this.containerView = containerView;
-    }
-
-    @NonNull
-    public static HitogoButtonBuilder with(@NonNull HitogoContainer container) {
-        return new HitogoButtonBuilder(container);
-    }
-
-    @NonNull
-    public static HitogoButtonBuilder with(@NonNull View containerView) {
-        return new HitogoButtonBuilder(containerView);
     }
 
     @NonNull

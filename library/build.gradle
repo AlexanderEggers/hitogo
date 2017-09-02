@@ -8,8 +8,7 @@ ext {
     libraryName = 'Hitogo'
     artifact = 'Hitogo'
 
-    libraryDescription = 'Android Library to display hints inside your app. Those can be ' +
-            'displayed as an overflow view, a dialog and inside a specific container view.'
+    libraryDescription = 'Android Library to simplify hints and dialogs inside your app.'
 
     siteUrl = 'https://github.com/Mordag/hitogo'
     gitUrl = 'https://github.com/Mordag/hitogo.git'
