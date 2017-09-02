@@ -30,7 +30,9 @@ Simple use cases will look something like this:
 ```java
 // To create simple hint that displays a short message, you could do this :
 public void showHint() {
-  Hitogo.with(this).asSimple("Short message that explains the user something").show(this);
+  Hitogo.with(this)
+        .asSimple("Short message that explains the user something")
+        .show(this);
 }
 
 //To use this library use need to create your own HitogoController by simple extending this class. You will need to fill the required methods then. Part of that is the declaration of the different layout types or some default view ids.
@@ -40,9 +42,20 @@ public void showHint() {
 //Here is a more complex hint that has some buttons, a title and a certain state for the layout (and views):
 public void showHint() {
   ...
-  HitagoButton button = HitagoButtonBuilder.with(this).setName("Button Text").listen(...).asClickToCallButton(R.id.button).build();
+  HitagoButton button = HitagoButtonBuilder.with(this)
+                .setName("Button Text")
+                .listen(...)
+                .asClickToCallButton(R.id.button)
+                .build();
   
-  Hitogo.with(this).asLayoutChild(R.id.containerId).setTitle("Test Hint").setText("Test Text").asDismissble().withAnimations().addButton(button).show(this);
+  Hitogo.with(this)
+        .asLayoutChild(R.id.containerId)
+        .setTitle("Test Hint")
+        .setText("Test Text")
+        .asDismissble()
+        .withAnimations()
+        .addButton(button)
+        .show(this);
 }
 
 //Keep in mind that if you want to show Hitogo directly at the beginning, you need to delay this show()-call. You can simple use showDelayed(...) for that.
