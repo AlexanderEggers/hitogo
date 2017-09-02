@@ -9,9 +9,7 @@ More coming soon!
 
 Download
 --------
-You can download a jar from GitHub's [releases page][1].
-
-Or use Gradle:
+You can use Gradle to download this libray:
 
 ```gradle
 repositories {
@@ -73,5 +71,4 @@ Disclaimer
 ---------
 This is not an official Google product.
 
-[1]: https://github.com/mordag/hitogo/releases
-[2]: https://github.com/Mordag/hitogo/blob/master/LICENSE
+[1]: https://github.com/Mordag/hitogo/blob/master/LICENSE
