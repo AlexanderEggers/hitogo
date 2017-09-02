@@ -69,8 +69,8 @@ public void showHint() {
         .show(this);
 }
 
-//Keep in mind that if you want to show Hitogo directly at the beginning, you need to delay 
-this show()-call. You can simple use showDelayed(...) for that.
+/*Keep in mind that if you want to show Hitogo directly at the beginning, you need to delay 
+this show()-call. You can simple use showDelayed(...) for that.*/
 ```
 
 Status
