@@ -25,6 +25,10 @@ How do I use Hitogo?
 -------------------
 Documentation and source code coming soon!
 
+To use this library use need to create your own HitogoController by simple extending this class. You will need to fill the required methods then. Part of that is the declaration of the different layout types or some default view ids.
+
+I recommend you to use the HitogoActivity or HitogoFragment to simplify your usage of this API. This classes already can do everything that is needed to initialise all things. But you can also implement the HitogoContainer and create this base yourself.
+
 Simple use cases will look something like this:
 
 ```java
@@ -36,21 +40,19 @@ public void showHint() {
         .show(this);
 }
 
-/*To use this library use need to create your own HitogoController by simple extending this class. 
-You will need to fill the required methods then. Part of that is the declaration of the different 
-layout types or some default view ids.
-
-I recommend you to use the HitogoActivity or HitogoFragment to simplify your usage of this API. 
-This classes already can do everything that is needed to initialise all things. But you can also 
-implement the HitogoContainer and create this base yourself.
-
-Here is a more complex hint that has some buttons, a title and a certain state for the 
+/*Here is a more complex hint that has some buttons, a title and a certain state for the 
 layout (and views):*/
 
 public void showHint() {
   ...
-  HitagoButton button = HitagoButtonBuilder.with(this)
+  HitagoButton button1 = HitagoButton.with(this)
                 .setName("Button Text")
+                .listen(...)
+                .asClickToCallButton(R.id.button)
+                .build();
+                
+  HitagoButton button2 = HitagoButton.with(this)
+                .setName("Button Text 2")
                 .listen(...)
                 .asClickToCallButton(R.id.button)
                 .build();
@@ -59,9 +61,11 @@ public void showHint() {
         .asLayoutChild(R.id.containerId)
         .setTitle("Test Hint")
         .setText("Test Text")
-        .asDismissble()
+        .asDismissible()
         .withAnimations()
-        .addButton(button)
+        .addButton(button1)
+        .addButton(button2)
+        .setState(MyController.Hint)
         .show(this);
 }
 
