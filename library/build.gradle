@@ -1,5 +1,29 @@
 apply plugin: 'com.android.library'
-apply plugin: 'maven'
+
+ext {
+    bintrayRepo = 'Hitogo'
+    bintrayName = 'Hitogo'
+
+    publishedGroupId = 'org.hitogo'
+    libraryName = 'Hitogo'
+    artifact = 'Hitogo'
+
+    libraryDescription = 'Android Library to display hints inside your app. Those can be ' +
+            'displayed as an overflow view, a dialog and inside a specific container view.'
+
+    siteUrl = 'https://github.com/Mordag/hitogo'
+    gitUrl = 'https://github.com/Mordag/hitogo.git'
+
+    libraryVersion = '1.0.0-alpha1'
+
+    developerId = 'mordag'
+    developerName = 'Alexander Eggers'
+    developerEmail = 'alexander.eggers91@gmail.com'
+
+    licenseName = 'The Apache Software License, Version 2.0'
+    licenseUrl = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+    allLicenses = ["Apache-2.0"]
+}
 
 android {
     compileSdkVersion 26
@@ -33,3 +57,6 @@ dependencies {
     // Test dependencies
     testCompile 'junit:junit:4.12'
 }
+
+apply from: 'https://raw.githubusercontent.com/nuuneoi/JCenter/master/installv1.gradle'
+apply from: 'https://raw.githubusercontent.com/nuuneoi/JCenter/master/bintrayv1.gradle'
