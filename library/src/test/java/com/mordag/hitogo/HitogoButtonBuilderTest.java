@@ -1,8 +1,8 @@
-package com.mordag.crouton;
+package com.mordag.hitogo;
 
 import org.junit.Test;
 
-public class CroutonButtonBuilderTest {
+public class HitogoButtonBuilderTest {
 
     @Test
     public void createButton() {

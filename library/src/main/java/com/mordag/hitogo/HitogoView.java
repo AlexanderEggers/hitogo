@@ -1,14 +1,16 @@
-package com.mordag.crouton;
+package com.mordag.hitogo;
 
 import android.app.Activity;
 import android.os.Handler;
+import android.support.annotation.NonNull;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewManager;
 import android.view.animation.Animation;
 
-final class CroutonView extends CroutonObject {
-    private CroutonAnimation animation;
+@SuppressWarnings({"WeakerAccess", "unused"})
+final class HitogoView extends HitogoObject {
+    private HitogoAnimation animation;
     private final View customView;
     private ViewGroup viewGroup;
     private Animation inAnimation;
@@ -17,8 +19,8 @@ final class CroutonView extends CroutonObject {
     private boolean isVisible = false;
     private int hashCode;
 
-    private CroutonView(View customView, ViewGroup viewGroup, boolean showAnimations, int hashCode,
-                        CroutonController controller, CroutonAnimation animation) {
+    private HitogoView(View customView, ViewGroup viewGroup, boolean showAnimations, int hashCode,
+                       HitogoController controller, HitogoAnimation animation) {
         super(controller);
         this.customView = customView;
         this.viewGroup = viewGroup;
@@ -30,18 +32,18 @@ final class CroutonView extends CroutonObject {
         } else if(controller.getDefaultAnimation() != null) {
             this.animation = controller.getDefaultAnimation();
         } else {
-            this.animation = new CroutonDefaultAnimation();
+            this.animation = new HitogoDefaultAnimation();
         }
     }
 
-    static CroutonView make(View customView, ViewGroup viewGroup, boolean showAnimations,
-                            int hashCode, CroutonController controller,
-                            CroutonAnimation animation) {
-        return new CroutonView(customView, viewGroup, showAnimations, hashCode, controller, animation);
+    static HitogoView make(View customView, ViewGroup viewGroup, boolean showAnimations,
+                           int hashCode, HitogoController controller,
+                           HitogoAnimation animation) {
+        return new HitogoView(customView, viewGroup, showAnimations, hashCode, controller, animation);
     }
 
     @Override
-    protected void makeVisible(Activity activity) {
+    protected void makeVisible(@NonNull Activity activity) {
         isVisible = true;
 
         if (viewGroup != null) {
@@ -96,13 +98,13 @@ final class CroutonView extends CroutonObject {
     }
 
     @Override
-    public boolean equals(Object obj) {
-        return obj != null && obj instanceof CroutonObject && this.hashCode == obj.hashCode();
+    public boolean equals(@NonNull Object obj) {
+        return obj instanceof HitogoObject && this.hashCode == obj.hashCode();
     }
 
-    private Animation getInAnimation(Activity activity) {
+    private Animation getInAnimation(@NonNull Activity activity) {
         if (inAnimation == null) {
-            measureCroutonView(activity);
+            measureView(activity);
             this.inAnimation = animation.buildShowAnimation(customView);
         }
         return inAnimation;
@@ -115,7 +117,7 @@ final class CroutonView extends CroutonObject {
         return outAnimation;
     }
 
-    private void measureCroutonView(Activity activity) {
+    private void measureView(@NonNull Activity activity) {
         int widthSpec;
         if (null != viewGroup) {
             widthSpec = View.MeasureSpec.makeMeasureSpec(viewGroup.getMeasuredWidth(), View.MeasureSpec.AT_MOST);

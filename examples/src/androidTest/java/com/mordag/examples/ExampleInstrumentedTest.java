@@ -1,4 +1,4 @@
-package com.mordag.croutonlibrary;
+package com.mordag.examples;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
@@ -21,6 +21,6 @@ public class ExampleInstrumentedTest {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getTargetContext();
 
-        assertEquals("com.mordag.croutonlibrary", appContext.getPackageName());
+        assertEquals("com.mordag.examples", appContext.getPackageName());
     }
 }

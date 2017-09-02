@@ -1,26 +1,29 @@
-package com.mordag.crouton;
+package com.mordag.hitogo;
 
 import android.app.Activity;
+import android.arch.lifecycle.LifecycleRegistry;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
-public abstract class CroutonActivity extends AppCompatActivity implements CroutonContainer {
+@SuppressWarnings({"WeakerAccess", "unused"})
+public abstract class HitogoActivity extends AppCompatActivity implements HitogoContainer {
 
-    protected CroutonController croutonController;
+    private HitogoController hitogoController;
+    private LifecycleRegistry lifecycle = new LifecycleRegistry(this);
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        croutonController = initialiseController();
+        hitogoController = initialiseHitogo();
     }
 
     @NonNull
     @Override
-    public CroutonController getController() {
-        return croutonController;
+    public HitogoController getController() {
+        return hitogoController;
     }
 
     @Nullable
@@ -33,5 +36,10 @@ public abstract class CroutonActivity extends AppCompatActivity implements Crout
     @Override
     public Activity getActivity() {
         return this;
+    }
+
+    @Override
+    public LifecycleRegistry getLifecycle() {
+        return lifecycle;
     }
 }

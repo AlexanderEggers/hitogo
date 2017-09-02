@@ -1,46 +1,48 @@
-package com.mordag.crouton;
+package com.mordag.hitogo;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.annotation.XmlRes;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
 import java.security.InvalidParameterException;
 
-public final class CroutonButtonBuilder {
+@SuppressWarnings({"WeakerAccess", "unused"})
+public final class HitogoButtonBuilder {
 
-    private CroutonButton button;
+    private HitogoButton button;
     private View containerView;
 
-    private CroutonButtonBuilder(CroutonContainer container) {
-        button = new CroutonButton();
+    private HitogoButtonBuilder(@NonNull HitogoContainer container) {
+        button = new HitogoButton();
         this.containerView = container.getView();
     }
 
-    private CroutonButtonBuilder(View containerView) {
-        button = new CroutonButton();
+    private HitogoButtonBuilder(@NonNull View containerView) {
+        button = new HitogoButton();
         this.containerView = containerView;
     }
 
     @NonNull
-    public static CroutonButtonBuilder with(@NonNull CroutonContainer container) {
-        return new CroutonButtonBuilder(container);
+    public static HitogoButtonBuilder with(@NonNull HitogoContainer container) {
+        return new HitogoButtonBuilder(container);
     }
 
     @NonNull
-    public static CroutonButtonBuilder with(@NonNull View containerView) {
-        return new CroutonButtonBuilder(containerView);
+    public static HitogoButtonBuilder with(@NonNull View containerView) {
+        return new HitogoButtonBuilder(containerView);
     }
 
     @NonNull
-    public CroutonButtonBuilder setName(@Nullable String name) {
+    public HitogoButtonBuilder setName(@Nullable String name) {
         button.text = name;
         return this;
     }
 
     @NonNull
-    public CroutonButtonBuilder asClickToCallButton(int viewId) {
+    public HitogoButtonBuilder asClickToCallButton(@XmlRes int viewId) {
         button.isCloseButton = false;
         button.viewIds = new Integer[1];
         button.viewIds[0] = viewId;
@@ -48,7 +50,7 @@ public final class CroutonButtonBuilder {
     }
 
     @NonNull
-    public CroutonButtonBuilder asCloseButton(int closeIconId) {
+    public HitogoButtonBuilder asCloseButton(@XmlRes int closeIconId) {
         button.isCloseButton = true;
         button.viewIds = new Integer[2];
         button.viewIds[0] = closeIconId;
@@ -57,7 +59,8 @@ public final class CroutonButtonBuilder {
     }
 
     @NonNull
-    public CroutonButtonBuilder asCloseButton(int closeIconId, @Nullable Integer optionalCloseViewId) {
+    public HitogoButtonBuilder asCloseButton(@XmlRes int closeIconId,
+                                             @Nullable @XmlRes Integer optionalCloseViewId) {
         button.viewIds = new Integer[2];
         button.viewIds[0] = closeIconId;
         button.viewIds[1] = optionalCloseViewId != null ? optionalCloseViewId : closeIconId;
@@ -65,15 +68,15 @@ public final class CroutonButtonBuilder {
     }
 
     @NonNull
-    public CroutonButtonBuilder listen(@Nullable CroutonButtonListener listener) {
+    public HitogoButtonBuilder listen(@Nullable HitogoButtonListener listener) {
         button.listener = listener;
         return this;
     }
 
     @NonNull
-    public CroutonButton build() {
+    public HitogoButton build() {
         if (button.text == null || StringUtils.isEmpty(button.text)) {
-            Log.w(CroutonButtonBuilder.class.getName(), "Button has no text. If you want to" +
+            Log.w(HitogoButtonBuilder.class.getName(), "Button has no text. If you want to" +
                     "display a simple close button, you can ignore this warning.");
         }
 
@@ -96,15 +99,15 @@ public final class CroutonButtonBuilder {
         }
 
         if (button.listener == null) {
-            button.listener = new DefaultCroutonButtonListener();
-            Log.d(CroutonButtonBuilder.class.getName(), "Using default button listener...");
+            button.listener = new HitogoDefaultButtonListener();
+            Log.d(HitogoButtonBuilder.class.getName(), "Using default button listener...");
         }
 
         return button;
     }
 
     @NonNull
-    private View checkButtonView(int viewId) {
+    private View checkButtonView(@XmlRes int viewId) {
         if (containerView != null) {
             View view = containerView.findViewById(viewId);
             if (view == null) {

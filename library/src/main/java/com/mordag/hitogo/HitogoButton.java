@@ -1,12 +1,13 @@
-package com.mordag.crouton;
+package com.mordag.hitogo;
 
-public final class CroutonButton {
+@SuppressWarnings({"WeakerAccess", "unused"})
+public final class HitogoButton {
     String text;
     Integer[] viewIds;
-    CroutonButtonListener listener;
+    HitogoButtonListener listener;
     boolean isCloseButton;
 
-    CroutonButton() {
+    HitogoButton() {
         //do nothing here - just hide the constructor for other packages
     }
 
@@ -18,7 +19,7 @@ public final class CroutonButton {
         return viewIds;
     }
 
-    public CroutonButtonListener getListener() {
+    public HitogoButtonListener getListener() {
         return listener;
     }
 }

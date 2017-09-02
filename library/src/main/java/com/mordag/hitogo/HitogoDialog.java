@@ -1,26 +1,36 @@
-package com.mordag.crouton;
+package com.mordag.hitogo;
 
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.support.annotation.NonNull;
+import android.support.annotation.StyleRes;
 
 import java.util.List;
 
-final class CroutonDialog extends CroutonObject {
+@SuppressWarnings({"WeakerAccess", "unused"})
+final class HitogoDialog extends HitogoObject {
 
     private AlertDialog dialog;
     private int hashCode;
 
-    private CroutonDialog(Context context, String infoTitle, String infoText,
-                          List<CroutonButton> buttonList, int hashCode, CroutonController controller) {
+    private HitogoDialog(Context context, String infoTitle, String infoText,
+                         List<HitogoButton> buttonList, int hashCode, HitogoController controller,
+                         @StyleRes Integer themeResId) {
         super(controller);
         this.hashCode = hashCode;
 
-        final CroutonButton positiveButton = buttonList.get(0);
+        final HitogoButton positiveButton = buttonList.get(0);
 
-        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(context)
-                .setMessage(infoText)
+        AlertDialog.Builder dialogBuilder;
+        if(themeResId != null) {
+            dialogBuilder = new AlertDialog.Builder(context, themeResId);
+        } else {
+            dialogBuilder = new AlertDialog.Builder(context);
+        }
+
+        dialogBuilder.setMessage(infoText)
                 .setTitle(infoTitle)
                 .setCancelable(false);
 
@@ -34,7 +44,7 @@ final class CroutonDialog extends CroutonObject {
         }
 
         if(buttonList.size() > 1) {
-            final CroutonButton negativeButton = buttonList.get(1);
+            final HitogoButton negativeButton = buttonList.get(1);
 
             if(StringUtils.isNotEmpty(negativeButton.text)) {
                 dialogBuilder.setNegativeButton(positiveButton.text, new DialogInterface.OnClickListener() {
@@ -47,7 +57,7 @@ final class CroutonDialog extends CroutonObject {
         }
 
         if(buttonList.size() > 2) {
-            final CroutonButton neutralButton = buttonList.get(2);
+            final HitogoButton neutralButton = buttonList.get(2);
 
             if(StringUtils.isNotEmpty(neutralButton.text)) {
                 dialogBuilder.setNeutralButton(positiveButton.text, new DialogInterface.OnClickListener() {
@@ -62,14 +72,15 @@ final class CroutonDialog extends CroutonObject {
         this.dialog = dialogBuilder.create();
     }
 
-    public static CroutonDialog create(Context context, String infoTitle, String infoText,
-                                       List<CroutonButton> buttonList, int hashCode,
-                                       CroutonController controller) {
-        return new CroutonDialog(context, infoTitle, infoText, buttonList, hashCode, controller);
+    public static HitogoDialog create(Context context, String infoTitle, String infoText,
+                                      List<HitogoButton> buttonList, int hashCode,
+                                      HitogoController controller, @StyleRes Integer themeResId) {
+        return new HitogoDialog(context, infoTitle, infoText, buttonList, hashCode, controller,
+                themeResId);
     }
 
     @Override
-    void makeVisible(Activity activity) {
+    protected void makeVisible(@NonNull Activity activity) {
         if(!dialog.isShowing()) {
             dialog.show();
         }
@@ -93,7 +104,7 @@ final class CroutonDialog extends CroutonObject {
     }
 
     @Override
-    public boolean equals(Object obj) {
-        return obj != null && obj instanceof CroutonObject && this.hashCode == obj.hashCode();
+    public boolean equals(@NonNull Object obj) {
+        return obj instanceof HitogoObject && this.hashCode == obj.hashCode();
     }
 }

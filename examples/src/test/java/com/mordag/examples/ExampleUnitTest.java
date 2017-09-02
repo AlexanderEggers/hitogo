@@ -1,4 +1,4 @@
-package com.mordag.croutonlibrary;
+package com.mordag.examples;
 
 import org.junit.Test;
 

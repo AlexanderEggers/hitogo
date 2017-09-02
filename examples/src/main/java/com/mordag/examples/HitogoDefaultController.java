@@ -1,17 +1,22 @@
-package com.mordag.croutonlibrary;
+package com.mordag.examples;
 
+import android.arch.lifecycle.LifecycleRegistry;
 import android.support.annotation.Nullable;
 
-import com.mordag.crouton.CroutonAnimation;
-import com.mordag.crouton.CroutonController;
-import com.mordag.crouton.CroutonDefaultAnimation;
+import com.mordag.hitogo.HitogoAnimation;
+import com.mordag.hitogo.HitogoController;
+import com.mordag.hitogo.HitogoDefaultAnimation;
 
-public class CroutonDefaultController extends CroutonController {
+public class HitogoDefaultController extends HitogoController {
 
     public static final int HINT = 0;
     public static final int SUCCESS = 1;
     public static final int WARNING = 2;
     public static final int DANGER = 3;
+
+    public HitogoDefaultController(LifecycleRegistry lifecycle) {
+        super(lifecycle);
+    }
 
     public static int getDefaultButtonId() {
         return 0;
@@ -25,14 +30,14 @@ public class CroutonDefaultController extends CroutonController {
     public int getLayout(int state) {
         /*switch (state) {
             case SUCCESS:
-                return R.layout.o2theme_crouton_success;
+                return R.layout.o2theme_hitogo_success;
             case WARNING:
-                return R.layout.o2theme_crouton_warning;
+                return R.layout.o2theme_hitogo_warning;
             case DANGER:
-                return R.layout.o2theme_crouton_danger;
+                return R.layout.o2theme_hitogo_danger;
             case HINT:
             default:
-                return R.layout.o2theme_crouton_hint;
+                return R.layout.o2theme_hitogo_hint;
         }*/
         return 0;
     }
@@ -75,7 +80,7 @@ public class CroutonDefaultController extends CroutonController {
 
     @Nullable
     @Override
-    public CroutonAnimation getDefaultAnimation() {
-        return new CroutonDefaultAnimation();
+    public HitogoAnimation getDefaultAnimation() {
+        return new HitogoDefaultAnimation();
     }
 }
