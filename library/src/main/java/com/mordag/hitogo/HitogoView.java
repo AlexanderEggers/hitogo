@@ -16,16 +16,14 @@ final class HitogoView extends HitogoObject {
     private Animation inAnimation;
     private Animation outAnimation;
     private boolean showAnimations;
-    private boolean isVisible = false;
-    private int hashCode;
+    private boolean isVisible;
 
     private HitogoView(View customView, ViewGroup viewGroup, boolean showAnimations, int hashCode,
                        HitogoController controller, HitogoAnimation animation) {
-        super(controller);
+        super(controller, hashCode);
         this.customView = customView;
         this.viewGroup = viewGroup;
         this.showAnimations = showAnimations;
-        this.hashCode = hashCode;
 
         if (animation != null) {
             this.animation = animation;
@@ -36,9 +34,8 @@ final class HitogoView extends HitogoObject {
         }
     }
 
-    static HitogoView make(View customView, ViewGroup viewGroup, boolean showAnimations,
-                           int hashCode, HitogoController controller,
-                           HitogoAnimation animation) {
+    static HitogoView create(View customView, ViewGroup viewGroup, boolean showAnimations,
+                           int hashCode, HitogoController controller, HitogoAnimation animation) {
         return new HitogoView(customView, viewGroup, showAnimations, hashCode, controller, animation);
     }
 
@@ -90,16 +87,6 @@ final class HitogoView extends HitogoObject {
 
     public boolean isVisible() {
         return isVisible;
-    }
-
-    @Override
-    public int hashCode() {
-        return hashCode;
-    }
-
-    @Override
-    public boolean equals(@NonNull Object obj) {
-        return obj instanceof HitogoObject && this.hashCode == obj.hashCode();
     }
 
     private Animation getInAnimation(@NonNull Activity activity) {

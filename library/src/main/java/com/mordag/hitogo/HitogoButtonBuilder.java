@@ -76,8 +76,8 @@ public final class HitogoButtonBuilder {
     @NonNull
     public HitogoButton build() {
         if (button.text == null || StringUtils.isEmpty(button.text)) {
-            Log.w(HitogoButtonBuilder.class.getName(), "Button has no text. If you want to" +
-                    "display a simple close button, you can ignore this warning.");
+            Log.w(HitogoButtonBuilder.class.getName(), "Button has no text. If you want to " +
+                    "display a close button with only one icon, you can ignore this warning.");
         }
 
         if (button.viewIds == null || button.viewIds.length == 0) {

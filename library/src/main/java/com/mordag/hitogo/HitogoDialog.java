@@ -13,13 +13,11 @@ import java.util.List;
 final class HitogoDialog extends HitogoObject {
 
     private AlertDialog dialog;
-    private int hashCode;
 
     private HitogoDialog(Context context, String infoTitle, String infoText,
                          List<HitogoButton> buttonList, int hashCode, HitogoController controller,
-                         @StyleRes Integer themeResId) {
-        super(controller);
-        this.hashCode = hashCode;
+                         @StyleRes Integer themeResId, boolean isDismissible) {
+        super(controller, hashCode);
 
         final HitogoButton positiveButton = buttonList.get(0);
 
@@ -32,9 +30,9 @@ final class HitogoDialog extends HitogoObject {
 
         dialogBuilder.setMessage(infoText)
                 .setTitle(infoTitle)
-                .setCancelable(false);
+                .setCancelable(!isDismissible);
 
-        if(StringUtils.isNotEmpty(positiveButton.text)) {
+        if(positiveButton.text != null && StringUtils.isNotEmpty(positiveButton.text)) {
             dialogBuilder.setPositiveButton(positiveButton.text, new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int id) {
                     positiveButton.listener.onClick();
@@ -46,7 +44,7 @@ final class HitogoDialog extends HitogoObject {
         if(buttonList.size() > 1) {
             final HitogoButton negativeButton = buttonList.get(1);
 
-            if(StringUtils.isNotEmpty(negativeButton.text)) {
+            if(negativeButton.text != null && StringUtils.isNotEmpty(negativeButton.text)) {
                 dialogBuilder.setNegativeButton(positiveButton.text, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         negativeButton.listener.onClick();
@@ -59,7 +57,7 @@ final class HitogoDialog extends HitogoObject {
         if(buttonList.size() > 2) {
             final HitogoButton neutralButton = buttonList.get(2);
 
-            if(StringUtils.isNotEmpty(neutralButton.text)) {
+            if(neutralButton.text != null && StringUtils.isNotEmpty(neutralButton.text)) {
                 dialogBuilder.setNeutralButton(positiveButton.text, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         neutralButton.listener.onClick();
@@ -72,11 +70,12 @@ final class HitogoDialog extends HitogoObject {
         this.dialog = dialogBuilder.create();
     }
 
-    public static HitogoDialog create(Context context, String infoTitle, String infoText,
+    static HitogoDialog create(Context context, String infoTitle, String infoText,
                                       List<HitogoButton> buttonList, int hashCode,
-                                      HitogoController controller, @StyleRes Integer themeResId) {
+                                      HitogoController controller, @StyleRes Integer themeResId,
+                                      boolean isDismissible) {
         return new HitogoDialog(context, infoTitle, infoText, buttonList, hashCode, controller,
-                themeResId);
+                themeResId, isDismissible);
     }
 
     @Override
@@ -96,15 +95,5 @@ final class HitogoDialog extends HitogoObject {
     @Override
     public boolean isVisible() {
         return dialog.isShowing();
-    }
-
-    @Override
-    public int hashCode() {
-        return hashCode;
-    }
-
-    @Override
-    public boolean equals(@NonNull Object obj) {
-        return obj instanceof HitogoObject && this.hashCode == obj.hashCode();
     }
 }

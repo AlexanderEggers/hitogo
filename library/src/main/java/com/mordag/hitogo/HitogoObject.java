@@ -6,9 +6,11 @@ import android.support.annotation.NonNull;
 @SuppressWarnings({"WeakerAccess", "unused"})
 public abstract class HitogoObject {
     private HitogoController controller;
+    private int hashCode;
 
-    protected HitogoObject(@NonNull HitogoController controller) {
+    protected HitogoObject(@NonNull HitogoController controller, int hashCode) {
         this.controller = controller;
+        this.hashCode = hashCode;
     }
 
     public final void show(@NonNull Activity activity) {
@@ -22,6 +24,13 @@ public abstract class HitogoObject {
     protected abstract void hide();
     protected abstract boolean isVisible();
 
-    public abstract int hashCode();
-    public abstract boolean equals(@NonNull Object obj);
+    @Override
+    public final int hashCode() {
+        return hashCode;
+    }
+
+    @Override
+    public final boolean equals(@NonNull Object obj) {
+        return obj instanceof HitogoObject && this.hashCode == obj.hashCode();
+    }
 }
