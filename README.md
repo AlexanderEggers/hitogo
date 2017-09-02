@@ -1,3 +1,3 @@
-# Hitogos
+# Hitogo
 
 ## Coming Soon!
