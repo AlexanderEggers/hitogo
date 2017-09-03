@@ -1,5 +1,6 @@
 package org.hitogo.examples;
 
+import android.arch.lifecycle.LifecycleRegistry;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -18,7 +19,7 @@ public class MainActivity extends HitogoActivity {
 
     @NonNull
     @Override
-    public HitogoController initialiseHitogo() {
-        return new HitogoDefaultController(getLifecycle());
+    public HitogoController initialiseHitogo(LifecycleRegistry lifecycle) {
+        return new HitogoDefaultController(lifecycle);
     }
 }

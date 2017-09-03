@@ -11,7 +11,7 @@ public final class HitogoButton {
     boolean isCloseButton;
 
     HitogoButton() {
-        //do nothing here - just hide the constructor for other packages
+        //is doing nothing here - just hiding the constructor for other packages
     }
 
     @NonNull

@@ -12,4 +12,12 @@ public abstract class HitogoAnimation {
     protected abstract Animation buildHideAnimation(View hitogoView);
     protected abstract long getShowDuration();
     protected abstract long getHideDuration();
+
+    public Animation getShowAnimation() {
+        return showAnimation;
+    }
+
+    public Animation getHideAnimation() {
+        return hideAnimation;
+    }
 }

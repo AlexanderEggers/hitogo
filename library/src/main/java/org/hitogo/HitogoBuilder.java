@@ -178,7 +178,28 @@ public final class HitogoBuilder {
     @NonNull
     public HitogoBuilder asOverlay() {
         this.isDialog = false;
-        this.containerId = controller.getOverlayContainerId();
+        this.containerId = controller.getDefaultOverlayContainerId();
+
+        if (rootView != null && this.containerId != null) {
+            View container = rootView.findViewById(this.containerId);
+            if (container == null) {
+                Log.e(HitogoBuilder.class.getName(), "Trying to use fallback to let the hitogo " +
+                        "ignore the given layout...");
+                return asIgnoreLayout();
+            }
+        } else {
+            Log.e(HitogoBuilder.class.getName(), "Trying to use fallback to let the hitogo " +
+                    "ignore the given layout...");
+            return asIgnoreLayout();
+        }
+
+        return this;
+    }
+
+    @NonNull
+    public HitogoBuilder asOverlay(int overlayId) {
+        this.isDialog = false;
+        this.containerId = overlayId;
 
         if (rootView != null) {
             View container = rootView.findViewById(this.containerId);
@@ -211,7 +232,7 @@ public final class HitogoBuilder {
     }
 
     @NonNull
-    public HitogoBuilder withState(int state) {
+    public HitogoBuilder withState(@Nullable Integer state) {
         this.state = state;
         return this;
     }
@@ -219,9 +240,9 @@ public final class HitogoBuilder {
     @NonNull
     public HitogoBuilder asLayoutChild() {
         this.isDialog = false;
-        this.containerId = controller.getLayoutContainerId();
+        this.containerId = controller.getDefaultLayoutContainerId();
 
-        if (rootView != null) {
+        if (rootView != null && this.containerId != null) {
             View container = rootView.findViewById(this.containerId);
             if (container == null) {
                 Log.e(HitogoBuilder.class.getName(), "Trying to use fallback to display hitogo " +

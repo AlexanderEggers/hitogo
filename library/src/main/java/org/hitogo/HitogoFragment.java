@@ -15,7 +15,7 @@ public abstract class HitogoFragment extends Fragment implements HitogoContainer
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        hitogoController = initialiseHitogo();
+        hitogoController = initialiseHitogo(lifecycle);
     }
 
     @NonNull

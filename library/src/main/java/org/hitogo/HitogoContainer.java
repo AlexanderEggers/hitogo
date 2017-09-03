@@ -1,6 +1,7 @@
 package org.hitogo;
 
 import android.app.Activity;
+import android.arch.lifecycle.LifecycleRegistry;
 import android.arch.lifecycle.LifecycleRegistryOwner;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -11,5 +12,5 @@ public interface HitogoContainer extends LifecycleRegistryOwner {
     @NonNull HitogoController getController();
     @Nullable View getView();
     @NonNull Activity getActivity();
-    @NonNull HitogoController initialiseHitogo();
+    @NonNull HitogoController initialiseHitogo(LifecycleRegistry lifecycle);
 }

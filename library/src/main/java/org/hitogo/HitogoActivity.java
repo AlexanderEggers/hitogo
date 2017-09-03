@@ -17,7 +17,7 @@ public abstract class HitogoActivity extends AppCompatActivity implements Hitogo
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        hitogoController = initialiseHitogo();
+        hitogoController = initialiseHitogo(lifecycle);
     }
 
     @NonNull

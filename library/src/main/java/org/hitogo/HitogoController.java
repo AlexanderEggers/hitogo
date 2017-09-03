@@ -42,24 +42,52 @@ public abstract class HitogoController implements LifecycleObserver {
         }
     }
 
-    public abstract int getDefaultState();
-
     @LayoutRes
     public abstract int getLayout(int state);
-    @XmlRes
-    public abstract int getLayoutContainerId();
-    @XmlRes
-    public abstract int getOverlayContainerId();
-    @XmlRes
-    public abstract int getDefaultTextViewId();
-    @XmlRes
-    public abstract int getDefaultTitleViewId();
-    @XmlRes
-    public abstract int getDefaultCloseIconId();
-    @Nullable
-    @XmlRes
-    public abstract Integer getDefaultCloseClickId();
 
     @Nullable
-    public abstract HitogoAnimation getDefaultAnimation();
+    public Integer getDefaultState() {
+        return null;
+    }
+
+    @Nullable
+    @XmlRes
+    public Integer getDefaultLayoutContainerId() {
+        return null;
+    }
+
+    @Nullable
+    @XmlRes
+    public Integer getDefaultOverlayContainerId() {
+        return null;
+    }
+
+    @Nullable
+    @XmlRes
+    public Integer getDefaultTextViewId() {
+        return null;
+    }
+
+    @Nullable
+    @XmlRes
+    public Integer getDefaultTitleViewId() {
+        return null;
+    }
+
+    @Nullable
+    @XmlRes
+    public Integer getDefaultCloseIconId() {
+        return null;
+    }
+
+    @Nullable
+    @XmlRes
+    public Integer getDefaultCloseClickId() {
+        return null;
+    }
+
+    @Nullable
+    public HitogoAnimation getDefaultAnimation() {
+        return null;
+    }
 }

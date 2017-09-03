@@ -49,11 +49,15 @@ public final class HitogoButtonBuilder {
     }
 
     @NonNull
-    public HitogoButtonBuilder asCloseButton(@XmlRes int closeIconId,
+    public HitogoButtonBuilder asCloseButton(@Nullable @XmlRes Integer closeIconId,
                                              @Nullable @XmlRes Integer optionalCloseViewId) {
-        button.viewIds = new Integer[2];
-        button.viewIds[0] = closeIconId;
-        button.viewIds[1] = optionalCloseViewId != null ? optionalCloseViewId : closeIconId;
+        if(closeIconId == null) {
+            throw new IllegalStateException("Close icon view id must not be null");
+        } else {
+            button.viewIds = new Integer[2];
+            button.viewIds[0] = closeIconId;
+            button.viewIds[1] = optionalCloseViewId != null ? optionalCloseViewId : closeIconId;
+        }
         return this;
     }
 
