@@ -90,4 +90,9 @@ public abstract class HitogoController implements LifecycleObserver {
     public HitogoAnimation getDefaultAnimation() {
         return null;
     }
+
+    @Nullable
+    public HitogoBuilder getDefaultAsSimpleCall(@NonNull HitogoBuilder builder) {
+        return null;
+    }
 }

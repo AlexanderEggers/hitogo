@@ -11,7 +11,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.TextView;
 
 import java.security.InvalidParameterException;
@@ -125,8 +124,7 @@ public final class HitogoBuilder {
 
         try {
             HitogoButton button = HitogoButton.with(rootView)
-                    .asCloseButton(controller.getDefaultCloseIconId(),
-                            controller.getDefaultCloseClickId())
+                    .asCloseButton(controller.getDefaultCloseIconId(), controller.getDefaultCloseClickId())
                     .build();
             closeButtons.add(button);
         } catch (InvalidParameterException ex) {
@@ -220,9 +218,15 @@ public final class HitogoBuilder {
     @NonNull
     public HitogoBuilder asSimple(@NonNull String infoText) {
         this.text = infoText;
-        return asLayoutChild()
-                .asDismissible()
-                .withState(controller.getDefaultState());
+
+        HitogoBuilder customBuilder = controller.getDefaultAsSimpleCall(this);
+        if (customBuilder != null) {
+            return customBuilder;
+        } else {
+            return asLayoutChild()
+                    .asDismissible()
+                    .withState(controller.getDefaultState());
+        }
     }
 
     @NonNull
@@ -338,12 +342,12 @@ public final class HitogoBuilder {
                     "displayed if it is from type dialog.");
         }
 
-        if(!this.isDialog && state == null) {
+        if (!this.isDialog && state == null) {
             throw new InvalidParameterException("To display non-dialog hitogos you need to define " +
                     "a state which will use a specific layout.");
         }
 
-        if(!this.isDialog && !isDismissible && callToActionButtons.isEmpty()) {
+        if (!this.isDialog && !isDismissible && callToActionButtons.isEmpty()) {
             Log.e(HitogoBuilder.class.getName(), "Are you sure that this hitogo should have no " +
                     "interaction points? If yes, make sure to close this one if it's not " +
                     "needed anymore!");
@@ -405,7 +409,7 @@ public final class HitogoBuilder {
                                @Nullable String chars) {
         if (viewId != null) {
             TextView textView = containerView.findViewById(viewId);
-            if(textView != null) {
+            if (textView != null) {
                 if (chars != null && StringUtils.isNotEmpty(chars)) {
                     textView.setVisibility(View.VISIBLE);
                     textView.setText(chars);
@@ -420,7 +424,7 @@ public final class HitogoBuilder {
     @NonNull
     private View buildLayoutOrOverlayButtons(@NonNull View containerView) {
         for (final HitogoButton callToActionButton : callToActionButtons) {
-            Button button = containerView.findViewById(callToActionButton.viewIds[0]);
+            TextView button = containerView.findViewById(callToActionButton.viewIds[0]);
 
             if (button != null && StringUtils.isNotEmpty(text)) {
                 button.setVisibility(View.VISIBLE);

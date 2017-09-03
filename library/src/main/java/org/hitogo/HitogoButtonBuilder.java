@@ -5,7 +5,7 @@ import android.support.annotation.Nullable;
 import android.support.annotation.XmlRes;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
+import android.widget.TextView;
 
 import java.security.InvalidParameterException;
 
@@ -51,7 +51,7 @@ public final class HitogoButtonBuilder {
     @NonNull
     public HitogoButtonBuilder asCloseButton(@Nullable @XmlRes Integer closeIconId,
                                              @Nullable @XmlRes Integer optionalCloseViewId) {
-        if(closeIconId == null) {
+        if (closeIconId == null) {
             throw new IllegalStateException("Close icon view id must not be null");
         } else {
             button.viewIds = new Integer[2];
@@ -80,9 +80,9 @@ public final class HitogoButtonBuilder {
             for (int id : button.viewIds) {
                 View v = checkButtonView(id);
 
-                if (button.viewIds.length == 1 && v instanceof Button) {
+                if (button.viewIds.length == 1 && !(v instanceof TextView)) {
                     throw new InvalidParameterException("The view of your button needs to " +
-                            "extend the Button class...");
+                            "extend at least the TextView class.");
                 }
             }
         }
