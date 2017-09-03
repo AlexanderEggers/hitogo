@@ -1,7 +1,7 @@
 Hitogo
 =====
 
-[![Download](https://api.bintray.com/packages/mordag/Hitogo/Hitogo/images/download.svg) ](https://bintray.com/mordag/Hitogo/Hitogo/_latestVersion)
+[![Download](https://api.bintray.com/packages/mordag/android/Hitogo/images/download.svg) ](https://bintray.com/mordag/android/Hitogo/_latestVersion)
 
 Android Library to display hints inside your app. Those can be displayed as an overflow view, a dialog and inside a specific container view.
 
@@ -13,7 +13,7 @@ You can use Gradle to download this libray:
 
 ```gradle
 repositories {
-  jcenter()
+  maven { url 'https://dl.bintray.com/mordag/android' } //jcenter() is not working yet until the library as been released as stable
 }
 
 dependencies {
