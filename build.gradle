@@ -15,7 +15,8 @@ allprojects {
     repositories {
         jcenter()
         maven { url 'https://maven.google.com' }
-        maven { url  "http://jcenter.bintray.com" }
+        maven { url 'http://jcenter.bintray.com' }
+        maven { url 'https://dl.bintray.com/mordag/Hitogo' }
     }
 }
 
