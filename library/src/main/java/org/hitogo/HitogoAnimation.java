@@ -1,5 +1,6 @@
 package org.hitogo;
 
+import android.support.annotation.NonNull;
 import android.view.View;
 import android.view.animation.Animation;
 
@@ -8,16 +9,8 @@ public abstract class HitogoAnimation {
     protected Animation showAnimation;
     protected Animation hideAnimation;
 
-    protected abstract Animation buildShowAnimation(View hitogoView);
-    protected abstract Animation buildHideAnimation(View hitogoView);
+    @NonNull protected abstract Animation buildShowAnimation(@NonNull View hitogoView);
+    @NonNull protected abstract Animation buildHideAnimation(@NonNull View hitogoView);
     protected abstract long getShowDuration();
     protected abstract long getHideDuration();
-
-    public Animation getShowAnimation() {
-        return showAnimation;
-    }
-
-    public Animation getHideAnimation() {
-        return hideAnimation;
-    }
 }

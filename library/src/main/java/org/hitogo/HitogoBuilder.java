@@ -22,25 +22,27 @@ import android.os.Handler;
 @SuppressWarnings({"WeakerAccess", "unused"})
 public final class HitogoBuilder {
 
-    private String title;
-    private String text;
+    String title;
+    String text;
 
-    private Integer state;
-    private Integer containerId;
-    private Integer titleViewId;
-    private Integer textViewId;
-    private Integer dialogThemeResId;
+    Integer state;
+    Integer containerId;
+    Integer titleViewId;
+    Integer textViewId;
+    Integer dialogThemeResId;
 
-    private boolean showAnimation = true;
-    private boolean isDialog;
-    private boolean isDismissible;
+    int hashCode;
 
-    private HitogoAnimation hitogoAnimation;
-    private Context context;
-    private View rootView;
-    private HitogoController controller;
-    private List<HitogoButton> callToActionButtons;
-    private List<HitogoButton> closeButtons;
+    boolean showAnimation = true;
+    boolean isDialog;
+    boolean isDismissible;
+
+    HitogoAnimation hitogoAnimation;
+    Context context;
+    View rootView;
+    HitogoController controller;
+    List<HitogoButton> callToActionButtons;
+    List<HitogoButton> closeButtons;
 
     HitogoBuilder(@NonNull Context context, @Nullable View rootView, @NonNull HitogoController controller) {
         this.context = context;
@@ -357,6 +359,8 @@ public final class HitogoBuilder {
             throw new InvalidParameterException("Controller cannot be null.");
         }
 
+        hashCode = this.text.hashCode();
+
         if (this.isDialog) {
             return createDialog();
         } else {
@@ -366,8 +370,7 @@ public final class HitogoBuilder {
 
     @NonNull
     private HitogoObject createDialog() {
-        return HitogoDialog.create(context, this.title, this.text, callToActionButtons,
-                this.text.hashCode(), controller, dialogThemeResId, isDismissible);
+        return HitogoDialog.create(this);
     }
 
     @NonNull
@@ -393,8 +396,7 @@ public final class HitogoBuilder {
                     "the state: '" + state + "'?");
         }
 
-        return HitogoView.create(view, holder, this.showAnimation, this.text.hashCode(), controller,
-                hitogoAnimation);
+        return HitogoView.create(this, view, holder);
     }
 
     @NonNull

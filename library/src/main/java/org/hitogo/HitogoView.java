@@ -18,25 +18,23 @@ final class HitogoView extends HitogoObject {
     private boolean showAnimations;
     private boolean isVisible;
 
-    private HitogoView(View customView, ViewGroup viewGroup, boolean showAnimations, int hashCode,
-                       HitogoController controller, HitogoAnimation animation) {
-        super(controller, hashCode);
+    private HitogoView(HitogoBuilder builder, View customView, ViewGroup viewGroup) {
+        super(builder.controller, builder.hashCode);
         this.customView = customView;
         this.viewGroup = viewGroup;
-        this.showAnimations = showAnimations;
+        this.showAnimations = builder.showAnimation;
 
         if (animation != null) {
-            this.animation = animation;
-        } else if(controller.getDefaultAnimation() != null) {
+            this.animation = builder.hitogoAnimation;
+        } else if (controller.getDefaultAnimation() != null) {
             this.animation = controller.getDefaultAnimation();
         } else {
             this.animation = new HitogoDefaultAnimation();
         }
     }
 
-    static HitogoView create(View customView, ViewGroup viewGroup, boolean showAnimations,
-                           int hashCode, HitogoController controller, HitogoAnimation animation) {
-        return new HitogoView(customView, viewGroup, showAnimations, hashCode, controller, animation);
+    static HitogoView create(HitogoBuilder builder, View customView, ViewGroup viewGroup) {
+        return new HitogoView(builder, customView, viewGroup);
     }
 
     @Override

@@ -59,9 +59,6 @@ dependencies {
     // LiveData dependency
     compile "android.arch.lifecycle:runtime:1.0.0-alpha9"
     annotationProcessor "android.arch.lifecycle:compiler:1.0.0-alpha9"
-
-    // Test dependencies
-    testCompile 'junit:junit:4.12'
 }
 
 apply from: 'https://raw.githubusercontent.com/nuuneoi/JCenter/master/installv1.gradle'

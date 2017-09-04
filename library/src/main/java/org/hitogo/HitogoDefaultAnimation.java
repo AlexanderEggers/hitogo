@@ -1,5 +1,6 @@
 package org.hitogo;
 
+import android.support.annotation.NonNull;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
@@ -9,8 +10,9 @@ public final class HitogoDefaultAnimation extends HitogoAnimation {
     private int lastInAnimationHeight;
     private int lastOutAnimationHeight;
 
+    @NonNull
     @Override
-    protected Animation buildShowAnimation(View hitogoView) {
+    protected Animation buildShowAnimation(@NonNull View hitogoView) {
         if (!areLastMeasuredInAnimationHeightAndCurrentEqual(hitogoView) || showAnimation == null) {
             showAnimation = new TranslateAnimation(
                     0, 0,                               // X: from, to
@@ -22,8 +24,9 @@ public final class HitogoDefaultAnimation extends HitogoAnimation {
         return showAnimation;
     }
 
+    @NonNull
     @Override
-    protected Animation buildHideAnimation(View hitogoView) {
+    protected Animation buildHideAnimation(@NonNull View hitogoView) {
         if (!areLastMeasuredOutAnimationHeightAndCurrentEqual(hitogoView) || hideAnimation == null) {
             hideAnimation = new TranslateAnimation(
                     0, 0,                               // X: from, to

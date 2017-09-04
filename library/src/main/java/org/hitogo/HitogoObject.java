@@ -5,7 +5,7 @@ import android.support.annotation.NonNull;
 
 @SuppressWarnings({"WeakerAccess", "unused"})
 public abstract class HitogoObject {
-    private HitogoController controller;
+    protected HitogoController controller;
     private int hashCode;
 
     protected HitogoObject(@NonNull HitogoController controller, int hashCode) {

@@ -17,7 +17,7 @@ public class MainActivity extends HitogoActivity {
 
     @NonNull
     @Override
-    public HitogoController initialiseHitogo(LifecycleRegistry lifecycle) {
+    public HitogoController initialiseHitogo(@NonNull LifecycleRegistry lifecycle) {
         return new HitogoDefaultController(lifecycle);
     }
 }

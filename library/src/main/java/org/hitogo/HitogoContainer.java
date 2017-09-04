@@ -12,5 +12,5 @@ public interface HitogoContainer extends LifecycleRegistryOwner {
     @NonNull HitogoController getController();
     @Nullable View getView();
     @NonNull Activity getActivity();
-    @NonNull HitogoController initialiseHitogo(LifecycleRegistry lifecycle);
+    @NonNull HitogoController initialiseHitogo(@NonNull LifecycleRegistry lifecycle);
 }
