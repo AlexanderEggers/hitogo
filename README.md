@@ -17,7 +17,7 @@ repositories {
 }
 
 dependencies {
-  compile 'org.hitogo:Hitogo:1.0.0-alpha1'
+  compile 'org.hitogo:Hitogo:1.0.0-alpha2'
 }
 ```
 
