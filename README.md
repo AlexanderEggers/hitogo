@@ -17,15 +17,15 @@ repositories {
 }
 
 dependencies {
-  compile 'org.hitogo:Hitogo:1.0.0-alpha1'
+  compile 'org.hitogo:Hitogo:1.0.0-alpha2'
 }
 ```
 
 How do I use Hitogo?
 -------------------
-Documentation and source code coming soon!
+Documentation and source code javadoc coming soon!
 
-To use this library use need to create your own HitogoController by simple extending this class. You will need to fill the required methods then. Part of that is the declaration of the different layout types or some default view ids.
+To use this library you need to create your own HitogoController by simple extending this class. You will need to fill the required methods then. Part of that is the declaration of the different layout types or some default view ids.
 
 I recommend you to use the HitogoActivity or HitogoFragment to simplify your usage of this API. This classes already can do everything that is needed to initialise all things. But you can also implement the HitogoContainer and create this base yourself.
 
