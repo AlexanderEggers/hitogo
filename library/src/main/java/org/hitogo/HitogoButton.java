@@ -1,7 +1,6 @@
 package org.hitogo;
 
 import android.support.annotation.NonNull;
-import android.view.View;
 
 @SuppressWarnings({"WeakerAccess", "unused"})
 public final class HitogoButton {
@@ -9,6 +8,7 @@ public final class HitogoButton {
     Integer[] viewIds;
     HitogoButtonListener listener;
     boolean isCloseButton;
+    boolean hasButtonView;
 
     HitogoButton() {
         //is doing nothing here - just hiding the constructor for other packages
@@ -20,8 +20,8 @@ public final class HitogoButton {
     }
 
     @NonNull
-    public static HitogoButtonBuilder with(@NonNull View containerView) {
-        return new HitogoButtonBuilder(containerView);
+    static HitogoButtonBuilder with(@NonNull HitogoController controller) {
+        return new HitogoButtonBuilder(controller);
     }
 
     public String getText() {
@@ -34,5 +34,9 @@ public final class HitogoButton {
 
     public HitogoButtonListener getListener() {
         return listener;
+    }
+
+    public boolean isCloseButton() {
+        return isCloseButton;
     }
 }

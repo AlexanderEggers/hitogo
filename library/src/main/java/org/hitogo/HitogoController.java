@@ -76,6 +76,12 @@ public abstract class HitogoController implements LifecycleObserver {
 
     @Nullable
     @XmlRes
+    public Integer getDefaultCallToActionId() {
+        return null;
+    }
+
+    @Nullable
+    @XmlRes
     public Integer getDefaultCloseIconId() {
         return null;
     }

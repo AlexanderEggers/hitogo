@@ -20,8 +20,6 @@ final class HitogoDialog extends HitogoObject {
         Context context = builder.context;
         Integer themeResId = builder.dialogThemeResId;
 
-        final HitogoButton positiveButton = buttonList.get(0);
-
         AlertDialog.Builder dialogBuilder;
         if (themeResId != null) {
             dialogBuilder = new AlertDialog.Builder(context, themeResId);
@@ -33,6 +31,7 @@ final class HitogoDialog extends HitogoObject {
                 .setTitle(builder.title)
                 .setCancelable(!builder.isDismissible);
 
+        final HitogoButton positiveButton = buttonList.get(0);
         if (positiveButton.text != null && StringUtils.isNotEmpty(positiveButton.text)) {
             dialogBuilder.setPositiveButton(positiveButton.text, new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int id) {
@@ -46,7 +45,7 @@ final class HitogoDialog extends HitogoObject {
             final HitogoButton negativeButton = buttonList.get(1);
 
             if (negativeButton.text != null && StringUtils.isNotEmpty(negativeButton.text)) {
-                dialogBuilder.setNegativeButton(positiveButton.text, new DialogInterface.OnClickListener() {
+                dialogBuilder.setNegativeButton(negativeButton.text, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         negativeButton.listener.onClick();
                         hide();
@@ -59,7 +58,7 @@ final class HitogoDialog extends HitogoObject {
             final HitogoButton neutralButton = buttonList.get(2);
 
             if (neutralButton.text != null && StringUtils.isNotEmpty(neutralButton.text)) {
-                dialogBuilder.setNeutralButton(positiveButton.text, new DialogInterface.OnClickListener() {
+                dialogBuilder.setNeutralButton(neutralButton.text, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         neutralButton.listener.onClick();
                         hide();

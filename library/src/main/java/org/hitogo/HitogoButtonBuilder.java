@@ -4,8 +4,6 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.XmlRes;
 import android.util.Log;
-import android.view.View;
-import android.widget.TextView;
 
 import java.security.InvalidParameterException;
 
@@ -13,16 +11,16 @@ import java.security.InvalidParameterException;
 public final class HitogoButtonBuilder {
 
     private HitogoButton button;
-    private View containerView;
+    private HitogoController controller;
 
     HitogoButtonBuilder(@NonNull HitogoContainer container) {
         button = new HitogoButton();
-        this.containerView = container.getView();
+        this.controller = container.getController();
     }
 
-    HitogoButtonBuilder(@NonNull View containerView) {
+    HitogoButtonBuilder(@NonNull HitogoController controller) {
         button = new HitogoButton();
-        this.containerView = containerView;
+        this.controller = controller;
     }
 
     @NonNull
@@ -32,7 +30,13 @@ public final class HitogoButtonBuilder {
     }
 
     @NonNull
-    public HitogoButtonBuilder asClickToCallButton(@XmlRes int viewId) {
+    public HitogoButtonBuilder asClickToCallButton() {
+        return asClickToCallButton(controller.getDefaultCallToActionId());
+    }
+
+    @NonNull
+    public HitogoButtonBuilder asClickToCallButton(@XmlRes Integer viewId) {
+        button.hasButtonView = true;
         button.isCloseButton = false;
         button.viewIds = new Integer[1];
         button.viewIds[0] = viewId;
@@ -40,24 +44,30 @@ public final class HitogoButtonBuilder {
     }
 
     @NonNull
-    public HitogoButtonBuilder asCloseButton(@XmlRes int closeIconId) {
+    public HitogoButtonBuilder asCloseButton() {
+        return asCloseButton(controller.getDefaultCloseIconId());
+    }
+
+    @NonNull
+    public HitogoButtonBuilder asCloseButton(@XmlRes Integer closeIconId) {
+        return asCloseButton(closeIconId, controller.getDefaultCloseClickId());
+    }
+
+    @NonNull
+    public HitogoButtonBuilder asCloseButton(@XmlRes Integer closeIconId,
+                                             @Nullable @XmlRes Integer optionalCloseViewId) {
+        button.hasButtonView = true;
         button.isCloseButton = true;
         button.viewIds = new Integer[2];
         button.viewIds[0] = closeIconId;
-        button.viewIds[1] = closeIconId;
+        button.viewIds[1] = optionalCloseViewId != null ? optionalCloseViewId : closeIconId;
         return this;
     }
 
     @NonNull
-    public HitogoButtonBuilder asCloseButton(@Nullable @XmlRes Integer closeIconId,
-                                             @Nullable @XmlRes Integer optionalCloseViewId) {
-        if (closeIconId == null) {
-            throw new IllegalStateException("Close icon view id must not be null");
-        } else {
-            button.viewIds = new Integer[2];
-            button.viewIds[0] = closeIconId;
-            button.viewIds[1] = optionalCloseViewId != null ? optionalCloseViewId : closeIconId;
-        }
+    public HitogoButtonBuilder asDialogButton() {
+        button.hasButtonView = false;
+        button.viewIds = new Integer[0];
         return this;
     }
 
@@ -74,42 +84,24 @@ public final class HitogoButtonBuilder {
                     "display a button with only one icon, you can ignore this warning.");
         }
 
-        if (button.viewIds == null || button.viewIds.length == 0) {
-            throw new InvalidParameterException("Have you forgot to add the view id for this button?");
-        } else {
-            for (int id : button.viewIds) {
-                View v = checkButtonView(id);
+        if (button.hasButtonView && (button.viewIds == null || button.viewIds.length == 0)) {
+            throw new InvalidParameterException("Have you forgot to add at least one view id for " +
+                    "this button?");
+        }
 
-                if (button.viewIds.length == 1 && !(v instanceof TextView)) {
-                    throw new InvalidParameterException("The view of your button needs to " +
-                            "extend at least the TextView class.");
+        if (button.hasButtonView) {
+            for (Integer id : button.viewIds) {
+                if (id == null) {
+                    throw new InvalidParameterException("Button view id cannot be null.");
                 }
             }
         }
 
-        if (button.isCloseButton && button.viewIds.length < 2) {
-            throw new InvalidParameterException("To display a close button, you should use the " +
-                    "asCloseButton method.");
-        }
-
         if (button.listener == null) {
             button.listener = new HitogoDefaultButtonListener();
-            Log.d(HitogoButtonBuilder.class.getName(), "Using default button listener...");
+            Log.d(HitogoButtonBuilder.class.getName(), "Using default button listener.");
         }
 
         return button;
-    }
-
-    @NonNull
-    private View checkButtonView(@XmlRes int viewId) {
-        if (containerView != null) {
-            View view = containerView.findViewById(viewId);
-            if (view == null) {
-                throw new InvalidParameterException("Have you forgot to add the button to your layout?");
-            }
-            return view;
-        } else {
-            throw new InvalidParameterException("Root view must not be null...");
-        }
     }
 }

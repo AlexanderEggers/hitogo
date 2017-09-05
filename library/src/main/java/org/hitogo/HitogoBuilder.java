@@ -52,48 +52,37 @@ public final class HitogoBuilder {
         this.closeButtons = new ArrayList<>();
     }
 
-    private HitogoBuilder() {
-        throw new IllegalStateException("Cannot initialise builder without hitogo factory " +
-                "(Hitogo.class).");
-    }
-
     @NonNull
-    public HitogoBuilder setTitle(@XmlRes int viewId, @NonNull String title) {
+    public HitogoBuilder setTitle(@XmlRes Integer viewId, @NonNull String title) {
         this.titleViewId = viewId;
         this.title = title;
         return this;
     }
 
     @NonNull
-    public HitogoBuilder setText(@XmlRes int viewId, @NonNull String text) {
+    public HitogoBuilder setTitle(@NonNull String title) {
+        return setTitle(controller.getDefaultTitleViewId(), title);
+    }
+
+    @NonNull
+    public HitogoBuilder setText(@XmlRes Integer viewId, @NonNull String text) {
         this.textViewId = viewId;
         this.text = text;
         return this;
     }
 
     @NonNull
-    public HitogoBuilder setTitle(@NonNull String title) {
-        this.titleViewId = controller.getDefaultTitleViewId();
-        this.title = title;
-        return this;
-    }
-
-    @NonNull
     public HitogoBuilder setText(@NonNull String text) {
-        this.textViewId = controller.getDefaultTextViewId();
-        this.text = text;
-        return this;
+        return setText(controller.getDefaultTextViewId(), text);
     }
 
     @NonNull
     public HitogoBuilder withAnimations() {
-        this.showAnimation = true;
-        this.hitogoAnimation = controller.getDefaultAnimation();
-        return this;
+        return withAnimations(controller.getDefaultAnimation());
     }
 
     @NonNull
-    public HitogoBuilder withAnimations(@NonNull HitogoAnimation animation) {
+    public HitogoBuilder withAnimations(@Nullable HitogoAnimation animation) {
         this.showAnimation = true;
         this.hitogoAnimation = animation;
         return this;
@@ -112,9 +101,8 @@ public final class HitogoBuilder {
             this.isDismissible = true;
             closeButtons.add(closeButton);
         } else {
-            Log.e(HitogoBuilder.class.getName(), "Cannot add call to action button as close " +
-                    "buttons...");
-            Log.e(HitogoBuilder.class.getName(), "Trying to add default dismissible button...");
+            Log.e(HitogoBuilder.class.getName(), "Cannot add call to action button as close buttons.");
+            Log.e(HitogoBuilder.class.getName(), "Trying to add default dismissible button.");
             asDismissible();
         }
         return this;
@@ -125,8 +113,8 @@ public final class HitogoBuilder {
         this.isDismissible = true;
 
         try {
-            HitogoButton button = HitogoButton.with(rootView)
-                    .asCloseButton(controller.getDefaultCloseIconId(), controller.getDefaultCloseClickId())
+            HitogoButton button = HitogoButton.with(controller)
+                    .asCloseButton()
                     .build();
             closeButtons.add(button);
         } catch (InvalidParameterException ex) {
@@ -140,12 +128,11 @@ public final class HitogoBuilder {
 
     @NonNull
     public HitogoBuilder asDialog() {
-        this.isDialog = true;
-        return this;
+        return asDialog(null);
     }
 
     @NonNull
-    public HitogoBuilder asDialog(@StyleRes int dialogThemeResId) {
+    public HitogoBuilder asDialog(@Nullable @StyleRes Integer dialogThemeResId) {
         this.isDialog = true;
         this.dialogThemeResId = dialogThemeResId;
         return this;
@@ -156,8 +143,7 @@ public final class HitogoBuilder {
         if (!callToActionButton.isCloseButton) {
             callToActionButtons.add(callToActionButton);
         } else {
-            Log.e(HitogoBuilder.class.getName(), "Cannot add close buttons as call to " +
-                    "action buttons...");
+            Log.e(HitogoBuilder.class.getName(), "Cannot add close buttons as call to action buttons.");
         }
         return this;
     }
@@ -177,40 +163,24 @@ public final class HitogoBuilder {
 
     @NonNull
     public HitogoBuilder asOverlay() {
+        return asOverlay(controller.getDefaultOverlayContainerId());
+    }
+
+    @NonNull
+    public HitogoBuilder asOverlay(@Nullable Integer overlayId) {
         this.isDialog = false;
-        this.containerId = controller.getDefaultOverlayContainerId();
+        this.containerId = overlayId;
 
         if (rootView != null && this.containerId != null) {
             View container = rootView.findViewById(this.containerId);
             if (container == null) {
                 Log.e(HitogoBuilder.class.getName(), "Trying to use fallback to let the hitogo " +
-                        "ignore the given layout...");
+                        "ignore the given layout.");
                 return asIgnoreLayout();
             }
         } else {
             Log.e(HitogoBuilder.class.getName(), "Trying to use fallback to let the hitogo " +
-                    "ignore the given layout...");
-            return asIgnoreLayout();
-        }
-
-        return this;
-    }
-
-    @NonNull
-    public HitogoBuilder asOverlay(int overlayId) {
-        this.isDialog = false;
-        this.containerId = overlayId;
-
-        if (rootView != null) {
-            View container = rootView.findViewById(this.containerId);
-            if (container == null) {
-                Log.e(HitogoBuilder.class.getName(), "Trying to use fallback to let the hitogo " +
-                        "ignore the given layout...");
-                return asIgnoreLayout();
-            }
-        } else {
-            Log.e(HitogoBuilder.class.getName(), "Trying to use fallback to let the hitogo " +
-                    "ignore the given layout...");
+                    "ignore the given layout.");
             return asIgnoreLayout();
         }
 
@@ -252,12 +222,12 @@ public final class HitogoBuilder {
             View container = rootView.findViewById(this.containerId);
             if (container == null) {
                 Log.e(HitogoBuilder.class.getName(), "Trying to use fallback to display hitogo " +
-                        "as overlay...");
+                        "as overlay.");
                 return asOverlay();
             }
         } else {
             Log.e(HitogoBuilder.class.getName(), "Trying to use fallback to let the hitogo " +
-                    "ignore the given layout...");
+                    "ignore the given layout.");
             return asIgnoreLayout();
         }
 
@@ -273,12 +243,12 @@ public final class HitogoBuilder {
             View container = rootView.findViewById(this.containerId);
             if (container == null) {
                 Log.e(HitogoBuilder.class.getName(), "Trying to use fallback to display hitogo " +
-                        "inside the default container layout...");
+                        "inside the default container layout.");
                 return asLayoutChild();
             }
         } else {
             Log.e(HitogoBuilder.class.getName(), "Trying to use fallback to let the hitogo " +
-                    "ignore the given layout...");
+                    "ignore the given layout.");
             return asIgnoreLayout();
         }
 
@@ -341,7 +311,11 @@ public final class HitogoBuilder {
 
         if (this.isDialog && callToActionButtons.isEmpty()) {
             throw new InvalidParameterException("This hitogo need at least one button to be " +
-                    "displayed if it is from type dialog.");
+                    "displayed if the state is from type dialog.");
+        }
+
+        if (this.isDialog && callToActionButtons.size() > 3) {
+            Log.d(HitogoBuilder.class.getName(), "The dialog can handle only up to 3 different buttons.");
         }
 
         if (!this.isDialog && state == null) {
@@ -355,12 +329,7 @@ public final class HitogoBuilder {
                     "needed anymore!");
         }
 
-        if (controller == null) {
-            throw new InvalidParameterException("Controller cannot be null.");
-        }
-
         hashCode = this.text.hashCode();
-
         if (this.isDialog) {
             return createDialog();
         } else {
@@ -390,7 +359,8 @@ public final class HitogoBuilder {
 
         if (view != null) {
             view = buildLayoutOrOverlayContent(view);
-            view = buildLayoutOrOverlayButtons(view);
+            view = buildCallToActionButtons(view);
+            view = buildCloseButtons(view);
         } else {
             throw new InvalidParameterException("Hitogo view is null. Is the layout existing for " +
                     "the state: '" + state + "'?");
@@ -418,19 +388,28 @@ public final class HitogoBuilder {
                 } else {
                     textView.setVisibility(View.GONE);
                 }
+            } else {
+                throw new InvalidParameterException("Did you forget to add the " +
+                        "title/text view to your layout?");
             }
+        } else {
+            throw new InvalidParameterException("Title or text view id is null.");
         }
         return containerView;
     }
 
     @NonNull
-    private View buildLayoutOrOverlayButtons(@NonNull View containerView) {
+    private View buildCallToActionButtons(@NonNull View containerView) {
         for (final HitogoButton callToActionButton : callToActionButtons) {
-            TextView button = containerView.findViewById(callToActionButton.viewIds[0]);
+            View button = containerView.findViewById(callToActionButton.viewIds[0]);
 
-            if (button != null && StringUtils.isNotEmpty(text)) {
+            if (button != null) {
+                if (button instanceof TextView) {
+                    ((TextView) button).setText(callToActionButton.text != null ?
+                            callToActionButton.text : "");
+                }
+
                 button.setVisibility(View.VISIBLE);
-                button.setText(callToActionButton.text);
                 button.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -438,9 +417,17 @@ public final class HitogoBuilder {
                         controller.hide();
                     }
                 });
+            } else {
+                throw new InvalidParameterException("Did you forget to add the " +
+                        "call-to-action button to your layout?");
             }
         }
 
+        return containerView;
+    }
+
+    @NonNull
+    private View buildCloseButtons(@NonNull View containerView) {
         for (final HitogoButton closeButton : closeButtons) {
             final View removeIcon = containerView.findViewById(closeButton.viewIds[0]);
             final View removeClick = containerView.findViewById(closeButton.viewIds[1]);
@@ -455,6 +442,9 @@ public final class HitogoBuilder {
                         controller.hide();
                     }
                 });
+            } else {
+                throw new InvalidParameterException("Did you forget to add the close button to " +
+                        "your layout?");
             }
         }
 
