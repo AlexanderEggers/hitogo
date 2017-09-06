@@ -17,7 +17,10 @@ ext {
 
     developerId = 'mordag'
     developerName = 'Alexander Eggers'
-    developerEmail = 'alexander.eggers91@gmail.com'
+
+    def Properties properties = new Properties()
+    properties.load(project.rootProject.file("local.properties").newDataInputStream())
+    developerEmail = properties.getProperty("user.email", "")
 
     licenseName = 'The Apache Software License, Version 2.0'
     licenseUrl = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
