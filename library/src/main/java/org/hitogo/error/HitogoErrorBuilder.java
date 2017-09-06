@@ -1,4 +1,4 @@
-package org.hitogo;
+package org.hitogo.error;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -45,7 +45,7 @@ public final class HitogoErrorBuilder {
 
     public HitogoError build() {
         if (error.message == null) {
-            throw new IllegalStateException("You need to declare a message for that error.");
+            throw new IllegalStateException("You need to declare a message for this error.");
         }
 
         if (error.listener == null) {

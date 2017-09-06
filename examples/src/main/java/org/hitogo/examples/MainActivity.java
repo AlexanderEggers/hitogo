@@ -4,8 +4,8 @@ import android.arch.lifecycle.LifecycleRegistry;
 import android.support.annotation.NonNull;
 import android.os.Bundle;
 
-import org.hitogo.HitogoActivity;
-import org.hitogo.HitogoController;
+import org.hitogo.core.HitogoActivity;
+import org.hitogo.core.HitogoController;
 
 public class MainActivity extends HitogoActivity {
 

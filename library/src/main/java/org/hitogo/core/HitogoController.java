@@ -1,4 +1,4 @@
-package org.hitogo;
+package org.hitogo.core;
 
 import android.arch.lifecycle.Lifecycle;
 import android.arch.lifecycle.LifecycleObserver;
@@ -9,26 +9,23 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.XmlRes;
 
+import org.hitogo.dialog.HitogoDialogBuilder;
+import org.hitogo.view.HitogoAnimation;
+import org.hitogo.view.HitogoViewBuilder;
+
 @SuppressWarnings({"WeakerAccess", "unused"})
 public abstract class HitogoController implements LifecycleObserver {
 
     private HitogoObject hitogo;
-
-    private HitogoController() {
-        throw new IllegalStateException("Cannot use this empty constructor because of the " +
-                "missing lifecycle object.");
-    }
 
     public HitogoController(@NonNull LifecycleRegistry lifecycle) {
         lifecycle.addObserver(this);
     }
 
     @NonNull
-    public final HitogoObject validate(@NonNull HitogoObject hitogo) {
+    final HitogoObject validate(@NonNull HitogoObject hitogo) {
         if (this.hitogo == null || !this.hitogo.equals(hitogo)) {
-            if (this.hitogo != null) {
-                this.hitogo.hide();
-            }
+            hideHitogo();
             this.hitogo = hitogo;
             return hitogo;
         }
@@ -36,9 +33,9 @@ public abstract class HitogoController implements LifecycleObserver {
     }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
-    public final void hide() {
+    public final void hideHitogo() {
         if (hitogo != null && hitogo.isVisible()) {
-            hitogo.hide();
+            hitogo.makeInvisible();
         }
     }
 
@@ -98,7 +95,17 @@ public abstract class HitogoController implements LifecycleObserver {
     }
 
     @Nullable
-    public HitogoBuilder getDefaultAsSimpleCall(@NonNull HitogoBuilder builder) {
+    public Integer getDefaultLayoutViewId() {
+        return null;
+    }
+
+    @Nullable
+    public HitogoViewBuilder getSimpleView(@NonNull HitogoViewBuilder builder) {
+        return null;
+    }
+
+    @Nullable
+    public HitogoDialogBuilder getSimpleDialog(@NonNull HitogoDialogBuilder builder) {
         return null;
     }
 }

@@ -1,4 +1,4 @@
-package org.hitogo;
+package org.hitogo.error;
 
 @SuppressWarnings({"WeakerAccess", "unused"})
 public interface HitogoErrorListener {

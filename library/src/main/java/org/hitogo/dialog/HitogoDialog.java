@@ -1,4 +1,4 @@
-package org.hitogo;
+package org.hitogo.dialog;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -6,14 +6,19 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.support.annotation.NonNull;
 
+import org.hitogo.core.button.HitogoButton;
+import org.hitogo.core.HitogoContainer;
+import org.hitogo.core.HitogoObject;
+import org.hitogo.core.StringUtils;
+
 import java.util.List;
 
 @SuppressWarnings({"WeakerAccess", "unused"})
-final class HitogoDialog extends HitogoObject {
+public final class HitogoDialog extends HitogoObject {
 
     private AlertDialog dialog;
 
-    private HitogoDialog(HitogoBuilder builder) {
+    HitogoDialog(HitogoDialogBuilder builder) {
         super(builder.controller, builder.hashCode);
 
         List<HitogoButton> buttonList = builder.callToActionButtons;
@@ -32,11 +37,11 @@ final class HitogoDialog extends HitogoObject {
                 .setCancelable(!builder.isDismissible);
 
         final HitogoButton positiveButton = buttonList.get(0);
-        if (positiveButton.text != null && StringUtils.isNotEmpty(positiveButton.text)) {
-            dialogBuilder.setPositiveButton(positiveButton.text, new DialogInterface.OnClickListener() {
+        if (positiveButton.getText() != null && StringUtils.isNotEmpty(positiveButton.getText())) {
+            dialogBuilder.setPositiveButton(positiveButton.getText(), new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int id) {
-                    positiveButton.listener.onClick();
-                    hide();
+                    positiveButton.getListener().onClick();
+                    makeInvisible();
                 }
             });
         }
@@ -44,11 +49,11 @@ final class HitogoDialog extends HitogoObject {
         if (buttonList.size() > 1) {
             final HitogoButton negativeButton = buttonList.get(1);
 
-            if (negativeButton.text != null && StringUtils.isNotEmpty(negativeButton.text)) {
-                dialogBuilder.setNegativeButton(negativeButton.text, new DialogInterface.OnClickListener() {
+            if (negativeButton.getText() != null && StringUtils.isNotEmpty(negativeButton.getText())) {
+                dialogBuilder.setNegativeButton(negativeButton.getText(), new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        negativeButton.listener.onClick();
-                        hide();
+                        negativeButton.getListener().onClick();
+                        makeInvisible();
                     }
                 });
             }
@@ -57,21 +62,17 @@ final class HitogoDialog extends HitogoObject {
         if (buttonList.size() > 2) {
             final HitogoButton neutralButton = buttonList.get(2);
 
-            if (neutralButton.text != null && StringUtils.isNotEmpty(neutralButton.text)) {
-                dialogBuilder.setNeutralButton(neutralButton.text, new DialogInterface.OnClickListener() {
+            if (neutralButton.getText() != null && StringUtils.isNotEmpty(neutralButton.getText())) {
+                dialogBuilder.setNeutralButton(neutralButton.getText(), new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        neutralButton.listener.onClick();
-                        hide();
+                        neutralButton.getListener().onClick();
+                        makeInvisible();
                     }
                 });
             }
         }
 
         this.dialog = dialogBuilder.create();
-    }
-
-    static HitogoDialog create(HitogoBuilder builder) {
-        return new HitogoDialog(builder);
     }
 
     @Override
@@ -82,14 +83,14 @@ final class HitogoDialog extends HitogoObject {
     }
 
     @Override
-    public void hide() {
+    public void makeInvisible() {
         if (dialog.isShowing()) {
             dialog.dismiss();
         }
     }
 
-    @Override
-    public boolean isVisible() {
-        return dialog.isShowing();
+    @NonNull
+    public static HitogoDialogBuilder with(@NonNull HitogoContainer container) {
+        return new HitogoDialogBuilder(container.getActivity(), container.getController());
     }
 }

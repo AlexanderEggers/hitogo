@@ -1,9 +1,13 @@
-package org.hitogo;
+package org.hitogo.core.button;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.XmlRes;
 import android.util.Log;
+
+import org.hitogo.core.HitogoContainer;
+import org.hitogo.core.HitogoController;
+import org.hitogo.core.StringUtils;
 
 import java.security.InvalidParameterException;
 
@@ -45,7 +49,7 @@ public final class HitogoButtonBuilder {
 
     @NonNull
     public HitogoButtonBuilder asCloseButton() {
-        return asCloseButton(controller.getDefaultCloseIconId());
+        return asCloseButton(controller.getDefaultCloseIconId(), controller.getDefaultCloseClickId());
     }
 
     @NonNull

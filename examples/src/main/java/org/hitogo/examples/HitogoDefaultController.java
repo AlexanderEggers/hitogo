@@ -2,7 +2,7 @@ package org.hitogo.examples;
 
 import android.arch.lifecycle.LifecycleRegistry;
 
-import org.hitogo.HitogoController;
+import org.hitogo.core.HitogoController;
 
 public class HitogoDefaultController extends HitogoController {
 

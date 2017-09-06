@@ -1,4 +1,4 @@
-package org.hitogo;
+package org.hitogo.core;
 
 import android.app.Activity;
 import android.arch.lifecycle.LifecycleRegistry;
