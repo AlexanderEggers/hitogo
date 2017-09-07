@@ -2,6 +2,7 @@ package org.hitogo.dialog;
 
 import android.app.Activity;
 import android.content.Context;
+import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -18,7 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @SuppressWarnings({"WeakerAccess", "unused"})
-public final class HitogoDialogBuilder {
+public class HitogoDialogBuilder {
 
     String title;
     String text;
@@ -28,11 +29,12 @@ public final class HitogoDialogBuilder {
     boolean isDismissible;
     int hashCode;
 
+    Bundle bundle;
     Context context;
     HitogoController controller;
     List<HitogoButton> callToActionButtons;
 
-    HitogoDialogBuilder(@NonNull Context context, @NonNull HitogoController controller) {
+    public HitogoDialogBuilder(@NonNull Context context, @NonNull HitogoController controller) {
         this.context = context;
         this.controller = controller;
         this.callToActionButtons = new ArrayList<>();
@@ -47,6 +49,12 @@ public final class HitogoDialogBuilder {
     @NonNull
     public HitogoDialogBuilder setText(@NonNull String text) {
         this.text = text;
+        return this;
+    }
+
+    @NonNull
+    public HitogoDialogBuilder setBundle(@NonNull Bundle bundle) {
+        this.bundle = bundle;
         return this;
     }
 
@@ -112,14 +120,10 @@ public final class HitogoDialogBuilder {
         }
 
         hashCode = this.text.hashCode();
-        return new HitogoDialog(this);
+        return new HitogoDialog(new HitogoDialogParams(this));
     }
 
     public void show(@NonNull Activity activity) {
-        showNow(activity);
-    }
-
-    public void showNow(@NonNull Activity activity) {
         build().show(activity);
     }
 

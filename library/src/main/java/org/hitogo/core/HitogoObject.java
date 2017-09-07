@@ -9,12 +9,11 @@ import android.support.v4.app.Fragment;
 @SuppressWarnings({"WeakerAccess", "unused"})
 public abstract class HitogoObject {
     protected HitogoController controller;
-    protected boolean isVisible;
     private int hashCode;
 
-    protected HitogoObject(@NonNull HitogoController controller, int hashCode) {
-        this.controller = controller;
-        this.hashCode = hashCode;
+    public HitogoObject(@NonNull HitogoParams params) {
+        this.controller = params.getController();
+        this.hashCode = params.getHashCode();
     }
 
     public final void show(@NonNull final Fragment fragment) {
@@ -63,24 +62,6 @@ public abstract class HitogoObject {
         }
     }
 
-    public final boolean isVisible() {
-        return isVisible;
-    }
-
-    public final void setVisibility(boolean isVisible) {
-        this.isVisible = isVisible;
-    }
-
-    @Override
-    public final int hashCode() {
-        return hashCode;
-    }
-
-    @Override
-    public final boolean equals(@NonNull Object obj) {
-        return obj instanceof HitogoObject && this.hashCode == obj.hashCode();
-    }
-
     public boolean hasAnimation() {
         return false;
     }
@@ -94,6 +75,26 @@ public abstract class HitogoObject {
         return null;
     }
 
-    abstract void makeVisible(@NonNull Activity activity);
-    abstract void makeInvisible();
+    @Override
+    public final int hashCode() {
+        return hashCode;
+    }
+
+    @Override
+    public final boolean equals(@NonNull Object obj) {
+        return obj instanceof HitogoObject && this.hashCode == obj.hashCode();
+    }
+
+    public void setVisibility(boolean isVisible) {
+        //implementation optional
+    }
+
+    public void setGone(boolean isGone) {
+        //implementation optional
+    }
+
+    protected abstract void makeVisible(@NonNull Activity activity);
+    protected abstract void makeInvisible();
+    protected abstract boolean isGone();
+    protected abstract boolean isVisible();
 }

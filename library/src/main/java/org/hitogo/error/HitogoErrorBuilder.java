@@ -1,5 +1,6 @@
 package org.hitogo.error;
 
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Log;
@@ -9,13 +10,8 @@ public final class HitogoErrorBuilder {
 
     private HitogoError error;
 
-    HitogoErrorBuilder() {
+    public HitogoErrorBuilder() {
         this.error = new HitogoError();
-    }
-
-    HitogoErrorBuilder(Class sourceClass) {
-        this();
-        this.error.sourceClass = sourceClass;
     }
 
     public HitogoErrorBuilder withMessage(@NonNull String message) {
@@ -23,11 +19,12 @@ public final class HitogoErrorBuilder {
         return this;
     }
 
-    public HitogoErrorBuilder asLog() {
-        return asLog(HitogoError.DEBUG);
+    public HitogoErrorBuilder asLog(Class sourceClass) {
+        return asLog(sourceClass, HitogoError.DEBUG);
     }
 
-    public HitogoErrorBuilder asLog(int logState) {
+    public HitogoErrorBuilder asLog(Class sourceClass, int logState) {
+        error.sourceClass = sourceClass;
         error.logState = logState;
         error.isException = false;
         return this;
@@ -40,6 +37,12 @@ public final class HitogoErrorBuilder {
 
     public HitogoErrorBuilder listen(@Nullable HitogoErrorListener listener) {
         error.listener = listener;
+        return this;
+    }
+
+    @NonNull
+    public HitogoErrorBuilder setBundle(@NonNull Bundle bundle) {
+        error.bundle = bundle;
         return this;
     }
 

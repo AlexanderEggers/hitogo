@@ -1,6 +1,6 @@
 package org.hitogo.error;
 
-import android.support.annotation.NonNull;
+import android.os.Bundle;
 import android.util.Log;
 
 @SuppressWarnings({"WeakerAccess", "unused"})
@@ -17,6 +17,7 @@ public final class HitogoError {
     boolean isException;
     int logState = DEBUG;
     HitogoErrorListener listener;
+    Bundle bundle;
 
     HitogoError() {
         //is doing nothing here - just hiding the constructor for other packages
@@ -51,15 +52,5 @@ public final class HitogoError {
                 Log.d(sourceClass.getName(), message);
                 break;
         }
-    }
-
-    @NonNull
-    public static HitogoErrorBuilder with() {
-        return new HitogoErrorBuilder();
-    }
-
-    @NonNull
-    public static HitogoErrorBuilder with(@NonNull Class sourceClass) {
-        return new HitogoErrorBuilder(sourceClass);
     }
 }

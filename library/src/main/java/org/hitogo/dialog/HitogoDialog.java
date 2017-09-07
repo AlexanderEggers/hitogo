@@ -7,7 +7,6 @@ import android.content.DialogInterface;
 import android.support.annotation.NonNull;
 
 import org.hitogo.core.button.HitogoButton;
-import org.hitogo.core.HitogoContainer;
 import org.hitogo.core.HitogoObject;
 import org.hitogo.core.StringUtils;
 
@@ -18,12 +17,12 @@ public final class HitogoDialog extends HitogoObject {
 
     private AlertDialog dialog;
 
-    HitogoDialog(HitogoDialogBuilder builder) {
-        super(builder.controller, builder.hashCode);
+    HitogoDialog(HitogoDialogParams params) {
+        super(params);
 
-        List<HitogoButton> buttonList = builder.callToActionButtons;
-        Context context = builder.context;
-        Integer themeResId = builder.dialogThemeResId;
+        List<HitogoButton> buttonList = params.getCallToActionButtons();
+        Context context = params.getContext();
+        Integer themeResId = params.getDialogThemeResId();
 
         AlertDialog.Builder dialogBuilder;
         if (themeResId != null) {
@@ -32,9 +31,9 @@ public final class HitogoDialog extends HitogoObject {
             dialogBuilder = new AlertDialog.Builder(context);
         }
 
-        dialogBuilder.setMessage(builder.text)
-                .setTitle(builder.title)
-                .setCancelable(!builder.isDismissible);
+        dialogBuilder.setMessage(params.getText())
+                .setTitle(params.getTitle())
+                .setCancelable(!params.isDismissible());
 
         final HitogoButton positiveButton = buttonList.get(0);
         if (positiveButton.getText() != null && StringUtils.isNotEmpty(positiveButton.getText())) {
@@ -89,8 +88,12 @@ public final class HitogoDialog extends HitogoObject {
         }
     }
 
-    @NonNull
-    public static HitogoDialogBuilder with(@NonNull HitogoContainer container) {
-        return new HitogoDialogBuilder(container.getActivity(), container.getController());
+    protected boolean isGone() {
+        return dialog.isShowing();
+    }
+
+    @Override
+    public boolean isVisible() {
+        return dialog.isShowing();
     }
 }

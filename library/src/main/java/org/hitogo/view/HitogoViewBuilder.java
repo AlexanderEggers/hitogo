@@ -2,10 +2,13 @@ package org.hitogo.view;
 
 import android.app.Activity;
 import android.content.Context;
+import android.os.Build;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.XmlRes;
 import android.support.v4.app.Fragment;
+import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -39,15 +42,20 @@ public final class HitogoViewBuilder {
     boolean showAnimation;
     boolean isDismissible;
 
+    View hitogoView;
+    ViewGroup hitogoContainer;
+
     List<HitogoButton> callToActionButtons;
     HitogoButton closeButton;
 
+    Bundle bundle;
     Context context;
     View rootView;
     HitogoController controller;
     HitogoAnimation hitogoAnimation;
 
-    HitogoViewBuilder(@NonNull Context context, @Nullable View rootView, @NonNull HitogoController controller) {
+    public HitogoViewBuilder(@NonNull Context context,
+                             @Nullable View rootView, @NonNull HitogoController controller) {
         this.context = context;
         this.rootView = rootView;
         this.controller = controller;
@@ -74,6 +82,12 @@ public final class HitogoViewBuilder {
     }
 
     @NonNull
+    public HitogoViewBuilder setBundle(@NonNull Bundle bundle) {
+        this.bundle = bundle;
+        return this;
+    }
+
+    @NonNull
     public HitogoViewBuilder setText(@NonNull String text) {
         return setText(controller.getDefaultTextViewId(), text);
     }
@@ -93,7 +107,7 @@ public final class HitogoViewBuilder {
                                             @Nullable Integer innerLayoutViewId) {
         this.showAnimation = true;
         this.hitogoAnimation = animation;
-        this.layoutViewId = innerLayoutViewId;
+        this.layoutViewId = innerLayoutViewId == null ? controller.getDefaultLayoutViewId() : innerLayoutViewId;
         return this;
     }
 
@@ -267,28 +281,28 @@ public final class HitogoViewBuilder {
     @NonNull
     private HitogoObject createLayout() {
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View view = inflater.inflate(controller.getLayout(state), null);
+        hitogoView = inflater.inflate(controller.getLayout(state), null);
 
-        ViewGroup holder = null;
+        hitogoContainer = null;
         if (this.containerId != null && rootView != null) {
             View containerView = rootView.findViewById(this.containerId);
             if (containerView instanceof ViewGroup) {
-                holder = (ViewGroup) containerView;
+                hitogoContainer = (ViewGroup) containerView;
             } else {
-                holder = null;
+                hitogoContainer = null;
             }
         }
 
-        if (view != null) {
-            view = buildLayoutContent(view);
-            view = buildCallToActionButtons(view);
-            view = buildCloseButtons(view);
+        if (hitogoView != null) {
+            hitogoView = buildLayoutContent(hitogoView);
+            hitogoView = buildCallToActionButtons(hitogoView);
+            hitogoView = buildCloseButtons(hitogoView);
         } else {
             throw new InvalidParameterException("Hitogo view is null. Is the layout existing for " +
                     "the state: '" + state + "'?");
         }
 
-        return new HitogoView(this, view, holder);
+        return new HitogoView(new HitogoViewParams(this));
     }
 
 
@@ -300,6 +314,7 @@ public final class HitogoViewBuilder {
     }
 
     @NonNull
+    @SuppressWarnings("deprecation")
     private View setViewString(@NonNull View containerView, @Nullable Integer viewId,
                                @Nullable String chars) {
         if (viewId != null) {
@@ -307,7 +322,12 @@ public final class HitogoViewBuilder {
             if (textView != null) {
                 if (chars != null && StringUtils.isNotEmpty(chars)) {
                     textView.setVisibility(View.VISIBLE);
-                    textView.setText(chars);
+
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                        textView.setText(Html.fromHtml(chars, Html.FROM_HTML_MODE_LEGACY));
+                    } else {
+                        textView.setText(Html.fromHtml(chars));
+                    }
                 } else {
                     textView.setVisibility(View.GONE);
                 }
@@ -373,10 +393,6 @@ public final class HitogoViewBuilder {
     }
 
     public void show(@NonNull Activity activity) {
-        showNow(activity);
-    }
-
-    public void showNow(@NonNull Activity activity) {
         build().show(activity);
     }
 
@@ -397,10 +413,6 @@ public final class HitogoViewBuilder {
     }
 
     public void show(@NonNull Fragment fragment) {
-        showNow(fragment);
-    }
-
-    public void showNow(@NonNull Fragment fragment) {
         build().show(fragment);
     }
 

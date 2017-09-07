@@ -1,7 +1,7 @@
 package org.hitogo.error;
 
 @SuppressWarnings({"WeakerAccess", "unused"})
-final class HitogoDefaultErrorListener implements HitogoErrorListener {
+public final class HitogoDefaultErrorListener implements HitogoErrorListener {
 
     @Override
     public void onError() {

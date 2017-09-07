@@ -3,12 +3,10 @@ package org.hitogo.view;
 import android.app.Activity;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewManager;
 
-import org.hitogo.core.HitogoContainer;
 import org.hitogo.core.HitogoObject;
 
 @SuppressWarnings({"WeakerAccess", "unused"})
@@ -16,18 +14,20 @@ public final class HitogoView extends HitogoObject {
     private HitogoAnimation animation;
     private final View customView;
     private ViewGroup viewGroup;
-    private boolean showAnimations;
     private Integer layoutViewId;
+    private boolean showAnimations;
+    private boolean isVisible;
+    private boolean isGone;
 
-    HitogoView(HitogoViewBuilder builder, View customView, ViewGroup viewGroup) {
-        super(builder.controller, builder.hashCode);
-        this.customView = customView;
-        this.viewGroup = viewGroup;
-        this.showAnimations = builder.showAnimation;
-        this.layoutViewId = builder.layoutViewId;
+    HitogoView(HitogoViewParams params) {
+        super(params);
+        this.customView = params.getHitogoView();
+        this.viewGroup = params.getHitogoContainer();
+        this.showAnimations = params.shouldShowAnimation();
+        this.layoutViewId = params.getLayoutViewId();
 
         if (animation != null) {
-            this.animation = builder.hitogoAnimation;
+            this.animation = params.getHitogoAnimation();
         } else if (controller.getDefaultAnimation() != null) {
             this.animation = controller.getDefaultAnimation();
         } else {
@@ -60,21 +60,11 @@ public final class HitogoView extends HitogoObject {
             if (showAnimations) {
                 animation.hideAnimation(customView, this, manager);
             } else {
+                isGone = false;
                 isVisible = false;
                 manager.removeView(customView);
             }
         }
-    }
-
-    @Override
-    public long getAnimationDuration() {
-        return animation.getAnimationDuration();
-    }
-
-    @Nullable
-    @Override
-    public Integer getLayoutViewId() {
-        return layoutViewId;
     }
 
     private void measureView(@NonNull Activity activity) {
@@ -88,13 +78,33 @@ public final class HitogoView extends HitogoObject {
         customView.measure(widthSpec, View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED));
     }
 
-    @NonNull
-    public static HitogoViewBuilder with(@NonNull HitogoContainer container) {
-        if(container.getView() == null) {
-            Log.d(HitogoView.class.getName(), "Something went wrong with the getView() method " +
-                    "for this hitogo container. Are you sure that you attached the view correctly?");
-        }
-        return new HitogoViewBuilder(container.getActivity(), container.getView(),
-                container.getController());
+    @Override
+    public boolean isGone() {
+        return isGone;
+    }
+
+    @Override
+    public boolean isVisible() {
+        return isVisible;
+    }
+
+    @Override
+    public void setVisibility(boolean isVisible) {
+        this.isVisible = isVisible;
+    }
+
+    public void setGone(boolean isGone) {
+        this.isGone = isGone;
+    }
+
+    @Override
+    public long getAnimationDuration() {
+        return animation.getAnimationDuration();
+    }
+
+    @Nullable
+    @Override
+    public Integer getLayoutViewId() {
+        return layoutViewId;
     }
 }
