@@ -98,7 +98,7 @@ protected void someMethod() {
             .show(MainActivity.this);
 }
 
-//Here is a more complex hint that has some buttons, a tile and a message:
+//Here is a more complex hint that has some buttons, a title and a message:
 public void someMethod() {
   ...
   HitagoButton button1 = HitagoButton.with(MainActivity.this)
