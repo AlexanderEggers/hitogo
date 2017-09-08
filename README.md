@@ -25,6 +25,7 @@ How do I use Hitogo?
 -------------------
 
 1. Extend the HitogoController
+
 The HitogoController is the base for the hint system. It decides if the new request hint should be shown and which hints should be closed. It also holds several getter-methods which points to your default configuration for hint layouts. Of course you need to define those getter-methods by implementing those. Those getter are handy if your hint layouts are quite similar to each other, but only differ for example in the usage of color. For example: getDefaultTitleViewId() holds the view id for the default title textview used in layouts. Each controller needs to implement the getLayout() method. This method defines which layout should be used for the requested hint. The method is using different states which needs to be defined by the user.
 
 ```java
@@ -63,6 +64,7 @@ public class HitogoExampleController extends HitogoController {
 ```
 
 2. Extend HitogoActivity/HitogoFragment or implement HitogoContainer
+
 HitogoActivity and HitogoFragment are using the interface HitogoContainer. This interface is used to give you a certain structure in how to connect Hitogo to your app. It includes some getter-methods which will be used by the builder-system.
 
 ```java
@@ -84,13 +86,13 @@ public class MainActivity extends HitogoActivity {
 ```
 
 3. Start using Hitogo!
+
 If you have finished step 1 and 2, you are ready to go! Using Hitogo you can create hint views, dialogs and even errors (for the console, analytics or something else). Each builder system will be covered in full length inside the wiki (Coming soon!).
 
 ```java
 // To create simple hint that displays a short message, you could do this :
 protected void someMethod() {
     ...
-    
     Hitogo.asView(MainActivity.this)
             .setText("Test")
             .asIgnoreLayout()
@@ -127,7 +129,7 @@ public void someMethod() {
 //Here an example to create a dialog:
 public void someMethod() {
   ...
-  HitagoButton button1 = HitagoButton.with(MainActivity.this)
+  HitagoButton dialogButton = HitagoButton.with(MainActivity.this)
                 .setName("Button Text")
                 .listen(...)
                 .asDialogButton()
@@ -137,12 +139,12 @@ public void someMethod() {
         .setTitle("Test Hint")
         .setText("Test Text")
         .asDismissible()
-        .addActionButton(button1)
+        .addActionButton(dialogButton)
         .show(MainActivity.this);
 }
 ```
 
-But wait, there is much more to discover using this library! Some feature which are already included but not documented yet:
+But wait, there is much more! Some features are already included but not documented yet:
 - Custom hints/dialogs
 - Animations
 - Usage of error handling (Hitogo.asError(...))
