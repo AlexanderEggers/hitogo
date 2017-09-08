@@ -21,6 +21,8 @@ import java.util.List;
 @SuppressWarnings({"WeakerAccess", "unused"})
 public final class HitogoDialogBuilder {
 
+    Class<? extends HitogoObject> targetClass;
+
     String title;
     String text;
 
@@ -34,7 +36,9 @@ public final class HitogoDialogBuilder {
     HitogoController controller;
     List<HitogoButton> callToActionButtons;
 
-    public HitogoDialogBuilder(@NonNull Context context, @NonNull HitogoController controller) {
+    public HitogoDialogBuilder(@NonNull Class<? extends HitogoObject> targetClass,
+                               @NonNull Context context, @NonNull HitogoController controller) {
+        this.targetClass = targetClass;
         this.context = context;
         this.controller = controller;
         this.callToActionButtons = new ArrayList<>();
@@ -101,6 +105,8 @@ public final class HitogoDialogBuilder {
         return this;
     }
 
+    @SuppressWarnings("unchecked")
+    @NonNull
     public HitogoObject build() {
         if (this.text == null) {
             throw new InvalidParameterException("Text parameter cannot be null.");
@@ -119,11 +125,14 @@ public final class HitogoDialogBuilder {
         }
 
         hashCode = this.text.hashCode();
+
         try {
-            return new HitogoDialog().startHitogo(new HitogoDialogParams(this));
-        } catch (IllegalAccessException e) {
+            HitogoObject object = targetClass.getConstructor().newInstance();
+            object.startHitogo(new HitogoDialogParams(this));
+            return object;
+        } catch (Exception e) {
             Log.wtf(HitogoViewBuilder.class.getName(), "Build process failed.");
-            return null;
+            throw new IllegalStateException(e);
         }
     }
 

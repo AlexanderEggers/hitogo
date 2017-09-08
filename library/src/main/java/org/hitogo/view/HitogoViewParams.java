@@ -15,7 +15,7 @@ import java.lang.ref.WeakReference;
 import java.util.List;
 
 @SuppressWarnings({"WeakerAccess", "unused"})
-public class HitogoViewParams implements HitogoParams {
+public final class HitogoViewParams implements HitogoParams {
 
     private String title;
     private String text;

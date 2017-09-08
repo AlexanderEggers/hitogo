@@ -57,16 +57,9 @@ public final class HitogoViewBuilder {
     HitogoController controller;
     HitogoAnimation hitogoAnimation;
 
-    public HitogoViewBuilder(@NonNull Context context,
-                             @Nullable View rootView, @NonNull HitogoController controller) {
-        this.context = context;
-        this.rootView = rootView;
-        this.controller = controller;
-        this.callToActionButtons = new ArrayList<>();
-    }
-
-    public HitogoViewBuilder(@NonNull Class<? extends HitogoObject> targetClass, @NonNull Context context,
-                             @Nullable View rootView, @NonNull HitogoController controller) {
+    public HitogoViewBuilder(@NonNull Class<? extends HitogoObject> targetClass,
+                             @NonNull Context context, @Nullable View rootView,
+                             @NonNull HitogoController controller) {
         this.targetClass = targetClass;
         this.context = context;
         this.rootView = rootView;
@@ -315,22 +308,13 @@ public final class HitogoViewBuilder {
                     "the state: '" + state + "'?");
         }
 
-        if(targetClass != null) {
-            try {
-                HitogoObject object = targetClass.getConstructor().newInstance();
-                object.startHitogo(new HitogoViewParams(this));
-                return object;
-            } catch (Exception e) {
-                Log.wtf(HitogoViewBuilder.class.getName(), "Build process failed.");
-                throw new IllegalStateException(e);
-            }
-        } else {
-            try {
-                return new HitogoView().startHitogo(new HitogoViewParams(this));
-            } catch (IllegalAccessException e) {
-                Log.wtf(HitogoViewBuilder.class.getName(), "Build process failed.");
-                throw new IllegalStateException(e);
-            }
+        try {
+            HitogoObject object = targetClass.getConstructor().newInstance();
+            object.startHitogo(new HitogoViewParams(this));
+            return object;
+        } catch (Exception e) {
+            Log.wtf(HitogoViewBuilder.class.getName(), "Build process failed.");
+            throw new IllegalStateException(e);
         }
     }
 

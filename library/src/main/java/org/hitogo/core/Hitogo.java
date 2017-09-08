@@ -1,8 +1,8 @@
 package org.hitogo.core;
 
 import android.support.annotation.NonNull;
-import android.util.Log;
 
+import org.hitogo.dialog.HitogoDialog;
 import org.hitogo.dialog.HitogoDialogBuilder;
 import org.hitogo.error.HitogoErrorBuilder;
 import org.hitogo.view.HitogoView;
@@ -17,27 +17,28 @@ public final class Hitogo {
 
     @NonNull
     public static HitogoViewBuilder asView(@NonNull HitogoContainer container) {
-        if(container.getView() == null) {
-            Log.d(HitogoView.class.getName(), "Something went wrong with the getView() method " +
-                    "for this hitogo container. Are you sure that you attached the view correctly?");
-        }
-        return new HitogoViewBuilder(container.getActivity(), container.getView(),
-                container.getController());
+        return new HitogoViewBuilder(HitogoView.class, container.getActivity(),
+                container.getView(), container.getController());
     }
 
     @NonNull
-    public static HitogoViewBuilder asView(@NonNull Class<? extends HitogoObject> targetClass, @NonNull HitogoContainer container) {
-        if(container.getView() == null) {
-            Log.d(HitogoView.class.getName(), "Something went wrong with the getView() method " +
-                    "for this hitogo container. Are you sure that you attached the view correctly?");
-        }
+    public static HitogoViewBuilder asView(@NonNull Class<? extends HitogoObject> targetClass,
+                                           @NonNull HitogoContainer container) {
         return new HitogoViewBuilder(targetClass, container.getActivity(), container.getView(),
                 container.getController());
     }
 
     @NonNull
     public static HitogoDialogBuilder asDialog(@NonNull HitogoContainer container) {
-        return new HitogoDialogBuilder(container.getActivity(), container.getController());
+        return new HitogoDialogBuilder(HitogoDialog.class, container.getActivity(),
+                container.getController());
+    }
+
+    @NonNull
+    public static HitogoDialogBuilder asDialog(@NonNull Class<? extends HitogoObject> targetClass,
+                                               @NonNull HitogoContainer container) {
+        return new HitogoDialogBuilder(HitogoDialog.class, container.getActivity(),
+                container.getController());
     }
 
     @NonNull
