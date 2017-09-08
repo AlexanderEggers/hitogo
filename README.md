@@ -3,9 +3,7 @@ Hitogo
 
 [![Download](https://api.bintray.com/packages/mordag/android/Hitogo/images/download.svg) ](https://bintray.com/mordag/android/Hitogo/_latestVersion)
 
-Android Library to display hints inside your app. Those can be displayed as an overflow view, a dialog and inside a specific container view.
-
-More coming soon!
+Hitogo is a fluent-api for Android which helps to simplfy hints, errors and dialogs inside your app! This api can be initialsed by only a few lines of codes. Hitogo objects are using their own lifecycle to display animations or executing certain actions.
 
 Download
 --------
