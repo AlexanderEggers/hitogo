@@ -19,12 +19,12 @@ dependencies {
 }
 ```
 
-How do I use Hitogo?
+How do I use Hitogo? (Step-by-step introduction)
 -------------------
 
 1. Extend the HitogoController
 
-The HitogoController is the base for the hint system. It decides if the new request hint should be shown and which hints should be closed. It also holds several getter-methods which points to your default configuration for hint layouts. Of course you need to define those getter-methods by implementing those. Those getter are handy if your hint layouts are quite similar to each other, but only differ for example in the usage of color. For example: getDefaultTitleViewId() holds the view id for the default title textview used in layouts. Each controller needs to implement the getLayout() method. This method defines which layout should be used for the requested hint. The method is using different states which needs to be defined by the user.
+The HitogoController is the base for the hint system. It decides if the new requested HitogoObject should be shown and which should be closed. It also holds several getter-methods which points to your default configuration for layouts. Of course you need to define those getter-methods by implementing them. The getter methods useful if your layouts are quite similar to each other, but only differ for example in the usage of color. For example: getDefaultTitleViewId() holds the view id for the default title textview. Each controller needs to implement the getLayout() method. This method defines which layout should be used for the HitogoViewBuilder (Hitogo.asView(..)).
 
 ```java
 public class HitogoExampleController extends HitogoController {
@@ -110,7 +110,7 @@ public void someMethod() {
   HitagoButton button2 = HitagoButton.with(MainActivity.this)
                 .setName("Button Text 2")
                 .listen(...)
-                .asClickToCallButton(R.id.button)
+                .asClickToCallButton(R.id.button2)
                 .build();
   
   Hitogo.asView(MainActivity.this)
