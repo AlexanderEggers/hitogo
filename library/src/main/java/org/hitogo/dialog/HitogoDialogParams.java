@@ -41,16 +41,6 @@ public class HitogoDialogParams implements HitogoParams {
         callToActionButtons = builder.callToActionButtons;
     }
 
-    @Override
-    public HitogoController getController() {
-        return controller;
-    }
-
-    @Override
-    public int getHashCode() {
-        return hashCode;
-    }
-
     public Context getContext() {
         return context.get();
     }
@@ -77,5 +67,21 @@ public class HitogoDialogParams implements HitogoParams {
 
     public List<HitogoButton> getCallToActionButtons() {
         return callToActionButtons;
+    }
+
+
+    @Override
+    public HitogoController getController() {
+        return controller;
+    }
+
+    @Override
+    public int getHashCode() {
+        return hashCode;
+    }
+
+    @Override
+    public boolean hasAnimation() {
+        return false;
     }
 }

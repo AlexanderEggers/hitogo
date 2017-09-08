@@ -21,13 +21,16 @@ import java.util.List;
 
 import android.os.Handler;
 
+import org.hitogo.core.HitogoAnimation;
 import org.hitogo.core.button.HitogoButton;
 import org.hitogo.core.HitogoController;
 import org.hitogo.core.HitogoObject;
-import org.hitogo.core.StringUtils;
+import org.hitogo.core.HitogoUtils;
 
 @SuppressWarnings({"WeakerAccess", "unused"})
 public final class HitogoViewBuilder {
+
+    Class<? extends HitogoObject> targetClass;
 
     String title;
     String text;
@@ -56,6 +59,15 @@ public final class HitogoViewBuilder {
 
     public HitogoViewBuilder(@NonNull Context context,
                              @Nullable View rootView, @NonNull HitogoController controller) {
+        this.context = context;
+        this.rootView = rootView;
+        this.controller = controller;
+        this.callToActionButtons = new ArrayList<>();
+    }
+
+    public HitogoViewBuilder(@NonNull Class<? extends HitogoObject> targetClass, @NonNull Context context,
+                             @Nullable View rootView, @NonNull HitogoController controller) {
+        this.targetClass = targetClass;
         this.context = context;
         this.rootView = rootView;
         this.controller = controller;
@@ -259,7 +271,7 @@ public final class HitogoViewBuilder {
 
     @NonNull
     public HitogoObject build() {
-        if (this.text == null) {
+        if (text == null) {
             throw new InvalidParameterException("Text parameter cannot be null.");
         }
 
@@ -278,6 +290,7 @@ public final class HitogoViewBuilder {
         return createLayout();
     }
 
+    @SuppressWarnings("unchecked")
     @NonNull
     private HitogoObject createLayout() {
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -302,14 +315,36 @@ public final class HitogoViewBuilder {
                     "the state: '" + state + "'?");
         }
 
-        return new HitogoView(new HitogoViewParams(this));
+        if(targetClass != null) {
+            try {
+                HitogoObject object = targetClass.getConstructor().newInstance();
+                object.startHitogo(new HitogoViewParams(this));
+                return object;
+            } catch (Exception e) {
+                Log.wtf(HitogoViewBuilder.class.getName(), "Build process failed.");
+                throw new IllegalStateException(e);
+            }
+        } else {
+            try {
+                return new HitogoView().startHitogo(new HitogoViewParams(this));
+            } catch (IllegalAccessException e) {
+                Log.wtf(HitogoViewBuilder.class.getName(), "Build process failed.");
+                throw new IllegalStateException(e);
+            }
+        }
     }
-
 
     @NonNull
     private View buildLayoutContent(@NonNull View containerView) {
-        View view = setViewString(containerView, titleViewId, title);
-        view = setViewString(view, textViewId, text);
+        View view;
+
+        if(title != null) {
+            view = setViewString(containerView, titleViewId, title);
+            view = setViewString(view, textViewId, text);
+        } else {
+            view = setViewString(containerView, textViewId, text);
+        }
+
         return view;
     }
 
@@ -320,7 +355,7 @@ public final class HitogoViewBuilder {
         if (viewId != null) {
             TextView textView = containerView.findViewById(viewId);
             if (textView != null) {
-                if (chars != null && StringUtils.isNotEmpty(chars)) {
+                if (chars != null && HitogoUtils.isNotEmpty(chars)) {
                     textView.setVisibility(View.VISIBLE);
 
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
@@ -357,7 +392,7 @@ public final class HitogoViewBuilder {
                     @Override
                     public void onClick(View v) {
                         callToActionButton.getListener().onClick();
-                        controller.hideHitogo();
+                        controller.closeHitogo();
                     }
                 });
             } else {
@@ -371,24 +406,25 @@ public final class HitogoViewBuilder {
 
     @NonNull
     private View buildCloseButtons(@NonNull View containerView) {
-        final View removeIcon = containerView.findViewById(closeButton.getViewIds()[0]);
-        final View removeClick = containerView.findViewById(closeButton.getViewIds()[1]);
+        if(closeButton != null) {
+            final View removeIcon = containerView.findViewById(closeButton.getViewIds()[0]);
+            final View removeClick = containerView.findViewById(closeButton.getViewIds()[1]);
 
-        if (removeIcon != null && removeClick != null) {
-            removeIcon.setVisibility(this.isDismissible ? View.VISIBLE : View.GONE);
-            removeClick.setVisibility(this.isDismissible ? View.VISIBLE : View.GONE);
-            removeClick.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    closeButton.getListener().onClick();
-                    controller.hideHitogo();
-                }
-            });
-        } else {
-            throw new InvalidParameterException("Did you forget to add the close button to " +
-                    "your layout?");
+            if (removeIcon != null && removeClick != null) {
+                removeIcon.setVisibility(this.isDismissible ? View.VISIBLE : View.GONE);
+                removeClick.setVisibility(this.isDismissible ? View.VISIBLE : View.GONE);
+                removeClick.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        closeButton.getListener().onClick();
+                        controller.closeHitogo();
+                    }
+                });
+            } else {
+                throw new InvalidParameterException("Did you forget to add the close button to " +
+                        "your layout?");
+            }
         }
-
         return containerView;
     }
 

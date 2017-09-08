@@ -19,7 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @SuppressWarnings({"WeakerAccess", "unused"})
-public class HitogoDialogBuilder {
+public final class HitogoDialogBuilder {
 
     String title;
     String text;
@@ -101,7 +101,6 @@ public class HitogoDialogBuilder {
         return this;
     }
 
-    @NonNull
     public HitogoObject build() {
         if (this.text == null) {
             throw new InvalidParameterException("Text parameter cannot be null.");
@@ -120,7 +119,12 @@ public class HitogoDialogBuilder {
         }
 
         hashCode = this.text.hashCode();
-        return new HitogoDialog(new HitogoDialogParams(this));
+        try {
+            return new HitogoDialog().startHitogo(new HitogoDialogParams(this));
+        } catch (IllegalAccessException e) {
+            Log.wtf(HitogoViewBuilder.class.getName(), "Build process failed.");
+            return null;
+        }
     }
 
     public void show(@NonNull Activity activity) {

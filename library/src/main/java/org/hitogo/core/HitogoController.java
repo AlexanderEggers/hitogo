@@ -4,38 +4,66 @@ import android.arch.lifecycle.Lifecycle;
 import android.arch.lifecycle.LifecycleObserver;
 import android.arch.lifecycle.LifecycleRegistry;
 import android.arch.lifecycle.OnLifecycleEvent;
+import android.os.Handler;
+import android.support.annotation.IntegerRes;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.XmlRes;
 
 import org.hitogo.dialog.HitogoDialogBuilder;
-import org.hitogo.view.HitogoAnimation;
 import org.hitogo.view.HitogoViewBuilder;
 
 @SuppressWarnings({"WeakerAccess", "unused"})
 public abstract class HitogoController implements LifecycleObserver {
 
-    private HitogoObject hitogo;
+    private final Object syncLock = new Object();
+    private HitogoObject currentCrouton;
 
     public HitogoController(@NonNull LifecycleRegistry lifecycle) {
         lifecycle.addObserver(this);
     }
 
-    @NonNull
-    final HitogoObject validate(@NonNull HitogoObject hitogo) {
-        if (this.hitogo == null || !this.hitogo.equals(hitogo)) {
-            hideHitogo();
-            this.hitogo = hitogo;
-            return hitogo;
+    public final HitogoObject[] validate(HitogoObject crouton) {
+        synchronized (syncLock) {
+            HitogoObject[] currentStack = new HitogoObject[2];
+            HitogoObject lastCrouton = null;
+
+            if(currentCrouton != null) {
+                if(!currentCrouton.equals(crouton)) {
+                    currentCrouton.makeInvisible();
+                    lastCrouton = currentCrouton;
+                    currentCrouton = crouton;
+                }
+            } else {
+                currentCrouton = crouton;
+            }
+
+            currentStack[0] = currentCrouton;
+            currentStack[1] = lastCrouton;
+
+            return currentStack;
         }
-        return this.hitogo;
     }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
-    public final void hideHitogo() {
-        if (hitogo != null && hitogo.isVisible()) {
-            hitogo.makeInvisible();
+    public final void closeHitogo() {
+        synchronized (syncLock) {
+            if(currentCrouton != null && currentCrouton.isAttached()) {
+                currentCrouton.makeInvisible();
+
+                if(currentCrouton.hasAnimation()) {
+                    Handler handler = new Handler();
+                    handler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            currentCrouton.onGone();
+                        }
+                    }, currentCrouton.getAnimationDuration());
+                }
+
+                currentCrouton = null;
+            }
         }
     }
 
@@ -48,43 +76,36 @@ public abstract class HitogoController implements LifecycleObserver {
     }
 
     @Nullable
-    @XmlRes
     public Integer getDefaultLayoutContainerId() {
         return null;
     }
 
     @Nullable
-    @XmlRes
     public Integer getDefaultOverlayContainerId() {
         return null;
     }
 
     @Nullable
-    @XmlRes
     public Integer getDefaultTextViewId() {
         return null;
     }
 
     @Nullable
-    @XmlRes
     public Integer getDefaultTitleViewId() {
         return null;
     }
 
     @Nullable
-    @XmlRes
     public Integer getDefaultCallToActionId() {
         return null;
     }
 
     @Nullable
-    @XmlRes
     public Integer getDefaultCloseIconId() {
         return null;
     }
 
     @Nullable
-    @XmlRes
     public Integer getDefaultCloseClickId() {
         return null;
     }

@@ -26,6 +26,16 @@ public final class Hitogo {
     }
 
     @NonNull
+    public static HitogoViewBuilder asView(@NonNull Class<? extends HitogoObject> targetClass, @NonNull HitogoContainer container) {
+        if(container.getView() == null) {
+            Log.d(HitogoView.class.getName(), "Something went wrong with the getView() method " +
+                    "for this hitogo container. Are you sure that you attached the view correctly?");
+        }
+        return new HitogoViewBuilder(targetClass, container.getActivity(), container.getView(),
+                container.getController());
+    }
+
+    @NonNull
     public static HitogoDialogBuilder asDialog(@NonNull HitogoContainer container) {
         return new HitogoDialogBuilder(container.getActivity(), container.getController());
     }

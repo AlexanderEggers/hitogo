@@ -3,76 +3,143 @@ package org.hitogo.core;
 import android.app.Activity;
 import android.os.Handler;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 
 @SuppressWarnings({"WeakerAccess", "unused"})
-public abstract class HitogoObject {
-    protected HitogoController controller;
-    private int hashCode;
+public abstract class HitogoObject<T extends HitogoParams> {
+    private static final int DEFAULT_ANIMATION_LENGTH = 0;
 
-    public HitogoObject(@NonNull HitogoParams params) {
+    private static final int CURRENT_CROUTON = 0;
+    private static final int LAST_CROUTON = 1;
+
+    private HitogoController controller;
+    private int hashCode;
+    private boolean attached;
+    private boolean detached;
+    private boolean hasAnimation;
+
+    public final HitogoObject<T> startHitogo(@NonNull T params) throws IllegalAccessException {
+        if(attached) {
+            throw new IllegalAccessException("Cannot apply parameter to a visible Hitogo.");
+        }
+
         this.controller = params.getController();
         this.hashCode = params.getHashCode();
+        this.hasAnimation = params.hasAnimation();
+        onCreate(params);
+        onCreate(params, params.getController());
+        return this;
     }
 
-    public final void show(@NonNull final Fragment fragment) {
-        final HitogoObject object = controller.validate(this);
+    public final void show(final Activity activity) {
+        internalShow(activity, null);
+    }
 
-        if(object.hasAnimation()) {
+    public final void show(final Fragment fragment) {
+        internalShow(fragment.getActivity(), fragment);
+    }
+
+    private void internalShow(final Activity activity, final Fragment fragment) {
+        final HitogoObject[] objects = controller.validate(this);
+        final HitogoObject current = objects[CURRENT_CROUTON];
+        final HitogoObject last = objects[LAST_CROUTON];
+
+        if(last != null && last.hasAnimation() && last.isClosing()) {
             Handler handler = new Handler();
             handler.postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    if(fragment.isAdded()) {
-                        showNewHitogo(fragment.getActivity(), object);
+                    if((fragment != null && fragment.isAdded()) || !activity.isFinishing()) {
+                        makeVisible(activity, current);
                     }
                 }
-            }, object.getAnimationDuration() + 100);
+            }, current.getAnimationDuration() + 100);
         } else {
-            showNewHitogo(fragment.getActivity(), object);
+            makeVisible(activity, current);
         }
     }
 
-    public final void show(@NonNull final Activity activity) {
-        final HitogoObject object = controller.validate(this);
+    private void makeVisible(Activity activity, HitogoObject object) {
+        if(!object.isAttached()) {
+            object.onAttach(activity);
 
-        if(object.hasAnimation()) {
-            Handler handler = new Handler();
-            handler.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    if(!activity.isFinishing()) {
-                        showNewHitogo(activity, object);
-                    }
-                }
-            }, object.getAnimationDuration() + 100);
-        } else {
-            showNewHitogo(activity, object);
+            if(hasAnimation) {
+                onShowAnimation(activity);
+            } else {
+                onShowDefault(activity);
+            }
         }
     }
 
-    public final void hide() {
-        controller.hideHitogo();
-    }
-
-    private void showNewHitogo(Activity activity, HitogoObject object) {
-        if(!object.isVisible()) {
-            object.makeVisible(activity);
+    protected final void makeInvisible() {
+        if(isAttached()) {
+            if(hasAnimation) {
+                onDetachAnimation();
+            } else {
+                onDetachDefault();
+                onGone();
+            }
         }
     }
 
-    public boolean hasAnimation() {
-        return false;
+    protected void onCreate(@NonNull T params) {
+
+    }
+
+    protected void onCreate(@NonNull T params, @NonNull HitogoController controller) {
+
+    }
+
+    protected void onAttach(@NonNull Activity activity) {
+        attached = true;
+        detached = false;
+    }
+
+    protected void onShowDefault(Activity activity) {
+
+    }
+
+    protected void onShowAnimation(Activity activity) {
+
+    }
+
+    protected void onDetachDefault() {
+        attached = false;
+
+    }
+
+    protected void onDetachAnimation() {
+        attached = false;
+    }
+
+    protected final void onGone() {
+        detached = true;
     }
 
     public long getAnimationDuration() {
-        return 0;
+        Log.d(HitogoObject.class.getName(), "Animation handling incorrect. Override getAnimationDuration() in your class.");
+        return DEFAULT_ANIMATION_LENGTH;
     }
 
-    @Nullable
-    public Integer getLayoutViewId() {
-        return null;
+    protected final boolean isDetached() {
+        return detached;
+    }
+
+    protected final boolean isAttached() {
+        return attached;
+    }
+
+    protected final boolean isClosing() {
+        return !attached && !detached;
+    }
+
+    public final boolean hasAnimation() {
+        return hasAnimation;
+    }
+
+    public final void close() {
+        controller.closeHitogo();
     }
 
     @Override
@@ -84,17 +151,4 @@ public abstract class HitogoObject {
     public final boolean equals(@NonNull Object obj) {
         return obj instanceof HitogoObject && this.hashCode == obj.hashCode();
     }
-
-    public void setVisibility(boolean isVisible) {
-        //implementation optional
-    }
-
-    public void setGone(boolean isGone) {
-        //implementation optional
-    }
-
-    protected abstract void makeVisible(@NonNull Activity activity);
-    protected abstract void makeInvisible();
-    protected abstract boolean isGone();
-    protected abstract boolean isVisible();
 }

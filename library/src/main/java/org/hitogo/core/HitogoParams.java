@@ -4,4 +4,5 @@ public interface HitogoParams {
 
     HitogoController getController();
     int getHashCode();
+    boolean hasAnimation();
 }

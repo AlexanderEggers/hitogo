@@ -2,109 +2,75 @@ package org.hitogo.view;
 
 import android.app.Activity;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewManager;
 
+import org.hitogo.core.HitogoAnimation;
+import org.hitogo.core.HitogoController;
 import org.hitogo.core.HitogoObject;
+import org.hitogo.core.HitogoUtils;
 
 @SuppressWarnings({"WeakerAccess", "unused"})
-public final class HitogoView extends HitogoObject {
-    private HitogoAnimation animation;
-    private final View customView;
-    private ViewGroup viewGroup;
-    private Integer layoutViewId;
-    private boolean showAnimations;
-    private boolean isVisible;
-    private boolean isGone;
+public class HitogoView extends HitogoObject<HitogoViewParams> {
 
-    HitogoView(HitogoViewParams params) {
-        super(params);
+    private View customView;
+    private ViewGroup viewGroup;
+    private HitogoAnimation animation;
+    private HitogoViewParams params;
+
+    @Override
+    protected void onCreate(@NonNull HitogoViewParams params, @NonNull HitogoController controller) {
+        super.onCreate(params, controller);
+
+        this.params = params;
+        this.animation = params.getHitogoAnimation();
+        if (animation == null) {
+            this.animation = controller.getDefaultAnimation();
+        }
+
         this.customView = params.getHitogoView();
         this.viewGroup = params.getHitogoContainer();
-        this.showAnimations = params.shouldShowAnimation();
-        this.layoutViewId = params.getLayoutViewId();
-
-        if (animation != null) {
-            this.animation = params.getHitogoAnimation();
-        } else if (controller.getDefaultAnimation() != null) {
-            this.animation = controller.getDefaultAnimation();
-        } else {
-            this.animation = new HitogoTopAnimation();
-        }
     }
 
     @Override
-    protected void makeVisible(@NonNull Activity activity) {
+    protected void onAttach(@NonNull Activity activity) {
+        super.onAttach(activity);
+
         if (viewGroup != null) {
             viewGroup.removeAllViews();
             viewGroup.addView(customView);
         } else {
+            ViewGroup.LayoutParams layoutParams = customView.getLayoutParams();
+            if (null == params) {
+                layoutParams = new ViewGroup.MarginLayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                        ViewGroup.LayoutParams.WRAP_CONTENT);
+            }
+
             if (activity.isFinishing()) {
                 return;
             }
-            activity.addContentView(customView, null);
-        }
-
-        if (showAnimations) {
-            measureView(activity);
-            animation.showAnimation(customView, this);
+            activity.addContentView(customView, layoutParams);
         }
     }
 
     @Override
-    public void makeInvisible() {
+    protected void onShowAnimation(Activity activity) {
+        super.onShowAnimation(activity);
+        HitogoUtils.measureView(activity, customView, viewGroup);
+        animation.showAnimation(params, customView);
+    }
+
+    @Override
+    protected void onDetachDefault() {
+        super.onDetachDefault();
         final ViewManager manager = (ViewManager) customView.getParent();
-        if (manager != null) {
-            if (showAnimations) {
-                animation.hideAnimation(customView, this, manager);
-            } else {
-                isGone = false;
-                isVisible = false;
-                manager.removeView(customView);
-            }
-        }
-    }
-
-    private void measureView(@NonNull Activity activity) {
-        int widthSpec;
-        if (null != viewGroup) {
-            widthSpec = View.MeasureSpec.makeMeasureSpec(viewGroup.getMeasuredWidth(), View.MeasureSpec.AT_MOST);
-        } else {
-            widthSpec = View.MeasureSpec.makeMeasureSpec(activity.getWindow().getDecorView().getMeasuredWidth(),
-                    View.MeasureSpec.AT_MOST);
-        }
-        customView.measure(widthSpec, View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED));
+        manager.removeView(customView);
     }
 
     @Override
-    public boolean isGone() {
-        return isGone;
-    }
-
-    @Override
-    public boolean isVisible() {
-        return isVisible;
-    }
-
-    @Override
-    public void setVisibility(boolean isVisible) {
-        this.isVisible = isVisible;
-    }
-
-    public void setGone(boolean isGone) {
-        this.isGone = isGone;
-    }
-
-    @Override
-    public long getAnimationDuration() {
-        return animation.getAnimationDuration();
-    }
-
-    @Nullable
-    @Override
-    public Integer getLayoutViewId() {
-        return layoutViewId;
+    protected void onDetachAnimation() {
+        super.onDetachAnimation();
+        animation.hideAnimation(params, customView, this);
     }
 }

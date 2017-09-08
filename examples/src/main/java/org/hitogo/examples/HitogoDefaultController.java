@@ -1,6 +1,7 @@
 package org.hitogo.examples;
 
 import android.arch.lifecycle.LifecycleRegistry;
+import android.support.annotation.Nullable;
 
 import org.hitogo.core.HitogoController;
 
@@ -28,5 +29,11 @@ public class HitogoDefaultController extends HitogoController {
             default:
                 return R.layout.hitogo_hint;
         }
+    }
+
+    @Nullable
+    @Override
+    public Integer getDefaultTextViewId() {
+        return R.id.text;
     }
 }

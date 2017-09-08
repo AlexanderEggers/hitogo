@@ -6,6 +6,7 @@ import android.support.annotation.NonNull;
 import android.view.View;
 import android.view.ViewGroup;
 
+import org.hitogo.core.HitogoAnimation;
 import org.hitogo.core.HitogoController;
 import org.hitogo.core.HitogoParams;
 import org.hitogo.core.button.HitogoButton;
@@ -14,7 +15,7 @@ import java.lang.ref.WeakReference;
 import java.util.List;
 
 @SuppressWarnings({"WeakerAccess", "unused"})
-public final class HitogoViewParams implements HitogoParams {
+public class HitogoViewParams implements HitogoParams {
 
     private String title;
     private String text;
@@ -97,15 +98,6 @@ public final class HitogoViewParams implements HitogoParams {
         return layoutViewId;
     }
 
-    @Override
-    public int getHashCode() {
-        return hashCode;
-    }
-
-    public boolean shouldShowAnimation() {
-        return showAnimation;
-    }
-
     public boolean isDismissible() {
         return isDismissible;
     }
@@ -138,12 +130,23 @@ public final class HitogoViewParams implements HitogoParams {
         return rootView.get();
     }
 
+    public HitogoAnimation getHitogoAnimation() {
+        return hitogoAnimation;
+    }
+
+
     @Override
     public HitogoController getController() {
         return controller;
     }
 
-    public HitogoAnimation getHitogoAnimation() {
-        return hitogoAnimation;
+    @Override
+    public int getHashCode() {
+        return hashCode;
+    }
+
+    @Override
+    public boolean hasAnimation() {
+        return showAnimation;
     }
 }

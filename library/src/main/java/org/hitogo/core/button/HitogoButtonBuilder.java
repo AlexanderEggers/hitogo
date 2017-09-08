@@ -7,7 +7,7 @@ import android.util.Log;
 
 import org.hitogo.core.HitogoContainer;
 import org.hitogo.core.HitogoController;
-import org.hitogo.core.StringUtils;
+import org.hitogo.core.HitogoUtils;
 
 import java.security.InvalidParameterException;
 
@@ -83,7 +83,7 @@ public final class HitogoButtonBuilder {
 
     @NonNull
     public HitogoButton build() {
-        if (button.text == null || StringUtils.isEmpty(button.text)) {
+        if (button.text == null || HitogoUtils.isEmpty(button.text)) {
             Log.w(HitogoButtonBuilder.class.getName(), "Button has no text. If you want to " +
                     "display a button with only one icon, you can ignore this warning.");
         }

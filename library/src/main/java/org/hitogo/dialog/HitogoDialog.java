@@ -8,18 +8,17 @@ import android.support.annotation.NonNull;
 
 import org.hitogo.core.button.HitogoButton;
 import org.hitogo.core.HitogoObject;
-import org.hitogo.core.StringUtils;
+import org.hitogo.core.HitogoUtils;
 
 import java.util.List;
 
 @SuppressWarnings({"WeakerAccess", "unused"})
-public final class HitogoDialog extends HitogoObject {
+public class HitogoDialog extends HitogoObject<HitogoDialogParams> {
 
     private AlertDialog dialog;
 
-    HitogoDialog(HitogoDialogParams params) {
-        super(params);
-
+    @Override
+    protected void onCreate(@NonNull HitogoDialogParams params) {
         List<HitogoButton> buttonList = params.getCallToActionButtons();
         Context context = params.getContext();
         Integer themeResId = params.getDialogThemeResId();
@@ -36,11 +35,11 @@ public final class HitogoDialog extends HitogoObject {
                 .setCancelable(!params.isDismissible());
 
         final HitogoButton positiveButton = buttonList.get(0);
-        if (positiveButton.getText() != null && StringUtils.isNotEmpty(positiveButton.getText())) {
+        if (positiveButton.getText() != null && HitogoUtils.isNotEmpty(positiveButton.getText())) {
             dialogBuilder.setPositiveButton(positiveButton.getText(), new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int id) {
                     positiveButton.getListener().onClick();
-                    makeInvisible();
+                    close();
                 }
             });
         }
@@ -48,11 +47,11 @@ public final class HitogoDialog extends HitogoObject {
         if (buttonList.size() > 1) {
             final HitogoButton negativeButton = buttonList.get(1);
 
-            if (negativeButton.getText() != null && StringUtils.isNotEmpty(negativeButton.getText())) {
+            if (negativeButton.getText() != null && HitogoUtils.isNotEmpty(negativeButton.getText())) {
                 dialogBuilder.setNegativeButton(negativeButton.getText(), new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         negativeButton.getListener().onClick();
-                        makeInvisible();
+                        close();
                     }
                 });
             }
@@ -61,11 +60,11 @@ public final class HitogoDialog extends HitogoObject {
         if (buttonList.size() > 2) {
             final HitogoButton neutralButton = buttonList.get(2);
 
-            if (neutralButton.getText() != null && StringUtils.isNotEmpty(neutralButton.getText())) {
+            if (neutralButton.getText() != null && HitogoUtils.isNotEmpty(neutralButton.getText())) {
                 dialogBuilder.setNeutralButton(neutralButton.getText(), new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         neutralButton.getListener().onClick();
-                        makeInvisible();
+                        close();
                     }
                 });
             }
@@ -75,25 +74,16 @@ public final class HitogoDialog extends HitogoObject {
     }
 
     @Override
-    protected void makeVisible(@NonNull Activity activity) {
+    protected void onAttach(@NonNull Activity activity) {
         if (!dialog.isShowing()) {
             dialog.show();
         }
     }
 
     @Override
-    public void makeInvisible() {
+    public void onDetachDefault() {
         if (dialog.isShowing()) {
             dialog.dismiss();
         }
-    }
-
-    protected boolean isGone() {
-        return dialog.isShowing();
-    }
-
-    @Override
-    public boolean isVisible() {
-        return dialog.isShowing();
     }
 }

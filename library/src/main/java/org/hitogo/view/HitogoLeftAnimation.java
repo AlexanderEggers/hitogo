@@ -8,13 +8,14 @@ import android.view.View;
 import android.view.ViewManager;
 import android.widget.LinearLayout;
 
+import org.hitogo.core.HitogoAnimation;
 import org.hitogo.core.HitogoObject;
 
 @SuppressWarnings({"WeakerAccess", "unused"})
-public final class HitogoLeftAnimation extends HitogoAnimation {
+public class HitogoLeftAnimation extends HitogoAnimation {
 
     @Override
-    public void showAnimation(@NonNull final View hitogoView, final HitogoObject hitogoObject) {
+    public void showAnimation(@NonNull final HitogoViewParams params, @NonNull final View hitogoView) {
         ValueAnimator anim = ValueAnimator.ofInt(0, hitogoView.getMeasuredWidth());
         anim.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
@@ -29,17 +30,15 @@ public final class HitogoLeftAnimation extends HitogoAnimation {
         anim.addListener(new AnimatorListenerAdapter() {
             @Override
             public void onAnimationEnd(Animator animation) {
-                hitogoObject.setVisibility(true);
-
-                if(hitogoObject.getLayoutViewId() != null) {
-                    hitogoView.findViewById(hitogoObject.getLayoutViewId()).setVisibility(View.VISIBLE);
+                if (params.getLayoutViewId() != null) {
+                    hitogoView.findViewById(params.getLayoutViewId()).setVisibility(View.VISIBLE);
                 }
             }
 
             @Override
             public void onAnimationStart(Animator animation) {
-                if(hitogoObject.getLayoutViewId() != null) {
-                    hitogoView.findViewById(hitogoObject.getLayoutViewId()).setVisibility(View.INVISIBLE);
+                if (params.getLayoutViewId() != null) {
+                    hitogoView.findViewById(params.getLayoutViewId()).setVisibility(View.INVISIBLE);
                 }
             }
         });
@@ -48,8 +47,8 @@ public final class HitogoLeftAnimation extends HitogoAnimation {
     }
 
     @Override
-    protected void hideAnimation(@NonNull final View hitogoView, @NonNull final HitogoObject hitogoObject,
-                                 @NonNull final ViewManager manager) {
+    public void hideAnimation(@NonNull final HitogoViewParams params, @NonNull final View hitogoView,
+                              @NonNull final HitogoObject hitogoObject) {
         ValueAnimator anim = ValueAnimator.ofInt(hitogoView.getMeasuredWidth(), 0);
         anim.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
@@ -64,14 +63,14 @@ public final class HitogoLeftAnimation extends HitogoAnimation {
         anim.addListener(new AnimatorListenerAdapter() {
             @Override
             public void onAnimationEnd(Animator animation) {
-                hitogoObject.setVisibility(false);
-                manager.removeView(hitogoView);
+                ((ViewManager) hitogoView.getParent()).removeView(hitogoView);
+                onFinishHide(hitogoObject);
             }
 
             @Override
             public void onAnimationStart(Animator animation) {
-                if(hitogoObject.getLayoutViewId() != null) {
-                    hitogoView.findViewById(hitogoObject.getLayoutViewId()).setVisibility(View.INVISIBLE);
+                if (params.getLayoutViewId() != null) {
+                    hitogoView.findViewById(params.getLayoutViewId()).setVisibility(View.INVISIBLE);
                 }
             }
         });
@@ -80,7 +79,7 @@ public final class HitogoLeftAnimation extends HitogoAnimation {
     }
 
     @Override
-    protected long getAnimationDuration() {
+    public long getAnimationDuration() {
         return 400;
     }
 }
