@@ -17,27 +17,90 @@ repositories {
 }
 
 dependencies {
-  compile 'org.hitogo:Hitogo:1.0.0-alpha2'
+  compile 'org.hitogo:Hitogo:1.0.0-alpha3'
 }
 ```
 
 How do I use Hitogo?
 -------------------
-Documentation and source code javadoc coming soon!
+To use this library you have some steps that initialse certain classes.
 
-To use this library you need to create your own HitogoController by simple extending this class. You will need to fill the required methods then. Part of that is the declaration of the different layout types or some default view ids.
+1. Extend the HitogoController
+The HitogoController is the base for the hint system. It decides if the new request hint should be shown and which hints should be closed. It also holds several getter-methods which points to your default configuration for hint layouts. Of course you need to define those getter-methods by implementing those. Those getter are handy if your hint layouts are quite similar to each other, but only differ for example in the usage of color. For example: getDefaultTitleViewId() holds the view id for the default title textview used in layouts. Each controller needs to implement the getLayout() method. This method defines which layout should be used for the requested hint. The method is using different states which needs to be defined by the user.
 
-I recommend you to use the HitogoActivity or HitogoFragment to simplify your usage of this API. This classes already can do everything that is needed to initialise all things. But you can also implement the HitogoContainer and create this base yourself.
+```java
+public class HitogoExampleController extends HitogoController {
 
-Simple use cases will look something like this:
+    public static final int HINT = 0;
+    public static final int SUCCESS = 1;
+    public static final int WARNING = 2;
+    public static final int DANGER = 3;
+
+    public HitogoExampleController(LifecycleRegistry lifecycle) {
+        super(lifecycle);
+    }
+
+    @Override
+    public int getLayout(int state) {
+        switch (state) {
+            case SUCCESS:
+                return R.layout.hitogo_success;
+            case WARNING:
+                return R.layout.hitogo_warning;
+            case DANGER:
+                return R.layout.hitogo_danger;
+            case HINT:
+            default:
+                return R.layout.hitogo_hint;
+        }
+    }
+
+    @Nullable
+    @Override
+    public Integer getDefaultTextViewId() {
+        return R.id.text;
+    }
+}
+```
+
+2. Extend HitogoActivity/HitogoFragment or implement HitogoContainer
+HitogoActivity and HitogoFragment are using the interface HitogoContainer. This interface is used to give you a certain structure in how to connect Hitogo to your app. It includes some getter-methods which will be used by the builder-system.
+
+```java
+public class MainActivity extends HitogoActivity {
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        ...
+    }
+
+    @NonNull
+    @Override
+    public HitogoController initialiseHitogo(@NonNull LifecycleRegistry lifecycle) {
+        return new HitogoExampleController(lifecycle);
+    }
+}
+```
+
+3. Start using Hitogo!
+If you have finished step 1 and 2, you are ready to go! Using Hitogo you can create hint views, dialogs and even errors (for the console, analytics or something else). Each builder system will be covered in full length inside the wiki (Coming soon!).
+
+Simple use cases in how to use the library:
 
 ```java
 // To create simple hint that displays a short message, you could do this :
 
-public void showHint() {
-  Hitogo.with(this)
-        .asSimple("Short message that explains the user something")
-        .show(this);
+protected void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.activity_main);
+
+    Hitogo.asView(MainActivity.this)
+            .setText("Test")
+            .asIgnoreLayout()
+            .withState(HitogoDefaultController.HINT)
+            .show(MainActivity.this);
 }
 
 /*Here is a more complex hint that has some buttons, a title and a certain state for the 
@@ -45,33 +108,40 @@ layout (and views):*/
 
 public void showHint() {
   ...
-  HitagoButton button1 = HitagoButton.with(this)
+  HitagoButton button1 = HitagoButton.with(MainActivity.this)
                 .setName("Button Text")
                 .listen(...)
                 .asClickToCallButton(R.id.button)
                 .build();
                 
-  HitagoButton button2 = HitagoButton.with(this)
+  HitagoButton button2 = HitagoButton.with(MainActivity.this)
                 .setName("Button Text 2")
                 .listen(...)
                 .asClickToCallButton(R.id.button)
                 .build();
   
-  Hitogo.with(this)
+  Hitogo.with(MainActivity.this)
         .asLayoutChild(R.id.containerId)
         .setTitle("Test Hint")
         .setText("Test Text")
         .asDismissible()
         .withAnimations()
-        .addButton(button1)
-        .addButton(button2)
-        .setState(MyController.Hint)
-        .show(this);
+        .addActionButton(button1, button2)
+        .setState(HitogoExampleController.Hint)
+        .show(MainActivity.this);
 }
-
-/*Keep in mind that if you want to show Hitogo directly at the beginning, you need to delay 
-this show()-call. You can simple use showDelayed(...) for that.*/
 ```
+
+But wait, there is much more to discover using this library! Some feature which are already included but not documented yet:
+- Custom hints/dialogs
+- Animations
+- Usage of error handling (Hitogo.asError(...))
+- Dialogs
+- Hitogo Lifecycle
+- Android Lifecycle
+- Bundle usage
+- Parameter classes
+- and much more!
 
 Status
 ------
