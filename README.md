@@ -23,7 +23,6 @@ dependencies {
 
 How do I use Hitogo?
 -------------------
-To use this library you have some steps that initialse certain classes.
 
 1. Extend the HitogoController
 The HitogoController is the base for the hint system. It decides if the new request hint should be shown and which hints should be closed. It also holds several getter-methods which points to your default configuration for hint layouts. Of course you need to define those getter-methods by implementing those. Those getter are handy if your hint layouts are quite similar to each other, but only differ for example in the usage of color. For example: getDefaultTitleViewId() holds the view id for the default title textview used in layouts. Each controller needs to implement the getLayout() method. This method defines which layout should be used for the requested hint. The method is using different states which needs to be defined by the user.
@@ -87,11 +86,8 @@ public class MainActivity extends HitogoActivity {
 3. Start using Hitogo!
 If you have finished step 1 and 2, you are ready to go! Using Hitogo you can create hint views, dialogs and even errors (for the console, analytics or something else). Each builder system will be covered in full length inside the wiki (Coming soon!).
 
-Simple use cases in how to use the library:
-
 ```java
 // To create simple hint that displays a short message, you could do this :
-
 protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main);
@@ -99,13 +95,11 @@ protected void onCreate(Bundle savedInstanceState) {
     Hitogo.asView(MainActivity.this)
             .setText("Test")
             .asIgnoreLayout()
-            .withState(HitogoDefaultController.HINT)
+            .withState(HitogoExampleController.HINT)
             .show(MainActivity.this);
 }
 
-/*Here is a more complex hint that has some buttons, a title and a certain state for the 
-layout (and views):*/
-
+//Here is a more complex hint that has some buttons, a tile and a message:
 public void showHint() {
   ...
   HitagoButton button1 = HitagoButton.with(MainActivity.this)
