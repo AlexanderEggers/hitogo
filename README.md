@@ -88,10 +88,9 @@ If you have finished step 1 and 2, you are ready to go! Using Hitogo you can cre
 
 ```java
 // To create simple hint that displays a short message, you could do this :
-protected void onCreate(Bundle savedInstanceState) {
-    super.onCreate(savedInstanceState);
-    setContentView(R.layout.activity_main);
-
+protected void someMethod() {
+    ...
+    
     Hitogo.asView(MainActivity.this)
             .setText("Test")
             .asIgnoreLayout()
@@ -100,7 +99,7 @@ protected void onCreate(Bundle savedInstanceState) {
 }
 
 //Here is a more complex hint that has some buttons, a tile and a message:
-public void showHint() {
+public void someMethod() {
   ...
   HitagoButton button1 = HitagoButton.with(MainActivity.this)
                 .setName("Button Text")
@@ -114,7 +113,7 @@ public void showHint() {
                 .asClickToCallButton(R.id.button)
                 .build();
   
-  Hitogo.with(MainActivity.this)
+  Hitogo.asView(MainActivity.this)
         .asLayoutChild(R.id.containerId)
         .setTitle("Test Hint")
         .setText("Test Text")
@@ -122,6 +121,23 @@ public void showHint() {
         .withAnimations()
         .addActionButton(button1, button2)
         .setState(HitogoExampleController.Hint)
+        .show(MainActivity.this);
+}
+
+//Here an example to create a dialog:
+public void someMethod() {
+  ...
+  HitagoButton button1 = HitagoButton.with(MainActivity.this)
+                .setName("Button Text")
+                .listen(...)
+                .asDialogButton()
+                .build();
+  
+  Hitogo.asDialog(MainActivity.this)
+        .setTitle("Test Hint")
+        .setText("Test Text")
+        .asDismissible()
+        .addActionButton(button1)
         .show(MainActivity.this);
 }
 ```
@@ -134,6 +150,7 @@ But wait, there is much more to discover using this library! Some feature which 
 - Hitogo Lifecycle
 - Android Lifecycle
 - Bundle usage
+- Buttons
 - Parameter classes
 - and much more!
 
