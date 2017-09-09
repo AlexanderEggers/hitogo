@@ -19,7 +19,7 @@ dependencies {
 }
 ```
 
-How do I use Hitogo? (Step-by-step introduction)
+How do I use Hitogo? (Step-by-step introduction for Alpha 3)
 -------------------
 
 1. Extend the HitogoController
