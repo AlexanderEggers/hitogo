@@ -174,9 +174,9 @@ TODO
 * Builder bundle - param feature
 * Hitogo layouts (for all possible types)
 * Refactor controller api to make it more flexible
-* Testing
-* Examples
-* Documentation
+* Unit/Espresso testing
+* More examples
+* Full documentation
 
 Author
 ------
