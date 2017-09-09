@@ -24,7 +24,7 @@ How do I use Hitogo? (Step-by-step introduction)
 
 1. Extend the HitogoController
 
-The HitogoController is the base for the hint system. It decides if the new requested HitogoObject should be shown and which should be closed. It also holds several getter-methods which points to your default configuration for layouts. Of course you need to define those getter-methods by implementing them. The getter methods useful if your layouts are quite similar to each other, but only differ for example in the usage of color. For example: getDefaultTitleViewId() holds the view id for the default title textview. Each controller needs to implement the getLayout() method. This method defines which layout should be used for the HitogoViewBuilder (Hitogo.asView(..)).
+The HitogoController is the base for the hint system. It decides if the new requested HitogoObject should be shown and which should be closed. It also holds several getter-methods which points to your default configuration for layouts. Of course you need to define those getter-methods by implementing them. The getter methods are useful if your layouts are quite similar to each other, but only differ for example in the usage of color. For example: getDefaultTitleViewId() holds the view id for the default title textview. Each controller needs to implement the getLayout() method. This method defines which layout should be used for the HitogoViewBuilder (Hitogo.asView(..)).
 
 ```java
 public class HitogoExampleController extends HitogoController {
@@ -164,6 +164,19 @@ Compatibility
 -------------
 
  * **Android SDK**: Hitogo requires a minimum API level of 14.
+ 
+TODO
+-------------
+* Extend lifecycle support for Hitogos (onCheckStart, onCreateView, onCreateDialog) - using own callback object + reducing missuse of library but not calling super inside lifecycle methods
+* Merging dialog and view (Hitogo.forUser and Hitogo.forError)
+* More animations (Fade, ...)
+* Refactoring button api to allow own button class
+* Builder bundle - param feature
+* Hitogo layouts (for all possible types)
+* Refactor controller api to make it more flexible
+* Testing
+* Examples
+* Documentation
 
 Author
 ------
