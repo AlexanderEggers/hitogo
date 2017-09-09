@@ -1,5 +1,6 @@
 package org.hitogo.view;
 
+import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -38,7 +39,7 @@ public final class HitogoViewParams implements HitogoParams {
     private HitogoButton closeButton;
 
     private Bundle bundle;
-    private WeakReference<Context> context;
+    private WeakReference<Activity> activity;
     private WeakReference<View> rootView;
     private HitogoController controller;
     private HitogoAnimation hitogoAnimation;
@@ -64,7 +65,7 @@ public final class HitogoViewParams implements HitogoParams {
         closeButton = builder.closeButton;
 
         bundle = builder.bundle;
-        context = new WeakReference<>(builder.context);
+        activity = new WeakReference<>(builder.activity);
         rootView = new WeakReference<>(builder.rootView);
         controller = builder.controller;
         hitogoAnimation = builder.hitogoAnimation;
@@ -122,8 +123,8 @@ public final class HitogoViewParams implements HitogoParams {
         return bundle;
     }
 
-    public Context getContext() {
-        return context.get();
+    public Activity getActivity() {
+        return activity.get();
     }
 
     public View getRootView() {

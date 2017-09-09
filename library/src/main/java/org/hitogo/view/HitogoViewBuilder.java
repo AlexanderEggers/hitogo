@@ -52,23 +52,23 @@ public final class HitogoViewBuilder {
     HitogoButton closeButton;
 
     Bundle bundle;
-    Context context;
+    Activity activity;
     View rootView;
     HitogoController controller;
     HitogoAnimation hitogoAnimation;
 
     public HitogoViewBuilder(@NonNull Class<? extends HitogoObject> targetClass,
-                             @NonNull Context context, @Nullable View rootView,
+                             @NonNull Activity activity, @Nullable View rootView,
                              @NonNull HitogoController controller) {
         this.targetClass = targetClass;
-        this.context = context;
+        this.activity = activity;
         this.rootView = rootView;
         this.controller = controller;
         this.callToActionButtons = new ArrayList<>();
     }
 
     @NonNull
-    public HitogoViewBuilder setTitle(@XmlRes Integer viewId, @NonNull String title) {
+    public HitogoViewBuilder setTitle(Integer viewId, @NonNull String title) {
         this.titleViewId = viewId;
         this.title = title;
         return this;
@@ -80,7 +80,7 @@ public final class HitogoViewBuilder {
     }
 
     @NonNull
-    public HitogoViewBuilder setText(@XmlRes Integer viewId, @NonNull String text) {
+    public HitogoViewBuilder setText(Integer viewId, @NonNull String text) {
         this.textViewId = viewId;
         this.text = text;
         return this;
@@ -124,14 +124,11 @@ public final class HitogoViewBuilder {
     }
 
     @NonNull
-    public HitogoViewBuilder asDismissible(@NonNull HitogoButton closeButton) {
-        if (closeButton.isCloseButton()) {
-            this.isDismissible = true;
+    public HitogoViewBuilder asDismissible(@Nullable HitogoButton closeButton) {
+        this.isDismissible = true;
+
+        if (closeButton != null && closeButton.isCloseButton()) {
             this.closeButton = closeButton;
-        } else {
-            Log.e(HitogoViewBuilder.class.getName(), "Cannot add call to action button as close buttons.");
-            Log.e(HitogoViewBuilder.class.getName(), "Trying to add default dismissible button.");
-            asDismissible();
         }
         return this;
     }
@@ -145,8 +142,7 @@ public final class HitogoViewBuilder {
                     .asCloseButton()
                     .build();
         } catch (InvalidParameterException ex) {
-            this.isDismissible = false;
-            Log.e(HitogoViewBuilder.class.getName(), "Cannot make this hitogo dismissible.");
+            Log.e(HitogoViewBuilder.class.getName(), "Cannot add default close button.");
             Log.e(HitogoViewBuilder.class.getName(), "Reason: " + ex.getMessage());
         }
 
@@ -179,20 +175,6 @@ public final class HitogoViewBuilder {
     @NonNull
     public HitogoViewBuilder asOverlay(@Nullable Integer overlayId) {
         this.containerId = overlayId;
-
-        if (rootView != null && this.containerId != null) {
-            View container = rootView.findViewById(this.containerId);
-            if (container == null) {
-                Log.e(HitogoViewBuilder.class.getName(), "Trying to use fallback to let the hitogo " +
-                        "ignore the given layout.");
-                return asIgnoreLayout();
-            }
-        } else {
-            Log.e(HitogoViewBuilder.class.getName(), "Trying to use fallback to let the hitogo " +
-                    "ignore the given layout.");
-            return asIgnoreLayout();
-        }
-
         return this;
     }
 
@@ -217,96 +199,26 @@ public final class HitogoViewBuilder {
     }
 
     @NonNull
-    public HitogoViewBuilder withState(@Nullable Integer state) {
+    public HitogoViewBuilder withState(Integer state) {
         this.state = state;
         return this;
     }
 
     @NonNull
     public HitogoViewBuilder asLayoutChild() {
-        this.containerId = controller.getDefaultLayoutContainerId();
-
-        if (rootView != null && this.containerId != null) {
-            View container = rootView.findViewById(this.containerId);
-            if (container == null) {
-                Log.e(HitogoViewBuilder.class.getName(), "Trying to use fallback to display hitogo " +
-                        "as overlay.");
-                return asOverlay();
-            }
-        } else {
-            Log.e(HitogoViewBuilder.class.getName(), "Trying to use fallback to let the hitogo " +
-                    "ignore the given layout.");
-            return asIgnoreLayout();
-        }
-
+        asLayoutChild(controller.getDefaultLayoutContainerId());
         return this;
     }
 
     @NonNull
-    public HitogoViewBuilder asLayoutChild(@XmlRes int containerId) {
+    public HitogoViewBuilder asLayoutChild(Integer containerId) {
         this.containerId = containerId;
-
-        if (rootView != null) {
-            View container = rootView.findViewById(this.containerId);
-            if (container == null) {
-                Log.e(HitogoViewBuilder.class.getName(), "Trying to use fallback to display hitogo " +
-                        "inside the default container layout.");
-                return asLayoutChild();
-            }
-        } else {
-            Log.e(HitogoViewBuilder.class.getName(), "Trying to use fallback to let the hitogo " +
-                    "ignore the given layout.");
-            return asIgnoreLayout();
-        }
-
         return this;
     }
 
     @NonNull
     public HitogoObject build() {
-        if (text == null) {
-            throw new InvalidParameterException("Text parameter cannot be null.");
-        }
-
-        if (state == null) {
-            throw new InvalidParameterException("To display non-dialog hitogos you need to define " +
-                    "a state which will use a specific layout.");
-        }
-
-        if (!isDismissible && callToActionButtons.isEmpty()) {
-            Log.e(HitogoViewBuilder.class.getName(), "Are you sure that this hitogo should have no " +
-                    "interaction points? If yes, make sure to close this one if it's not " +
-                    "needed anymore!");
-        }
-
         hashCode = this.text.hashCode();
-        return createLayout();
-    }
-
-    @SuppressWarnings("unchecked")
-    @NonNull
-    private HitogoObject createLayout() {
-        LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        hitogoView = inflater.inflate(controller.getLayout(state), null);
-
-        hitogoContainer = null;
-        if (this.containerId != null && rootView != null) {
-            View containerView = rootView.findViewById(this.containerId);
-            if (containerView instanceof ViewGroup) {
-                hitogoContainer = (ViewGroup) containerView;
-            } else {
-                hitogoContainer = null;
-            }
-        }
-
-        if (hitogoView != null) {
-            hitogoView = buildLayoutContent(hitogoView);
-            hitogoView = buildCallToActionButtons(hitogoView);
-            hitogoView = buildCloseButtons(hitogoView);
-        } else {
-            throw new InvalidParameterException("Hitogo view is null. Is the layout existing for " +
-                    "the state: '" + state + "'?");
-        }
 
         try {
             HitogoObject object = targetClass.getConstructor().newInstance();
@@ -316,100 +228,6 @@ public final class HitogoViewBuilder {
             Log.wtf(HitogoViewBuilder.class.getName(), "Build process failed.");
             throw new IllegalStateException(e);
         }
-    }
-
-    @NonNull
-    private View buildLayoutContent(@NonNull View containerView) {
-        View view;
-
-        if(title != null) {
-            view = setViewString(containerView, titleViewId, title);
-            view = setViewString(view, textViewId, text);
-        } else {
-            view = setViewString(containerView, textViewId, text);
-        }
-
-        return view;
-    }
-
-    @NonNull
-    @SuppressWarnings("deprecation")
-    private View setViewString(@NonNull View containerView, @Nullable Integer viewId,
-                               @Nullable String chars) {
-        if (viewId != null) {
-            TextView textView = containerView.findViewById(viewId);
-            if (textView != null) {
-                if (chars != null && HitogoUtils.isNotEmpty(chars)) {
-                    textView.setVisibility(View.VISIBLE);
-
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                        textView.setText(Html.fromHtml(chars, Html.FROM_HTML_MODE_LEGACY));
-                    } else {
-                        textView.setText(Html.fromHtml(chars));
-                    }
-                } else {
-                    textView.setVisibility(View.GONE);
-                }
-            } else {
-                throw new InvalidParameterException("Did you forget to add the " +
-                        "title/text view to your layout?");
-            }
-        } else {
-            throw new InvalidParameterException("Title or text view id is null.");
-        }
-        return containerView;
-    }
-
-    @NonNull
-    private View buildCallToActionButtons(@NonNull View containerView) {
-        for (final HitogoButton callToActionButton : callToActionButtons) {
-            View button = containerView.findViewById(callToActionButton.getViewIds()[0]);
-
-            if (button != null) {
-                if (button instanceof TextView) {
-                    ((TextView) button).setText(callToActionButton.getText() != null ?
-                            callToActionButton.getText() : "");
-                }
-
-                button.setVisibility(View.VISIBLE);
-                button.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        callToActionButton.getListener().onClick();
-                        controller.closeHitogo();
-                    }
-                });
-            } else {
-                throw new InvalidParameterException("Did you forget to add the " +
-                        "call-to-action button to your layout?");
-            }
-        }
-
-        return containerView;
-    }
-
-    @NonNull
-    private View buildCloseButtons(@NonNull View containerView) {
-        if(closeButton != null) {
-            final View removeIcon = containerView.findViewById(closeButton.getViewIds()[0]);
-            final View removeClick = containerView.findViewById(closeButton.getViewIds()[1]);
-
-            if (removeIcon != null && removeClick != null) {
-                removeIcon.setVisibility(this.isDismissible ? View.VISIBLE : View.GONE);
-                removeClick.setVisibility(this.isDismissible ? View.VISIBLE : View.GONE);
-                removeClick.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        closeButton.getListener().onClick();
-                        controller.closeHitogo();
-                    }
-                });
-            } else {
-                throw new InvalidParameterException("Did you forget to add the close button to " +
-                        "your layout?");
-            }
-        }
-        return containerView;
     }
 
     public void show(@NonNull Activity activity) {

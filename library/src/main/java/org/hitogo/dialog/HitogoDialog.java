@@ -1,6 +1,5 @@
 package org.hitogo.dialog;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -74,14 +73,14 @@ public class HitogoDialog extends HitogoObject<HitogoDialogParams> {
     }
 
     @Override
-    protected void onAttach(@NonNull Activity activity) {
+    protected void onAttach(@NonNull Context context) {
         if (!dialog.isShowing()) {
             dialog.show();
         }
     }
 
     @Override
-    public void onDetachDefault() {
+    public void onDetachDefault(@NonNull Context context) {
         if (dialog.isShowing()) {
             dialog.dismiss();
         }
