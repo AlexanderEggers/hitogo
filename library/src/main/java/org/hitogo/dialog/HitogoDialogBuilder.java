@@ -25,7 +25,7 @@ public final class HitogoDialogBuilder extends HitogoBuilder {
     private boolean isDismissible;
     private Bundle arguments;
 
-    protected List<HitogoButtonObject> callToActionButtons;
+    protected List<HitogoButtonObject> buttons;
 
     public HitogoDialogBuilder(@NonNull Class<? extends HitogoObject> targetClass,
                                @NonNull Class<? extends HitogoParams> paramClass,
@@ -71,8 +71,8 @@ public final class HitogoDialogBuilder extends HitogoBuilder {
     }
 
     @NonNull
-    public HitogoDialogBuilder addActionButton(@NonNull HitogoButton...buttons) {
-        Collections.addAll(callToActionButtons, buttons);
+    public HitogoDialogBuilder addButton(@NonNull HitogoButton...buttons) {
+        Collections.addAll(this.buttons, buttons);
         return this;
     }
 
@@ -90,6 +90,6 @@ public final class HitogoDialogBuilder extends HitogoBuilder {
         holder.provideBoolean("isDismissible", isDismissible);
         holder.provideExtras("arguments", arguments);
 
-        holder.provideCallToActionButtons(callToActionButtons);
+        holder.provideCallToActionButtons(buttons);
     }
 }
