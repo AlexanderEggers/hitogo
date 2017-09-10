@@ -12,6 +12,7 @@ import org.hitogo.button.HitogoButton;
 import org.hitogo.view.HitogoViewBuilder;
 
 import java.lang.ref.WeakReference;
+import java.util.Collections;
 import java.util.List;
 
 @SuppressWarnings({"WeakerAccess", "unused"})
@@ -102,7 +103,7 @@ public abstract class HitogoBuilder {
     }
 
     protected List<HitogoButton> getCallToActionButtons() {
-        return null;
+        return Collections.emptyList();
     }
 
     protected HitogoButton getCloseButton() {

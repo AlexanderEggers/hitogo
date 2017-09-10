@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import android.util.Log;
 
 import java.security.InvalidParameterException;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.hitogo.core.HitogoAnimation;
@@ -37,6 +38,7 @@ public final class HitogoViewBuilder extends HitogoBuilder {
                              @NonNull Class<? extends HitogoParams> paramClass,
                              @NonNull HitogoContainer container) {
         super(targetClass, paramClass, container, HitogoObject.HitogoType.VIEW);
+        callToActionButtons = new ArrayList<>();
     }
 
     @NonNull
