@@ -20,57 +20,59 @@ public abstract class HitogoObject<T extends HitogoParams> extends HitogoLifecyc
     private static final int CURRENT_CROUTON = 0;
     private static final int LAST_CROUTON = 1;
 
-    public static final int TYPE_VIEW = 0;
-    public static final int TYPE_DIALOG = 1;
+    public enum HitogoType {
+        VIEW, DIALOG
+    }
 
     private boolean attached;
     private boolean detached;
-
-    private WeakReference<Context> contextRef;
-    private HitogoController controller;
-    private int hashCode;
-    private int type;
     private boolean hasAnimation;
+
+    private int hashCode;
+    private HitogoType type;
+
+    private WeakReference<HitogoContainer> containerRef;
     private View view;
-    private View rootView;
     private Dialog dialog;
 
-    public final HitogoObject<T> startHitogo(@NonNull T params) throws IllegalAccessException {
+    public final HitogoObject<T> startHitogo(@NonNull HitogoContainer container, @NonNull T params)
+            throws IllegalAccessException {
+
         if(attached) {
             throw new IllegalAccessException("Cannot apply parameter to a visible Hitogo.");
         }
 
-        this.contextRef = params.getContextRef();
-        this.controller = params.getController();
+        this.containerRef = new WeakReference<>(container);
         this.hashCode = params.getHashCode();
         this.hasAnimation = params.hasAnimation();
         this.type = params.getType();
 
-        onCheckStart(getContext(), params);
+        onCheckStart(getActivity(), params);
         onCreate(params);
-        onCreate(params, controller);
+        onCreate(params, getController());
 
-        if(type == TYPE_VIEW) {
-            LayoutInflater inflater = (LayoutInflater) getContext()
+        if(type == HitogoType.VIEW) {
+            LayoutInflater inflater = (LayoutInflater) getActivity()
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            view = onCreateView(getContext(), inflater, params);
+            view = onCreateView(getActivity(), inflater, params);
         } else {
-            dialog = onCreateDialog(getContext(), params);
+            dialog = onCreateDialog(getActivity(), params);
         }
 
         return this;
     }
 
-    public final void show(final Activity activity) {
-        internalShow(activity, null);
-    }
-
-    public final void show(final Fragment fragment) {
-        internalShow(fragment.getActivity(), fragment);
+    public final void show() {
+        HitogoContainer container = containerRef.get();
+        if(container instanceof Fragment) {
+            internalShow(container.getActivity(), (Fragment) container);
+        } else {
+            internalShow(container.getActivity(), null);
+        }
     }
 
     private void internalShow(final Activity activity, final Fragment fragment) {
-        final HitogoObject[] objects = controller.validate(this);
+        final HitogoObject[] objects = getController().validate(this);
         final HitogoObject current = objects[CURRENT_CROUTON];
         final HitogoObject last = objects[LAST_CROUTON];
 
@@ -106,26 +108,24 @@ public abstract class HitogoObject<T extends HitogoParams> extends HitogoLifecyc
     protected final void makeInvisible() {
         if(isAttached()) {
             if(hasAnimation) {
-                onDetachAnimation(getContext());
+                onDetachAnimation(getActivity());
 
                 Handler handler = new Handler();
                 handler.postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        onGone();
                         detached = true;
                     }
                 }, getAnimationDuration());
             } else {
-                onDetachDefault(getContext());
-                onGone();
+                onDetachDefault(getActivity());
                 detached = true;
             }
         }
     }
 
     public final void close() {
-        controller.closeHitogo();
+        getController().closeHitogo();
     }
 
     public long getAnimationDuration() {
@@ -149,21 +149,21 @@ public abstract class HitogoObject<T extends HitogoParams> extends HitogoLifecyc
     }
 
     @NonNull
-    public final Context getContext() {
-        return contextRef.get();
+    public final Activity getActivity() {
+        return containerRef.get().getActivity();
     }
 
     @Nullable
     public final View getRootView() {
-        return rootView;
+        return containerRef.get().getView();
     }
 
     @NonNull
     public final HitogoController getController() {
-        return controller;
+        return containerRef.get().getController();
     }
 
-    public final int getType() {
+    public final HitogoType getType() {
         return type;
     }
 
@@ -184,7 +184,6 @@ public abstract class HitogoObject<T extends HitogoParams> extends HitogoLifecyc
 
     @Override
     public final boolean equals(@NonNull Object obj) {
-        return obj instanceof HitogoObject && this.hashCode == obj.hashCode() &&
-                this.type == ((HitogoObject) obj).getType();
+        return obj instanceof HitogoObject && this.hashCode == obj.hashCode();
     }
 }

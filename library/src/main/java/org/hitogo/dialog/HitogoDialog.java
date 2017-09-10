@@ -1,14 +1,19 @@
 package org.hitogo.dialog;
 
+import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.Context;
+import android.app.Dialog;
 import android.content.DialogInterface;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.util.Log;
 
-import org.hitogo.core.button.HitogoButton;
+import org.hitogo.button.HitogoButton;
 import org.hitogo.core.HitogoObject;
 import org.hitogo.core.HitogoUtils;
+import org.hitogo.view.HitogoViewBuilder;
 
+import java.security.InvalidParameterException;
 import java.util.List;
 
 @SuppressWarnings({"WeakerAccess", "unused"})
@@ -17,16 +22,35 @@ public class HitogoDialog extends HitogoObject<HitogoDialogParams> {
     private AlertDialog dialog;
 
     @Override
-    protected void onCreate(@NonNull HitogoDialogParams params) {
+    protected void onCheckStart(Activity activity, @NonNull HitogoDialogParams params) {
+        if (params.getText() == null) {
+            throw new InvalidParameterException("Text parameter cannot be null.");
+        }
+
+        if (params.getTitle() == null) {
+            throw new InvalidParameterException("Title parameter cannot be null.");
+        }
+
+        if (params.getCallToActionButtons().isEmpty()) {
+            throw new InvalidParameterException("This hitogo need at least one button.");
+        }
+
+        if (params.getCallToActionButtons().size() > 3) {
+            Log.d(HitogoViewBuilder.class.getName(), "The dialog can handle only up to 3 different buttons.");
+        }
+    }
+
+    @Nullable
+    @Override
+    protected Dialog onCreateDialog(@NonNull Activity activity, @NonNull HitogoDialogParams params) {
         List<HitogoButton> buttonList = params.getCallToActionButtons();
-        Context context = params.getContext();
         Integer themeResId = params.getDialogThemeResId();
 
         AlertDialog.Builder dialogBuilder;
         if (themeResId != null) {
-            dialogBuilder = new AlertDialog.Builder(context, themeResId);
+            dialogBuilder = new AlertDialog.Builder(activity, themeResId);
         } else {
-            dialogBuilder = new AlertDialog.Builder(context);
+            dialogBuilder = new AlertDialog.Builder(activity);
         }
 
         dialogBuilder.setMessage(params.getText())
@@ -69,18 +93,18 @@ public class HitogoDialog extends HitogoObject<HitogoDialogParams> {
             }
         }
 
-        this.dialog = dialogBuilder.create();
+        return dialogBuilder.create();
     }
 
     @Override
-    protected void onAttach(@NonNull Context context) {
+    protected void onAttach(@NonNull Activity activity) {
         if (!dialog.isShowing()) {
             dialog.show();
         }
     }
 
     @Override
-    public void onDetachDefault(@NonNull Context context) {
+    public void onDetachDefault(@NonNull Activity activity) {
         if (dialog.isShowing()) {
             dialog.dismiss();
         }

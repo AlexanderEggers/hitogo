@@ -1,7 +1,6 @@
 package org.hitogo.view;
 
 import android.app.Activity;
-import android.content.Context;
 import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -17,20 +16,19 @@ import org.hitogo.core.HitogoAnimation;
 import org.hitogo.core.HitogoController;
 import org.hitogo.core.HitogoObject;
 import org.hitogo.core.HitogoUtils;
-import org.hitogo.core.button.HitogoButton;
+import org.hitogo.button.HitogoButton;
 
 import java.security.InvalidParameterException;
 
 @SuppressWarnings({"WeakerAccess", "unused"})
 public class HitogoView extends HitogoObject<HitogoViewParams> {
 
-    private View customView;
     private ViewGroup viewGroup;
     private HitogoAnimation animation;
     private HitogoViewParams params;
 
     @Override
-    protected void onCheckStart(Context context, @NonNull HitogoViewParams params) {
+    protected void onCheckStart(Activity activity, @NonNull HitogoViewParams params) {
         if (params.getText() == null) {
             throw new InvalidParameterException("Text parameter cannot be null.");
         }
@@ -55,8 +53,6 @@ public class HitogoView extends HitogoObject<HitogoViewParams> {
             this.animation = controller.getDefaultAnimation();
         }
 
-        this.customView = params.getHitogoView();
-
         if (params.getContainerId() != null && getRootView() != null) {
             View containerView = getRootView().findViewById(params.getContainerId());
             if (containerView instanceof ViewGroup) {
@@ -68,7 +64,7 @@ public class HitogoView extends HitogoObject<HitogoViewParams> {
     }
 
     @Override
-    protected View onCreateView(@NonNull Context context, @NonNull LayoutInflater inflater,
+    protected View onCreateView(@NonNull Activity activity, @NonNull LayoutInflater inflater,
                                 @NonNull HitogoViewParams params) {
         View view = inflater.inflate(getController().getLayout(params.getState()), null);
 
@@ -181,40 +177,39 @@ public class HitogoView extends HitogoObject<HitogoViewParams> {
     }
 
     @Override
-    protected void onAttach(@NonNull Context context) {
+    protected void onAttach(@NonNull Activity activity) {
         if (viewGroup != null) {
             viewGroup.removeAllViews();
-            viewGroup.addView(customView);
+            viewGroup.addView(getView());
         } else {
-            ViewGroup.LayoutParams layoutParams = customView.getLayoutParams();
+            ViewGroup.LayoutParams layoutParams = getView().getLayoutParams();
             if (null == params) {
                 layoutParams = new ViewGroup.MarginLayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                         ViewGroup.LayoutParams.WRAP_CONTENT);
             }
 
-            Activity activity = (Activity) getContext();
             if (activity.isFinishing()) {
                 return;
             }
-            activity.addContentView(customView, layoutParams);
+            activity.addContentView(getView(), layoutParams);
         }
     }
 
     @Override
-    protected void onShowAnimation(@NonNull Context context) {
-        HitogoUtils.measureView((Activity) getContext(), customView, viewGroup);
-        animation.showAnimation(params, customView, this);
+    protected void onShowAnimation(@NonNull Activity activity) {
+        HitogoUtils.measureView(activity, getView(), viewGroup);
+        animation.showAnimation(params, getView(), this);
     }
 
     @Override
-    protected void onDetachDefault(@NonNull Context context) {
-        final ViewManager manager = (ViewManager) customView.getParent();
-        manager.removeView(customView);
+    protected void onDetachDefault(@NonNull Activity activity) {
+        final ViewManager manager = (ViewManager) getView().getParent();
+        manager.removeView(getView());
     }
 
     @Override
-    protected void onDetachAnimation(@NonNull Context context) {
-        animation.hideAnimation(params, customView, this);
+    protected void onDetachAnimation(@NonNull Activity activity) {
+        animation.hideAnimation(params, getView(), this);
     }
 
     @Override

@@ -4,9 +4,10 @@ import android.support.annotation.NonNull;
 
 import org.hitogo.dialog.HitogoDialog;
 import org.hitogo.dialog.HitogoDialogBuilder;
-import org.hitogo.error.HitogoErrorBuilder;
+import org.hitogo.dialog.HitogoDialogParams;
 import org.hitogo.view.HitogoView;
 import org.hitogo.view.HitogoViewBuilder;
+import org.hitogo.view.HitogoViewParams;
 
 @SuppressWarnings({"WeakerAccess", "unused"})
 public final class Hitogo {
@@ -17,32 +18,23 @@ public final class Hitogo {
 
     @NonNull
     public static HitogoViewBuilder asView(@NonNull HitogoContainer container) {
-        return new HitogoViewBuilder(HitogoView.class, container.getActivity(),
-                container.getView(), container.getController());
+        return new HitogoViewBuilder(HitogoView.class, HitogoViewParams.class, container);
     }
 
     @NonNull
     public static HitogoViewBuilder asView(@NonNull Class<? extends HitogoObject> targetClass,
                                            @NonNull HitogoContainer container) {
-        return new HitogoViewBuilder(targetClass, container.getActivity(), container.getView(),
-                container.getController());
+        return new HitogoViewBuilder(targetClass, HitogoViewParams.class, container);
     }
 
     @NonNull
     public static HitogoDialogBuilder asDialog(@NonNull HitogoContainer container) {
-        return new HitogoDialogBuilder(HitogoDialog.class, container.getActivity(),
-                container.getController());
+        return new HitogoDialogBuilder(HitogoDialog.class, HitogoDialogParams.class, container);
     }
 
     @NonNull
     public static HitogoDialogBuilder asDialog(@NonNull Class<? extends HitogoObject> targetClass,
                                                @NonNull HitogoContainer container) {
-        return new HitogoDialogBuilder(HitogoDialog.class, container.getActivity(),
-                container.getController());
-    }
-
-    @NonNull
-    public static HitogoErrorBuilder asError() {
-        return new HitogoErrorBuilder();
+        return new HitogoDialogBuilder(targetClass, HitogoDialogParams.class, container);
     }
 }

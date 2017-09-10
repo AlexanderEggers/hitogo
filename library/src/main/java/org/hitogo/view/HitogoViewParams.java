@@ -1,22 +1,15 @@
 package org.hitogo.view;
 
-import android.app.Activity;
-import android.content.Context;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.view.View;
-import android.view.ViewGroup;
-
-import org.hitogo.core.HitogoAnimation;
-import org.hitogo.core.HitogoController;
+import org.hitogo.core.HitogoBuilder;
 import org.hitogo.core.HitogoParams;
-import org.hitogo.core.button.HitogoButton;
-
-import java.lang.ref.WeakReference;
-import java.util.List;
 
 @SuppressWarnings({"WeakerAccess", "unused"})
-public final class HitogoViewParams implements HitogoParams {
+public final class HitogoViewParams extends HitogoParams {
+
+    private boolean showAnimation;
+    private boolean isDismissible;
+    private Bundle arguments;
 
     private String title;
     private String text;
@@ -27,48 +20,32 @@ public final class HitogoViewParams implements HitogoParams {
     private Integer textViewId;
     private Integer layoutViewId;
 
-    private int hashCode;
+    public HitogoViewParams(HitogoBuilder builder, Bundle publicBundle, Bundle privateBundle) {
+        super(builder, publicBundle, privateBundle);
+    }
 
-    private boolean showAnimation;
-    private boolean isDismissible;
+    @Override
+    protected void onCreateParams(Bundle bundle) {
+        title = bundle.getString("title");
+        text = bundle.getString("text");
+        state = bundle.getInt("state");
+        containerId = (Integer) bundle.getSerializable("containerId");
+        titleViewId = (Integer) bundle.getSerializable("titleViewId");
+        textViewId = (Integer) bundle.getSerializable("textViewId");
+        layoutViewId = (Integer) bundle.getSerializable("layoutViewId");
+    }
 
-    private WeakReference<View> hitogoView;
-    private WeakReference<ViewGroup> hitogoContainer;
+    @Override
+    public boolean hasAnimation() {
+        return showAnimation;
+    }
 
-    private List<HitogoButton> callToActionButtons;
-    private HitogoButton closeButton;
+    protected boolean isDismissible() {
+        return isDismissible;
+    }
 
-    private Bundle bundle;
-    private WeakReference<Activity> activity;
-    private WeakReference<View> rootView;
-    private HitogoController controller;
-    private HitogoAnimation hitogoAnimation;
-
-    HitogoViewParams(@NonNull HitogoViewBuilder builder) {
-        title = builder.title;
-        text = builder.text;
-
-        state = builder.state;
-        containerId = builder.containerId;
-        titleViewId = builder.titleViewId;
-        textViewId = builder.textViewId;
-        layoutViewId = builder.layoutViewId;
-
-        hashCode = builder.hashCode;
-        showAnimation = builder.showAnimation;
-        isDismissible = builder.isDismissible;
-
-        hitogoView = new WeakReference<>(builder.hitogoView);
-        hitogoContainer = new WeakReference<>(builder.hitogoContainer);
-
-        callToActionButtons = builder.callToActionButtons;
-        closeButton = builder.closeButton;
-
-        bundle = builder.bundle;
-        activity = new WeakReference<>(builder.activity);
-        rootView = new WeakReference<>(builder.rootView);
-        controller = builder.controller;
-        hitogoAnimation = builder.hitogoAnimation;
+    public Bundle getArguments() {
+        return arguments;
     }
 
     public String getTitle() {
@@ -97,57 +74,5 @@ public final class HitogoViewParams implements HitogoParams {
 
     public Integer getLayoutViewId() {
         return layoutViewId;
-    }
-
-    public boolean isDismissible() {
-        return isDismissible;
-    }
-
-    public View getHitogoView() {
-        return hitogoView.get();
-    }
-
-    public ViewGroup getHitogoContainer() {
-        return hitogoContainer.get();
-    }
-
-    public List<HitogoButton> getCallToActionButtons() {
-        return callToActionButtons;
-    }
-
-    public HitogoButton getCloseButton() {
-        return closeButton;
-    }
-
-    public Bundle getBundle() {
-        return bundle;
-    }
-
-    public Activity getActivity() {
-        return activity.get();
-    }
-
-    public View getRootView() {
-        return rootView.get();
-    }
-
-    public HitogoAnimation getHitogoAnimation() {
-        return hitogoAnimation;
-    }
-
-
-    @Override
-    public HitogoController getController() {
-        return controller;
-    }
-
-    @Override
-    public int getHashCode() {
-        return hashCode;
-    }
-
-    @Override
-    public boolean hasAnimation() {
-        return showAnimation;
     }
 }

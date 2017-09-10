@@ -1,47 +1,34 @@
 package org.hitogo.dialog;
 
-import android.app.Activity;
-import android.content.Context;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.StyleRes;
 import android.util.Log;
 
-import org.hitogo.core.button.HitogoButton;
-import org.hitogo.core.HitogoController;
+import org.hitogo.button.HitogoButton;
+import org.hitogo.core.HitogoBuilder;
+import org.hitogo.core.HitogoContainer;
 import org.hitogo.core.HitogoObject;
-import org.hitogo.view.HitogoViewBuilder;
+import org.hitogo.core.HitogoParams;
 
-import java.security.InvalidParameterException;
-import java.util.ArrayList;
 import java.util.List;
 
 @SuppressWarnings({"WeakerAccess", "unused"})
-public final class HitogoDialogBuilder {
+public final class HitogoDialogBuilder extends HitogoBuilder {
 
-    Class<? extends HitogoObject> targetClass;
+    private String title;
+    private String text;
+    private Integer dialogThemeResId;
+    private boolean isDismissible;
+    private Bundle arguments;
 
-    String title;
-    String text;
-
-    Integer dialogThemeResId;
-
-    boolean isDismissible;
-    int hashCode;
-
-    Bundle bundle;
-    Context context;
-    HitogoController controller;
-    List<HitogoButton> callToActionButtons;
+    protected List<HitogoButton> callToActionButtons;
 
     public HitogoDialogBuilder(@NonNull Class<? extends HitogoObject> targetClass,
-                               @NonNull Context context, @NonNull HitogoController controller) {
-        this.targetClass = targetClass;
-        this.context = context;
-        this.controller = controller;
-        this.callToActionButtons = new ArrayList<>();
+                               @NonNull Class<? extends HitogoParams> paramClass,
+                               @NonNull HitogoContainer container) {
+        super(targetClass, paramClass, container, HitogoObject.HitogoType.DIALOG);
     }
 
     @NonNull
@@ -57,8 +44,8 @@ public final class HitogoDialogBuilder {
     }
 
     @NonNull
-    public HitogoDialogBuilder setBundle(@NonNull Bundle bundle) {
-        this.bundle = bundle;
+    public HitogoDialogBuilder setBundle(@NonNull Bundle arguments) {
+        this.arguments = arguments;
         return this;
     }
 
@@ -73,7 +60,7 @@ public final class HitogoDialogBuilder {
         this.title = title;
         this.text = text;
 
-        HitogoDialogBuilder customBuilder = controller.getSimpleDialog(this);
+        HitogoDialogBuilder customBuilder = getController().getSimpleDialog(this);
         if (customBuilder != null) {
             return customBuilder;
         } else {
@@ -99,60 +86,19 @@ public final class HitogoDialogBuilder {
         return this;
     }
 
-    @NonNull
-    public HitogoDialogBuilder controlledBy(@NonNull HitogoController controller) {
-        this.controller = controller;
-        return this;
+    @Override
+    protected Bundle onCreatePublicBundle() {
+        Bundle bundle = new Bundle();
+        bundle.putString("title", title);
+        bundle.putString("text", text);
+        bundle.putSerializable("dialogThemeResId", dialogThemeResId);
+        bundle.putBoolean("isDismissible", isDismissible);
+        bundle.putBundle("arguments", arguments);
+        return bundle;
     }
 
-    @SuppressWarnings("unchecked")
-    @NonNull
-    public HitogoObject build() {
-        if (this.text == null) {
-            throw new InvalidParameterException("Text parameter cannot be null.");
-        }
-
-        if (this.title == null) {
-            throw new InvalidParameterException("Title parameter cannot be null.");
-        }
-
-        if (callToActionButtons.isEmpty()) {
-            throw new InvalidParameterException("This hitogo need at least one button.");
-        }
-
-        if (callToActionButtons.size() > 3) {
-            Log.d(HitogoViewBuilder.class.getName(), "The dialog can handle only up to 3 different buttons.");
-        }
-
-        hashCode = this.text.hashCode();
-
-        try {
-            HitogoObject object = targetClass.getConstructor().newInstance();
-            object.startHitogo(new HitogoDialogParams(this));
-            return object;
-        } catch (Exception e) {
-            Log.wtf(HitogoViewBuilder.class.getName(), "Build process failed.");
-            throw new IllegalStateException(e);
-        }
-    }
-
-    public void show(@NonNull Activity activity) {
-        build().show(activity);
-    }
-
-    public void showDelayed(@NonNull final Activity activity, long millis) {
-        if (millis == 0) {
-            show(activity);
-        } else {
-            Handler handler = new Handler();
-            handler.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    if (!activity.isFinishing()) {
-                        build().show(activity);
-                    }
-                }
-            }, millis);
-        }
+    @Override
+    public List<HitogoButton> getCallToActionButtons() {
+        return callToActionButtons;
     }
 }

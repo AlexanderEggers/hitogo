@@ -15,7 +15,8 @@ import org.hitogo.core.HitogoObject;
 public class HitogoTopAnimation extends HitogoAnimation {
 
     @Override
-    public void showAnimation(@NonNull final HitogoViewParams params, @NonNull final View hitogoView) {
+    public void showAnimation(@NonNull final HitogoViewParams params, @NonNull final View hitogoView,
+                              @NonNull final HitogoObject object) {
         ValueAnimator anim = ValueAnimator.ofInt(0, hitogoView.getMeasuredHeight());
         anim.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override

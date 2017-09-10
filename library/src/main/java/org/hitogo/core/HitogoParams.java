@@ -1,16 +1,52 @@
 package org.hitogo.core;
 
-import android.content.Context;
-import android.view.View;
+import android.os.Bundle;
 
-import java.lang.ref.WeakReference;
+import org.hitogo.button.HitogoButton;
 
-public interface HitogoParams {
+import java.util.List;
 
-    WeakReference<Context> getContextRef();
-    View getRootView();
-    HitogoController getController();
-    int getHashCode();
-    int getType();
-    boolean hasAnimation();
+public abstract class HitogoParams {
+
+    private int hashCode;
+    private HitogoObject.HitogoType type;
+
+    private HitogoAnimation hitogoAnimation;
+    private List<HitogoButton> callToActionButtons;
+    private HitogoButton closeButton;
+
+    public HitogoParams(HitogoBuilder builder, Bundle publicBundle, Bundle privateBundle) {
+        hashCode = privateBundle.getInt("hashCode");
+        type = (HitogoObject.HitogoType) privateBundle.getSerializable("type");
+
+        hitogoAnimation = builder.getHitogoAnimation();
+        callToActionButtons = builder.getCallToActionButtons();
+        closeButton = builder.getCloseButton();
+
+        onCreateParams(publicBundle);
+    }
+
+    protected abstract void onCreateParams(Bundle bundle);
+
+    int getHashCode() {
+        return hashCode;
+    }
+
+    HitogoObject.HitogoType getType() {
+        return type;
+    }
+
+    public HitogoAnimation getHitogoAnimation() {
+        return hitogoAnimation;
+    }
+
+    public List<HitogoButton> getCallToActionButtons() {
+        return callToActionButtons;
+    }
+
+    public HitogoButton getCloseButton() {
+        return closeButton;
+    }
+
+    public abstract boolean hasAnimation();
 }

@@ -19,7 +19,7 @@ public class MainActivity extends HitogoActivity {
                 .setText("Test")
                 .asIgnoreLayout()
                 .withState(HitogoDefaultController.HINT)
-                .show(this);
+                .show("TestHint");
     }
 
     @NonNull

@@ -1,4 +1,4 @@
-package org.hitogo.core.button;
+package org.hitogo.button;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;

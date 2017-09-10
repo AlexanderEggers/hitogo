@@ -11,5 +11,7 @@ import android.view.View;
 @SuppressWarnings({"WeakerAccess", "unused"})
 public interface HitogoContainer extends LifecycleRegistryOwner {
     @NonNull HitogoController getController();
+    @Nullable View getView();
+    @NonNull Activity getActivity();
     @NonNull HitogoController initialiseHitogo(@NonNull LifecycleRegistry lifecycle);
 }

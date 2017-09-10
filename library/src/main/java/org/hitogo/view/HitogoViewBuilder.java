@@ -1,70 +1,47 @@
 package org.hitogo.view;
 
-import android.app.Activity;
-import android.content.Context;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.annotation.XmlRes;
-import android.support.v4.app.Fragment;
-import android.text.Html;
 import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.TextView;
 
 import java.security.InvalidParameterException;
-import java.util.ArrayList;
 import java.util.List;
 
-import android.os.Handler;
-
 import org.hitogo.core.HitogoAnimation;
-import org.hitogo.core.button.HitogoButton;
-import org.hitogo.core.HitogoController;
+import org.hitogo.core.HitogoBuilder;
+import org.hitogo.core.HitogoContainer;
+import org.hitogo.button.HitogoButton;
 import org.hitogo.core.HitogoObject;
-import org.hitogo.core.HitogoUtils;
+import org.hitogo.core.HitogoParams;
 
 @SuppressWarnings({"WeakerAccess", "unused"})
-public final class HitogoViewBuilder {
+public final class HitogoViewBuilder extends HitogoBuilder {
 
-    Class<? extends HitogoObject> targetClass;
+    private String title;
+    private String text;
+    private Integer state;
+    private Integer containerId;
+    private Integer titleViewId;
+    private Integer textViewId;
+    private Integer layoutViewId;
+    private boolean showAnimation;
+    private boolean isDismissible;
+    private Bundle arguments;
 
-    String title;
-    String text;
-
-    Integer state;
-    Integer containerId;
-    Integer titleViewId;
-    Integer textViewId;
-    Integer layoutViewId;
-
-    int hashCode;
-    boolean showAnimation;
-    boolean isDismissible;
-
-    View hitogoView;
-    ViewGroup hitogoContainer;
-
-    List<HitogoButton> callToActionButtons;
-    HitogoButton closeButton;
-
-    Bundle bundle;
-    Activity activity;
-    View rootView;
-    HitogoController controller;
-    HitogoAnimation hitogoAnimation;
+    private HitogoAnimation hitogoAnimation;
+    private List<HitogoButton> callToActionButtons;
+    private HitogoButton closeButton;
 
     public HitogoViewBuilder(@NonNull Class<? extends HitogoObject> targetClass,
-                             @NonNull Activity activity, @Nullable View rootView,
-                             @NonNull HitogoController controller) {
-        this.targetClass = targetClass;
-        this.activity = activity;
-        this.rootView = rootView;
-        this.controller = controller;
-        this.callToActionButtons = new ArrayList<>();
+                             @NonNull Class<? extends HitogoParams> paramClass,
+                             @NonNull HitogoContainer container) {
+        super(targetClass, paramClass, container, HitogoObject.HitogoType.VIEW);
+    }
+
+    @NonNull
+    public HitogoViewBuilder setTitle(@NonNull String title) {
+        return setTitle(getController().getDefaultTitleViewId(), title);
     }
 
     @NonNull
@@ -75,8 +52,8 @@ public final class HitogoViewBuilder {
     }
 
     @NonNull
-    public HitogoViewBuilder setTitle(@NonNull String title) {
-        return setTitle(controller.getDefaultTitleViewId(), title);
+    public HitogoViewBuilder setText(@NonNull String text) {
+        return setText(getController().getDefaultTextViewId(), text);
     }
 
     @NonNull
@@ -87,24 +64,19 @@ public final class HitogoViewBuilder {
     }
 
     @NonNull
-    public HitogoViewBuilder setBundle(@NonNull Bundle bundle) {
-        this.bundle = bundle;
+    public HitogoViewBuilder setBundle(@NonNull Bundle arguments) {
+        this.arguments = arguments;
         return this;
     }
 
     @NonNull
-    public HitogoViewBuilder setText(@NonNull String text) {
-        return setText(controller.getDefaultTextViewId(), text);
-    }
-
-    @NonNull
     public HitogoViewBuilder withAnimations() {
-        return withAnimations(controller.getDefaultAnimation(), controller.getDefaultLayoutViewId());
+        return withAnimations(getController().getDefaultAnimation(), getController().getDefaultLayoutViewId());
     }
 
     @NonNull
     public HitogoViewBuilder withAnimations(@Nullable HitogoAnimation animation) {
-        return withAnimations(animation, controller.getDefaultLayoutViewId());
+        return withAnimations(animation, getController().getDefaultLayoutViewId());
     }
 
     @NonNull
@@ -112,7 +84,7 @@ public final class HitogoViewBuilder {
                                             @Nullable Integer innerLayoutViewId) {
         this.showAnimation = true;
         this.hitogoAnimation = animation;
-        this.layoutViewId = innerLayoutViewId == null ? controller.getDefaultLayoutViewId() : innerLayoutViewId;
+        this.layoutViewId = innerLayoutViewId == null ? getController().getDefaultLayoutViewId() : innerLayoutViewId;
         return this;
     }
 
@@ -138,7 +110,7 @@ public final class HitogoViewBuilder {
         this.isDismissible = true;
 
         try {
-            closeButton = HitogoButton.with(controller)
+            closeButton = HitogoButton.with(getController())
                     .asCloseButton()
                     .build();
         } catch (InvalidParameterException ex) {
@@ -169,7 +141,7 @@ public final class HitogoViewBuilder {
 
     @NonNull
     public HitogoViewBuilder asOverlay() {
-        return asOverlay(controller.getDefaultOverlayContainerId());
+        return asOverlay(getController().getDefaultOverlayContainerId());
     }
 
     @NonNull
@@ -179,23 +151,17 @@ public final class HitogoViewBuilder {
     }
 
     @NonNull
-    public HitogoViewBuilder asSimple(@NonNull String infoText) {
-        this.text = infoText;
+    public HitogoViewBuilder asSimpleView(@NonNull String text) {
 
-        HitogoViewBuilder customBuilder = controller.getSimpleView(this);
+        HitogoViewBuilder customBuilder = getController().getSimpleView(this);
         if (customBuilder != null) {
             return customBuilder;
         } else {
             return asLayoutChild()
+                    .setText(text)
                     .asDismissible()
-                    .withState(controller.getDefaultState());
+                    .withState(getController().getDefaultState());
         }
-    }
-
-    @NonNull
-    public HitogoViewBuilder controlledBy(@NonNull HitogoController controller) {
-        this.controller = controller;
-        return this;
     }
 
     @NonNull
@@ -206,7 +172,7 @@ public final class HitogoViewBuilder {
 
     @NonNull
     public HitogoViewBuilder asLayoutChild() {
-        asLayoutChild(controller.getDefaultLayoutContainerId());
+        asLayoutChild(getController().getDefaultLayoutContainerId());
         return this;
     }
 
@@ -216,57 +182,34 @@ public final class HitogoViewBuilder {
         return this;
     }
 
-    @NonNull
-    public HitogoObject build() {
-        hashCode = this.text.hashCode();
-
-        try {
-            HitogoObject object = targetClass.getConstructor().newInstance();
-            object.startHitogo(new HitogoViewParams(this));
-            return object;
-        } catch (Exception e) {
-            Log.wtf(HitogoViewBuilder.class.getName(), "Build process failed.");
-            throw new IllegalStateException(e);
-        }
+    @Override
+    protected Bundle onCreatePublicBundle() {
+        Bundle bundle = new Bundle();
+        bundle.putString("title", title);
+        bundle.putString("text", text);
+        bundle.putSerializable("state", state);
+        bundle.putSerializable("containerId", containerId);
+        bundle.putSerializable("titleViewId", titleViewId);
+        bundle.putSerializable("textViewId", textViewId);
+        bundle.putSerializable("layoutViewId", layoutViewId);
+        bundle.putBoolean("showAnimation", showAnimation);
+        bundle.putBoolean("isDismissible", isDismissible);
+        bundle.putBundle("arguments", arguments);
+        return bundle;
     }
 
-    public void show(@NonNull Activity activity) {
-        build().show(activity);
+    @Override
+    protected HitogoAnimation getHitogoAnimation() {
+        return hitogoAnimation;
     }
 
-    public void showDelayed(@NonNull final Activity activity, long millis) {
-        if (millis == 0) {
-            build().show(activity);
-        } else {
-            Handler handler = new Handler();
-            handler.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    if (!activity.isFinishing()) {
-                        build().show(activity);
-                    }
-                }
-            }, millis);
-        }
+    @Override
+    protected List<HitogoButton> getCallToActionButtons() {
+        return callToActionButtons;
     }
 
-    public void show(@NonNull Fragment fragment) {
-        build().show(fragment);
-    }
-
-    public void showDelayed(@NonNull final Fragment fragment, long millis) {
-        if (millis == 0) {
-            build().show(fragment);
-        } else {
-            Handler handler = new Handler();
-            handler.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    if (fragment.isAdded()) {
-                        build().show(fragment);
-                    }
-                }
-            }, millis);
-        }
+    @Override
+    protected HitogoButton getCloseButton() {
+        return closeButton;
     }
 }

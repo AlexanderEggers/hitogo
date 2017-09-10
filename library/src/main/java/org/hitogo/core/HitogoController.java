@@ -25,7 +25,7 @@ public abstract class HitogoController implements LifecycleObserver {
 
     final HitogoObject[] validate(HitogoObject hitogo) {
         synchronized (syncLock) {
-            if(hitogo.getType() == HitogoObject.TYPE_VIEW) {
+            if(hitogo.getType() == HitogoObject.HitogoType.VIEW) {
                 return validateHitogo(currentView, hitogo);
             } else {
                 return validateHitogo(currentDialog, hitogo);

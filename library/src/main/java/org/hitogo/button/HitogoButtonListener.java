@@ -1,4 +1,4 @@
-package org.hitogo.core.button;
+package org.hitogo.button;
 
 @SuppressWarnings({"WeakerAccess", "unused"})
 public interface HitogoButtonListener {

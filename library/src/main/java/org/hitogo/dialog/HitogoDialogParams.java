@@ -1,48 +1,30 @@
 package org.hitogo.dialog;
 
-import android.content.Context;
 import android.os.Bundle;
 
-import org.hitogo.core.HitogoController;
+import org.hitogo.core.HitogoBuilder;
 import org.hitogo.core.HitogoParams;
-import org.hitogo.core.button.HitogoButton;
-
-import java.lang.ref.WeakReference;
-import java.util.List;
 
 @SuppressWarnings({"WeakerAccess", "unused"})
-public final class HitogoDialogParams implements HitogoParams {
+public final class HitogoDialogParams extends HitogoParams {
 
     private String title;
     private String text;
-
     private Integer dialogThemeResId;
-
     private boolean isDismissible;
-    private int hashCode;
+    private Bundle arguments;
 
-    private Bundle bundle;
-    private WeakReference<Context> context;
-    private HitogoController controller;
-    private List<HitogoButton> callToActionButtons;
-
-    HitogoDialogParams(HitogoDialogBuilder builder) {
-        title = builder.title;
-        text = builder.text;
-
-        dialogThemeResId = builder.dialogThemeResId;
-
-        isDismissible = builder.isDismissible;
-        hashCode = builder.hashCode;
-
-        bundle = builder.bundle;
-        context = new WeakReference<>(builder.context);
-        controller = builder.controller;
-        callToActionButtons = builder.callToActionButtons;
+    protected HitogoDialogParams(HitogoBuilder builder, Bundle publicBundle, Bundle privateBundle) {
+        super(builder, publicBundle, privateBundle);
     }
 
-    public Context getContext() {
-        return context.get();
+    @Override
+    protected void onCreateParams(Bundle bundle) {
+        title = bundle.getString("title");
+        text = bundle.getString("text");
+        dialogThemeResId = (Integer) bundle.getSerializable("dialogThemeResId");
+        isDismissible = bundle.getBoolean("containerId");
+        arguments = bundle.getBundle("arguments");
     }
 
     public String getTitle() {
@@ -61,23 +43,8 @@ public final class HitogoDialogParams implements HitogoParams {
         return isDismissible;
     }
 
-    public Bundle getBundle() {
-        return bundle;
-    }
-
-    public List<HitogoButton> getCallToActionButtons() {
-        return callToActionButtons;
-    }
-
-
-    @Override
-    public HitogoController getController() {
-        return controller;
-    }
-
-    @Override
-    public int getHashCode() {
-        return hashCode;
+    public Bundle getArguments() {
+        return arguments;
     }
 
     @Override
