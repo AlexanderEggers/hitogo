@@ -167,13 +167,8 @@ Compatibility
  
 TODO
 -------------
-* Extend lifecycle support for Hitogos (onCheckStart, onCreateView, onCreateDialog) - using own callback object + reducing missuse of library but not calling super inside lifecycle methods
-* Merging dialog and view (Hitogo.forUser and Hitogo.forError)
 * More animations (Fade, ...)
-* Refactoring button api to allow own button class
-* Builder bundle - param feature
 * Hitogo layouts (for all possible types)
-* Refactor controller api to make it more flexible
 * Unit/Espresso testing
 * More examples
 * Full documentation
