@@ -8,12 +8,9 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 
-import org.hitogo.button.HitogoButton;
 import org.hitogo.view.HitogoViewBuilder;
 
 import java.lang.ref.WeakReference;
-import java.util.Collections;
-import java.util.List;
 
 @SuppressWarnings({"WeakerAccess", "unused"})
 public abstract class HitogoBuilder {
@@ -22,29 +19,28 @@ public abstract class HitogoBuilder {
     private Class<? extends HitogoParams> paramClass;
     private WeakReference<HitogoContainer> containerRef;
 
+    private HitogoParamsHolder holder = new HitogoParamsHolder();
+
     private String tag;
     private HitogoObject.HitogoType builderType;
 
     public HitogoBuilder(@NonNull Class<? extends HitogoObject> targetClass,
                          @NonNull Class<? extends HitogoParams> paramClass,
-                         @NonNull HitogoContainer container, HitogoObject.HitogoType builderType) {
+                         @NonNull HitogoContainer container, @NonNull HitogoObject.HitogoType builderType) {
         this.targetClass = targetClass;
         this.paramClass = paramClass;
         this.containerRef = new WeakReference<>(container);
         this.builderType = builderType;
     }
 
-    protected abstract Bundle onCreatePublicBundle();
-
     @NonNull
     public final HitogoObject build() {
-        Bundle publicBundle = onCreatePublicBundle();
-        Bundle privateBundle = onCreatePrivateBundle();
+        Bundle privateBundle = createPrivateBundle();
 
         try {
             HitogoObject object = targetClass.getConstructor().newInstance();
-            HitogoParams params = paramClass.getConstructor(HitogoBuilder.class, Bundle.class,
-                    Bundle.class).newInstance(this, publicBundle, privateBundle);
+            HitogoParams params = paramClass.getConstructor().newInstance();
+            params.provideData(holder, privateBundle);
             object.startHitogo(containerRef.get(), params);
             return object;
         } catch (Exception e) {
@@ -53,12 +49,15 @@ public abstract class HitogoBuilder {
         }
     }
 
-    private Bundle onCreatePrivateBundle() {
+    private Bundle createPrivateBundle() {
         Bundle privateBundle = new Bundle();
+        privateBundle.putString("tag", tag);
         privateBundle.putInt("hashCode", tag.hashCode());
         privateBundle.putSerializable("type", builderType);
         return privateBundle;
     }
+
+    protected abstract void onProvideData(HitogoParamsHolder holder);
 
     public final void show(@NonNull String tag) {
         this.tag = tag;
@@ -94,19 +93,7 @@ public abstract class HitogoBuilder {
         }
     }
 
-    protected HitogoController getController() {
+    protected final HitogoController getController() {
         return containerRef.get().getController();
-    }
-
-    protected HitogoAnimation getHitogoAnimation() {
-        return null;
-    }
-
-    protected List<HitogoButton> getCallToActionButtons() {
-        return Collections.emptyList();
-    }
-
-    protected HitogoButton getCloseButton() {
-        return null;
     }
 }

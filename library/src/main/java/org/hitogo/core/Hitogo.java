@@ -28,6 +28,13 @@ public final class Hitogo {
     }
 
     @NonNull
+    public static HitogoViewBuilder asView(@NonNull Class<? extends HitogoObject> targetClass,
+                                           @NonNull Class<? extends HitogoParams> paramClass,
+                                           @NonNull HitogoContainer container) {
+        return new HitogoViewBuilder(targetClass, paramClass, container);
+    }
+
+    @NonNull
     public static HitogoDialogBuilder asDialog(@NonNull HitogoContainer container) {
         return new HitogoDialogBuilder(HitogoDialog.class, HitogoDialogParams.class, container);
     }
@@ -36,5 +43,12 @@ public final class Hitogo {
     public static HitogoDialogBuilder asDialog(@NonNull Class<? extends HitogoObject> targetClass,
                                                @NonNull HitogoContainer container) {
         return new HitogoDialogBuilder(targetClass, HitogoDialogParams.class, container);
+    }
+
+    @NonNull
+    public static HitogoDialogBuilder asDialog(@NonNull Class<? extends HitogoObject> targetClass,
+                                               @NonNull Class<? extends HitogoParams> paramClass,
+                                               @NonNull HitogoContainer container) {
+        return new HitogoDialogBuilder(targetClass, paramClass, container);
     }
 }

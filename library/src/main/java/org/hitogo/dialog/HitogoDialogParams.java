@@ -2,8 +2,8 @@ package org.hitogo.dialog;
 
 import android.os.Bundle;
 
-import org.hitogo.core.HitogoBuilder;
 import org.hitogo.core.HitogoParams;
+import org.hitogo.core.HitogoParamsHolder;
 
 @SuppressWarnings({"WeakerAccess", "unused"})
 public final class HitogoDialogParams extends HitogoParams {
@@ -14,17 +14,13 @@ public final class HitogoDialogParams extends HitogoParams {
     private boolean isDismissible;
     private Bundle arguments;
 
-    protected HitogoDialogParams(HitogoBuilder builder, Bundle publicBundle, Bundle privateBundle) {
-        super(builder, publicBundle, privateBundle);
-    }
-
     @Override
-    protected void onCreateParams(Bundle bundle) {
-        title = bundle.getString("title");
-        text = bundle.getString("text");
-        dialogThemeResId = (Integer) bundle.getSerializable("dialogThemeResId");
-        isDismissible = bundle.getBoolean("containerId");
-        arguments = bundle.getBundle("arguments");
+    protected void onCreateParams(HitogoParamsHolder holder) {
+        title = holder.getString("title");
+        text = holder.getString("text");
+        dialogThemeResId = holder.getInteger("dialogThemeResId");
+        isDismissible = holder.getBoolean("containerId");
+        arguments = holder.getExtras("arguments");
     }
 
     public String getTitle() {

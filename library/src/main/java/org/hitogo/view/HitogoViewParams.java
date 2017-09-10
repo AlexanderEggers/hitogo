@@ -1,8 +1,9 @@
 package org.hitogo.view;
 
 import android.os.Bundle;
-import org.hitogo.core.HitogoBuilder;
+
 import org.hitogo.core.HitogoParams;
+import org.hitogo.core.HitogoParamsHolder;
 
 @SuppressWarnings({"WeakerAccess", "unused"})
 public final class HitogoViewParams extends HitogoParams {
@@ -20,19 +21,18 @@ public final class HitogoViewParams extends HitogoParams {
     private Integer textViewId;
     private Integer layoutViewId;
 
-    public HitogoViewParams(HitogoBuilder builder, Bundle publicBundle, Bundle privateBundle) {
-        super(builder, publicBundle, privateBundle);
-    }
-
     @Override
-    protected void onCreateParams(Bundle bundle) {
-        title = bundle.getString("title");
-        text = bundle.getString("text");
-        state = bundle.getInt("state");
-        containerId = (Integer) bundle.getSerializable("containerId");
-        titleViewId = (Integer) bundle.getSerializable("titleViewId");
-        textViewId = (Integer) bundle.getSerializable("textViewId");
-        layoutViewId = (Integer) bundle.getSerializable("layoutViewId");
+    protected void onCreateParams(HitogoParamsHolder holder) {
+        title = holder.getString("title");
+        text = holder.getString("text");
+        state = holder.getInteger("state");
+        containerId = holder.getInteger("containerId");
+        titleViewId = holder.getInteger("titleViewId");
+        textViewId = holder.getInteger("textViewId");
+        layoutViewId = holder.getInteger("layoutViewId");
+        showAnimation = holder.getBoolean("showAnimation");
+        isDismissible = holder.getBoolean("isDismissible");
+        arguments = holder.getExtras("arguments");
     }
 
     @Override

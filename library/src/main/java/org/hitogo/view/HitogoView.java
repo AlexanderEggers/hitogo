@@ -48,7 +48,7 @@ public class HitogoView extends HitogoObject<HitogoViewParams> {
     @Override
     protected void onCreate(@NonNull HitogoViewParams params, @NonNull HitogoController controller) {
         this.params = params;
-        this.animation = params.getHitogoAnimation();
+        this.animation = params.getAnimation();
         if (animation == null) {
             this.animation = controller.getDefaultAnimation();
         }
@@ -197,8 +197,10 @@ public class HitogoView extends HitogoObject<HitogoViewParams> {
 
     @Override
     protected void onShowAnimation(@NonNull Activity activity) {
-        HitogoUtils.measureView(activity, getView(), viewGroup);
-        animation.showAnimation(params, getView(), this);
+        if (animation != null) {
+            HitogoUtils.measureView(activity, getView(), viewGroup);
+            animation.showAnimation(params, getView(), this);
+        }
     }
 
     @Override
@@ -209,7 +211,9 @@ public class HitogoView extends HitogoObject<HitogoViewParams> {
 
     @Override
     protected void onDetachAnimation(@NonNull Activity activity) {
-        animation.hideAnimation(params, getView(), this);
+        if (animation != null) {
+            animation.hideAnimation(params, getView(), this);
+        }
     }
 
     @Override

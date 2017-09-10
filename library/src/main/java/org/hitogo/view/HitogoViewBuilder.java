@@ -15,6 +15,7 @@ import org.hitogo.core.HitogoContainer;
 import org.hitogo.button.HitogoButton;
 import org.hitogo.core.HitogoObject;
 import org.hitogo.core.HitogoParams;
+import org.hitogo.core.HitogoParamsHolder;
 
 @SuppressWarnings({"WeakerAccess", "unused"})
 public final class HitogoViewBuilder extends HitogoBuilder {
@@ -185,33 +186,20 @@ public final class HitogoViewBuilder extends HitogoBuilder {
     }
 
     @Override
-    protected Bundle onCreatePublicBundle() {
-        Bundle bundle = new Bundle();
-        bundle.putString("title", title);
-        bundle.putString("text", text);
-        bundle.putSerializable("state", state);
-        bundle.putSerializable("containerId", containerId);
-        bundle.putSerializable("titleViewId", titleViewId);
-        bundle.putSerializable("textViewId", textViewId);
-        bundle.putSerializable("layoutViewId", layoutViewId);
-        bundle.putBoolean("showAnimation", showAnimation);
-        bundle.putBoolean("isDismissible", isDismissible);
-        bundle.putBundle("arguments", arguments);
-        return bundle;
-    }
+    protected void onProvideData(HitogoParamsHolder holder) {
+        holder.provideString("title", title);
+        holder.provideString("text", text);
+        holder.provideInteger("state", state);
+        holder.provideInteger("containerId", containerId);
+        holder.provideInteger("titleViewId", titleViewId);
+        holder.provideInteger("textViewId", textViewId);
+        holder.provideInteger("layoutViewId", layoutViewId);
+        holder.provideBoolean("showAnimation", showAnimation);
+        holder.provideBoolean("isDismissible", isDismissible);
+        holder.provideExtras("arguments", arguments);
 
-    @Override
-    protected HitogoAnimation getHitogoAnimation() {
-        return hitogoAnimation;
-    }
-
-    @Override
-    protected List<HitogoButton> getCallToActionButtons() {
-        return callToActionButtons;
-    }
-
-    @Override
-    protected HitogoButton getCloseButton() {
-        return closeButton;
+        holder.provideAnimation(hitogoAnimation);
+        holder.provideCallToActionButtons(callToActionButtons);
+        holder.provideCloseButton(closeButton);
     }
 }

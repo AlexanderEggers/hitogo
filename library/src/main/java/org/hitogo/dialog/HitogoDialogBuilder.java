@@ -11,6 +11,7 @@ import org.hitogo.core.HitogoBuilder;
 import org.hitogo.core.HitogoContainer;
 import org.hitogo.core.HitogoObject;
 import org.hitogo.core.HitogoParams;
+import org.hitogo.core.HitogoParamsHolder;
 
 import java.util.List;
 
@@ -87,18 +88,13 @@ public final class HitogoDialogBuilder extends HitogoBuilder {
     }
 
     @Override
-    protected Bundle onCreatePublicBundle() {
-        Bundle bundle = new Bundle();
-        bundle.putString("title", title);
-        bundle.putString("text", text);
-        bundle.putSerializable("dialogThemeResId", dialogThemeResId);
-        bundle.putBoolean("isDismissible", isDismissible);
-        bundle.putBundle("arguments", arguments);
-        return bundle;
-    }
+    protected void onProvideData(HitogoParamsHolder holder) {
+        holder.provideString("title", title);
+        holder.provideString("text", text);
+        holder.provideInteger("dialogThemeResId", dialogThemeResId);
+        holder.provideBoolean("isDismissible", isDismissible);
+        holder.provideExtras("arguments", arguments);
 
-    @Override
-    public List<HitogoButton> getCallToActionButtons() {
-        return callToActionButtons;
+        holder.provideCallToActionButtons(callToActionButtons);
     }
 }

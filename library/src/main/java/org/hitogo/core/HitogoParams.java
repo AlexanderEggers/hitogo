@@ -1,50 +1,62 @@
 package org.hitogo.core;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import org.hitogo.button.HitogoButton;
 
 import java.util.List;
 
+@SuppressWarnings({"WeakerAccess", "unused"})
 public abstract class HitogoParams {
 
     private int hashCode;
     private HitogoObject.HitogoType type;
+    private String tag;
 
     private HitogoAnimation hitogoAnimation;
     private List<HitogoButton> callToActionButtons;
     private HitogoButton closeButton;
 
-    public HitogoParams(HitogoBuilder builder, Bundle publicBundle, Bundle privateBundle) {
+    void provideData(HitogoParamsHolder holder, Bundle privateBundle) {
+        hitogoAnimation = holder.getAnimation();
+        callToActionButtons = holder.getCallToActionButtons();
+        closeButton = holder.getCloseButton();
+
+        tag = privateBundle.getString("tag");
         hashCode = privateBundle.getInt("hashCode");
         type = (HitogoObject.HitogoType) privateBundle.getSerializable("type");
 
-        hitogoAnimation = builder.getHitogoAnimation();
-        callToActionButtons = builder.getCallToActionButtons();
-        closeButton = builder.getCloseButton();
-
-        onCreateParams(publicBundle);
+        onCreateParams(holder);
     }
 
-    protected abstract void onCreateParams(Bundle bundle);
+    protected abstract void onCreateParams(HitogoParamsHolder holder);
 
-    int getHashCode() {
+    public final int getHashCode() {
         return hashCode;
     }
 
-    HitogoObject.HitogoType getType() {
+    public final HitogoObject.HitogoType getType() {
         return type;
     }
 
-    public HitogoAnimation getHitogoAnimation() {
+    public final String getTag() {
+        return tag;
+    }
+
+    @Nullable
+    public final HitogoAnimation getAnimation() {
         return hitogoAnimation;
     }
 
-    public List<HitogoButton> getCallToActionButtons() {
+    @NonNull
+    public final List<HitogoButton> getCallToActionButtons() {
         return callToActionButtons;
     }
 
-    public HitogoButton getCloseButton() {
+    @Nullable
+    public final HitogoButton getCloseButton() {
         return closeButton;
     }
 
