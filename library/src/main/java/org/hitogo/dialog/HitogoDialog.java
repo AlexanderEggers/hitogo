@@ -9,6 +9,7 @@ import android.support.annotation.Nullable;
 import android.util.Log;
 
 import org.hitogo.button.HitogoButton;
+import org.hitogo.button.HitogoButtonObject;
 import org.hitogo.core.HitogoObject;
 import org.hitogo.core.HitogoUtils;
 import org.hitogo.view.HitogoViewBuilder;
@@ -22,7 +23,7 @@ public class HitogoDialog extends HitogoObject<HitogoDialogParams> {
     private AlertDialog dialog;
 
     @Override
-    protected void onCheckStart(Activity activity, @NonNull HitogoDialogParams params) {
+    protected void onCheckStart(@NonNull HitogoDialogParams params) {
         if (params.getText() == null) {
             throw new InvalidParameterException("Text parameter cannot be null.");
         }
@@ -43,7 +44,7 @@ public class HitogoDialog extends HitogoObject<HitogoDialogParams> {
     @Nullable
     @Override
     protected Dialog onCreateDialog(@NonNull Activity activity, @NonNull HitogoDialogParams params) {
-        List<HitogoButton> buttonList = params.getCallToActionButtons();
+        List<HitogoButtonObject> buttonList = params.getCallToActionButtons();
         Integer themeResId = params.getDialogThemeResId();
 
         AlertDialog.Builder dialogBuilder;
@@ -57,23 +58,25 @@ public class HitogoDialog extends HitogoObject<HitogoDialogParams> {
                 .setTitle(params.getTitle())
                 .setCancelable(!params.isDismissible());
 
-        final HitogoButton positiveButton = buttonList.get(0);
-        if (positiveButton.getText() != null && HitogoUtils.isNotEmpty(positiveButton.getText())) {
-            dialogBuilder.setPositiveButton(positiveButton.getText(), new DialogInterface.OnClickListener() {
+        final HitogoButton positiveButton = (HitogoButton) buttonList.get(0);
+        if (positiveButton.getParams().getText() != null && HitogoUtils.isNotEmpty(
+                positiveButton.getParams().getText())) {
+            dialogBuilder.setPositiveButton(positiveButton.getParams().getText(), new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int id) {
-                    positiveButton.getListener().onClick();
+                    positiveButton.getParams().getListener().onClick();
                     close();
                 }
             });
         }
 
         if (buttonList.size() > 1) {
-            final HitogoButton negativeButton = buttonList.get(1);
+            final HitogoButton negativeButton = (HitogoButton) buttonList.get(1);
 
-            if (negativeButton.getText() != null && HitogoUtils.isNotEmpty(negativeButton.getText())) {
-                dialogBuilder.setNegativeButton(negativeButton.getText(), new DialogInterface.OnClickListener() {
+            if (negativeButton.getParams().getText() != null && HitogoUtils.isNotEmpty(
+                    negativeButton.getParams().getText())) {
+                dialogBuilder.setNegativeButton(negativeButton.getParams().getText(), new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        negativeButton.getListener().onClick();
+                        negativeButton.getParams().getListener().onClick();
                         close();
                     }
                 });
@@ -81,12 +84,13 @@ public class HitogoDialog extends HitogoObject<HitogoDialogParams> {
         }
 
         if (buttonList.size() > 2) {
-            final HitogoButton neutralButton = buttonList.get(2);
+            final HitogoButton neutralButton = (HitogoButton) buttonList.get(2);
 
-            if (neutralButton.getText() != null && HitogoUtils.isNotEmpty(neutralButton.getText())) {
-                dialogBuilder.setNeutralButton(neutralButton.getText(), new DialogInterface.OnClickListener() {
+            if (neutralButton.getParams().getText() != null && HitogoUtils.isNotEmpty(
+                    neutralButton.getParams().getText())) {
+                dialogBuilder.setNeutralButton(neutralButton.getParams().getText(), new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        neutralButton.getListener().onClick();
+                        neutralButton.getParams().getListener().onClick();
                         close();
                     }
                 });

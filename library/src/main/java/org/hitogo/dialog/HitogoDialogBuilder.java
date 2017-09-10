@@ -4,15 +4,16 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.StyleRes;
-import android.util.Log;
 
 import org.hitogo.button.HitogoButton;
+import org.hitogo.button.HitogoButtonObject;
 import org.hitogo.core.HitogoBuilder;
 import org.hitogo.core.HitogoContainer;
 import org.hitogo.core.HitogoObject;
 import org.hitogo.core.HitogoParams;
 import org.hitogo.core.HitogoParamsHolder;
 
+import java.util.Collections;
 import java.util.List;
 
 @SuppressWarnings({"WeakerAccess", "unused"})
@@ -24,7 +25,7 @@ public final class HitogoDialogBuilder extends HitogoBuilder {
     private boolean isDismissible;
     private Bundle arguments;
 
-    protected List<HitogoButton> callToActionButtons;
+    protected List<HitogoButtonObject> callToActionButtons;
 
     public HitogoDialogBuilder(@NonNull Class<? extends HitogoObject> targetClass,
                                @NonNull Class<? extends HitogoParams> paramClass,
@@ -61,7 +62,7 @@ public final class HitogoDialogBuilder extends HitogoBuilder {
         this.title = title;
         this.text = text;
 
-        HitogoDialogBuilder customBuilder = getController().getSimpleDialog(this);
+        HitogoDialogBuilder customBuilder = getController().provideSimpleDialog(this);
         if (customBuilder != null) {
             return customBuilder;
         } else {
@@ -71,13 +72,7 @@ public final class HitogoDialogBuilder extends HitogoBuilder {
 
     @NonNull
     public HitogoDialogBuilder addActionButton(@NonNull HitogoButton...buttons) {
-        for(HitogoButton button : buttons) {
-            if (!button.isCloseButton()) {
-                callToActionButtons.add(button);
-            } else {
-                Log.e(HitogoDialogBuilder.class.getName(), "Cannot add close buttons as call to action buttons.");
-            }
-        }
+        Collections.addAll(callToActionButtons, buttons);
         return this;
     }
 

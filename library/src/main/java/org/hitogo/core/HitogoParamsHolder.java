@@ -2,7 +2,7 @@ package org.hitogo.core;
 
 import android.os.Bundle;
 
-import org.hitogo.button.HitogoButton;
+import org.hitogo.button.HitogoButtonObject;
 
 import java.util.List;
 
@@ -11,8 +11,8 @@ public final class HitogoParamsHolder {
     private Bundle bundle = new Bundle();
 
     private HitogoAnimation hitogoAnimation;
-    private List<HitogoButton> callToActionButtons;
-    private HitogoButton closeButton;
+    private List<HitogoButtonObject> callToActionButtons;
+    private HitogoButtonObject closeButton;
 
     public final String getString(String key) {
         return bundle.getString(key);
@@ -50,11 +50,11 @@ public final class HitogoParamsHolder {
         this.hitogoAnimation = animation;
     }
 
-    public final void provideCallToActionButtons(List<HitogoButton> buttonList) {
+    public final void provideCallToActionButtons(List<HitogoButtonObject> buttonList) {
         this.callToActionButtons = buttonList;
     }
 
-    public final void provideCloseButton(HitogoButton button) {
+    public final void provideCloseButton(HitogoButtonObject button) {
         this.closeButton = button;
     }
 
@@ -62,11 +62,11 @@ public final class HitogoParamsHolder {
         return hitogoAnimation;
     }
 
-    List<HitogoButton> getCallToActionButtons() {
+    List<HitogoButtonObject> getCallToActionButtons() {
         return callToActionButtons;
     }
 
-    HitogoButton getCloseButton() {
+    HitogoButtonObject getCloseButton() {
         return closeButton;
     }
 }

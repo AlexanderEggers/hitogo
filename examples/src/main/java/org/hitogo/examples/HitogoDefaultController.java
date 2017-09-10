@@ -17,7 +17,7 @@ public class HitogoDefaultController extends HitogoController {
     }
 
     @Override
-    public int getLayout(int state) {
+    public Integer provideLayout(int state) {
         switch (state) {
             case SUCCESS:
                 return R.layout.hitogo_success;
@@ -33,7 +33,7 @@ public class HitogoDefaultController extends HitogoController {
 
     @Nullable
     @Override
-    public Integer getDefaultTextViewId() {
+    public Integer provideDefaultTextViewId() {
         return R.id.text;
     }
 }

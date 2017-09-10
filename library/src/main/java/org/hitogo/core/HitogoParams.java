@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import org.hitogo.button.HitogoButton;
+import org.hitogo.button.HitogoButtonObject;
 
 import java.util.List;
 
@@ -16,8 +17,8 @@ public abstract class HitogoParams {
     private String tag;
 
     private HitogoAnimation hitogoAnimation;
-    private List<HitogoButton> callToActionButtons;
-    private HitogoButton closeButton;
+    private List<HitogoButtonObject> callToActionButtons;
+    private HitogoButtonObject closeButton;
 
     void provideData(HitogoParamsHolder holder, Bundle privateBundle) {
         hitogoAnimation = holder.getAnimation();
@@ -32,15 +33,18 @@ public abstract class HitogoParams {
     }
 
     protected abstract void onCreateParams(HitogoParamsHolder holder);
+    public abstract boolean hasAnimation();
 
     public final int getHashCode() {
         return hashCode;
     }
 
+    @NonNull
     public final HitogoObject.HitogoType getType() {
         return type;
     }
 
+    @NonNull
     public final String getTag() {
         return tag;
     }
@@ -51,14 +55,12 @@ public abstract class HitogoParams {
     }
 
     @NonNull
-    public final List<HitogoButton> getCallToActionButtons() {
+    public final List<HitogoButtonObject> getCallToActionButtons() {
         return callToActionButtons;
     }
 
     @Nullable
-    public final HitogoButton getCloseButton() {
+    public final HitogoButtonObject getCloseButton() {
         return closeButton;
     }
-
-    public abstract boolean hasAnimation();
 }

@@ -15,9 +15,9 @@ public class TestView extends HitogoObject<HitogoViewParams> {
 
     @Nullable
     @Override
-    protected View onCreateView(@NonNull Activity activity, @NonNull LayoutInflater inflater,
+    protected View onCreateView(@NonNull LayoutInflater inflater, @NonNull Activity activity,
                                 @NonNull HitogoViewParams params) {
-        View v = inflater.inflate(getController().getLayout(params.getState()), null);
+        View v = inflater.inflate(getController().provideLayout(params.getState()), null);
         ((TextView) v.findViewById(R.id.text)).setText(params.getText());
         return v;
     }

@@ -7,8 +7,11 @@ import android.util.Log;
 
 import java.security.InvalidParameterException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
+import org.hitogo.button.HitogoButtonObject;
+import org.hitogo.core.Hitogo;
 import org.hitogo.core.HitogoAnimation;
 import org.hitogo.core.HitogoBuilder;
 import org.hitogo.core.HitogoContainer;
@@ -32,8 +35,8 @@ public final class HitogoViewBuilder extends HitogoBuilder {
     private Bundle arguments;
 
     private HitogoAnimation hitogoAnimation;
-    private List<HitogoButton> callToActionButtons;
-    private HitogoButton closeButton;
+    private List<HitogoButtonObject> callToActionButtons;
+    private HitogoButtonObject closeButton;
 
     public HitogoViewBuilder(@NonNull Class<? extends HitogoObject> targetClass,
                              @NonNull Class<? extends HitogoParams> paramClass,
@@ -44,7 +47,7 @@ public final class HitogoViewBuilder extends HitogoBuilder {
 
     @NonNull
     public HitogoViewBuilder setTitle(@NonNull String title) {
-        return setTitle(getController().getDefaultTitleViewId(), title);
+        return setTitle(getController().provideDefaultTitleViewId(), title);
     }
 
     @NonNull
@@ -56,7 +59,7 @@ public final class HitogoViewBuilder extends HitogoBuilder {
 
     @NonNull
     public HitogoViewBuilder setText(@NonNull String text) {
-        return setText(getController().getDefaultTextViewId(), text);
+        return setText(getController().provideDefaultTextViewId(), text);
     }
 
     @NonNull
@@ -74,12 +77,13 @@ public final class HitogoViewBuilder extends HitogoBuilder {
 
     @NonNull
     public HitogoViewBuilder withAnimations() {
-        return withAnimations(getController().getDefaultAnimation(), getController().getDefaultLayoutViewId());
+        return withAnimations(getController().provideDefaultAnimation(),
+                getController().provideDefaultLayoutViewId());
     }
 
     @NonNull
     public HitogoViewBuilder withAnimations(@Nullable HitogoAnimation animation) {
-        return withAnimations(animation, getController().getDefaultLayoutViewId());
+        return withAnimations(animation, getController().provideDefaultLayoutViewId());
     }
 
     @NonNull
@@ -87,7 +91,8 @@ public final class HitogoViewBuilder extends HitogoBuilder {
                                             @Nullable Integer innerLayoutViewId) {
         this.showAnimation = true;
         this.hitogoAnimation = animation;
-        this.layoutViewId = innerLayoutViewId == null ? getController().getDefaultLayoutViewId() : innerLayoutViewId;
+        this.layoutViewId = innerLayoutViewId == null ?
+                getController().provideDefaultLayoutViewId() : innerLayoutViewId;
         return this;
     }
 
@@ -102,7 +107,7 @@ public final class HitogoViewBuilder extends HitogoBuilder {
     public HitogoViewBuilder asDismissible(@Nullable HitogoButton closeButton) {
         this.isDismissible = true;
 
-        if (closeButton != null && closeButton.isCloseButton()) {
+        if (closeButton != null) {
             this.closeButton = closeButton;
         }
         return this;
@@ -113,7 +118,8 @@ public final class HitogoViewBuilder extends HitogoBuilder {
         this.isDismissible = true;
 
         try {
-            closeButton = HitogoButton.with(getController())
+            closeButton = Hitogo.with(getContainer())
+                    .asButton()
                     .asCloseButton()
                     .build();
         } catch (InvalidParameterException ex) {
@@ -126,13 +132,7 @@ public final class HitogoViewBuilder extends HitogoBuilder {
 
     @NonNull
     public HitogoViewBuilder addActionButton(@NonNull HitogoButton...buttons) {
-        for(HitogoButton button : buttons) {
-            if (!button.isCloseButton()) {
-                callToActionButtons.add(button);
-            } else {
-                Log.e(HitogoViewBuilder.class.getName(), "Cannot add close buttons as call to action buttons.");
-            }
-        }
+        Collections.addAll(callToActionButtons, buttons);
         return this;
     }
 
@@ -144,7 +144,7 @@ public final class HitogoViewBuilder extends HitogoBuilder {
 
     @NonNull
     public HitogoViewBuilder asOverlay() {
-        return asOverlay(getController().getDefaultOverlayContainerId());
+        return asOverlay(getController().provideDefaultOverlayContainerId());
     }
 
     @NonNull
@@ -156,14 +156,14 @@ public final class HitogoViewBuilder extends HitogoBuilder {
     @NonNull
     public HitogoViewBuilder asSimpleView(@NonNull String text) {
 
-        HitogoViewBuilder customBuilder = getController().getSimpleView(this);
+        HitogoViewBuilder customBuilder = getController().provideSimpleView(this);
         if (customBuilder != null) {
             return customBuilder;
         } else {
             return asLayoutChild()
                     .setText(text)
                     .asDismissible()
-                    .withState(getController().getDefaultState());
+                    .withState(getController().provideDefaultState());
         }
     }
 
@@ -175,7 +175,7 @@ public final class HitogoViewBuilder extends HitogoBuilder {
 
     @NonNull
     public HitogoViewBuilder asLayoutChild() {
-        asLayoutChild(getController().getDefaultLayoutContainerId());
+        asLayoutChild(getController().provideDefaultLayoutContainerId());
         return this;
     }
 

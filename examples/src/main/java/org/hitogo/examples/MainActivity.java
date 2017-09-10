@@ -15,7 +15,8 @@ public class MainActivity extends HitogoActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Hitogo.asView(TestView.class, this)
+        Hitogo.with(this)
+                .asView(TestView.class)
                 .setText("Test")
                 .asIgnoreLayout()
                 .withState(HitogoDefaultController.HINT)

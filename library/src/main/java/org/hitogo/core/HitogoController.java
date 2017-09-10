@@ -9,8 +9,15 @@ import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
+import org.hitogo.button.HitogoButton;
+import org.hitogo.button.HitogoButtonObject;
+import org.hitogo.button.HitogoButtonParams;
+import org.hitogo.dialog.HitogoDialog;
 import org.hitogo.dialog.HitogoDialogBuilder;
+import org.hitogo.dialog.HitogoDialogParams;
+import org.hitogo.view.HitogoView;
 import org.hitogo.view.HitogoViewBuilder;
+import org.hitogo.view.HitogoViewParams;
 
 @SuppressWarnings({"WeakerAccess", "unused"})
 public abstract class HitogoController implements LifecycleObserver {
@@ -80,66 +87,99 @@ public abstract class HitogoController implements LifecycleObserver {
         }
     }
 
+    @NonNull
+    public Class<? extends HitogoObject> provideDefaultViewClass() {
+        return HitogoView.class;
+    }
+
+    @NonNull
+    public Class<? extends HitogoParams> provideDefaultViewParamsClass() {
+        return HitogoViewParams.class;
+    }
+
+    @NonNull
+    public Class<? extends HitogoObject> provideDefaultDialogClass() {
+        return HitogoDialog.class;
+    }
+
+    @NonNull
+    public Class<? extends HitogoParams> provideDefaultDialogParamsClass() {
+        return HitogoDialogParams.class;
+    }
+
+    @NonNull
+    public Class<? extends HitogoButtonObject> provideDefaultButtonClass() {
+        return HitogoButton.class;
+    }
+
+    @NonNull
+    public Class<? extends org.hitogo.button.HitogoParams> provideDefaultButtonParamsClass() {
+        return HitogoButtonParams.class;
+    }
+
     @LayoutRes
-    public abstract int getLayout(int state);
-
     @Nullable
-    public Integer getDefaultState() {
+    public Integer provideLayout(int state) {
         return null;
     }
 
     @Nullable
-    public Integer getDefaultLayoutContainerId() {
+    public Integer provideDefaultState() {
         return null;
     }
 
     @Nullable
-    public Integer getDefaultOverlayContainerId() {
+    public Integer provideDefaultLayoutContainerId() {
         return null;
     }
 
     @Nullable
-    public Integer getDefaultTextViewId() {
+    public Integer provideDefaultOverlayContainerId() {
         return null;
     }
 
     @Nullable
-    public Integer getDefaultTitleViewId() {
+    public Integer provideDefaultTextViewId() {
         return null;
     }
 
     @Nullable
-    public Integer getDefaultCallToActionId() {
+    public Integer provideDefaultTitleViewId() {
         return null;
     }
 
     @Nullable
-    public Integer getDefaultCloseIconId() {
+    public Integer provideDefaultCallToActionId() {
         return null;
     }
 
     @Nullable
-    public Integer getDefaultCloseClickId() {
+    public Integer provideDefaultCloseIconId() {
         return null;
     }
 
     @Nullable
-    public HitogoAnimation getDefaultAnimation() {
+    public Integer provideDefaultCloseClickId() {
         return null;
     }
 
     @Nullable
-    public Integer getDefaultLayoutViewId() {
+    public HitogoAnimation provideDefaultAnimation() {
         return null;
     }
 
     @Nullable
-    public HitogoViewBuilder getSimpleView(@NonNull HitogoViewBuilder builder) {
+    public Integer provideDefaultLayoutViewId() {
         return null;
     }
 
     @Nullable
-    public HitogoDialogBuilder getSimpleDialog(@NonNull HitogoDialogBuilder builder) {
+    public HitogoViewBuilder provideSimpleView(@NonNull HitogoViewBuilder builder) {
+        return null;
+    }
+
+    @Nullable
+    public HitogoDialogBuilder provideSimpleDialog(@NonNull HitogoDialogBuilder builder) {
         return null;
     }
 }

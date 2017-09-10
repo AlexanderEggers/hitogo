@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.view.ViewManager;
 import android.widget.TextView;
 
+import org.hitogo.button.HitogoButtonObject;
 import org.hitogo.core.HitogoAnimation;
 import org.hitogo.core.HitogoController;
 import org.hitogo.core.HitogoObject;
@@ -28,12 +29,12 @@ public class HitogoView extends HitogoObject<HitogoViewParams> {
     private HitogoViewParams params;
 
     @Override
-    protected void onCheckStart(Activity activity, @NonNull HitogoViewParams params) {
+    protected void onCheckStart(@NonNull HitogoController controller, @NonNull HitogoViewParams params) {
         if (params.getText() == null) {
             throw new InvalidParameterException("Text parameter cannot be null.");
         }
 
-        if (params.getState() == null) {
+        if (params.getState() == null && controller.provideLayout(params.getState()) == null) {
             throw new InvalidParameterException("To display non-dialog hitogos you need to define " +
                     "a state which will use a specific layout.");
         }
@@ -46,11 +47,11 @@ public class HitogoView extends HitogoObject<HitogoViewParams> {
     }
 
     @Override
-    protected void onCreate(@NonNull HitogoViewParams params, @NonNull HitogoController controller) {
+    protected void onCreate(@NonNull HitogoController controller, @NonNull HitogoViewParams params) {
         this.params = params;
         this.animation = params.getAnimation();
         if (animation == null) {
-            this.animation = controller.getDefaultAnimation();
+            this.animation = controller.provideDefaultAnimation();
         }
 
         if (params.getContainerId() != null && getRootView() != null) {
@@ -64,9 +65,9 @@ public class HitogoView extends HitogoObject<HitogoViewParams> {
     }
 
     @Override
-    protected View onCreateView(@NonNull Activity activity, @NonNull LayoutInflater inflater,
+    protected View onCreateView(@NonNull LayoutInflater inflater, @NonNull Activity activity,
                                 @NonNull HitogoViewParams params) {
-        View view = inflater.inflate(getController().getLayout(params.getState()), null);
+        View view = inflater.inflate(getController().provideLayout(params.getState()), null);
 
         if (view != null) {
             view = buildLayoutContent(view);
@@ -123,20 +124,21 @@ public class HitogoView extends HitogoObject<HitogoViewParams> {
 
     @NonNull
     private View buildCallToActionButtons(@NonNull View containerView) {
-        for (final HitogoButton callToActionButton : params.getCallToActionButtons()) {
-            View button = containerView.findViewById(callToActionButton.getViewIds()[0]);
+        for (HitogoButtonObject buttonObject : params.getCallToActionButtons()) {
+            final HitogoButton callToActionButton = (HitogoButton) buttonObject;
 
+            View button = containerView.findViewById(callToActionButton.getParams().getViewIds()[0]);
             if (button != null) {
                 if (button instanceof TextView) {
-                    ((TextView) button).setText(callToActionButton.getText() != null ?
-                            callToActionButton.getText() : "");
+                    ((TextView) button).setText(callToActionButton.getParams().getText() != null ?
+                            callToActionButton.getParams().getText() : "");
                 }
 
                 button.setVisibility(View.VISIBLE);
                 button.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        callToActionButton.getListener().onClick();
+                        callToActionButton.getParams().getListener().onClick();
                         getController().closeHitogo();
                     }
                 });
@@ -151,12 +153,12 @@ public class HitogoView extends HitogoObject<HitogoViewParams> {
 
     @NonNull
     private View buildCloseButtons(@NonNull View containerView) {
-        final HitogoButton closeButton = params.getCloseButton();
+        final HitogoButton closeButton = (HitogoButton) params.getCloseButton();
         boolean isDismissible = params.isDismissible();
 
         if(closeButton != null) {
-            final View removeIcon = containerView.findViewById(closeButton.getViewIds()[0]);
-            final View removeClick = containerView.findViewById(closeButton.getViewIds()[1]);
+            final View removeIcon = containerView.findViewById(closeButton.getParams().getViewIds()[0]);
+            final View removeClick = containerView.findViewById(closeButton.getParams().getViewIds()[1]);
 
             if (removeIcon != null && removeClick != null) {
                 removeIcon.setVisibility(isDismissible ? View.VISIBLE : View.GONE);
@@ -164,7 +166,7 @@ public class HitogoView extends HitogoObject<HitogoViewParams> {
                 removeClick.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        closeButton.getListener().onClick();
+                        closeButton.getParams().getListener().onClick();
                         getController().closeHitogo();
                     }
                 });

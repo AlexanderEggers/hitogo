@@ -47,14 +47,16 @@ public abstract class HitogoObject<T extends HitogoParams> extends HitogoLifecyc
         this.hasAnimation = params.hasAnimation();
         this.type = params.getType();
 
-        onCheckStart(getActivity(), params);
+        onCheckStart(params);
+        onCheckStart(getController(), params);
+
         onCreate(params);
-        onCreate(params, getController());
+        onCreate(getController(), params);
 
         if(type == HitogoType.VIEW) {
             LayoutInflater inflater = (LayoutInflater) getActivity()
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            view = onCreateView(getActivity(), inflater, params);
+            view = onCreateView(inflater, getActivity(), params);
         } else {
             dialog = onCreateDialog(getActivity(), params);
         }

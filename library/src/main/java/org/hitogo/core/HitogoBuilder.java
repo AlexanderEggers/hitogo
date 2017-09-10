@@ -34,13 +34,14 @@ public abstract class HitogoBuilder {
     }
 
     @NonNull
+    @SuppressWarnings("unchecked")
     public final HitogoObject build() {
-        Bundle privateBundle = createPrivateBundle();
+        onProvideData(holder);
 
         try {
             HitogoObject object = targetClass.getConstructor().newInstance();
             HitogoParams params = paramClass.getConstructor().newInstance();
-            params.provideData(holder, privateBundle);
+            params.provideData(holder, createPrivateBundle());
             object.startHitogo(containerRef.get(), params);
             return object;
         } catch (Exception e) {
@@ -91,6 +92,10 @@ public abstract class HitogoBuilder {
                 }
             }, millis);
         }
+    }
+
+    protected final HitogoContainer getContainer() {
+        return containerRef.get();
     }
 
     protected final HitogoController getController() {
