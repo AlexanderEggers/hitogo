@@ -156,7 +156,7 @@ But wait, there is much more! Some features are already included but not documen
 
 Status
 ------
-Version 1 is currently in development. Updates are currently released at least monthly with new features and bug fixes.
+Version 1 is in development. Updates are currently released at least weekly with new features and bug fixes. **Please keep in mind that the api is not stable yet and will change!**
 
 Comments/bugs/questions/pull requests are always welcome!
 
@@ -167,13 +167,8 @@ Compatibility
  
 TODO
 -------------
-* Extend lifecycle support for Hitogos (onCheckStart, onCreateView, onCreateDialog) - using own callback object + reducing missuse of library but not calling super inside lifecycle methods
-* Merging dialog and view (Hitogo.forUser and Hitogo.forError)
 * More animations (Fade, ...)
-* Refactoring button api to allow own button class
-* Builder bundle - param feature
 * Hitogo layouts (for all possible types)
-* Refactor controller api to make it more flexible
 * Unit/Espresso testing
 * More examples
 * Full documentation
