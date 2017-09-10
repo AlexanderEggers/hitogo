@@ -17,7 +17,7 @@ import java.util.Collections;
 import java.util.List;
 
 @SuppressWarnings({"WeakerAccess", "unused"})
-public final class HitogoDialogBuilder extends HitogoBuilder {
+public class HitogoDialogBuilder extends HitogoBuilder {
 
     private String title;
     private String text;

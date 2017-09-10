@@ -6,7 +6,7 @@ import android.support.annotation.Nullable;
 import org.hitogo.core.HitogoContainer;
 
 @SuppressWarnings({"WeakerAccess", "unused"})
-public final class HitogoButtonBuilder extends HitogoBuilder {
+public class HitogoButtonBuilder extends HitogoBuilder {
 
     private String text;
     private int[] viewIds;

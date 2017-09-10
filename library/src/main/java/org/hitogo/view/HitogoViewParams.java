@@ -6,7 +6,7 @@ import org.hitogo.core.HitogoParams;
 import org.hitogo.core.HitogoParamsHolder;
 
 @SuppressWarnings({"WeakerAccess", "unused"})
-public final class HitogoViewParams extends HitogoParams {
+public class HitogoViewParams extends HitogoParams {
 
     private boolean showAnimation;
     private boolean isDismissible;

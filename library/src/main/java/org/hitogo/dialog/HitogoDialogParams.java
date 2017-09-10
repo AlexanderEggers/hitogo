@@ -6,7 +6,7 @@ import org.hitogo.core.HitogoParams;
 import org.hitogo.core.HitogoParamsHolder;
 
 @SuppressWarnings({"WeakerAccess", "unused"})
-public final class HitogoDialogParams extends HitogoParams {
+public class HitogoDialogParams extends HitogoParams {
 
     private String title;
     private String text;

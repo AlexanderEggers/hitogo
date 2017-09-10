@@ -6,7 +6,7 @@ import org.hitogo.button.HitogoButtonObject;
 
 import java.util.List;
 
-public final class HitogoParamsHolder {
+public class HitogoParamsHolder {
 
     private Bundle bundle = new Bundle();
 

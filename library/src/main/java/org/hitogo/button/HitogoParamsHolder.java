@@ -2,7 +2,7 @@ package org.hitogo.button;
 
 import android.os.Bundle;
 
-public final class HitogoParamsHolder {
+public class HitogoParamsHolder {
 
     private Bundle bundle = new Bundle();
 

@@ -8,7 +8,7 @@ import org.hitogo.dialog.HitogoDialogBuilder;
 import org.hitogo.view.HitogoViewBuilder;
 
 @SuppressWarnings({"WeakerAccess", "unused"})
-public final class Hitogo implements HitogoFactory<HitogoViewBuilder, HitogoDialogBuilder, HitogoButtonBuilder> {
+public class Hitogo implements HitogoFactory<HitogoViewBuilder, HitogoDialogBuilder, HitogoButtonBuilder> {
 
     private HitogoContainer container;
     private HitogoController controller;

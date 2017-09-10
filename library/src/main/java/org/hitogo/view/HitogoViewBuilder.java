@@ -21,7 +21,7 @@ import org.hitogo.core.HitogoParams;
 import org.hitogo.core.HitogoParamsHolder;
 
 @SuppressWarnings({"WeakerAccess", "unused"})
-public final class HitogoViewBuilder extends HitogoBuilder {
+public class HitogoViewBuilder extends HitogoBuilder {
 
     private String title;
     private String text;

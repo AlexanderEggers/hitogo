@@ -8,7 +8,7 @@ import org.hitogo.core.HitogoUtils;
 import java.security.InvalidParameterException;
 
 @SuppressWarnings({"WeakerAccess", "unused"})
-public final class HitogoButton extends HitogoButtonObject<HitogoButtonParams> {
+public class HitogoButton extends HitogoButtonObject<HitogoButtonParams> {
 
     @Override
     protected void onCheck(@NonNull HitogoButtonParams params) {

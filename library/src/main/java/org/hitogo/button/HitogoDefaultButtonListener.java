@@ -1,7 +1,7 @@
 package org.hitogo.button;
 
 @SuppressWarnings({"WeakerAccess", "unused"})
-final class HitogoDefaultButtonListener implements HitogoButtonListener {
+public class HitogoDefaultButtonListener implements HitogoButtonListener {
 
     @Override
     public void onClick() {

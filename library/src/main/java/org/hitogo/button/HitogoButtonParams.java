@@ -1,7 +1,7 @@
 package org.hitogo.button;
 
 @SuppressWarnings({"WeakerAccess", "unused"})
-public final class HitogoButtonParams extends HitogoParams {
+public class HitogoButtonParams extends HitogoParams {
 
     private String text;
     private int[] viewIds;
