@@ -3,7 +3,7 @@ Hitogo
 
 [![Download](https://api.bintray.com/packages/mordag/android/Hitogo/images/download.svg) ](https://bintray.com/mordag/android/Hitogo/_latestVersion)
 
-Hitogo is a fluent-api for Android which helps to simplfy hints, errors and dialogs inside your app! This api can be initialsed by only a few lines of codes. Hitogo objects are using their own lifecycle to display animations or executing certain actions.
+Hitogo is a fluent-api for Android which helps to simplfy alerts for your app! This api can be initialsed by only a few lines of codes. Hitogo objects are using their own lifecycle to simplify the usage.
 
 Download
 --------
@@ -15,16 +15,16 @@ repositories {
 }
 
 dependencies {
-  compile 'org.hitogo:Hitogo:1.0.0-alpha3'
+  compile 'org.hitogo:Hitogo:1.0.0-alpha4'
 }
 ```
 
-How do I use Hitogo? (Step-by-step introduction for 1.0.0-alpha3)
+How do I use Hitogo? (Step-by-step introduction for 1.0.0-alpha4)
 -------------------
 
 1. Extend the HitogoController
 
-The HitogoController is the base for the hint system. It decides if the new requested HitogoObject should be shown and which should be closed. It also holds several getter-methods which points to your default configuration for layouts. Of course you need to define those getter-methods by implementing them. The getter methods are useful if your layouts are quite similar to each other, but only differ for example in the usage of color. For example: getDefaultTitleViewId() holds the view id for the default title textview. Each controller needs to implement the getLayout() method. This method defines which layout should be used for the HitogoViewBuilder (Hitogo.asView(..)).
+The HitogoController is the base for the alert system. It decides if the new requested HitogoObject should be shown and which should be closed. It also holds several provider-methods which points to your default configuration. The methods are useful if your layouts are quite similar to each other, but only differ for example in the usage of color. For example: getDefaultTitleViewId() holds the view id for the default title textview.
 
 ```java
 public class HitogoExampleController extends HitogoController {
@@ -39,7 +39,7 @@ public class HitogoExampleController extends HitogoController {
     }
 
     @Override
-    public int getLayout(int state) {
+    public Integer provideLayout(int state) {
         switch (state) {
             case SUCCESS:
                 return R.layout.hitogo_success;
@@ -55,8 +55,14 @@ public class HitogoExampleController extends HitogoController {
 
     @Nullable
     @Override
-    public Integer getDefaultTextViewId() {
+    public Integer provideDefaultTextViewId() {
         return R.id.text;
+    }
+
+    @Nullable
+    @Override
+    public HitogoAnimation provideDefaultAnimation() {
+        return HitogoTopAnimation.build();
     }
 }
 ```
@@ -85,70 +91,88 @@ public class MainActivity extends HitogoActivity {
 
 3. Start using Hitogo!
 
-If you have finished step 1 and 2, you are ready to go! Using Hitogo you can create hint views, dialogs and even errors (for the console, analytics or something else). Each builder system will be covered in full length inside the wiki (Coming soon!).
+If you have finished step 1 and 2, you are ready to go! Using Hitogo you can create hint views and dialogs. Each builder system will be covered in full length inside the wiki (Coming soon!).
 
 ```java
 // To create simple hint that displays a short message, you could do this :
 protected void someMethod() {
     ...
-    Hitogo.asView(MainActivity.this)
-            .setText("Test")
-            .asIgnoreLayout()
-            .withState(HitogoExampleController.HINT)
-            .show(MainActivity.this);
+    Hitogo.with(this)
+                .asView()
+                .withAnimations(R.id.content)
+                .setText("Test")
+                .asLayoutChild(R.id.container_layout)
+                .withState(HitogoDefaultController.HINT)
+                .showDelayed("TestHint", 1000);
 }
 
-//Here is a more complex hint that has some buttons, a title and a message:
+//Here is a more complex hint that has two buttons, a title and a message:
 public void someMethod() {
   ...
-  HitagoButton button1 = HitagoButton.with(MainActivity.this)
-                .setName("Button Text")
-                .listen(...)
-                .asClickToCallButton(R.id.button)
+  HitogoButtonObject button = Hitogo.with(this)
+                .asButton()
+                .listenWith(new HitogoButtonListener() {
+                    @Override
+                    public void onClick() {
+                        testOnClick();
+                    }
+                }, false)
+                .forClickToAction(R.id.button)
+                .setText("Click me!")
                 .build();
-                
-  HitagoButton button2 = HitagoButton.with(MainActivity.this)
-                .setName("Button Text 2")
-                .listen(...)
-                .asClickToCallButton(R.id.button2)
+
+  HitogoButtonObject button2 = Hitogo.with(this)
+                .asButton()
+                .listenWith(new HitogoButtonListener() {
+                    @Override
+                    public void onClick() {
+                        testOnClick2();
+                    }
+                }, false)
+                .forClickToAction(R.id.button)
+                .setText("Click Test")
                 .build();
-  
-  Hitogo.asView(MainActivity.this)
-        .asLayoutChild(R.id.containerId)
-        .setTitle("Test Hint")
-        .setText("Test Text")
-        .asDismissible()
-        .withAnimations()
-        .addActionButton(button1, button2)
-        .setState(HitogoExampleController.Hint)
-        .show(MainActivity.this);
+
+        Hitogo.with(this)
+                .asView()
+                .withAnimations(R.id.content)
+                .setText("That's a test alert.")
+                .asLayoutChild(R.id.container_layout)
+                .addActionButton(button, button2)
+                .withState(HitogoDefaultController.WARNING)
+                .showDelayed("TestHint 2", 1000);
 }
 
 //Here an example to create a dialog:
 public void someMethod() {
   ...
-  HitagoButton dialogButton = HitagoButton.with(MainActivity.this)
-                .setName("Button Text")
-                .listen(...)
-                .asDialogButton()
+  HitogoButtonObject button = Hitogo.with(this)
+                .asButton()
+                .listenWith(new HitogoButtonListener() {
+                    @Override
+                    public void onClick() {
+                        testClick();
+                    }
+                })
+                .forDialog()
+                .setText("Ok")
                 .build();
-  
-  Hitogo.asDialog(MainActivity.this)
-        .setTitle("Test Hint")
-        .setText("Test Text")
-        .asDismissible()
-        .addActionButton(dialogButton)
-        .show(MainActivity.this);
+
+        Hitogo.with(this)
+                .asDialog()
+                .setTitle("Test Dialog")
+                .setText("Long message...")
+                .addButton(button)
+                .addButton("Cancel")
+                .asDismissible()
+                .show("Test Dialog");
 }
 ```
 
 But wait, there is much more! Some features are already included but not documented yet:
-- Custom hints/dialogs
+- Generics (you can inject your own builder, alters and holder into this library)
 - Animations
-- Usage of error handling (Hitogo.asError(...))
-- Dialogs
 - Hitogo Lifecycle
-- Android Lifecycle
 - Bundle usage
 - Buttons
 - Parameter classes
@@ -167,7 +191,6 @@ Compatibility
  
 TODO
 -------------
-* Simplify button usage in dialog >> addButton(String name, DialogButtonType type)
 * More animations (Fade, ...)
 * Hitogo layouts (for all possible types)
 * Unit/Espresso testing
