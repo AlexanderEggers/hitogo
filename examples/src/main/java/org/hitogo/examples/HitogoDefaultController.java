@@ -3,7 +3,9 @@ package org.hitogo.examples;
 import android.arch.lifecycle.LifecycleRegistry;
 import android.support.annotation.Nullable;
 
+import org.hitogo.core.HitogoAnimation;
 import org.hitogo.core.HitogoController;
+import org.hitogo.view.HitogoTopAnimation;
 
 public class HitogoDefaultController extends HitogoController {
 
@@ -35,5 +37,11 @@ public class HitogoDefaultController extends HitogoController {
     @Override
     public Integer provideDefaultTextViewId() {
         return R.id.text;
+    }
+
+    @Nullable
+    @Override
+    public HitogoAnimation provideDefaultAnimation() {
+        return HitogoTopAnimation.build();
     }
 }

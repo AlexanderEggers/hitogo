@@ -5,18 +5,19 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.StyleRes;
 
-import org.hitogo.button.HitogoButton;
 import org.hitogo.button.HitogoButtonObject;
+import org.hitogo.core.Hitogo;
 import org.hitogo.core.HitogoBuilder;
 import org.hitogo.core.HitogoContainer;
 import org.hitogo.core.HitogoObject;
 import org.hitogo.core.HitogoParams;
 import org.hitogo.core.HitogoParamsHolder;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-@SuppressWarnings({"WeakerAccess", "unused"})
+
 public class HitogoDialogBuilder extends HitogoBuilder {
 
     private String title;
@@ -25,12 +26,13 @@ public class HitogoDialogBuilder extends HitogoBuilder {
     private boolean isDismissible;
     private Bundle arguments;
 
-    protected List<HitogoButtonObject> buttons;
+    private List<HitogoButtonObject> buttons;
 
     public HitogoDialogBuilder(@NonNull Class<? extends HitogoObject> targetClass,
                                @NonNull Class<? extends HitogoParams> paramClass,
                                @NonNull HitogoContainer container) {
         super(targetClass, paramClass, container, HitogoObject.HitogoType.DIALOG);
+        buttons = new ArrayList<>();
     }
 
     @NonNull
@@ -71,8 +73,20 @@ public class HitogoDialogBuilder extends HitogoBuilder {
     }
 
     @NonNull
-    public HitogoDialogBuilder addButton(@NonNull HitogoButton...buttons) {
+    public HitogoDialogBuilder addButton(@NonNull HitogoButtonObject... buttons) {
         Collections.addAll(this.buttons, buttons);
+        return this;
+    }
+
+    @NonNull
+    public HitogoDialogBuilder addButton(@NonNull String... buttonContent) {
+        for (String buttonText : buttonContent) {
+            HitogoButtonObject button = Hitogo.with(getContainer())
+                    .asButton().forDialog()
+                    .setText(buttonText)
+                    .build();
+            buttons.add(button);
+        }
         return this;
     }
 

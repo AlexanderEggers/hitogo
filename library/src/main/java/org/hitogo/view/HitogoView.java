@@ -139,7 +139,9 @@ public class HitogoView extends HitogoObject<HitogoViewParams> {
                     @Override
                     public void onClick(View v) {
                         callToActionButton.getParams().getListener().onClick();
-                        getController().closeHitogo();
+                        if(callToActionButton.getParams().isClosingAfterExecute()) {
+                            close();
+                        }
                     }
                 });
             } else {
@@ -167,7 +169,7 @@ public class HitogoView extends HitogoObject<HitogoViewParams> {
                     @Override
                     public void onClick(View v) {
                         closeButton.getParams().getListener().onClick();
-                        getController().closeHitogo();
+                        close();
                     }
                 });
             } else {
@@ -185,7 +187,7 @@ public class HitogoView extends HitogoObject<HitogoViewParams> {
             viewGroup.addView(getView());
         } else {
             ViewGroup.LayoutParams layoutParams = getView().getLayoutParams();
-            if (null == params) {
+            if (layoutParams == null) {
                 layoutParams = new ViewGroup.MarginLayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                         ViewGroup.LayoutParams.WRAP_CONTENT);
             }

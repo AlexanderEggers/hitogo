@@ -27,7 +27,7 @@ public class TestView extends HitogoObject<HitogoViewParams> {
         super.onAttach(activity);
 
         ViewGroup.LayoutParams params = getView().getLayoutParams();
-        if (null == params) {
+        if (params == null) {
             params = new ViewGroup.MarginLayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                     ViewGroup.LayoutParams.WRAP_CONTENT);
         }

@@ -35,7 +35,8 @@ public abstract class HitogoBuilder {
 
     @NonNull
     @SuppressWarnings("unchecked")
-    public final HitogoObject build() {
+    public final HitogoObject build(String tag) {
+        this.tag = tag;
         onProvideData(holder);
 
         try {
@@ -61,33 +62,31 @@ public abstract class HitogoBuilder {
     protected abstract void onProvideData(HitogoParamsHolder holder);
 
     public final void show(@NonNull String tag) {
-        this.tag = tag;
-        build().show();
+        build(tag).show();
     }
 
     public final void showDelayed(@NonNull String tag, long millis) {
-        this.tag = tag;
-
         HitogoContainer container = containerRef.get();
         if (container instanceof Fragment) {
-            internalShowDelayed(container.getActivity(), (Fragment) container, millis);
+            internalShowDelayed(container.getActivity(), (Fragment) container, tag, millis);
         } else {
-            internalShowDelayed(container.getActivity(), null, millis);
+            internalShowDelayed(container.getActivity(), null, tag, millis);
         }
     }
 
     private void internalShowDelayed(@NonNull final Activity activity,
-                                     @Nullable final Fragment fragment, long millis) {
+                                     @Nullable final Fragment fragment, final String tag, long millis) {
 
         if (millis == 0) {
-            build().show();
+            Log.i(HitogoBuilder.class.getName(), "Delayed is not executed. Reson: delay in milliseconds == 0.");
+            build(tag).show();
         } else {
             Handler handler = new Handler();
             handler.postDelayed(new Runnable() {
                 @Override
                 public void run() {
                     if ((fragment != null && fragment.isAdded()) || !activity.isFinishing()) {
-                        build().show();
+                        build(tag).show();
                     }
                 }
             }, millis);

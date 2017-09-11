@@ -5,14 +5,18 @@ import android.animation.AnimatorListenerAdapter;
 import android.animation.ValueAnimator;
 import android.support.annotation.NonNull;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.ViewManager;
-import android.widget.LinearLayout;
 
 import org.hitogo.core.HitogoAnimation;
 import org.hitogo.core.HitogoObject;
 
 @SuppressWarnings({"WeakerAccess", "unused"})
 public class HitogoTopAnimation extends HitogoAnimation {
+
+    public static HitogoAnimation build() {
+        return new HitogoTopAnimation();
+    }
 
     @Override
     public void showAnimation(@NonNull final HitogoViewParams params, @NonNull final View hitogoView,
@@ -22,10 +26,9 @@ public class HitogoTopAnimation extends HitogoAnimation {
             @Override
             public void onAnimationUpdate(ValueAnimator valueAnimator) {
                 int animatedValue = (int) valueAnimator.getAnimatedValue();
-                LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) hitogoView.getLayoutParams();
-                params.width = animatedValue;
+                ViewGroup.LayoutParams params = hitogoView.getLayoutParams();
+                params.height = animatedValue;
                 hitogoView.setLayoutParams(params);
-                hitogoView.requestLayout();
             }
         });
         anim.addListener(new AnimatorListenerAdapter() {
@@ -55,10 +58,9 @@ public class HitogoTopAnimation extends HitogoAnimation {
             @Override
             public void onAnimationUpdate(ValueAnimator valueAnimator) {
                 int animatedValue = (int) valueAnimator.getAnimatedValue();
-                LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) hitogoView.getLayoutParams();
-                params.width = animatedValue;
+                ViewGroup.LayoutParams params = hitogoView.getLayoutParams();
+                params.height = animatedValue;
                 hitogoView.setLayoutParams(params);
-                hitogoView.requestLayout();
             }
         });
         anim.addListener(new AnimatorListenerAdapter() {

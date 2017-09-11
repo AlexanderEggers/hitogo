@@ -5,7 +5,6 @@ import android.util.Log;
 
 import org.hitogo.core.HitogoContainer;
 import org.hitogo.core.HitogoController;
-import org.hitogo.view.HitogoViewBuilder;
 
 import java.lang.ref.WeakReference;
 
@@ -38,12 +37,16 @@ public abstract class HitogoBuilder {
             object.buildButton(params);
             return object;
         } catch (Exception e) {
-            Log.wtf(HitogoViewBuilder.class.getName(), "Build process failed.");
+            Log.wtf(HitogoBuilder.class.getName(), "Build process failed.");
             throw new IllegalStateException(e);
         }
     }
 
     protected abstract void onProvideData(HitogoParamsHolder holder);
+
+    protected final HitogoContainer getContainer() {
+        return containerRef.get();
+    }
 
     protected final HitogoController getController() {
         return containerRef.get().getController();

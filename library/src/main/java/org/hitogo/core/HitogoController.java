@@ -33,9 +33,13 @@ public abstract class HitogoController implements LifecycleObserver {
     final HitogoObject[] validate(HitogoObject hitogo) {
         synchronized (syncLock) {
             if(hitogo.getType() == HitogoObject.HitogoType.VIEW) {
-                return validateHitogo(currentView, hitogo);
+                HitogoObject[] currentStack = validateHitogo(currentView, hitogo);
+                currentView = currentStack[0];
+                return currentStack;
             } else {
-                return validateHitogo(currentDialog, hitogo);
+                HitogoObject[] currentStack = validateHitogo(currentDialog, hitogo);
+                currentDialog = currentStack[0];
+                return currentStack;
             }
         }
     }
@@ -57,32 +61,34 @@ public abstract class HitogoController implements LifecycleObserver {
 
         hitogoStack[0] = currentHitogo;
         hitogoStack[1] = lastCrouton;
-
         return hitogoStack;
     }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
     public final void closeHitogo() {
+        closeHitogo(null);
+    }
+
+    public final void closeHitogo(@Nullable HitogoObject.HitogoType type) {
         synchronized (syncLock) {
-            if (currentView != null && currentView.isAttached()) {
-                currentView.makeInvisible();
-
-                if (currentView.hasAnimation()) {
-                    Handler handler = new Handler();
-                    handler.postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            currentView = null;
-                        }
-                    }, currentView.getAnimationDuration());
-                } else {
-                    currentView = null;
+            if(type != null) {
+                if(currentView != null && type == currentView.getType()
+                        && currentView.isAttached()) {
+                    currentView.makeInvisible();
                 }
-            }
 
-            if(currentDialog != null && currentDialog.isAttached()) {
-                currentDialog.makeInvisible();
-                currentDialog = null;
+                if(currentDialog != null && type == currentDialog.getType()
+                        && currentDialog.isAttached()) {
+                    currentDialog.makeInvisible();
+                }
+            } else {
+                if(currentView != null && currentView.isAttached()) {
+                    currentView.makeInvisible();
+                }
+
+                if(currentDialog != null && currentDialog.isAttached()) {
+                    currentDialog.makeInvisible();
+                }
             }
         }
     }

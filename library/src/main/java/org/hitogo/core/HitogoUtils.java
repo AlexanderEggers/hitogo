@@ -24,11 +24,11 @@ public final class HitogoUtils {
     public static void measureView(@NonNull Activity activity, @NonNull View customView,
                                    @Nullable ViewGroup viewGroup) {
         int widthSpec;
-        if (null != viewGroup) {
-            widthSpec = View.MeasureSpec.makeMeasureSpec(viewGroup.getMeasuredWidth(), View.MeasureSpec.AT_MOST);
+        if (viewGroup != null) {
+            widthSpec = View.MeasureSpec.makeMeasureSpec(viewGroup.getMeasuredWidth(), View.MeasureSpec.EXACTLY);
         } else {
             widthSpec = View.MeasureSpec.makeMeasureSpec(activity.getWindow().getDecorView().getMeasuredWidth(),
-                    View.MeasureSpec.AT_MOST);
+                    View.MeasureSpec.EXACTLY);
         }
         customView.measure(widthSpec, View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED));
     }

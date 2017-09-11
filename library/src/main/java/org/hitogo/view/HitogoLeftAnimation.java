@@ -5,14 +5,18 @@ import android.animation.AnimatorListenerAdapter;
 import android.animation.ValueAnimator;
 import android.support.annotation.NonNull;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.ViewManager;
-import android.widget.LinearLayout;
 
 import org.hitogo.core.HitogoAnimation;
 import org.hitogo.core.HitogoObject;
 
 @SuppressWarnings({"WeakerAccess", "unused"})
 public class HitogoLeftAnimation extends HitogoAnimation {
+
+    public static HitogoAnimation build() {
+        return new HitogoLeftAnimation();
+    }
 
     @Override
     public void showAnimation(@NonNull final HitogoViewParams params, @NonNull final View hitogoView,
@@ -22,10 +26,10 @@ public class HitogoLeftAnimation extends HitogoAnimation {
             @Override
             public void onAnimationUpdate(ValueAnimator valueAnimator) {
                 int animatedValue = (int) valueAnimator.getAnimatedValue();
-                LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) hitogoView.getLayoutParams();
+                ViewGroup.LayoutParams params = hitogoView.getLayoutParams();
                 params.width = animatedValue;
+                params.height = hitogoView.getMeasuredHeight();
                 hitogoView.setLayoutParams(params);
-                hitogoView.requestLayout();
             }
         });
         anim.addListener(new AnimatorListenerAdapter() {
@@ -55,10 +59,10 @@ public class HitogoLeftAnimation extends HitogoAnimation {
             @Override
             public void onAnimationUpdate(ValueAnimator valueAnimator) {
                 int animatedValue = (int) valueAnimator.getAnimatedValue();
-                LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) hitogoView.getLayoutParams();
+                ViewGroup.LayoutParams params = hitogoView.getLayoutParams();
                 params.width = animatedValue;
+                params.height = hitogoView.getMeasuredHeight();
                 hitogoView.setLayoutParams(params);
-                hitogoView.requestLayout();
             }
         });
         anim.addListener(new AnimatorListenerAdapter() {

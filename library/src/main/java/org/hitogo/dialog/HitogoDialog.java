@@ -20,8 +20,6 @@ import java.util.List;
 @SuppressWarnings({"WeakerAccess", "unused"})
 public class HitogoDialog extends HitogoObject<HitogoDialogParams> {
 
-    private AlertDialog dialog;
-
     @Override
     protected void onCheckStart(@NonNull HitogoDialogParams params) {
         if (params.getText() == null) {
@@ -102,15 +100,15 @@ public class HitogoDialog extends HitogoObject<HitogoDialogParams> {
 
     @Override
     protected void onAttach(@NonNull Activity activity) {
-        if (!dialog.isShowing()) {
-            dialog.show();
+        if (!getDialog().isShowing()) {
+            getDialog().show();
         }
     }
 
     @Override
     public void onDetachDefault(@NonNull Activity activity) {
-        if (dialog.isShowing()) {
-            dialog.dismiss();
+        if (getDialog().isShowing()) {
+            getDialog().dismiss();
         }
     }
 }

@@ -7,8 +7,9 @@ public abstract class HitogoButtonObject<T extends HitogoParams> extends HitogoB
 
     private T params;
 
-    public final HitogoButtonObject<T> buildButton(@NonNull T params)
+    final HitogoButtonObject<T> buildButton(@NonNull T params)
             throws IllegalAccessException {
+        this.params = params;
         onCheck(params);
         onCreate(params);
         return this;

@@ -11,6 +11,7 @@ public class HitogoButtonBuilder extends HitogoBuilder {
     private String text;
     private int[] viewIds;
     private boolean hasButtonView;
+    private boolean closingAfterExecute;
 
     private HitogoButtonListener listener;
 
@@ -21,18 +22,18 @@ public class HitogoButtonBuilder extends HitogoBuilder {
     }
 
     @NonNull
-    public HitogoButtonBuilder setName(String name) {
-        text = name;
+    public HitogoButtonBuilder setText(String text) {
+        this.text = text;
         return this;
     }
 
     @NonNull
-    public HitogoButtonBuilder asClickToCallButton() {
-        return asClickToCallButton(getController().provideDefaultCallToActionId());
+    public HitogoButtonBuilder forClickToAction() {
+        return forClickToAction(getController().provideDefaultCallToActionId());
     }
 
     @NonNull
-    public HitogoButtonBuilder asClickToCallButton(Integer viewId) {
+    public HitogoButtonBuilder forClickToAction(Integer viewId) {
         hasButtonView = true;
         viewIds = new int[1];
         viewIds[0] = viewId;
@@ -40,18 +41,18 @@ public class HitogoButtonBuilder extends HitogoBuilder {
     }
 
     @NonNull
-    public HitogoButtonBuilder asCloseButton() {
-        return asCloseButton(getController().provideDefaultCloseIconId(),
+    public HitogoButtonBuilder forClose() {
+        return forClose(getController().provideDefaultCloseIconId(),
                 getController().provideDefaultCloseClickId());
     }
 
     @NonNull
-    public HitogoButtonBuilder asCloseButton(Integer closeIconId) {
-        return asCloseButton(closeIconId, getController().provideDefaultCloseClickId());
+    public HitogoButtonBuilder forClose(Integer closeIconId) {
+        return forClose(closeIconId, getController().provideDefaultCloseClickId());
     }
 
     @NonNull
-    public HitogoButtonBuilder asCloseButton(Integer closeIconId, @Nullable Integer optionalCloseViewId) {
+    public HitogoButtonBuilder forClose(Integer closeIconId, @Nullable Integer optionalCloseViewId) {
         hasButtonView = true;
         viewIds = new int[2];
         viewIds[0] = closeIconId;
@@ -60,15 +61,23 @@ public class HitogoButtonBuilder extends HitogoBuilder {
     }
 
     @NonNull
-    public HitogoButtonBuilder asDialogButton() {
+    public HitogoButtonBuilder forDialog() {
         hasButtonView = false;
         viewIds = new int[0];
         return this;
     }
 
     @NonNull
-    public HitogoButtonBuilder listen(@Nullable HitogoButtonListener listener) {
+    public HitogoButtonBuilder listenWith(@Nullable HitogoButtonListener listener) {
         this.listener = listener;
+        this.closingAfterExecute = true;
+        return this;
+    }
+
+    @NonNull
+    public HitogoButtonBuilder listenWith(@Nullable HitogoButtonListener listener, boolean closingAfterExecute) {
+        this.listener = listener;
+        this.closingAfterExecute = closingAfterExecute;
         return this;
     }
 
@@ -77,6 +86,7 @@ public class HitogoButtonBuilder extends HitogoBuilder {
         holder.provideString("text", text);
         holder.provideIntArray("viewIds", viewIds);
         holder.provideBoolean("hasButtonView", hasButtonView);
+        holder.provideBoolean("closingAfterExecute", closingAfterExecute);
         holder.provideButtonListener(listener);
     }
 }

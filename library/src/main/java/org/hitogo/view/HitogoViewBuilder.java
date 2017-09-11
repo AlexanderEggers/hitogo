@@ -15,7 +15,6 @@ import org.hitogo.core.Hitogo;
 import org.hitogo.core.HitogoAnimation;
 import org.hitogo.core.HitogoBuilder;
 import org.hitogo.core.HitogoContainer;
-import org.hitogo.button.HitogoButton;
 import org.hitogo.core.HitogoObject;
 import org.hitogo.core.HitogoParams;
 import org.hitogo.core.HitogoParamsHolder;
@@ -82,6 +81,11 @@ public class HitogoViewBuilder extends HitogoBuilder {
     }
 
     @NonNull
+    public HitogoViewBuilder withAnimations(@Nullable Integer innerLayoutViewId) {
+        return withAnimations(getController().provideDefaultAnimation(), innerLayoutViewId);
+    }
+
+    @NonNull
     public HitogoViewBuilder withAnimations(@Nullable HitogoAnimation animation) {
         return withAnimations(animation, getController().provideDefaultLayoutViewId());
     }
@@ -104,7 +108,7 @@ public class HitogoViewBuilder extends HitogoBuilder {
     }
 
     @NonNull
-    public HitogoViewBuilder asDismissible(@Nullable HitogoButton closeButton) {
+    public HitogoViewBuilder asDismissible(@Nullable HitogoButtonObject closeButton) {
         this.isDismissible = true;
 
         if (closeButton != null) {
@@ -120,7 +124,7 @@ public class HitogoViewBuilder extends HitogoBuilder {
         try {
             closeButton = Hitogo.with(getContainer())
                     .asButton()
-                    .asCloseButton()
+                    .forClose()
                     .build();
         } catch (InvalidParameterException ex) {
             Log.e(HitogoViewBuilder.class.getName(), "Cannot add default close button.");
@@ -131,7 +135,7 @@ public class HitogoViewBuilder extends HitogoBuilder {
     }
 
     @NonNull
-    public HitogoViewBuilder addActionButton(@NonNull HitogoButton...buttons) {
+    public HitogoViewBuilder addActionButton(@NonNull HitogoButtonObject...buttons) {
         Collections.addAll(callToActionButtons, buttons);
         return this;
     }

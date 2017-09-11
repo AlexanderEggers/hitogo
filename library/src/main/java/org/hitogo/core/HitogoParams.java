@@ -4,9 +4,11 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-import org.hitogo.button.HitogoButton;
 import org.hitogo.button.HitogoButtonObject;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 @SuppressWarnings({"WeakerAccess", "unused"})
@@ -56,7 +58,7 @@ public abstract class HitogoParams {
 
     @NonNull
     public final List<HitogoButtonObject> getCallToActionButtons() {
-        return callToActionButtons;
+        return callToActionButtons != null ? callToActionButtons : new ArrayList<HitogoButtonObject>();
     }
 
     @Nullable

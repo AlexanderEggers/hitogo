@@ -35,7 +35,7 @@ public abstract class HitogoObject<T extends HitogoParams> extends HitogoLifecyc
     private View view;
     private Dialog dialog;
 
-    public final HitogoObject<T> startHitogo(@NonNull HitogoContainer container, @NonNull T params)
+    final HitogoObject<T> startHitogo(@NonNull HitogoContainer container, @NonNull T params)
             throws IllegalAccessException {
 
         if(attached) {
@@ -107,8 +107,10 @@ public abstract class HitogoObject<T extends HitogoParams> extends HitogoLifecyc
         }
     }
 
-    protected final void makeInvisible() {
+    final void makeInvisible() {
         if(isAttached()) {
+            attached = false;
+
             if(hasAnimation) {
                 onDetachAnimation(getActivity());
 
@@ -127,7 +129,7 @@ public abstract class HitogoObject<T extends HitogoParams> extends HitogoLifecyc
     }
 
     public final void close() {
-        getController().closeHitogo();
+        getController().closeHitogo(type);
     }
 
     public long getAnimationDuration() {
