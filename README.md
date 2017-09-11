@@ -167,6 +167,7 @@ Compatibility
  
 TODO
 -------------
+* Simplify button usage in dialog >> addButton(String name, DialogButtonType type)
 * More animations (Fade, ...)
 * Hitogo layouts (for all possible types)
 * Unit/Espresso testing
