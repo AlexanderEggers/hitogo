@@ -24,7 +24,7 @@ How do I use Hitogo? (Step-by-step introduction for 1.0.0-alpha4)
 
 1. Extend the HitogoController
 
-The HitogoController is the base for the alert system. It decides if the new requested HitogoObject should be shown and which should be closed. It also holds several provider-methods which points to your default configuration. The methods are useful if your layouts are quite similar to each other, but only differ for example in the usage of color. For example: getDefaultTitleViewId() holds the view id for the default title textview.
+The HitogoController is the base for the alert system. It decides if the new requested alert should be shown and which should be closed. It also holds several provider-methods which are pointing to your default configuration. The methods are useful if your layouts are quite similar to each other, but only differ for example in the usage of color. For example: getDefaultTitleViewId() holds the view id for the default title textview.
 
 ```java
 public class HitogoExampleController extends HitogoController {
@@ -94,7 +94,7 @@ public class MainActivity extends HitogoActivity {
 If you have finished step 1 and 2, you are ready to go! Using Hitogo you can create hint views and dialogs. Each builder system will be covered in full length inside the wiki (Coming soon!).
 
 ```java
-// To create simple hint that displays a short message, you could do this :
+// To create a simple alert that displays a short message, you could do that:
 protected void someMethod() {
     ...
     Hitogo.with(this)
@@ -106,7 +106,7 @@ protected void someMethod() {
                 .showDelayed("TestHint", 1000);
 }
 
-//Here is a more complex hint that has two buttons, a title and a message:
+//Here is a more complex alert that has two buttons, a title and a message:
 public void someMethod() {
   ...
   HitogoButtonObject button = Hitogo.with(this)
@@ -170,9 +170,9 @@ public void someMethod() {
 ```
 
 But wait, there is much more! Some features are already included but not documented yet:
-- Generics (you can inject your own builder, alters and holder into this library)
+- Generics (you can inject your own builder, alerts and holder into this library)
 - Animations
-- Hitogo Lifecycle
+- Hitogo lifecycle
 - Bundle usage
 - Buttons
 - Parameter classes
