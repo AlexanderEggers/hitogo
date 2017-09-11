@@ -106,7 +106,7 @@ public class HitogoDialog extends HitogoObject<HitogoDialogParams> {
     }
 
     @Override
-    public void onDetachDefault(@NonNull Activity activity) {
+    public void onCloseDefault(@NonNull Activity activity) {
         if (getDialog().isShowing()) {
             getDialog().dismiss();
         }

@@ -208,13 +208,13 @@ public class HitogoView extends HitogoObject<HitogoViewParams> {
     }
 
     @Override
-    protected void onDetachDefault(@NonNull Activity activity) {
+    protected void onCloseAnimation(@NonNull Activity activity) {
         final ViewManager manager = (ViewManager) getView().getParent();
         manager.removeView(getView());
     }
 
     @Override
-    protected void onDetachAnimation(@NonNull Activity activity) {
+    protected void onCloseDefault(@NonNull Activity activity) {
         if (animation != null) {
             animation.hideAnimation(params, getView(), this);
         }

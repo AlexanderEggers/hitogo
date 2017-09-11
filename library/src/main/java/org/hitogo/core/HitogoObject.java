@@ -109,10 +109,11 @@ public abstract class HitogoObject<T extends HitogoParams> extends HitogoLifecyc
 
     final void makeInvisible() {
         if(isAttached()) {
+            onDetach(getActivity());
             attached = false;
 
             if(hasAnimation) {
-                onDetachAnimation(getActivity());
+                onCloseAnimation(getActivity());
 
                 Handler handler = new Handler();
                 handler.postDelayed(new Runnable() {
@@ -122,7 +123,7 @@ public abstract class HitogoObject<T extends HitogoParams> extends HitogoLifecyc
                     }
                 }, getAnimationDuration());
             } else {
-                onDetachDefault(getActivity());
+                onCloseDefault(getActivity());
                 detached = true;
             }
         }
