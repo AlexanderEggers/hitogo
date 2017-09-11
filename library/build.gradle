@@ -8,12 +8,12 @@ ext {
     libraryName = 'Hitogo'
     artifact = 'Hitogo'
 
-    libraryDescription = 'Android library to simplify hints, dialogs and errors inside your app.'
+    libraryDescription = 'Android library to simplify alert messages for your app.'
 
     siteUrl = 'https://github.com/Mordag/hitogo'
     gitUrl = 'https://github.com/Mordag/hitogo.git'
 
-    libraryVersion = '1.0.0-alpha3'
+    libraryVersion = '1.0.0-alpha4'
 
     developerId = 'mordag'
     developerName = 'Alexander Eggers'
@@ -34,8 +34,8 @@ android {
     defaultConfig {
         minSdkVersion 14
         targetSdkVersion 26
-        versionCode 3
-        versionName "1.0.0-alpha3"
+        versionCode 4
+        versionName "1.0.0-alpha4"
         consumerProguardFiles 'proguard-rules.pro'
     }
 
