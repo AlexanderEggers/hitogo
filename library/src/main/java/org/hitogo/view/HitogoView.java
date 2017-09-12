@@ -34,9 +34,9 @@ public class HitogoView extends HitogoObject<HitogoViewParams> {
             throw new InvalidParameterException("Text parameter cannot be null.");
         }
 
-        if (params.getState() == null || controller.provideLayout(params.getState()) == null) {
+        if (params.getState() == null) {
             throw new InvalidParameterException("To display non-dialog hitogos you need to define " +
-                    "a state which will use a specific layout. This layout needs to be defined" +
+                    "a state which will use a specific layout. This layout needs to be defined " +
                     "inside your HitogoController.");
         }
 

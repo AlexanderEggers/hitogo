@@ -31,11 +31,12 @@ public class HitogoDialog extends HitogoObject<HitogoDialogParams> {
         }
 
         if (params.getCallToActionButtons().isEmpty()) {
-            throw new InvalidParameterException("This hitogo need at least one button.");
+            throw new InvalidParameterException("This hitogo needs at least one button.");
         }
 
         if (params.getCallToActionButtons().size() > 3) {
-            Log.d(HitogoViewBuilder.class.getName(), "The dialog can handle only up to 3 different buttons.");
+            Log.d(HitogoViewBuilder.class.getName(), "The dialog can handle only up to 3 different " +
+                    "buttons. The other buttons won't be used by this alert.");
         }
     }
 
