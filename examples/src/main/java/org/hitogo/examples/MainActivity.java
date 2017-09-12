@@ -45,7 +45,7 @@ public class MainActivity extends HitogoActivity {
                 .setText("Test")
                 .asLayoutChild(R.id.container_layout)
                 .addActionButton(button)
-                .withState(HitogoDefaultController.HINT)
+                .withState(AlertState.HINT)
                 .showDelayed("TestHint 1", 1000);
     }
 
@@ -91,7 +91,7 @@ public class MainActivity extends HitogoActivity {
                 .setText("Test 2")
                 .asLayoutChild(R.id.container_layout)
                 .addActionButton(button)
-                .withState(HitogoDefaultController.WARNING)
+                .withState(AlertState.WARNING)
                 .show("TestHint 2");
     }
 

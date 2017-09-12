@@ -10,11 +10,11 @@ import android.view.View;
 @SuppressWarnings({"WeakerAccess", "unused"})
 abstract class HitogoLifecycleCallback<T extends HitogoParams> {
 
-    protected void onCheckStart(@NonNull T params) {
+    protected void onCheck(@NonNull T params) {
 
     }
 
-    protected void onCheckStart(@NonNull HitogoController controller, @NonNull T params) {
+    protected void onCheck(@NonNull HitogoController controller, @NonNull T params) {
 
     }
 

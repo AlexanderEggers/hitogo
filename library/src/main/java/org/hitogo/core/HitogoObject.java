@@ -47,8 +47,8 @@ public abstract class HitogoObject<T extends HitogoParams> extends HitogoLifecyc
         this.hasAnimation = params.hasAnimation();
         this.type = params.getType();
 
-        onCheckStart(params);
-        onCheckStart(getController(), params);
+        onCheck(params);
+        onCheck(getController(), params);
 
         onCreate(params);
         onCreate(getController(), params);

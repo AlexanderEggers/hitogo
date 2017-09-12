@@ -21,7 +21,7 @@ import java.util.List;
 public class HitogoDialog extends HitogoObject<HitogoDialogParams> {
 
     @Override
-    protected void onCheckStart(@NonNull HitogoDialogParams params) {
+    protected void onCheck(@NonNull HitogoDialogParams params) {
         if (params.getText() == null) {
             throw new InvalidParameterException("Text parameter cannot be null.");
         }
@@ -100,14 +100,14 @@ public class HitogoDialog extends HitogoObject<HitogoDialogParams> {
 
     @Override
     protected void onAttach(@NonNull Activity activity) {
-        if (!getDialog().isShowing()) {
+        if (getDialog() != null && !getDialog().isShowing()) {
             getDialog().show();
         }
     }
 
     @Override
     public void onCloseDefault(@NonNull Activity activity) {
-        if (getDialog().isShowing()) {
+        if (getDialog() != null && getDialog().isShowing()) {
             getDialog().dismiss();
         }
     }

@@ -178,6 +178,12 @@ public class HitogoViewBuilder extends HitogoBuilder {
     }
 
     @NonNull
+    public HitogoViewBuilder withState(Enum state) {
+        this.state = state != null ? state.ordinal() : null;
+        return this;
+    }
+
+    @NonNull
     public HitogoViewBuilder asLayoutChild() {
         asLayoutChild(getController().provideDefaultLayoutContainerId());
         return this;

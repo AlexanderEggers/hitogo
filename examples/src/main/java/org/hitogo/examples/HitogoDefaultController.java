@@ -9,18 +9,15 @@ import org.hitogo.view.HitogoTopAnimation;
 
 public class HitogoDefaultController extends HitogoController {
 
-    public static final int HINT = 0;
-    public static final int SUCCESS = 1;
-    public static final int WARNING = 2;
-    public static final int DANGER = 3;
-
     public HitogoDefaultController(LifecycleRegistry lifecycle) {
         super(lifecycle);
     }
 
     @Override
     public Integer provideLayout(int state) {
-        switch (state) {
+        AlertState alertState = AlertState.parse(state);
+
+        switch (alertState) {
             case SUCCESS:
                 return R.layout.hitogo_success;
             case WARNING:
