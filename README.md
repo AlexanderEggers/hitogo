@@ -206,4 +206,4 @@ License
 Apache 2.0. See the [LICENSE][1] file for details.
 
 
-[1]: https://github.com/Mordag/hitogo/blob/master/LICENSE
+[1]: https://github.com/Mordag/hitogo/blob/1.0/LICENSE
