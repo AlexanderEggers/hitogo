@@ -14,7 +14,6 @@ public abstract class HitogoParams {
 
     private String tag;
     private int hashCode;
-    private boolean closeOthers;
     private HitogoObject.HitogoType type;
     private Bundle arguments;
 
@@ -29,7 +28,6 @@ public abstract class HitogoParams {
 
         tag = privateBundle.getString("tag");
         hashCode = privateBundle.getInt("hashCode");
-        closeOthers = privateBundle.getBoolean("closeOthers");
         arguments = privateBundle.getBundle("arguments");
         type = (HitogoObject.HitogoType) privateBundle.getSerializable("type");
 
@@ -47,7 +45,7 @@ public abstract class HitogoParams {
     }
 
     public boolean isClosingOthers() {
-        return closeOthers;
+        return true;
     }
 
     @NonNull

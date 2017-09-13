@@ -29,6 +29,7 @@ public class HitogoViewBuilder extends HitogoBuilder<HitogoViewBuilder> {
     private Integer textViewId;
     private Integer layoutViewId;
     private boolean isDismissible;
+    private boolean closeOthers = true;
 
     private HitogoAnimation hitogoAnimation;
     private List<HitogoButtonObject> callToActionButtons;
@@ -184,6 +185,18 @@ public class HitogoViewBuilder extends HitogoBuilder<HitogoViewBuilder> {
         return this;
     }
 
+    @NonNull
+    public final HitogoViewBuilder closeOthers() {
+        this.closeOthers = true;
+        return this;
+    }
+
+    @NonNull
+    public final HitogoViewBuilder allowOthers() {
+        this.closeOthers = false;
+        return this;
+    }
+
     @Override
     protected void onProvideData(HitogoParamsHolder holder) {
         holder.provideString("title", title);
@@ -194,6 +207,7 @@ public class HitogoViewBuilder extends HitogoBuilder<HitogoViewBuilder> {
         holder.provideInteger("textViewId", textViewId);
         holder.provideInteger("layoutViewId", layoutViewId);
         holder.provideBoolean("isDismissible", isDismissible);
+        holder.provideBoolean("closeOthers", closeOthers);
 
         holder.provideAnimation(hitogoAnimation);
         holder.provideCallToActionButtons(callToActionButtons);

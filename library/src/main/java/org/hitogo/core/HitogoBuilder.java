@@ -25,7 +25,6 @@ public abstract class HitogoBuilder<T> {
     private Bundle arguments;
     private String tag;
     private HitogoObject.HitogoType builderType;
-    private boolean closeOthers = true;
 
     public HitogoBuilder(@NonNull Class<? extends HitogoObject> targetClass,
                          @NonNull Class<? extends HitogoParams> paramClass,
@@ -59,25 +58,12 @@ public abstract class HitogoBuilder<T> {
         Bundle privateBundle = new Bundle();
         privateBundle.putString("tag", tag);
         privateBundle.putInt("hashCode", tag.hashCode());
-        privateBundle.putBoolean("closeOthers", closeOthers);
         privateBundle.putBundle("arguments", arguments);
         privateBundle.putSerializable("type", builderType);
         return privateBundle;
     }
 
     protected abstract void onProvideData(HitogoParamsHolder holder);
-
-    @NonNull
-    public final T closeOthers(@NonNull String text) {
-        this.closeOthers = true;
-        return (T) this;
-    }
-
-    @NonNull
-    public final T allowOthers() {
-        this.closeOthers = false;
-        return (T) this;
-    }
 
     @NonNull
     public final T controlledBy(HitogoController controller) {

@@ -7,6 +7,7 @@ import org.hitogo.core.HitogoParamsHolder;
 public class HitogoViewParams extends HitogoParams {
 
     private boolean isDismissible;
+    private boolean closeOthers;
 
     private String title;
     private String text;
@@ -27,6 +28,7 @@ public class HitogoViewParams extends HitogoParams {
         textViewId = holder.getInteger("textViewId");
         layoutViewId = holder.getInteger("layoutViewId");
         isDismissible = holder.getBoolean("isDismissible");
+        closeOthers = holder.getBoolean("closeOthers");
     }
 
     protected boolean isDismissible() {
@@ -59,5 +61,10 @@ public class HitogoViewParams extends HitogoParams {
 
     public Integer getLayoutViewId() {
         return layoutViewId;
+    }
+
+    @Override
+    public boolean isClosingOthers() {
+        return closeOthers;
     }
 }
