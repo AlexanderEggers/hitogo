@@ -12,17 +12,20 @@ import org.hitogo.view.HitogoViewBuilder;
 
 import java.lang.ref.WeakReference;
 
-@SuppressWarnings({"WeakerAccess", "unused"})
-public abstract class HitogoBuilder {
+@SuppressWarnings({"WeakerAccess", "unused", "unchecked"})
+public abstract class HitogoBuilder<T> {
 
     private Class<? extends HitogoObject> targetClass;
     private Class<? extends HitogoParams> paramClass;
     private WeakReference<HitogoContainer> containerRef;
+    private HitogoController controller;
 
     private HitogoParamsHolder holder = new HitogoParamsHolder();
 
+    private Bundle arguments;
     private String tag;
     private HitogoObject.HitogoType builderType;
+    private boolean closeOthers = true;
 
     public HitogoBuilder(@NonNull Class<? extends HitogoObject> targetClass,
                          @NonNull Class<? extends HitogoParams> paramClass,
@@ -30,6 +33,7 @@ public abstract class HitogoBuilder {
         this.targetClass = targetClass;
         this.paramClass = paramClass;
         this.containerRef = new WeakReference<>(container);
+        this.controller = container.getController();
         this.builderType = builderType;
     }
 
@@ -55,11 +59,37 @@ public abstract class HitogoBuilder {
         Bundle privateBundle = new Bundle();
         privateBundle.putString("tag", tag);
         privateBundle.putInt("hashCode", tag.hashCode());
+        privateBundle.putBoolean("closeOthers", closeOthers);
+        privateBundle.putBundle("arguments", arguments);
         privateBundle.putSerializable("type", builderType);
         return privateBundle;
     }
 
     protected abstract void onProvideData(HitogoParamsHolder holder);
+
+    @NonNull
+    public final T closeOthers(@NonNull String text) {
+        this.closeOthers = true;
+        return (T) this;
+    }
+
+    @NonNull
+    public final T allowOthers() {
+        this.closeOthers = false;
+        return (T) this;
+    }
+
+    @NonNull
+    public final T controlledBy(HitogoController controller) {
+        this.controller = controller;
+        return (T) this;
+    }
+
+    @NonNull
+    public final T setBundle(@NonNull Bundle arguments) {
+        this.arguments = arguments;
+        return (T) this;
+    }
 
     public final void show(@NonNull String tag) {
         build(tag).show();
@@ -78,7 +108,7 @@ public abstract class HitogoBuilder {
                                      @Nullable final Fragment fragment, final String tag, long millis) {
 
         if (millis == 0) {
-            Log.i(HitogoBuilder.class.getName(), "Delayed is not executed. Reson: delay in milliseconds == 0.");
+            Log.i(HitogoBuilder.class.getName(), "Delayed is not executed. Reason: delay in milliseconds == 0.");
             build(tag).show();
         } else {
             Handler handler = new Handler();
@@ -98,6 +128,6 @@ public abstract class HitogoBuilder {
     }
 
     protected final HitogoController getController() {
-        return containerRef.get().getController();
+        return controller;
     }
 }

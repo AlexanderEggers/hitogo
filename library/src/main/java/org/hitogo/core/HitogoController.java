@@ -4,7 +4,6 @@ import android.arch.lifecycle.Lifecycle;
 import android.arch.lifecycle.LifecycleObserver;
 import android.arch.lifecycle.LifecycleRegistry;
 import android.arch.lifecycle.OnLifecycleEvent;
-import android.os.Handler;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -19,12 +18,17 @@ import org.hitogo.view.HitogoView;
 import org.hitogo.view.HitogoViewBuilder;
 import org.hitogo.view.HitogoViewParams;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
 @SuppressWarnings({"WeakerAccess", "unused"})
 public abstract class HitogoController implements LifecycleObserver {
 
     private final Object syncLock = new Object();
-    private HitogoObject currentView;
-    private HitogoObject currentDialog;
+
+    private final List<HitogoObject> currentViews = new ArrayList<>();
+    private final List<HitogoObject> currentDialogs = new ArrayList<>();
 
     public HitogoController(@NonNull LifecycleRegistry lifecycle) {
         lifecycle.addObserver(this);
@@ -33,30 +37,30 @@ public abstract class HitogoController implements LifecycleObserver {
     final HitogoObject[] validate(HitogoObject hitogo) {
         synchronized (syncLock) {
             if(hitogo.getType() == HitogoObject.HitogoType.VIEW) {
-                HitogoObject[] currentStack = validateHitogo(currentView, hitogo);
-                currentView = currentStack[0];
-                return currentStack;
+                return validateHitogo(currentViews, hitogo);
             } else {
-                HitogoObject[] currentStack = validateHitogo(currentDialog, hitogo);
-                currentDialog = currentStack[0];
-                return currentStack;
+                return validateHitogo(currentDialogs, hitogo);
             }
         }
     }
 
-    private HitogoObject[] validateHitogo(HitogoObject hitogoObject, HitogoObject newHitogo) {
+    private HitogoObject[] validateHitogo(List<HitogoObject> currentObjects, HitogoObject newHitogo) {
         HitogoObject[] hitogoStack = new HitogoObject[2];
-        HitogoObject currentHitogo = hitogoObject;
+        HitogoObject currentHitogo = !currentObjects.isEmpty() ? currentObjects.get(0) : null;
         HitogoObject lastCrouton = null;
 
         if (currentHitogo != null) {
             if (!currentHitogo.equals(newHitogo)) {
-                currentHitogo.makeInvisible();
+                if(newHitogo.isClosingOthers()) {
+                    closeByType(newHitogo.getType());
+                }
                 lastCrouton = currentHitogo;
                 currentHitogo = newHitogo;
+                currentObjects.add(newHitogo);
             }
         } else {
             currentHitogo = newHitogo;
+            currentObjects.add(newHitogo);
         }
 
         hitogoStack[0] = currentHitogo;
@@ -65,29 +69,107 @@ public abstract class HitogoController implements LifecycleObserver {
     }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
-    public final void closeHitogo() {
-        closeHitogo(null);
+    public final void closeAll() {
+        internalCloseByType(null, false);
     }
 
-    public final void closeHitogo(@Nullable HitogoObject.HitogoType type) {
+    public final void forceCloseAll() {
+        internalCloseByType(null, true);
+    }
+
+    public final void closeByType(@Nullable HitogoObject.HitogoType type) {
+        internalCloseByType(type, false);
+    }
+
+    public final void forceCloseByType(@Nullable HitogoObject.HitogoType type) {
+        internalCloseByType(type, true);
+    }
+
+    private void internalCloseByType(@Nullable HitogoObject.HitogoType type, boolean force) {
         synchronized (syncLock) {
             if(type != null) {
-                if(currentView != null && type == currentView.getType()
-                        && currentView.isAttached()) {
-                    currentView.makeInvisible();
+                Iterator<HitogoObject> it = currentViews.iterator();
+                while(it.hasNext()) {
+                    HitogoObject object = it.next();
+                    if(object != null && type == object.getType() && object.isAttached()) {
+                        object.makeInvisible(force);
+                        it.remove();
+                    }
                 }
 
-                if(currentDialog != null && type == currentDialog.getType()
-                        && currentDialog.isAttached()) {
-                    currentDialog.makeInvisible();
+                it = currentDialogs.iterator();
+                while(it.hasNext()) {
+                    HitogoObject object = it.next();
+                    if(object != null && type == object.getType() && object.isAttached()) {
+                        object.makeInvisible(force);
+                        it.remove();
+                    }
                 }
             } else {
-                if(currentView != null && currentView.isAttached()) {
-                    currentView.makeInvisible();
+                Iterator<HitogoObject> it = currentViews.iterator();
+                while(it.hasNext()) {
+                    HitogoObject object = it.next();
+                    if(object != null && object.isAttached()) {
+                        object.makeInvisible(force);
+                        it.remove();
+                    }
                 }
 
-                if(currentDialog != null && currentDialog.isAttached()) {
-                    currentDialog.makeInvisible();
+                it = currentDialogs.iterator();
+                while(it.hasNext()) {
+                    HitogoObject object = it.next();
+                    if(object != null && object.isAttached()) {
+                        object.makeInvisible(force);
+                        it.remove();
+                    }
+                }
+            }
+        }
+    }
+
+    public final void closeByTag(@NonNull String tag) {
+        synchronized (syncLock) {
+            int tagHashCode = tag.hashCode();
+
+            Iterator<HitogoObject> it = currentViews.iterator();
+            while(it.hasNext()) {
+                HitogoObject object = it.next();
+                if(object != null && object.isAttached() && object.hashCode() == tagHashCode) {
+                    object.makeInvisible(false);
+                    it.remove();
+                }
+            }
+
+            it = currentDialogs.iterator();
+            while(it.hasNext()) {
+                HitogoObject object = it.next();
+                if(object != null && object.isAttached() && object.hashCode() == tagHashCode) {
+                    object.makeInvisible(false);
+                    it.remove();
+                }
+            }
+        }
+    }
+
+    public final void forceCloseByTag(@NonNull String tag) {
+        synchronized (syncLock) {
+            int tagHashCode = tag.hashCode();
+
+            Iterator<HitogoObject> it = currentViews.iterator();
+            while(it.hasNext()) {
+                HitogoObject object = it.next();
+                if(object != null && object.isAttached() && object.hashCode() == tagHashCode) {
+                    object.makeInvisible(true);
+                    it.remove();
+                }
+            }
+
+            it = currentDialogs.iterator();
+            while(it.hasNext()) {
+                HitogoObject object = it.next();
+                if(object != null && object.isAttached() && object.hashCode() == tagHashCode) {
+                    object.makeInvisible(true);
+                    it.remove();
                 }
             }
         }

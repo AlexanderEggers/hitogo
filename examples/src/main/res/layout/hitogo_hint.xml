@@ -26,7 +26,7 @@
             tools:text="test" />
 
         <Button
-            android:text="Close"
+            android:text="Close All Test"
             android:id="@+id/close"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

@@ -184,7 +184,6 @@ public class HitogoView extends HitogoObject<HitogoViewParams> {
     @Override
     protected void onAttach(@NonNull Activity activity) {
         if (viewGroup != null) {
-            viewGroup.removeAllViews();
             viewGroup.addView(getView());
         } else {
             ViewGroup.LayoutParams layoutParams = getView().getLayoutParams();
@@ -210,15 +209,15 @@ public class HitogoView extends HitogoObject<HitogoViewParams> {
 
     @Override
     protected void onCloseAnimation(@NonNull Activity activity) {
-        final ViewManager manager = (ViewManager) getView().getParent();
-        manager.removeView(getView());
+        if (animation != null) {
+            animation.hideAnimation(params, getView(), this);
+        }
     }
 
     @Override
     protected void onCloseDefault(@NonNull Activity activity) {
-        if (animation != null) {
-            animation.hideAnimation(params, getView(), this);
-        }
+        final ViewManager manager = (ViewManager) getView().getParent();
+        manager.removeView(getView());
     }
 
     @Override

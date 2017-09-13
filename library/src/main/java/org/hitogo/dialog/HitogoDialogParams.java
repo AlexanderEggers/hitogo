@@ -1,7 +1,5 @@
 package org.hitogo.dialog;
 
-import android.os.Bundle;
-
 import org.hitogo.core.HitogoParams;
 import org.hitogo.core.HitogoParamsHolder;
 
@@ -12,7 +10,6 @@ public class HitogoDialogParams extends HitogoParams {
     private String text;
     private Integer dialogThemeResId;
     private boolean isDismissible;
-    private Bundle arguments;
 
     @Override
     protected void onCreateParams(HitogoParamsHolder holder) {
@@ -20,7 +17,6 @@ public class HitogoDialogParams extends HitogoParams {
         text = holder.getString("text");
         dialogThemeResId = holder.getInteger("dialogThemeResId");
         isDismissible = holder.getBoolean("containerId");
-        arguments = holder.getExtras("arguments");
     }
 
     public String getTitle() {
@@ -37,14 +33,5 @@ public class HitogoDialogParams extends HitogoParams {
 
     public boolean isDismissible() {
         return isDismissible;
-    }
-
-    public Bundle getArguments() {
-        return arguments;
-    }
-
-    @Override
-    public boolean hasAnimation() {
-        return false;
     }
 }

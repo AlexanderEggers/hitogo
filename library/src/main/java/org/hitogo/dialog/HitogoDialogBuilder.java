@@ -1,6 +1,5 @@
 package org.hitogo.dialog;
 
-import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.StyleRes;
@@ -17,14 +16,12 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-
-public class HitogoDialogBuilder extends HitogoBuilder {
+public class HitogoDialogBuilder extends HitogoBuilder<HitogoDialogBuilder> {
 
     private String title;
     private String text;
     private Integer dialogThemeResId;
     private boolean isDismissible;
-    private Bundle arguments;
 
     private List<HitogoButtonObject> buttons;
 
@@ -44,12 +41,6 @@ public class HitogoDialogBuilder extends HitogoBuilder {
     @NonNull
     public HitogoDialogBuilder setText(@NonNull String text) {
         this.text = text;
-        return this;
-    }
-
-    @NonNull
-    public HitogoDialogBuilder setBundle(@NonNull Bundle arguments) {
-        this.arguments = arguments;
         return this;
     }
 
@@ -102,8 +93,6 @@ public class HitogoDialogBuilder extends HitogoBuilder {
         holder.provideString("text", text);
         holder.provideInteger("dialogThemeResId", dialogThemeResId);
         holder.provideBoolean("isDismissible", isDismissible);
-        holder.provideExtras("arguments", arguments);
-
         holder.provideCallToActionButtons(buttons);
     }
 }

@@ -27,7 +27,9 @@ public abstract class HitogoObject<T extends HitogoParams> extends HitogoLifecyc
     private boolean attached;
     private boolean detached;
     private boolean hasAnimation;
+    private boolean closeOthers;
 
+    private String tag;
     private int hashCode;
     private HitogoType type;
 
@@ -44,8 +46,10 @@ public abstract class HitogoObject<T extends HitogoParams> extends HitogoLifecyc
 
         this.containerRef = new WeakReference<>(container);
         this.hashCode = params.getHashCode();
+        this.closeOthers = params.isClosingOthers();
         this.hasAnimation = params.hasAnimation();
         this.type = params.getType();
+        this.tag = params.getTag();
 
         onCheck(params);
         onCheck(getController(), params);
@@ -129,8 +133,25 @@ public abstract class HitogoObject<T extends HitogoParams> extends HitogoLifecyc
         }
     }
 
+    final void makeInvisible(boolean force) {
+        if(force) {
+            if(isAttached()) {
+                onDetach(getActivity());
+                attached = false;
+                onCloseDefault(getActivity());
+                detached = true;
+            }
+        } else {
+            makeInvisible();
+        }
+    }
+
     public final void close() {
-        getController().closeHitogo(type);
+        getController().closeByTag(tag);
+    }
+
+    public final void forceClose() {
+        getController().forceCloseByTag(tag);
     }
 
     public long getAnimationDuration() {
@@ -151,6 +172,10 @@ public abstract class HitogoObject<T extends HitogoParams> extends HitogoLifecyc
 
     public final boolean hasAnimation() {
         return hasAnimation;
+    }
+
+    public boolean isClosingOthers() {
+        return closeOthers;
     }
 
     @NonNull
@@ -185,6 +210,10 @@ public abstract class HitogoObject<T extends HitogoParams> extends HitogoLifecyc
     @Override
     public final int hashCode() {
         return hashCode;
+    }
+
+    public final String getTag() {
+        return tag;
     }
 
     @Override

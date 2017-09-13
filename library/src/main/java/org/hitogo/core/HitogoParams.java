@@ -7,16 +7,16 @@ import android.support.annotation.Nullable;
 import org.hitogo.button.HitogoButtonObject;
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 
 @SuppressWarnings({"WeakerAccess", "unused"})
 public abstract class HitogoParams {
 
-    private int hashCode;
-    private HitogoObject.HitogoType type;
     private String tag;
+    private int hashCode;
+    private boolean closeOthers;
+    private HitogoObject.HitogoType type;
+    private Bundle arguments;
 
     private HitogoAnimation hitogoAnimation;
     private List<HitogoButtonObject> callToActionButtons;
@@ -29,16 +29,25 @@ public abstract class HitogoParams {
 
         tag = privateBundle.getString("tag");
         hashCode = privateBundle.getInt("hashCode");
+        closeOthers = privateBundle.getBoolean("closeOthers");
+        arguments = privateBundle.getBundle("arguments");
         type = (HitogoObject.HitogoType) privateBundle.getSerializable("type");
 
         onCreateParams(holder);
     }
 
     protected abstract void onCreateParams(HitogoParamsHolder holder);
-    public abstract boolean hasAnimation();
+
+    public final boolean hasAnimation() {
+        return hitogoAnimation != null;
+    }
 
     public final int getHashCode() {
         return hashCode;
+    }
+
+    public boolean isClosingOthers() {
+        return closeOthers;
     }
 
     @NonNull
@@ -61,7 +70,10 @@ public abstract class HitogoParams {
         return callToActionButtons != null ? callToActionButtons : new ArrayList<HitogoButtonObject>();
     }
 
-    @Nullable
+    public final Bundle getArguments() {
+        return arguments;
+    }
+
     public final HitogoButtonObject getCloseButton() {
         return closeButton;
     }

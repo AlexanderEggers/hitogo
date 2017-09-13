@@ -1,16 +1,12 @@
 package org.hitogo.view;
 
-import android.os.Bundle;
-
 import org.hitogo.core.HitogoParams;
 import org.hitogo.core.HitogoParamsHolder;
 
 @SuppressWarnings({"WeakerAccess", "unused"})
 public class HitogoViewParams extends HitogoParams {
 
-    private boolean showAnimation;
     private boolean isDismissible;
-    private Bundle arguments;
 
     private String title;
     private String text;
@@ -30,22 +26,11 @@ public class HitogoViewParams extends HitogoParams {
         titleViewId = holder.getInteger("titleViewId");
         textViewId = holder.getInteger("textViewId");
         layoutViewId = holder.getInteger("layoutViewId");
-        showAnimation = holder.getBoolean("showAnimation");
         isDismissible = holder.getBoolean("isDismissible");
-        arguments = holder.getExtras("arguments");
-    }
-
-    @Override
-    public boolean hasAnimation() {
-        return showAnimation;
     }
 
     protected boolean isDismissible() {
         return isDismissible;
-    }
-
-    public Bundle getArguments() {
-        return arguments;
     }
 
     public String getTitle() {

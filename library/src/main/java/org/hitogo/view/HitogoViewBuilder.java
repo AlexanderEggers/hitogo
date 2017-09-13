@@ -1,6 +1,5 @@
 package org.hitogo.view;
 
-import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Log;
@@ -20,7 +19,7 @@ import org.hitogo.core.HitogoParams;
 import org.hitogo.core.HitogoParamsHolder;
 
 @SuppressWarnings({"WeakerAccess", "unused"})
-public class HitogoViewBuilder extends HitogoBuilder {
+public class HitogoViewBuilder extends HitogoBuilder<HitogoViewBuilder> {
 
     private String title;
     private String text;
@@ -29,9 +28,7 @@ public class HitogoViewBuilder extends HitogoBuilder {
     private Integer titleViewId;
     private Integer textViewId;
     private Integer layoutViewId;
-    private boolean showAnimation;
     private boolean isDismissible;
-    private Bundle arguments;
 
     private HitogoAnimation hitogoAnimation;
     private List<HitogoButtonObject> callToActionButtons;
@@ -69,12 +66,6 @@ public class HitogoViewBuilder extends HitogoBuilder {
     }
 
     @NonNull
-    public HitogoViewBuilder setBundle(@NonNull Bundle arguments) {
-        this.arguments = arguments;
-        return this;
-    }
-
-    @NonNull
     public HitogoViewBuilder withAnimations() {
         return withAnimations(getController().provideDefaultAnimation(),
                 getController().provideDefaultLayoutViewId());
@@ -93,7 +84,6 @@ public class HitogoViewBuilder extends HitogoBuilder {
     @NonNull
     public HitogoViewBuilder withAnimations(@Nullable HitogoAnimation animation,
                                             @Nullable Integer innerLayoutViewId) {
-        this.showAnimation = true;
         this.hitogoAnimation = animation;
         this.layoutViewId = innerLayoutViewId == null ?
                 getController().provideDefaultLayoutViewId() : innerLayoutViewId;
@@ -102,7 +92,6 @@ public class HitogoViewBuilder extends HitogoBuilder {
 
     @NonNull
     public HitogoViewBuilder withoutAnimations() {
-        this.showAnimation = false;
         this.hitogoAnimation = null;
         return this;
     }
@@ -204,9 +193,7 @@ public class HitogoViewBuilder extends HitogoBuilder {
         holder.provideInteger("titleViewId", titleViewId);
         holder.provideInteger("textViewId", textViewId);
         holder.provideInteger("layoutViewId", layoutViewId);
-        holder.provideBoolean("showAnimation", showAnimation);
         holder.provideBoolean("isDismissible", isDismissible);
-        holder.provideExtras("arguments", arguments);
 
         holder.provideAnimation(hitogoAnimation);
         holder.provideCallToActionButtons(callToActionButtons);

@@ -10,6 +10,7 @@ import org.hitogo.core.Hitogo;
 import org.hitogo.core.HitogoActivity;
 import org.hitogo.core.HitogoController;
 import org.hitogo.view.HitogoLeftAnimation;
+import org.hitogo.view.HitogoTopAnimation;
 
 public class MainActivity extends HitogoActivity {
 
@@ -35,6 +36,12 @@ public class MainActivity extends HitogoActivity {
 
         HitogoButtonObject closeButton = Hitogo.with(this)
                 .asButton()
+                .listenWith(new HitogoButtonListener() {
+                    @Override
+                    public void onClick() {
+                        getController().forceCloseAll();
+                    }
+                }, false)
                 .forClose(R.id.close)
                 .build();
 
@@ -57,7 +64,7 @@ public class MainActivity extends HitogoActivity {
                     public void onClick() {
                         showSecondView();
                     }
-                })
+                }, false)
                 .forDialog()
                 .setText("Ok")
                 .build();
@@ -78,7 +85,7 @@ public class MainActivity extends HitogoActivity {
                 .listenWith(new HitogoButtonListener() {
                     @Override
                     public void onClick() {
-                        testOnClick();
+                        showThirdView();
                     }
                 }, false)
                 .forClickToAction(R.id.button)
@@ -89,10 +96,34 @@ public class MainActivity extends HitogoActivity {
                 .asView()
                 .withAnimations(HitogoLeftAnimation.build(), R.id.content)
                 .setText("Test 2")
+                .allowOthers()
                 .asLayoutChild(R.id.container_layout)
                 .addActionButton(button)
                 .withState(AlertState.WARNING)
                 .show("TestHint 2");
+    }
+
+    private void showThirdView() {
+        HitogoButtonObject button = Hitogo.with(this)
+                .asButton()
+                .listenWith(new HitogoButtonListener() {
+                    @Override
+                    public void onClick() {
+                        testOnClick();
+                    }
+                }, false)
+                .forClickToAction(R.id.button)
+                .setText("Click me!")
+                .build();
+
+        Hitogo.with(this)
+                .asView()
+                .withAnimations(HitogoTopAnimation.build(), R.id.content)
+                .setText("Test 3")
+                .asLayoutChild(R.id.container_layout)
+                .addActionButton(button)
+                .withState(AlertState.WARNING)
+                .show("TestHint 3");
     }
 
     @NonNull
