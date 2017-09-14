@@ -6,9 +6,6 @@ import org.hitogo.core.HitogoParamsHolder;
 @SuppressWarnings({"WeakerAccess", "unused"})
 public class HitogoViewParams extends HitogoParams {
 
-    private boolean isDismissible;
-    private boolean closeOthers;
-
     private String title;
     private String text;
 
@@ -18,21 +15,24 @@ public class HitogoViewParams extends HitogoParams {
     private Integer textViewId;
     private Integer layoutViewId;
 
+    private boolean isDismissible;
+    private boolean closeOthers;
+    private boolean dismissByClick;
+
     @Override
     protected void onCreateParams(HitogoParamsHolder holder) {
         title = holder.getString("title");
         text = holder.getString("text");
+
         state = holder.getInteger("state");
         containerId = holder.getInteger("containerId");
         titleViewId = holder.getInteger("titleViewId");
         textViewId = holder.getInteger("textViewId");
         layoutViewId = holder.getInteger("layoutViewId");
+
         isDismissible = holder.getBoolean("isDismissible");
         closeOthers = holder.getBoolean("closeOthers");
-    }
-
-    protected boolean isDismissible() {
-        return isDismissible;
+        dismissByClick = holder.getBoolean("dismissByClick");
     }
 
     public String getTitle() {
@@ -66,5 +66,14 @@ public class HitogoViewParams extends HitogoParams {
     @Override
     public boolean isClosingOthers() {
         return closeOthers;
+    }
+
+    protected boolean isDismissible() {
+        return isDismissible;
+    }
+
+    @Override
+    public boolean consumeLayoutClick() {
+        return dismissByClick;
     }
 }

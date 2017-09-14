@@ -20,11 +20,13 @@ public abstract class HitogoParams {
     private HitogoAnimation hitogoAnimation;
     private List<HitogoButtonObject> callToActionButtons;
     private HitogoButtonObject closeButton;
+    private HitogoVisibilityListener listener;
 
     void provideData(HitogoParamsHolder holder, Bundle privateBundle) {
         hitogoAnimation = holder.getAnimation();
         callToActionButtons = holder.getCallToActionButtons();
         closeButton = holder.getCloseButton();
+        listener = holder.getVisibilityListener();
 
         tag = privateBundle.getString("tag");
         hashCode = privateBundle.getInt("hashCode");
@@ -74,5 +76,13 @@ public abstract class HitogoParams {
 
     public final HitogoButtonObject getCloseButton() {
         return closeButton;
+    }
+
+    public HitogoVisibilityListener getVisibilityListener() {
+        return listener;
+    }
+
+    public boolean consumeLayoutClick() {
+        return false;
     }
 }

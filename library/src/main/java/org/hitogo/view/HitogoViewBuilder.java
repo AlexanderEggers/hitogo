@@ -23,13 +23,16 @@ public class HitogoViewBuilder extends HitogoBuilder<HitogoViewBuilder> {
 
     private String title;
     private String text;
+
     private Integer state;
     private Integer containerId;
     private Integer titleViewId;
     private Integer textViewId;
     private Integer layoutViewId;
+
     private boolean isDismissible;
     private boolean closeOthers = true;
+    private boolean dismissByClick;
 
     private HitogoAnimation hitogoAnimation;
     private List<HitogoButtonObject> callToActionButtons;
@@ -186,14 +189,26 @@ public class HitogoViewBuilder extends HitogoBuilder<HitogoViewBuilder> {
     }
 
     @NonNull
-    public final HitogoViewBuilder closeOthers() {
+    public HitogoViewBuilder closeOthers() {
         this.closeOthers = true;
         return this;
     }
 
     @NonNull
-    public final HitogoViewBuilder allowOthers() {
+    public HitogoViewBuilder allowOthers() {
         this.closeOthers = false;
+        return this;
+    }
+
+    @NonNull
+    public HitogoViewBuilder consumeLayoutClick() {
+        this.dismissByClick = true;
+        return this;
+    }
+
+    @NonNull
+    public HitogoViewBuilder ignoreLayoutClick() {
+        this.dismissByClick = false;
         return this;
     }
 
@@ -201,13 +216,16 @@ public class HitogoViewBuilder extends HitogoBuilder<HitogoViewBuilder> {
     protected void onProvideData(HitogoParamsHolder holder) {
         holder.provideString("title", title);
         holder.provideString("text", text);
+
         holder.provideInteger("state", state);
         holder.provideInteger("containerId", containerId);
         holder.provideInteger("titleViewId", titleViewId);
         holder.provideInteger("textViewId", textViewId);
         holder.provideInteger("layoutViewId", layoutViewId);
+
         holder.provideBoolean("isDismissible", isDismissible);
         holder.provideBoolean("closeOthers", closeOthers);
+        holder.provideBoolean("dismissByClick", dismissByClick);
 
         holder.provideAnimation(hitogoAnimation);
         holder.provideCallToActionButtons(callToActionButtons);

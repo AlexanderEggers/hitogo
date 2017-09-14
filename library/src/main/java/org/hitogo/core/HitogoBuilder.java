@@ -19,11 +19,14 @@ public abstract class HitogoBuilder<T> {
     private Class<? extends HitogoParams> paramClass;
     private WeakReference<HitogoContainer> containerRef;
     private HitogoController controller;
+    private HitogoVisibilityListener visibilityListener;
 
     private HitogoParamsHolder holder = new HitogoParamsHolder();
 
+    private Bundle privateBundle = new Bundle();
     private Bundle arguments;
     private String tag;
+    private int hashCode;
     private HitogoObject.HitogoType builderType;
 
     public HitogoBuilder(@NonNull Class<? extends HitogoObject> targetClass,
@@ -38,14 +41,21 @@ public abstract class HitogoBuilder<T> {
 
     @NonNull
     @SuppressWarnings("unchecked")
-    public final HitogoObject build(String tag) {
-        this.tag = tag;
+    public final HitogoObject build() {
+        if(tag != null) {
+            hashCode = tag.hashCode();
+        } else {
+            tag = "";
+            hashCode = tag.hashCode();
+        }
+
         onProvideData(holder);
+        onProvidePrivateData(holder);
 
         try {
             HitogoObject object = targetClass.getConstructor().newInstance();
             HitogoParams params = paramClass.getConstructor().newInstance();
-            params.provideData(holder, createPrivateBundle());
+            params.provideData(holder, privateBundle);
             object.startHitogo(containerRef.get(), params);
             return object;
         } catch (Exception e) {
@@ -54,13 +64,13 @@ public abstract class HitogoBuilder<T> {
         }
     }
 
-    private Bundle createPrivateBundle() {
-        Bundle privateBundle = new Bundle();
+    private void onProvidePrivateData(HitogoParamsHolder holder) {
         privateBundle.putString("tag", tag);
-        privateBundle.putInt("hashCode", tag.hashCode());
+        privateBundle.putInt("hashCode", hashCode);
         privateBundle.putBundle("arguments", arguments);
         privateBundle.putSerializable("type", builderType);
-        return privateBundle;
+
+        holder.provideVisibilityListener(visibilityListener);
     }
 
     protected abstract void onProvideData(HitogoParamsHolder holder);
@@ -77,32 +87,44 @@ public abstract class HitogoBuilder<T> {
         return (T) this;
     }
 
-    public final void show(@NonNull String tag) {
-        build(tag).show();
+    @NonNull
+    public final T setTag(@NonNull String tag) {
+        this.tag = tag;
+        return (T) this;
     }
 
-    public final void showDelayed(@NonNull String tag, long millis) {
+    @NonNull
+    public final T addVisibilityListener(@NonNull HitogoVisibilityListener visibilityListener) {
+        this.visibilityListener = visibilityListener;
+        return (T) this;
+    }
+
+    public final void show() {
+        build().show();
+    }
+
+    public final void showDelayed(long millis) {
         HitogoContainer container = containerRef.get();
         if (container instanceof Fragment) {
-            internalShowDelayed(container.getActivity(), (Fragment) container, tag, millis);
+            internalShowDelayed(container.getActivity(), (Fragment) container, millis);
         } else {
-            internalShowDelayed(container.getActivity(), null, tag, millis);
+            internalShowDelayed(container.getActivity(), null, millis);
         }
     }
 
     private void internalShowDelayed(@NonNull final Activity activity,
-                                     @Nullable final Fragment fragment, final String tag, long millis) {
+                                     @Nullable final Fragment fragment, long millis) {
 
         if (millis == 0) {
             Log.i(HitogoBuilder.class.getName(), "Delayed is not executed. Reason: delay in milliseconds == 0.");
-            build(tag).show();
+            build().show();
         } else {
             Handler handler = new Handler();
             handler.postDelayed(new Runnable() {
                 @Override
                 public void run() {
                     if ((fragment != null && fragment.isAdded()) || !activity.isFinishing()) {
-                        build(tag).show();
+                        build().show();
                     }
                 }
             }, millis);

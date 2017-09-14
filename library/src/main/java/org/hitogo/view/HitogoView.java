@@ -71,6 +71,7 @@ public class HitogoView extends HitogoObject<HitogoViewParams> {
         View view = inflater.inflate(getController().provideLayout(params.getState()), null);
 
         if (view != null) {
+            view = buildLayoutInteractions(view);
             view = buildLayoutContent(view);
             view = buildCallToActionButtons(view);
             view = buildCloseButtons(view);
@@ -79,6 +80,20 @@ public class HitogoView extends HitogoObject<HitogoViewParams> {
             throw new InvalidParameterException("Hitogo view is null. Is the layout existing for " +
                     "the state: '" + params.getState() + "'?");
         }
+    }
+
+    @NonNull
+    private View buildLayoutInteractions(@NonNull View containerView) {
+        if(params.consumeLayoutClick()) {
+            containerView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    close();
+                }
+            });
+            containerView.setClickable(true);
+        }
+        return containerView;
     }
 
     @NonNull

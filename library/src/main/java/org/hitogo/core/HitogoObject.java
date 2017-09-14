@@ -33,6 +33,8 @@ public abstract class HitogoObject<T extends HitogoParams> extends HitogoLifecyc
     private int hashCode;
     private HitogoType type;
 
+    private HitogoVisibilityListener listener;
+
     private WeakReference<HitogoContainer> containerRef;
     private View view;
     private Dialog dialog;
@@ -50,6 +52,8 @@ public abstract class HitogoObject<T extends HitogoParams> extends HitogoLifecyc
         this.hasAnimation = params.hasAnimation();
         this.type = params.getType();
         this.tag = params.getTag();
+        this.listener = params.getVisibilityListener();
+
 
         onCheck(params);
         onCheck(getController(), params);
@@ -99,6 +103,9 @@ public abstract class HitogoObject<T extends HitogoParams> extends HitogoLifecyc
 
     private void makeVisible(Activity activity, HitogoObject object) {
         if(!object.isAttached()) {
+            if(listener != null) {
+                listener.onShow();
+            }
             object.onAttach(activity);
             attached = true;
             detached = false;
@@ -113,6 +120,9 @@ public abstract class HitogoObject<T extends HitogoParams> extends HitogoLifecyc
 
     final void makeInvisible() {
         if(isAttached()) {
+            if(listener != null) {
+                listener.onClose();
+            }
             onDetach(getActivity());
             attached = false;
 
@@ -136,6 +146,9 @@ public abstract class HitogoObject<T extends HitogoParams> extends HitogoLifecyc
     final void makeInvisible(boolean force) {
         if(force) {
             if(isAttached()) {
+                if(listener != null) {
+                    listener.onClose();
+                }
                 onDetach(getActivity());
                 attached = false;
                 onCloseDefault(getActivity());

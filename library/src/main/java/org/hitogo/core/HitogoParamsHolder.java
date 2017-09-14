@@ -13,6 +13,7 @@ public class HitogoParamsHolder {
     private HitogoAnimation hitogoAnimation;
     private List<HitogoButtonObject> callToActionButtons;
     private HitogoButtonObject closeButton;
+    private HitogoVisibilityListener listener;
 
     public final String getString(String key) {
         return bundle.getString(key);
@@ -24,10 +25,6 @@ public class HitogoParamsHolder {
 
     public final Boolean getBoolean(String key) {
         return bundle.getBoolean(key);
-    }
-
-    public final Bundle getExtras(String key) {
-        return bundle.getBundle(key);
     }
 
     public final void provideString(String key, String value) {
@@ -42,12 +39,12 @@ public class HitogoParamsHolder {
         bundle.putSerializable(key, value);
     }
 
-    public final void provideExtras(String key, Bundle extras) {
-        bundle.putBundle(key, extras);
-    }
-
     public final void provideAnimation(HitogoAnimation animation) {
         this.hitogoAnimation = animation;
+    }
+
+    public final void provideVisibilityListener(HitogoVisibilityListener listener) {
+        this.listener = listener;
     }
 
     public final void provideCallToActionButtons(List<HitogoButtonObject> buttonList) {
@@ -68,5 +65,9 @@ public class HitogoParamsHolder {
 
     HitogoButtonObject getCloseButton() {
         return closeButton;
+    }
+
+    HitogoVisibilityListener getVisibilityListener() {
+        return listener;
     }
 }
