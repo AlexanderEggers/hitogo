@@ -1,17 +1,17 @@
 package org.hitogo.test;
 
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.robolectric.Robolectric;
+import org.robolectric.RobolectricTestRunner;
 
-import static org.junit.Assert.*;
+import java.util.concurrent.TimeUnit;
 
-/**
- * Example local unit test, which will execute on the development machine (host).
- *
- * @see <a href="http://d.android.com/tools/testing">Testing documentation</a>
- */
+@RunWith(RobolectricTestRunner.class)
 public class ExampleUnitTest {
+
     @Test
     public void addition_isCorrect() throws Exception {
-        assertEquals(4, 2 + 2);
+        //Robolectric.getForegroundThreadScheduler().advanceBy(1000, TimeUnit.MILLISECONDS);
     }
 }

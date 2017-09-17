@@ -33,7 +33,8 @@ abstract class HitogoLifecycleCallback<T extends HitogoParams> {
     }
 
     @Nullable
-    protected Dialog onCreateDialog(@NonNull Activity activity, @NonNull T params) {
+    protected Dialog onCreateDialog(@NonNull LayoutInflater inflater, @NonNull Activity activity,
+                                    @NonNull T params) {
         return null;
     }
 

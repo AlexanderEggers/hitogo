@@ -68,90 +68,74 @@ public abstract class HitogoController implements LifecycleObserver {
         return hitogoStack;
     }
 
-    @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
     public final void closeAll() {
-        internalCloseByType(null, false);
+        internalCloseAll(false);
     }
 
+    @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
     public final void forceCloseAll() {
-        internalCloseByType(null, true);
+        internalCloseAll(true);
     }
 
-    public final void closeByType(@Nullable HitogoObject.HitogoType type) {
+    private void internalCloseAll(boolean force) {
+        Iterator<HitogoObject> it = currentViews.iterator();
+        while(it.hasNext()) {
+            HitogoObject object = it.next();
+            if(object != null && object.isAttached()) {
+                object.makeInvisible(force);
+                it.remove();
+            }
+        }
+
+        it = currentDialogs.iterator();
+        while(it.hasNext()) {
+            HitogoObject object = it.next();
+            if(object != null && object.isAttached()) {
+                object.makeInvisible(force);
+                it.remove();
+            }
+        }
+    }
+
+    public final void closeByType(@NonNull HitogoObject.HitogoType type) {
         internalCloseByType(type, false);
     }
 
-    public final void forceCloseByType(@Nullable HitogoObject.HitogoType type) {
+    public final void forceCloseByType(@NonNull HitogoObject.HitogoType type) {
         internalCloseByType(type, true);
     }
 
-    private void internalCloseByType(@Nullable HitogoObject.HitogoType type, boolean force) {
+    private void internalCloseByType(@NonNull HitogoObject.HitogoType type, boolean force) {
         synchronized (syncLock) {
-            if(type != null) {
-                Iterator<HitogoObject> it = currentViews.iterator();
-                while(it.hasNext()) {
-                    HitogoObject object = it.next();
-                    if(object != null && type == object.getType() && object.isAttached()) {
-                        object.makeInvisible(force);
-                        it.remove();
-                    }
+            Iterator<HitogoObject> it = currentViews.iterator();
+            while(it.hasNext()) {
+                HitogoObject object = it.next();
+                if(object != null && type == object.getType() && object.isAttached()) {
+                    object.makeInvisible(force);
+                    it.remove();
                 }
+            }
 
-                it = currentDialogs.iterator();
-                while(it.hasNext()) {
-                    HitogoObject object = it.next();
-                    if(object != null && type == object.getType() && object.isAttached()) {
-                        object.makeInvisible(force);
-                        it.remove();
-                    }
-                }
-            } else {
-                Iterator<HitogoObject> it = currentViews.iterator();
-                while(it.hasNext()) {
-                    HitogoObject object = it.next();
-                    if(object != null && object.isAttached()) {
-                        object.makeInvisible(force);
-                        it.remove();
-                    }
-                }
-
-                it = currentDialogs.iterator();
-                while(it.hasNext()) {
-                    HitogoObject object = it.next();
-                    if(object != null && object.isAttached()) {
-                        object.makeInvisible(force);
-                        it.remove();
-                    }
+            it = currentDialogs.iterator();
+            while(it.hasNext()) {
+                HitogoObject object = it.next();
+                if(object != null && type == object.getType() && object.isAttached()) {
+                    object.makeInvisible(force);
+                    it.remove();
                 }
             }
         }
     }
 
     public final void closeByTag(@NonNull String tag) {
-        synchronized (syncLock) {
-            int tagHashCode = tag.hashCode();
-
-            Iterator<HitogoObject> it = currentViews.iterator();
-            while(it.hasNext()) {
-                HitogoObject object = it.next();
-                if(object != null && object.isAttached() && object.hashCode() == tagHashCode) {
-                    object.makeInvisible(false);
-                    it.remove();
-                }
-            }
-
-            it = currentDialogs.iterator();
-            while(it.hasNext()) {
-                HitogoObject object = it.next();
-                if(object != null && object.isAttached() && object.hashCode() == tagHashCode) {
-                    object.makeInvisible(false);
-                    it.remove();
-                }
-            }
-        }
+        internalCloseByTag(tag, false);
     }
 
     public final void forceCloseByTag(@NonNull String tag) {
+        internalCloseByTag(tag, true);
+    }
+
+    private void internalCloseByTag(@NonNull String tag, boolean force) {
         synchronized (syncLock) {
             int tagHashCode = tag.hashCode();
 
@@ -159,7 +143,7 @@ public abstract class HitogoController implements LifecycleObserver {
             while(it.hasNext()) {
                 HitogoObject object = it.next();
                 if(object != null && object.isAttached() && object.hashCode() == tagHashCode) {
-                    object.makeInvisible(true);
+                    object.makeInvisible(force);
                     it.remove();
                 }
             }
@@ -168,7 +152,7 @@ public abstract class HitogoController implements LifecycleObserver {
             while(it.hasNext()) {
                 HitogoObject object = it.next();
                 if(object != null && object.isAttached() && object.hashCode() == tagHashCode) {
-                    object.makeInvisible(true);
+                    object.makeInvisible(force);
                     it.remove();
                 }
             }

@@ -117,7 +117,7 @@ public class HitogoViewBuilder extends HitogoBuilder<HitogoViewBuilder> {
         try {
             closeButton = Hitogo.with(getContainer())
                     .asButton()
-                    .forClose()
+                    .forViewAction()
                     .build();
         } catch (InvalidParameterException ex) {
             Log.e(HitogoViewBuilder.class.getName(), "Cannot add default close button.");

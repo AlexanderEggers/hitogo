@@ -7,6 +7,7 @@ import android.content.DialogInterface;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Log;
+import android.view.LayoutInflater;
 
 import org.hitogo.button.HitogoButton;
 import org.hitogo.button.HitogoButtonObject;
@@ -42,7 +43,8 @@ public class HitogoDialog extends HitogoObject<HitogoDialogParams> {
 
     @Nullable
     @Override
-    protected Dialog onCreateDialog(@NonNull Activity activity, @NonNull HitogoDialogParams params) {
+    protected Dialog onCreateDialog(@NonNull LayoutInflater inflater, @NonNull Activity activity,
+                                    @NonNull HitogoDialogParams params) {
         List<HitogoButtonObject> buttonList = params.getCallToActionButtons();
         Integer themeResId = params.getDialogThemeResId();
 

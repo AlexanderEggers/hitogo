@@ -41,18 +41,18 @@ public class HitogoButtonBuilder extends HitogoBuilder {
     }
 
     @NonNull
-    public HitogoButtonBuilder forClose() {
-        return forClose(getController().provideDefaultCloseIconId(),
+    public HitogoButtonBuilder forViewAction() {
+        return forViewAction(getController().provideDefaultCloseIconId(),
                 getController().provideDefaultCloseClickId());
     }
 
     @NonNull
-    public HitogoButtonBuilder forClose(Integer closeIconId) {
-        return forClose(closeIconId, getController().provideDefaultCloseClickId());
+    public HitogoButtonBuilder forViewAction(Integer closeIconId) {
+        return forViewAction(closeIconId, getController().provideDefaultCloseClickId());
     }
 
     @NonNull
-    public HitogoButtonBuilder forClose(Integer closeIconId, @Nullable Integer optionalCloseViewId) {
+    public HitogoButtonBuilder forViewAction(Integer closeIconId, @Nullable Integer optionalCloseViewId) {
         hasButtonView = true;
         viewIds = new int[2];
         viewIds[0] = closeIconId;
@@ -61,7 +61,7 @@ public class HitogoButtonBuilder extends HitogoBuilder {
     }
 
     @NonNull
-    public HitogoButtonBuilder forDialog() {
+    public HitogoButtonBuilder forClickOnlyAction() {
         hasButtonView = false;
         viewIds = new int[0];
         return this;

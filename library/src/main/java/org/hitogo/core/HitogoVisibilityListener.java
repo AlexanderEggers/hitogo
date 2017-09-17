@@ -1,12 +1,6 @@
 package org.hitogo.core;
 
-public abstract class HitogoVisibilityListener {
-
-    public void onShow() {
-
-    }
-
-    public void onClose() {
-
-    }
+public interface HitogoVisibilityListener {
+    void onShow();
+    void onClose();
 }

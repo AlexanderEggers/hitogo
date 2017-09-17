@@ -73,7 +73,8 @@ public class HitogoDialogBuilder extends HitogoBuilder<HitogoDialogBuilder> {
     public HitogoDialogBuilder addButton(@NonNull String... buttonContent) {
         for (String buttonText : buttonContent) {
             HitogoButtonObject button = Hitogo.with(getContainer())
-                    .asButton().forDialog()
+                    .asButton()
+                    .forClickOnlyAction()
                     .setText(buttonText)
                     .build();
             buttons.add(button);

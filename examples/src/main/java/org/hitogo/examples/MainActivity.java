@@ -44,7 +44,7 @@ public class MainActivity extends HitogoActivity {
                         getController().forceCloseAll();
                     }
                 }, false)
-                .forClose(R.id.close)
+                .forViewAction(R.id.close)
                 .build();
 
         Hitogo.with(this)
@@ -80,7 +80,7 @@ public class MainActivity extends HitogoActivity {
                         showSecondView();
                     }
                 }, false)
-                .forDialog()
+                .forClickOnlyAction()
                 .setText("Ok")
                 .build();
 

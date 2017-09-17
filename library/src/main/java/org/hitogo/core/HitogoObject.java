@@ -61,12 +61,13 @@ public abstract class HitogoObject<T extends HitogoParams> extends HitogoLifecyc
         onCreate(params);
         onCreate(getController(), params);
 
+        LayoutInflater inflater = (LayoutInflater) getActivity()
+                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+
         if(type == HitogoType.VIEW) {
-            LayoutInflater inflater = (LayoutInflater) getActivity()
-                    .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             view = onCreateView(inflater, getActivity(), params);
         } else {
-            dialog = onCreateDialog(getActivity(), params);
+            dialog = onCreateDialog(inflater, getActivity(), params);
         }
 
         return this;
