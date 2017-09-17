@@ -15,11 +15,11 @@ repositories {
 }
 
 dependencies {
-  compile 'org.hitogo:Hitogo:1.0.0-alpha4'
+  compile 'org.hitogo:Hitogo:1.0.0-alpha5'
 }
 ```
 
-How do I use Hitogo? (Step-by-step introduction for 1.0.0-alpha4)
+How do I use Hitogo? (Step-by-step introduction for 1.0.0-alpha5)
 -------------------
 
 1. Extend the HitogoController
@@ -83,7 +83,7 @@ public class MainActivity extends HitogoActivity {
 
     @NonNull
     @Override
-    public HitogoController initialiseHitogo(@NonNull LifecycleRegistry lifecycle) {
+    public HitogoController initialiseHitogo(@NonNull Lifecycle lifecycle) {
         return new HitogoExampleController(lifecycle);
     }
 }
@@ -99,14 +99,15 @@ protected void someMethod() {
     ...
     Hitogo.with(this)
                 .asView()
-                .withAnimations(R.id.content)
+                .withAnimations()
                 .setText("Test")
                 .asLayoutChild(R.id.container_layout)
                 .withState(HitogoDefaultController.HINT)
-                .showDelayed("TestHint", 1000);
+                .setTag("TestHint")
+                .show();
 }
 
-//Here is a more complex alert that has two buttons, a title and a message:
+//Here is a more complex alert, that has two buttons:
 public void someMethod() {
   ...
   HitogoButtonObject button = Hitogo.with(this)
@@ -121,26 +122,39 @@ public void someMethod() {
                 .setText("Click me!")
                 .build();
 
-  HitogoButtonObject button2 = Hitogo.with(this)
+        HitogoButtonObject closeButton = Hitogo.with(this)
                 .asButton()
                 .listenWith(new HitogoButtonListener() {
                     @Override
                     public void onClick() {
-                        testOnClick2();
+                        getController().forceCloseAll();
                     }
                 }, false)
-                .forClickToAction(R.id.button)
-                .setText("Click Test")
+                .forViewAction(R.id.close)
                 .build();
 
         Hitogo.with(this)
                 .asView()
                 .withAnimations(R.id.content)
-                .setText("That's a test alert.")
+                .asDismissible(closeButton)
+                .setText("Test")
                 .asLayoutChild(R.id.container_layout)
-                .addActionButton(button, button2)
-                .withState(HitogoDefaultController.WARNING)
-                .showDelayed("TestHint 2", 1000);
+                .addActionButton(button)
+                .consumeLayoutClick()
+                .addVisibilityListener(new HitogoVisibilityListener() {
+                    @Override
+                    public void onShow() {
+                        Log.i(MainActivity.class.getName(), "Showing Hitogo");
+                    }
+
+                    @Override
+                    public void onClose() {
+                        Log.i(MainActivity.class.getName(), "Closing Hitogo");
+                    }
+                })
+                .withState(HitogoDefaultController.HINT)
+                .setTag("TestHint 1")
+                .show();
 }
 
 //Here an example to create a dialog:
@@ -154,7 +168,7 @@ public void someMethod() {
                         testClick();
                     }
                 })
-                .forDialog()
+                .forClickOnlyAction()
                 .setText("Ok")
                 .build();
 
@@ -165,7 +179,8 @@ public void someMethod() {
                 .addButton(button)
                 .addButton("Cancel")
                 .asDismissible()
-                .show("Test Dialog");
+                .setTag("Test Dialog")
+                .show();
 }
 ```
 
@@ -187,15 +202,16 @@ Comments/bugs/questions/pull requests are always welcome!
 Compatibility
 -------------
 
- * **Android SDK**: Hitogo requires a minimum API level of 14.
+ * **Minimum Android SDK**: Hitogo requires a minimum API level of 14.
+ * **Compile Android SDK**: Hitogo requires you to compile against API 26.
  
 TODO
 -------------
 * More animations (Fade, ...)
 * Hitogo layouts (for all possible types)
-* Unit/Espresso testing
+* Unit testing
 * More examples
-* Full documentation
+* Full documentation (source code and wiki)
 
 Author
 ------
