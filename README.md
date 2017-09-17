@@ -34,7 +34,7 @@ public class HitogoExampleController extends HitogoController {
     public static final int WARNING = 2;
     public static final int DANGER = 3;
 
-    public HitogoExampleController(LifecycleRegistry lifecycle) {
+    public HitogoExampleController(Lifecycle lifecycle) {
         super(lifecycle);
     }
 
