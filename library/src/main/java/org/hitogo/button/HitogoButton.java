@@ -30,10 +30,4 @@ public class HitogoButton extends HitogoButtonObject<HitogoButtonParams> {
             }
         }
     }
-
-    @Override
-    protected void onCreate(@NonNull HitogoButtonParams params) {
-        //doing nothing here - not needed for this button implementation
-        //can be used to initialise certain parameter for the params object based on existing ones
-    }
 }

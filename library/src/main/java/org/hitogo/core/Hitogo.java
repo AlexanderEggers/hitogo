@@ -3,12 +3,16 @@ package org.hitogo.core;
 import android.support.annotation.NonNull;
 
 import org.hitogo.button.HitogoButtonBuilder;
+import org.hitogo.button.HitogoButtonFactory;
 import org.hitogo.button.HitogoButtonObject;
 import org.hitogo.dialog.HitogoDialogBuilder;
+import org.hitogo.dialog.HitogoDialogFactory;
 import org.hitogo.view.HitogoViewBuilder;
+import org.hitogo.view.HitogoViewFactory;
 
 @SuppressWarnings({"WeakerAccess", "unused"})
-public class Hitogo implements HitogoFactory<HitogoViewBuilder, HitogoDialogBuilder, HitogoButtonBuilder> {
+public class Hitogo implements HitogoViewFactory<HitogoViewBuilder>,
+        HitogoDialogFactory<HitogoDialogBuilder>, HitogoButtonFactory<HitogoButtonBuilder> {
 
     private HitogoContainer container;
     private HitogoController controller;
