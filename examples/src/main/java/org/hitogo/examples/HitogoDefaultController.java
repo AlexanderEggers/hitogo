@@ -1,6 +1,6 @@
 package org.hitogo.examples;
 
-import android.arch.lifecycle.LifecycleRegistry;
+import android.arch.lifecycle.Lifecycle;
 import android.support.annotation.Nullable;
 
 import org.hitogo.core.HitogoAnimation;
@@ -9,7 +9,7 @@ import org.hitogo.view.HitogoTopAnimation;
 
 public class HitogoDefaultController extends HitogoController {
 
-    public HitogoDefaultController(LifecycleRegistry lifecycle) {
+    public HitogoDefaultController(Lifecycle lifecycle) {
         super(lifecycle);
     }
 

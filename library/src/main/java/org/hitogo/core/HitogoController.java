@@ -2,7 +2,6 @@ package org.hitogo.core;
 
 import android.arch.lifecycle.Lifecycle;
 import android.arch.lifecycle.LifecycleObserver;
-import android.arch.lifecycle.LifecycleRegistry;
 import android.arch.lifecycle.OnLifecycleEvent;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
@@ -30,7 +29,7 @@ public abstract class HitogoController implements LifecycleObserver {
     private final List<HitogoObject> currentViews = new ArrayList<>();
     private final List<HitogoObject> currentDialogs = new ArrayList<>();
 
-    public HitogoController(@NonNull LifecycleRegistry lifecycle) {
+    public HitogoController(@NonNull Lifecycle lifecycle) {
         lifecycle.addObserver(this);
     }
 
