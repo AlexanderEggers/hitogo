@@ -1,7 +1,6 @@
 package org.hitogo.examples;
 
 import android.arch.lifecycle.Lifecycle;
-import android.arch.lifecycle.LifecycleRegistry;
 import android.support.annotation.NonNull;
 import android.os.Bundle;
 import android.util.Log;

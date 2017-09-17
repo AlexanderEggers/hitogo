@@ -25,6 +25,7 @@ public abstract class HitogoBuilder<T> {
 
     private Bundle privateBundle = new Bundle();
     private Bundle arguments;
+    private Integer state;
     private String tag;
     private int hashCode;
     private HitogoObject.HitogoType builderType;
@@ -69,6 +70,7 @@ public abstract class HitogoBuilder<T> {
         privateBundle.putInt("hashCode", hashCode);
         privateBundle.putBundle("arguments", arguments);
         privateBundle.putSerializable("type", builderType);
+        privateBundle.putSerializable("state", state);
 
         holder.provideVisibilityListener(visibilityListener);
     }
@@ -90,6 +92,18 @@ public abstract class HitogoBuilder<T> {
     @NonNull
     public final T setTag(@NonNull String tag) {
         this.tag = tag;
+        return (T) this;
+    }
+
+    @NonNull
+    public final T withState(Integer state) {
+        this.state = state;
+        return (T) this;
+    }
+
+    @NonNull
+    public final T withState(Enum state) {
+        this.state = state != null ? state.ordinal() : null;
         return (T) this;
     }
 

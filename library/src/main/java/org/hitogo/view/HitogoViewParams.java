@@ -9,7 +9,6 @@ public class HitogoViewParams extends HitogoParams {
     private String title;
     private String text;
 
-    private Integer state;
     private Integer containerId;
     private Integer titleViewId;
     private Integer textViewId;
@@ -24,7 +23,6 @@ public class HitogoViewParams extends HitogoParams {
         title = holder.getString("title");
         text = holder.getString("text");
 
-        state = holder.getInteger("state");
         containerId = holder.getInteger("containerId");
         titleViewId = holder.getInteger("titleViewId");
         textViewId = holder.getInteger("textViewId");
@@ -41,10 +39,6 @@ public class HitogoViewParams extends HitogoParams {
 
     public String getText() {
         return text;
-    }
-
-    public Integer getState() {
-        return state;
     }
 
     public Integer getContainerId() {

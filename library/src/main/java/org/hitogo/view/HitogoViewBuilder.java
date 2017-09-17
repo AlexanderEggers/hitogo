@@ -24,7 +24,6 @@ public class HitogoViewBuilder extends HitogoBuilder<HitogoViewBuilder> {
     private String title;
     private String text;
 
-    private Integer state;
     private Integer containerId;
     private Integer titleViewId;
     private Integer textViewId;
@@ -165,18 +164,6 @@ public class HitogoViewBuilder extends HitogoBuilder<HitogoViewBuilder> {
     }
 
     @NonNull
-    public HitogoViewBuilder withState(Integer state) {
-        this.state = state;
-        return this;
-    }
-
-    @NonNull
-    public HitogoViewBuilder withState(Enum state) {
-        this.state = state != null ? state.ordinal() : null;
-        return this;
-    }
-
-    @NonNull
     public HitogoViewBuilder asLayoutChild() {
         asLayoutChild(getController().provideDefaultLayoutContainerId());
         return this;
@@ -217,7 +204,6 @@ public class HitogoViewBuilder extends HitogoBuilder<HitogoViewBuilder> {
         holder.provideString("title", title);
         holder.provideString("text", text);
 
-        holder.provideInteger("state", state);
         holder.provideInteger("containerId", containerId);
         holder.provideInteger("titleViewId", titleViewId);
         holder.provideInteger("textViewId", textViewId);

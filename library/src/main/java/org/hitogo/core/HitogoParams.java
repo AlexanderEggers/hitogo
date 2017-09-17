@@ -14,6 +14,7 @@ public abstract class HitogoParams {
 
     private String tag;
     private int hashCode;
+    private Integer state;
     private HitogoObject.HitogoType type;
     private Bundle arguments;
 
@@ -32,6 +33,7 @@ public abstract class HitogoParams {
         hashCode = privateBundle.getInt("hashCode");
         arguments = privateBundle.getBundle("arguments");
         type = (HitogoObject.HitogoType) privateBundle.getSerializable("type");
+        state = (Integer) privateBundle.getSerializable("state");
 
         onCreateParams(holder);
     }
@@ -58,6 +60,10 @@ public abstract class HitogoParams {
     @NonNull
     public final String getTag() {
         return tag;
+    }
+
+    public final Integer getState() {
+        return state;
     }
 
     @Nullable
