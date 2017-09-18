@@ -5,6 +5,7 @@ import android.support.annotation.Nullable;
 
 import org.hitogo.core.HitogoAnimation;
 import org.hitogo.core.HitogoController;
+import org.hitogo.core.HitogoType;
 import org.hitogo.view.HitogoTopAnimation;
 
 public class HitogoDefaultController extends HitogoController {
@@ -14,7 +15,7 @@ public class HitogoDefaultController extends HitogoController {
     }
 
     @Override
-    public Integer provideLayout(int state) {
+    public Integer provideViewLayout(int state) {
         AlertState alertState = AlertState.parse(state);
 
         switch (alertState) {
@@ -32,7 +33,7 @@ public class HitogoDefaultController extends HitogoController {
 
     @Nullable
     @Override
-    public Integer provideDefaultTextViewId() {
+    public Integer provideDefaultTextViewId(HitogoType type) {
         return R.id.text;
     }
 

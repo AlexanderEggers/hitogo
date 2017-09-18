@@ -1,6 +1,7 @@
 package org.hitogo.core;
 
 public interface HitogoVisibilityListener {
-    void onShow();
-    void onClose();
+    void onCreate(HitogoObject object);
+    void onShow(HitogoObject object);
+    void onClose(HitogoObject object);
 }

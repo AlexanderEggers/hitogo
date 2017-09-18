@@ -68,7 +68,7 @@ public class HitogoView extends HitogoObject<HitogoViewParams> {
     @Override
     protected View onCreateView(@NonNull LayoutInflater inflater, @NonNull Activity activity,
                                 @NonNull HitogoViewParams params) {
-        View view = inflater.inflate(getController().provideLayout(params.getState()), null);
+        View view = inflater.inflate(getController().provideViewLayout(params.getState()), null);
 
         if (view != null) {
             view = buildLayoutInteractions(view);

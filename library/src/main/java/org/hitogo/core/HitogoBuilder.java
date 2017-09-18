@@ -28,11 +28,11 @@ public abstract class HitogoBuilder<T> {
     private Integer state;
     private String tag;
     private int hashCode;
-    private HitogoObject.HitogoType builderType;
+    private HitogoType builderType;
 
     public HitogoBuilder(@NonNull Class<? extends HitogoObject> targetClass,
                          @NonNull Class<? extends HitogoParams> paramClass,
-                         @NonNull HitogoContainer container, @NonNull HitogoObject.HitogoType builderType) {
+                         @NonNull HitogoContainer container, @NonNull HitogoType builderType) {
         this.targetClass = targetClass;
         this.paramClass = paramClass;
         this.containerRef = new WeakReference<>(container);

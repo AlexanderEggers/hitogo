@@ -20,10 +20,6 @@ public abstract class HitogoObject<T extends HitogoParams> extends HitogoLifecyc
     private static final int CURRENT_CROUTON = 0;
     private static final int LAST_CROUTON = 1;
 
-    public enum HitogoType {
-        VIEW, DIALOG
-    }
-
     private boolean attached;
     private boolean detached;
     private boolean hasAnimation;
@@ -54,16 +50,17 @@ public abstract class HitogoObject<T extends HitogoParams> extends HitogoLifecyc
         this.tag = params.getTag();
         this.listener = params.getVisibilityListener();
 
-
         onCheck(params);
         onCheck(getController(), params);
+
+        if(listener != null) {
+            listener.onCreate(this);
+        }
 
         onCreate(params);
         onCreate(getController(), params);
 
-        LayoutInflater inflater = (LayoutInflater) getActivity()
-                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-
+        LayoutInflater inflater = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         if(type == HitogoType.VIEW) {
             view = onCreateView(inflater, getActivity(), params);
         } else {
@@ -105,8 +102,9 @@ public abstract class HitogoObject<T extends HitogoParams> extends HitogoLifecyc
     private void makeVisible(Activity activity, HitogoObject object) {
         if(!object.isAttached()) {
             if(listener != null) {
-                listener.onShow();
+                listener.onShow(this);
             }
+
             object.onAttach(activity);
             attached = true;
             detached = false;
@@ -119,44 +117,27 @@ public abstract class HitogoObject<T extends HitogoParams> extends HitogoLifecyc
         }
     }
 
-    final void makeInvisible() {
-        if(isAttached()) {
-            if(listener != null) {
-                listener.onClose();
-            }
-            onDetach(getActivity());
-            attached = false;
-
-            if(hasAnimation) {
-                onCloseAnimation(getActivity());
-
-                Handler handler = new Handler();
-                handler.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        detached = true;
-                    }
-                }, getAnimationDuration());
-            } else {
-                onCloseDefault(getActivity());
-                detached = true;
-            }
-        }
-    }
-
     final void makeInvisible(boolean force) {
-        if(force) {
-            if(isAttached()) {
-                if(listener != null) {
-                    listener.onClose();
+        if(listener != null) {
+            listener.onClose(this);
+        }
+
+        onDetach(getActivity());
+        attached = false;
+
+        if(hasAnimation && !force) {
+            onCloseAnimation(getActivity());
+
+            Handler handler = new Handler();
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    detached = true;
                 }
-                onDetach(getActivity());
-                attached = false;
-                onCloseDefault(getActivity());
-                detached = true;
-            }
+            }, getAnimationDuration());
         } else {
-            makeInvisible();
+            onCloseDefault(getActivity());
+            detached = true;
         }
     }
 
@@ -207,6 +188,7 @@ public abstract class HitogoObject<T extends HitogoParams> extends HitogoLifecyc
         return containerRef.get().getController();
     }
 
+    @NonNull
     public final HitogoType getType() {
         return type;
     }
@@ -221,13 +203,13 @@ public abstract class HitogoObject<T extends HitogoParams> extends HitogoLifecyc
         return dialog;
     }
 
+    public final String getTag() {
+        return tag;
+    }
+
     @Override
     public final int hashCode() {
         return hashCode;
-    }
-
-    public final String getTag() {
-        return tag;
     }
 
     @Override

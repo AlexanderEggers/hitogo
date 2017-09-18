@@ -17,9 +17,12 @@ import org.hitogo.core.HitogoContainer;
 import org.hitogo.core.HitogoObject;
 import org.hitogo.core.HitogoParams;
 import org.hitogo.core.HitogoParamsHolder;
+import org.hitogo.core.HitogoType;
 
 @SuppressWarnings({"WeakerAccess", "unused"})
 public class HitogoViewBuilder extends HitogoBuilder<HitogoViewBuilder> {
+
+    private static final HitogoType type = HitogoType.VIEW;
 
     private String title;
     private String text;
@@ -34,19 +37,18 @@ public class HitogoViewBuilder extends HitogoBuilder<HitogoViewBuilder> {
     private boolean dismissByClick;
 
     private HitogoAnimation hitogoAnimation;
-    private List<HitogoButtonObject> callToActionButtons;
+    private List<HitogoButtonObject> callToActionButtons = new ArrayList<>();
     private HitogoButtonObject closeButton;
 
     public HitogoViewBuilder(@NonNull Class<? extends HitogoObject> targetClass,
                              @NonNull Class<? extends HitogoParams> paramClass,
                              @NonNull HitogoContainer container) {
-        super(targetClass, paramClass, container, HitogoObject.HitogoType.VIEW);
-        callToActionButtons = new ArrayList<>();
+        super(targetClass, paramClass, container, type);
     }
 
     @NonNull
     public HitogoViewBuilder setTitle(@NonNull String title) {
-        return setTitle(getController().provideDefaultTitleViewId(), title);
+        return setTitle(getController().provideDefaultTitleViewId(type), title);
     }
 
     @NonNull
@@ -58,7 +60,7 @@ public class HitogoViewBuilder extends HitogoBuilder<HitogoViewBuilder> {
 
     @NonNull
     public HitogoViewBuilder setText(@NonNull String text) {
-        return setText(getController().provideDefaultTextViewId(), text);
+        return setText(getController().provideDefaultTextViewId(type), text);
     }
 
     @NonNull
@@ -159,7 +161,7 @@ public class HitogoViewBuilder extends HitogoBuilder<HitogoViewBuilder> {
             return asLayoutChild()
                     .setText(text)
                     .asDismissible()
-                    .withState(getController().provideDefaultState());
+                    .withState(getController().provideDefaultState(type));
         }
     }
 

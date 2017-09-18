@@ -35,7 +35,7 @@ public abstract class HitogoController implements LifecycleObserver {
 
     final HitogoObject[] validate(HitogoObject hitogo) {
         synchronized (syncLock) {
-            if(hitogo.getType() == HitogoObject.HitogoType.VIEW) {
+            if(hitogo.getType() == HitogoType.VIEW) {
                 return validateHitogo(currentViews, hitogo);
             } else {
                 return validateHitogo(currentDialogs, hitogo);
@@ -96,15 +96,15 @@ public abstract class HitogoController implements LifecycleObserver {
         }
     }
 
-    public final void closeByType(@NonNull HitogoObject.HitogoType type) {
+    public final void closeByType(@NonNull HitogoType type) {
         internalCloseByType(type, false);
     }
 
-    public final void forceCloseByType(@NonNull HitogoObject.HitogoType type) {
+    public final void forceCloseByType(@NonNull HitogoType type) {
         internalCloseByType(type, true);
     }
 
-    private void internalCloseByType(@NonNull HitogoObject.HitogoType type, boolean force) {
+    private void internalCloseByType(@NonNull HitogoType type, boolean force) {
         synchronized (syncLock) {
             Iterator<HitogoObject> it = currentViews.iterator();
             while(it.hasNext()) {
@@ -190,12 +190,18 @@ public abstract class HitogoController implements LifecycleObserver {
 
     @LayoutRes
     @Nullable
-    public Integer provideLayout(int state) {
+    public Integer provideViewLayout(int state) {
+        return null;
+    }
+
+    @LayoutRes
+    @Nullable
+    public Integer provideDialogLayout(int state) {
         return null;
     }
 
     @Nullable
-    public Integer provideDefaultState() {
+    public Integer provideDefaultState(HitogoType type) {
         return null;
     }
 
@@ -210,12 +216,12 @@ public abstract class HitogoController implements LifecycleObserver {
     }
 
     @Nullable
-    public Integer provideDefaultTextViewId() {
+    public Integer provideDefaultTextViewId(HitogoType type) {
         return null;
     }
 
     @Nullable
-    public Integer provideDefaultTitleViewId() {
+    public Integer provideDefaultTitleViewId(HitogoType type) {
         return null;
     }
 

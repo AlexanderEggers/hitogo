@@ -10,6 +10,7 @@ import org.hitogo.button.HitogoButtonObject;
 import org.hitogo.core.Hitogo;
 import org.hitogo.core.HitogoActivity;
 import org.hitogo.core.HitogoController;
+import org.hitogo.core.HitogoObject;
 import org.hitogo.core.HitogoVisibilityListener;
 import org.hitogo.view.HitogoLeftAnimation;
 import org.hitogo.view.HitogoTopAnimation;
@@ -57,12 +58,17 @@ public class MainActivity extends HitogoActivity {
                 .consumeLayoutClick()
                 .addVisibilityListener(new HitogoVisibilityListener() {
                     @Override
-                    public void onShow() {
+                    public void onCreate(HitogoObject object) {
+                        Log.i(MainActivity.class.getName(), "Creating Hitogo");
+                    }
+
+                    @Override
+                    public void onShow(HitogoObject object) {
                         Log.i(MainActivity.class.getName(), "Showing Hitogo");
                     }
 
                     @Override
-                    public void onClose() {
+                    public void onClose(HitogoObject object) {
                         Log.i(MainActivity.class.getName(), "Closing Hitogo");
                     }
                 })
