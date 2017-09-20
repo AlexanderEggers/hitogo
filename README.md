@@ -195,7 +195,7 @@ But wait, there is much more! Some features are already included but not documen
 
 Status
 ------
-Version 1 is in development. Updates are currently released at least weekly with new features and bug fixes. **Please keep in mind that the api is not stable yet and will change!**
+Version 1 is in development. Updates are currently released at least monthly with new features and bug fixes. **Please keep in mind that the api is not stable yet and will change!**
 
 Comments/bugs/questions/pull requests are always welcome!
 
