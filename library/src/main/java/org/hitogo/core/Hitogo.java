@@ -2,17 +2,20 @@ package org.hitogo.core;
 
 import android.support.annotation.NonNull;
 
-import org.hitogo.button.HitogoButtonBuilder;
-import org.hitogo.button.HitogoButtonFactory;
-import org.hitogo.button.HitogoButtonObject;
-import org.hitogo.dialog.HitogoDialogBuilder;
-import org.hitogo.dialog.HitogoDialogFactory;
-import org.hitogo.view.HitogoViewBuilder;
-import org.hitogo.view.HitogoViewFactory;
+import org.hitogo.alert.core.HitogoAlert;
+import org.hitogo.alert.core.HitogoAlertParams;
+import org.hitogo.button.action.HitogoActionBuilder;
+import org.hitogo.button.action.HitogoActionFactory;
+import org.hitogo.button.core.HitogoButton;
+import org.hitogo.alert.dialog.HitogoDialogBuilder;
+import org.hitogo.alert.dialog.HitogoDialogFactory;
+import org.hitogo.alert.view.HitogoViewBuilder;
+import org.hitogo.alert.view.HitogoViewFactory;
+import org.hitogo.button.core.HitogoButtonParams;
 
 @SuppressWarnings({"WeakerAccess", "unused"})
 public class Hitogo implements HitogoViewFactory<HitogoViewBuilder>,
-        HitogoDialogFactory<HitogoDialogBuilder>, HitogoButtonFactory<HitogoButtonBuilder> {
+        HitogoDialogFactory<HitogoDialogBuilder>, HitogoActionFactory<HitogoActionBuilder> {
 
     private HitogoContainer container;
     private HitogoController controller;
@@ -31,13 +34,13 @@ public class Hitogo implements HitogoViewFactory<HitogoViewBuilder>,
                 controller.provideDefaultViewParamsClass(), container);
     }
 
-    public HitogoViewBuilder asView(@NonNull Class<? extends HitogoObject> targetClass) {
+    public HitogoViewBuilder asView(@NonNull Class<? extends HitogoAlert> targetClass) {
         return new HitogoViewBuilder(
                 targetClass, controller.provideDefaultViewParamsClass(), container);
     }
 
-    public HitogoViewBuilder asView(@NonNull Class<? extends HitogoObject> targetClass,
-                                           @NonNull Class<? extends HitogoParams> paramClass) {
+    public HitogoViewBuilder asView(@NonNull Class<? extends HitogoAlert> targetClass,
+                                           @NonNull Class<? extends HitogoAlertParams> paramClass) {
         return new HitogoViewBuilder(targetClass, paramClass, container);
     }
 
@@ -46,29 +49,29 @@ public class Hitogo implements HitogoViewFactory<HitogoViewBuilder>,
                 controller.provideDefaultDialogParamsClass(), container);
     }
 
-    public HitogoDialogBuilder asDialog(@NonNull Class<? extends HitogoObject> targetClass) {
+    public HitogoDialogBuilder asDialog(@NonNull Class<? extends HitogoAlert> targetClass) {
         return new HitogoDialogBuilder(targetClass, controller.provideDefaultDialogParamsClass(), container);
     }
 
-    public HitogoDialogBuilder asDialog(@NonNull Class<? extends HitogoObject> targetClass,
-                                               @NonNull Class<? extends HitogoParams> paramClass) {
+    public HitogoDialogBuilder asDialog(@NonNull Class<? extends HitogoAlert> targetClass,
+                                               @NonNull Class<? extends HitogoAlertParams> paramClass) {
         return new HitogoDialogBuilder(targetClass, paramClass, container);
     }
 
     @Override
-    public HitogoButtonBuilder asButton() {
-        return new HitogoButtonBuilder(controller.provideDefaultButtonClass(),
+    public HitogoActionBuilder asButton() {
+        return new HitogoActionBuilder(controller.provideDefaultButtonClass(),
                 controller.provideDefaultButtonParamsClass(), container);
     }
 
     @Override
-    public HitogoButtonBuilder asButton(@NonNull Class<? extends HitogoButtonObject> targetClass) {
-        return new HitogoButtonBuilder(targetClass, controller.provideDefaultButtonParamsClass(), container);
+    public HitogoActionBuilder asButton(@NonNull Class<? extends HitogoButton> targetClass) {
+        return new HitogoActionBuilder(targetClass, controller.provideDefaultButtonParamsClass(), container);
     }
 
     @Override
-    public HitogoButtonBuilder asButton(@NonNull Class<? extends HitogoButtonObject> targetClass,
-                                        @NonNull Class<? extends org.hitogo.button.HitogoParams> paramClass) {
-        return new HitogoButtonBuilder(targetClass, paramClass, container);
+    public HitogoActionBuilder asButton(@NonNull Class<? extends HitogoButton> targetClass,
+                                        @NonNull Class<? extends HitogoButtonParams> paramClass) {
+        return new HitogoActionBuilder(targetClass, paramClass, container);
     }
 }

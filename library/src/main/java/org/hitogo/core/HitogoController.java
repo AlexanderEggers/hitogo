@@ -7,15 +7,19 @@ import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-import org.hitogo.button.HitogoButton;
-import org.hitogo.button.HitogoButtonObject;
-import org.hitogo.button.HitogoButtonParams;
-import org.hitogo.dialog.HitogoDialog;
-import org.hitogo.dialog.HitogoDialogBuilder;
-import org.hitogo.dialog.HitogoDialogParams;
-import org.hitogo.view.HitogoView;
-import org.hitogo.view.HitogoViewBuilder;
-import org.hitogo.view.HitogoViewParams;
+import org.hitogo.alert.view.anim.HitogoAnimation;
+import org.hitogo.alert.core.HitogoAlert;
+import org.hitogo.alert.core.HitogoAlertParams;
+import org.hitogo.alert.core.HitogoAlertType;
+import org.hitogo.button.action.HitogoAction;
+import org.hitogo.button.core.HitogoButton;
+import org.hitogo.button.action.HitogoActionParams;
+import org.hitogo.alert.dialog.HitogoDialog;
+import org.hitogo.alert.dialog.HitogoDialogBuilder;
+import org.hitogo.alert.dialog.HitogoDialogParams;
+import org.hitogo.alert.view.HitogoView;
+import org.hitogo.alert.view.HitogoViewBuilder;
+import org.hitogo.alert.view.HitogoViewParams;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -26,16 +30,16 @@ public abstract class HitogoController implements LifecycleObserver {
 
     private final Object syncLock = new Object();
 
-    private final List<HitogoObject> currentViews = new ArrayList<>();
-    private final List<HitogoObject> currentDialogs = new ArrayList<>();
+    private final List<HitogoAlert> currentViews = new ArrayList<>();
+    private final List<HitogoAlert> currentDialogs = new ArrayList<>();
 
     public HitogoController(@NonNull Lifecycle lifecycle) {
         lifecycle.addObserver(this);
     }
 
-    final HitogoObject[] validate(HitogoObject hitogo) {
+    public final HitogoAlert[] validate(HitogoAlert hitogo) {
         synchronized (syncLock) {
-            if(hitogo.getType() == HitogoType.VIEW) {
+            if(hitogo.getType() == HitogoAlertType.VIEW) {
                 return validateHitogo(currentViews, hitogo);
             } else {
                 return validateHitogo(currentDialogs, hitogo);
@@ -43,10 +47,10 @@ public abstract class HitogoController implements LifecycleObserver {
         }
     }
 
-    private HitogoObject[] validateHitogo(List<HitogoObject> currentObjects, HitogoObject newHitogo) {
-        HitogoObject[] hitogoStack = new HitogoObject[2];
-        HitogoObject currentHitogo = !currentObjects.isEmpty() ? currentObjects.get(0) : null;
-        HitogoObject lastCrouton = null;
+    private HitogoAlert[] validateHitogo(List<HitogoAlert> currentObjects, HitogoAlert newHitogo) {
+        HitogoAlert[] hitogoStack = new HitogoAlert[2];
+        HitogoAlert currentHitogo = !currentObjects.isEmpty() ? currentObjects.get(0) : null;
+        HitogoAlert lastCrouton = null;
 
         if (currentHitogo != null) {
             if (!currentHitogo.equals(newHitogo)) {
@@ -77,9 +81,9 @@ public abstract class HitogoController implements LifecycleObserver {
     }
 
     private void internalCloseAll(boolean force) {
-        Iterator<HitogoObject> it = currentViews.iterator();
+        Iterator<HitogoAlert> it = currentViews.iterator();
         while(it.hasNext()) {
-            HitogoObject object = it.next();
+            HitogoAlert object = it.next();
             if(object != null && object.isAttached()) {
                 object.makeInvisible(force);
                 it.remove();
@@ -88,7 +92,7 @@ public abstract class HitogoController implements LifecycleObserver {
 
         it = currentDialogs.iterator();
         while(it.hasNext()) {
-            HitogoObject object = it.next();
+            HitogoAlert object = it.next();
             if(object != null && object.isAttached()) {
                 object.makeInvisible(force);
                 it.remove();
@@ -96,19 +100,19 @@ public abstract class HitogoController implements LifecycleObserver {
         }
     }
 
-    public final void closeByType(@NonNull HitogoType type) {
+    public final void closeByType(@NonNull HitogoAlertType type) {
         internalCloseByType(type, false);
     }
 
-    public final void forceCloseByType(@NonNull HitogoType type) {
+    public final void forceCloseByType(@NonNull HitogoAlertType type) {
         internalCloseByType(type, true);
     }
 
-    private void internalCloseByType(@NonNull HitogoType type, boolean force) {
+    private void internalCloseByType(@NonNull HitogoAlertType type, boolean force) {
         synchronized (syncLock) {
-            Iterator<HitogoObject> it = currentViews.iterator();
+            Iterator<HitogoAlert> it = currentViews.iterator();
             while(it.hasNext()) {
-                HitogoObject object = it.next();
+                HitogoAlert object = it.next();
                 if(object != null && type == object.getType() && object.isAttached()) {
                     object.makeInvisible(force);
                     it.remove();
@@ -117,7 +121,7 @@ public abstract class HitogoController implements LifecycleObserver {
 
             it = currentDialogs.iterator();
             while(it.hasNext()) {
-                HitogoObject object = it.next();
+                HitogoAlert object = it.next();
                 if(object != null && type == object.getType() && object.isAttached()) {
                     object.makeInvisible(force);
                     it.remove();
@@ -138,9 +142,9 @@ public abstract class HitogoController implements LifecycleObserver {
         synchronized (syncLock) {
             int tagHashCode = tag.hashCode();
 
-            Iterator<HitogoObject> it = currentViews.iterator();
+            Iterator<HitogoAlert> it = currentViews.iterator();
             while(it.hasNext()) {
-                HitogoObject object = it.next();
+                HitogoAlert object = it.next();
                 if(object != null && object.isAttached() && object.hashCode() == tagHashCode) {
                     object.makeInvisible(force);
                     it.remove();
@@ -149,7 +153,7 @@ public abstract class HitogoController implements LifecycleObserver {
 
             it = currentDialogs.iterator();
             while(it.hasNext()) {
-                HitogoObject object = it.next();
+                HitogoAlert object = it.next();
                 if(object != null && object.isAttached() && object.hashCode() == tagHashCode) {
                     object.makeInvisible(force);
                     it.remove();
@@ -159,33 +163,33 @@ public abstract class HitogoController implements LifecycleObserver {
     }
 
     @NonNull
-    public Class<? extends HitogoObject> provideDefaultViewClass() {
+    public Class<? extends HitogoAlert> provideDefaultViewClass() {
         return HitogoView.class;
     }
 
     @NonNull
-    public Class<? extends HitogoParams> provideDefaultViewParamsClass() {
+    public Class<? extends HitogoAlertParams> provideDefaultViewParamsClass() {
         return HitogoViewParams.class;
     }
 
     @NonNull
-    public Class<? extends HitogoObject> provideDefaultDialogClass() {
+    public Class<? extends HitogoAlert> provideDefaultDialogClass() {
         return HitogoDialog.class;
     }
 
     @NonNull
-    public Class<? extends HitogoParams> provideDefaultDialogParamsClass() {
+    public Class<? extends HitogoAlertParams> provideDefaultDialogParamsClass() {
         return HitogoDialogParams.class;
     }
 
     @NonNull
-    public Class<? extends HitogoButtonObject> provideDefaultButtonClass() {
-        return HitogoButton.class;
+    public Class<? extends HitogoButton> provideDefaultButtonClass() {
+        return HitogoAction.class;
     }
 
     @NonNull
-    public Class<? extends org.hitogo.button.HitogoParams> provideDefaultButtonParamsClass() {
-        return HitogoButtonParams.class;
+    public Class<? extends org.hitogo.button.core.HitogoButtonParams> provideDefaultButtonParamsClass() {
+        return HitogoActionParams.class;
     }
 
     @LayoutRes
@@ -201,7 +205,7 @@ public abstract class HitogoController implements LifecycleObserver {
     }
 
     @Nullable
-    public Integer provideDefaultState(HitogoType type) {
+    public Integer provideDefaultState(HitogoAlertType type) {
         return null;
     }
 
@@ -216,12 +220,12 @@ public abstract class HitogoController implements LifecycleObserver {
     }
 
     @Nullable
-    public Integer provideDefaultTextViewId(HitogoType type) {
+    public Integer provideDefaultTextViewId(HitogoAlertType type) {
         return null;
     }
 
     @Nullable
-    public Integer provideDefaultTitleViewId(HitogoType type) {
+    public Integer provideDefaultTitleViewId(HitogoAlertType type) {
         return null;
     }
 

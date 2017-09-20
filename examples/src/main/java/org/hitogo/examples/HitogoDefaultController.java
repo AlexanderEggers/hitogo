@@ -3,10 +3,10 @@ package org.hitogo.examples;
 import android.arch.lifecycle.Lifecycle;
 import android.support.annotation.Nullable;
 
-import org.hitogo.core.HitogoAnimation;
+import org.hitogo.alert.view.anim.HitogoAnimation;
 import org.hitogo.core.HitogoController;
-import org.hitogo.core.HitogoType;
-import org.hitogo.view.HitogoTopAnimation;
+import org.hitogo.alert.core.HitogoAlertType;
+import org.hitogo.alert.view.anim.HitogoTopAnimation;
 
 public class HitogoDefaultController extends HitogoController {
 
@@ -33,7 +33,7 @@ public class HitogoDefaultController extends HitogoController {
 
     @Nullable
     @Override
-    public Integer provideDefaultTextViewId(HitogoType type) {
+    public Integer provideDefaultTextViewId(HitogoAlertType type) {
         return R.id.text;
     }
 

@@ -8,10 +8,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import org.hitogo.core.HitogoObject;
-import org.hitogo.view.HitogoViewParams;
+import org.hitogo.alert.core.HitogoAlert;
+import org.hitogo.alert.view.HitogoViewParams;
 
-public class TestView extends HitogoObject<HitogoViewParams> {
+public class TestView extends HitogoAlert<HitogoViewParams> {
 
     @Nullable
     @Override

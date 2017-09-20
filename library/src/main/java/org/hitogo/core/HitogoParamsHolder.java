@@ -1,19 +1,11 @@
 package org.hitogo.core;
 
 import android.os.Bundle;
-
-import org.hitogo.button.HitogoButtonObject;
-
-import java.util.List;
+import android.support.annotation.NonNull;
 
 public class HitogoParamsHolder {
 
     private Bundle bundle = new Bundle();
-
-    private HitogoAnimation hitogoAnimation;
-    private List<HitogoButtonObject> callToActionButtons;
-    private HitogoButtonObject closeButton;
-    private HitogoVisibilityListener listener;
 
     public final String getString(String key) {
         return bundle.getString(key);
@@ -39,35 +31,8 @@ public class HitogoParamsHolder {
         bundle.putSerializable(key, value);
     }
 
-    public final void provideAnimation(HitogoAnimation animation) {
-        this.hitogoAnimation = animation;
-    }
-
-    public final void provideVisibilityListener(HitogoVisibilityListener listener) {
-        this.listener = listener;
-    }
-
-    public final void provideCallToActionButtons(List<HitogoButtonObject> buttonList) {
-        this.callToActionButtons = buttonList;
-    }
-
-    public final void provideCloseButton(HitogoButtonObject button) {
-        this.closeButton = button;
-    }
-
-    HitogoAnimation getAnimation() {
-        return hitogoAnimation;
-    }
-
-    List<HitogoButtonObject> getCallToActionButtons() {
-        return callToActionButtons;
-    }
-
-    HitogoButtonObject getCloseButton() {
-        return closeButton;
-    }
-
-    HitogoVisibilityListener getVisibilityListener() {
-        return listener;
+    @NonNull
+    protected Bundle getBundle() {
+        return bundle;
     }
 }

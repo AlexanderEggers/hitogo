@@ -5,15 +5,15 @@ import android.support.annotation.NonNull;
 import android.os.Bundle;
 import android.util.Log;
 
-import org.hitogo.button.HitogoButtonListener;
-import org.hitogo.button.HitogoButtonObject;
+import org.hitogo.button.core.HitogoButtonListener;
+import org.hitogo.button.core.HitogoButton;
 import org.hitogo.core.Hitogo;
 import org.hitogo.core.HitogoActivity;
 import org.hitogo.core.HitogoController;
-import org.hitogo.core.HitogoObject;
-import org.hitogo.core.HitogoVisibilityListener;
-import org.hitogo.view.HitogoLeftAnimation;
-import org.hitogo.view.HitogoTopAnimation;
+import org.hitogo.alert.core.HitogoAlert;
+import org.hitogo.alert.core.HitogoVisibilityListener;
+import org.hitogo.alert.view.anim.HitogoLeftAnimation;
+import org.hitogo.alert.view.anim.HitogoTopAnimation;
 
 public class MainActivity extends HitogoActivity {
 
@@ -25,7 +25,7 @@ public class MainActivity extends HitogoActivity {
     }
 
     private void showFirstView() {
-        HitogoButtonObject button = Hitogo.with(this)
+        HitogoButton button = Hitogo.with(this)
                 .asButton()
                 .listenWith(new HitogoButtonListener() {
                     @Override
@@ -33,11 +33,11 @@ public class MainActivity extends HitogoActivity {
                         testOnClick();
                     }
                 }, false)
-                .forClickToAction(R.id.button)
+                .forViewAction(R.id.button)
                 .setText("Click me!")
                 .build();
 
-        HitogoButtonObject closeButton = Hitogo.with(this)
+        HitogoButton closeButton = Hitogo.with(this)
                 .asButton()
                 .listenWith(new HitogoButtonListener() {
                     @Override
@@ -58,17 +58,17 @@ public class MainActivity extends HitogoActivity {
                 .consumeLayoutClick()
                 .addVisibilityListener(new HitogoVisibilityListener() {
                     @Override
-                    public void onCreate(HitogoObject object) {
+                    public void onCreate(HitogoAlert object) {
                         Log.i(MainActivity.class.getName(), "Creating Hitogo");
                     }
 
                     @Override
-                    public void onShow(HitogoObject object) {
+                    public void onShow(HitogoAlert object) {
                         Log.i(MainActivity.class.getName(), "Showing Hitogo");
                     }
 
                     @Override
-                    public void onClose(HitogoObject object) {
+                    public void onClose(HitogoAlert object) {
                         Log.i(MainActivity.class.getName(), "Closing Hitogo");
                     }
                 })
@@ -78,7 +78,7 @@ public class MainActivity extends HitogoActivity {
     }
 
     private void testOnClick() {
-        HitogoButtonObject button = Hitogo.with(this)
+        HitogoButton button = Hitogo.with(this)
                 .asButton()
                 .listenWith(new HitogoButtonListener() {
                     @Override
@@ -102,7 +102,7 @@ public class MainActivity extends HitogoActivity {
     }
 
     private void showSecondView() {
-        HitogoButtonObject button = Hitogo.with(this)
+        HitogoButton button = Hitogo.with(this)
                 .asButton()
                 .listenWith(new HitogoButtonListener() {
                     @Override
@@ -110,7 +110,7 @@ public class MainActivity extends HitogoActivity {
                         showThirdView();
                     }
                 }, false)
-                .forClickToAction(R.id.button)
+                .forViewAction(R.id.button)
                 .setText("Click me!")
                 .build();
 
@@ -127,7 +127,7 @@ public class MainActivity extends HitogoActivity {
     }
 
     private void showThirdView() {
-        HitogoButtonObject button = Hitogo.with(this)
+        HitogoButton button = Hitogo.with(this)
                 .asButton()
                 .listenWith(new HitogoButtonListener() {
                     @Override
@@ -135,7 +135,7 @@ public class MainActivity extends HitogoActivity {
                         testOnClick();
                     }
                 }, false)
-                .forClickToAction(R.id.button)
+                .forViewAction(R.id.button)
                 .setText("Click me!")
                 .build();
 
