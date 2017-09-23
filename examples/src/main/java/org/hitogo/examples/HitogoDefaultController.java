@@ -33,6 +33,17 @@ public class HitogoDefaultController extends HitogoController {
 
     @Nullable
     @Override
+    public Integer provideDialogLayout(int state) {
+        AlertState alertState = AlertState.parse(state);
+
+        switch (alertState) {
+            default:
+                return R.layout.hitogo_dialog_danger;
+        }
+    }
+
+    @Nullable
+    @Override
     public Integer provideDefaultTextViewId(HitogoAlertType type) {
         return R.id.text;
     }

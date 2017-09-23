@@ -36,7 +36,6 @@ public class HitogoTopAnimation extends HitogoAnimation {
             public void onAnimationEnd(Animator animation) {
                 if (params.getLayoutViewId() != null) {
                     hitogoView.findViewById(params.getLayoutViewId()).setVisibility(View.VISIBLE);
-                    onFinishShow(hitogoAlert);
                 }
             }
 
@@ -68,7 +67,6 @@ public class HitogoTopAnimation extends HitogoAnimation {
             @Override
             public void onAnimationEnd(Animator animation) {
                 ((ViewManager) hitogoView.getParent()).removeView(hitogoView);
-                onFinishHide(hitogoAlert);
             }
 
             @Override

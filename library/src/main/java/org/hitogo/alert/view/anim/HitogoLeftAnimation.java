@@ -69,7 +69,6 @@ public class HitogoLeftAnimation extends HitogoAnimation {
             @Override
             public void onAnimationEnd(Animator animation) {
                 ((ViewManager) hitogoView.getParent()).removeView(hitogoView);
-                onFinishHide(hitogoAlert);
             }
 
             @Override

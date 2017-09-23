@@ -41,7 +41,7 @@ public class HitogoView extends HitogoAlert<HitogoViewParams> {
         }
 
         if (!params.isDismissible() && params.getCallToActionButtons().isEmpty()) {
-            Log.e(HitogoViewBuilder.class.getName(), "Are you sure that this hitogo should have no " +
+            Log.w(HitogoViewBuilder.class.getName(), "Are you sure that this hitogo should have no " +
                     "interaction points? If yes, make sure to close this one if it's not " +
                     "needed anymore!");
         }

@@ -1,5 +1,8 @@
 package org.hitogo.alert.dialog;
 
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+
 import org.hitogo.alert.core.HitogoAlertParams;
 import org.hitogo.alert.core.HitogoAlertParamsHolder;
 
@@ -25,8 +28,9 @@ public class HitogoDialogParams extends HitogoAlertParams {
         isDismissible = holder.getBoolean("containerId");
     }
 
+    @NonNull
     public String getTitle() {
-        return title;
+        return title != null ? title : "";
     }
 
     public String getText() {

@@ -101,6 +101,30 @@ public class MainActivity extends HitogoActivity {
                 .show();
     }
 
+    private void dialogTest2() {
+        HitogoButton button = Hitogo.with(this)
+                .asButton()
+                .listenWith(new HitogoButtonListener() {
+                    @Override
+                    public void onClick() {
+                        showSecondView();
+                    }
+                }, false)
+                .forClickOnlyAction()
+                .setText("Ok")
+                .build();
+
+        Hitogo.with(this)
+                .asDialog()
+                .setTitle(R.id.title, "Test Dialog")
+                .setText(R.id.text, "Long message...")
+                .withState(AlertState.DANGER)
+                .addButton(button)
+                .asDismissible()
+                .setTag("Test Dialog 2")
+                .show();
+    }
+
     private void showSecondView() {
         HitogoButton button = Hitogo.with(this)
                 .asButton()
@@ -132,7 +156,7 @@ public class MainActivity extends HitogoActivity {
                 .listenWith(new HitogoButtonListener() {
                     @Override
                     public void onClick() {
-                        testOnClick();
+                        dialogTest2();
                     }
                 }, false)
                 .forViewAction(R.id.button)

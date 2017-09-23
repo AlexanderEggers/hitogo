@@ -27,8 +27,8 @@ public class HitogoDialog extends HitogoAlert<HitogoDialogParams> {
 
     @Override
     protected void onCheck(@NonNull HitogoDialogParams params) {
-        if (params.getTitle() == null) {
-            throw new InvalidParameterException("Title parameter cannot be null.");
+        if (params.getTitle().isEmpty()) {
+            Log.i(HitogoViewBuilder.class.getName(), "Title parameter should not be empty.");
         }
 
         if (params.getText() == null) {
@@ -80,7 +80,7 @@ public class HitogoDialog extends HitogoAlert<HitogoDialogParams> {
         builder.setCancelable(!params.isDismissible());
 
         if (view != null && params.getTitleViewId() != null) {
-            ((TextView) view.findViewById(params.getTitleViewId())).setText(params.getText());
+            ((TextView) view.findViewById(params.getTitleViewId())).setText(params.getTitle());
         } else {
             builder.setTitle(params.getTitle());
         }
@@ -93,17 +93,19 @@ public class HitogoDialog extends HitogoAlert<HitogoDialogParams> {
 
         HitogoAction testButton = (HitogoAction) buttonList.get(0);
         if (view != null && testButton.getParams().hasActionView()) {
-            view = buildCallToActionButtons(view);
-            builder.setView(view);
+            buildCallToActionButtons(view);
         } else {
             generateDefaultButtons(builder, buttonList);
+        }
+
+        if (view != null) {
+            builder.setView(view);
         }
 
         return builder;
     }
 
-    @NonNull
-    private View buildCallToActionButtons(@NonNull View dialogView) {
+    private void buildCallToActionButtons(@NonNull View dialogView) {
         for (HitogoButton buttonObject : params.getCallToActionButtons()) {
             final HitogoAction callToActionButton = (HitogoAction) buttonObject;
 
@@ -129,13 +131,9 @@ public class HitogoDialog extends HitogoAlert<HitogoDialogParams> {
                         "call-to-action button to your layout?");
             }
         }
-
-        return dialogView;
     }
 
-    @NonNull
-    private AlertDialog.Builder generateDefaultButtons(AlertDialog.Builder builder,
-                                                       List<HitogoButton> buttonList) {
+    private void generateDefaultButtons(AlertDialog.Builder builder, List<HitogoButton> buttonList) {
 
         final HitogoAction positiveButton = (HitogoAction) buttonList.get(0);
         if (positiveButton.getParams().getText() != null && HitogoUtils.isNotEmpty(
@@ -175,8 +173,6 @@ public class HitogoDialog extends HitogoAlert<HitogoDialogParams> {
                 });
             }
         }
-
-        return builder;
     }
 
     @Override
