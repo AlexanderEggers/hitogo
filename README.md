@@ -207,7 +207,7 @@ Compatibility
  
 TODO
 -------------
-* More animations (Fade, ...)
+* More animations (fade, slide top down/up, slide left in/out, slide right in/out)
 * Hitogo layouts (for all possible types)
 * Unit testing
 * More examples
