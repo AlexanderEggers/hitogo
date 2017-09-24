@@ -1,6 +1,7 @@
 package org.hitogo.core;
 
 import android.app.Activity;
+import android.arch.lifecycle.Lifecycle;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -35,4 +36,7 @@ public abstract class HitogoActivity extends AppCompatActivity implements Hitogo
     public Activity getActivity() {
         return this;
     }
+
+    @NonNull
+    public abstract HitogoController initialiseHitogo(@NonNull Lifecycle lifecycle);
 }

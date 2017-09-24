@@ -199,7 +199,7 @@ public abstract class HitogoAlert<T extends HitogoAlertParams> extends HitogoAle
     }
 
     public final boolean hasAnimation() {
-        return hasAnimation;
+        return hasAnimation && getAnimationDuration() > NO_ANIMATION_LENGTH;
     }
 
     public final boolean isClosingOthers() {

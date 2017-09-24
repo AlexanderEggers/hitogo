@@ -9,9 +9,12 @@ import org.hitogo.core.HitogoParams;
 public abstract class HitogoButtonParams extends HitogoParams<HitogoButtonParamsHolder> {
 
     private HitogoButtonListener listener;
+    private HitogoButtonType type;
 
     protected void provideData(HitogoButtonParamsHolder holder, Bundle privateBundle) {
         listener = holder.getListener();
+
+        type = (HitogoButtonType) privateBundle.getSerializable("type");
 
         if(listener == null) {
             listener = new HitogoDefaultActionListener();
@@ -22,7 +25,11 @@ public abstract class HitogoButtonParams extends HitogoParams<HitogoButtonParams
 
     protected abstract void onCreateParams(HitogoButtonParamsHolder holder);
 
-    public HitogoButtonListener getListener() {
+    public final HitogoButtonListener getListener() {
         return listener;
+    }
+
+    public final HitogoButtonType getType() {
+        return type;
     }
 }

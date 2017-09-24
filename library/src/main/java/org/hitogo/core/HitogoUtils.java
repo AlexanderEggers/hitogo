@@ -10,7 +10,7 @@ import android.view.ViewGroup;
 public final class HitogoUtils {
 
     private HitogoUtils() {
-        throw new IllegalStateException("Methods can only be accessed by static methods.");
+        //Methods can only be accessed via static methods.
     }
 
     public static boolean isNotEmpty(@NonNull String text) {

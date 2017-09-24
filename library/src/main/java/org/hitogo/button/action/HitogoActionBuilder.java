@@ -8,10 +8,13 @@ import org.hitogo.button.core.HitogoButtonListener;
 import org.hitogo.button.core.HitogoButton;
 import org.hitogo.button.core.HitogoButtonParams;
 import org.hitogo.button.core.HitogoButtonParamsHolder;
+import org.hitogo.button.core.HitogoButtonType;
 import org.hitogo.core.HitogoContainer;
 
 @SuppressWarnings({"WeakerAccess", "unused"})
 public class HitogoActionBuilder extends HitogoButtonBuilder {
+
+    private static final HitogoButtonType type = HitogoButtonType.ACTION;
 
     private String text;
     private int[] viewIds;
@@ -23,7 +26,7 @@ public class HitogoActionBuilder extends HitogoButtonBuilder {
     public HitogoActionBuilder(@NonNull Class<? extends HitogoButton> targetClass,
                                @NonNull Class<? extends HitogoButtonParams> paramClass,
                                @NonNull HitogoContainer container) {
-        super(targetClass, paramClass, container);
+        super(targetClass, paramClass, container, type);
     }
 
     @NonNull

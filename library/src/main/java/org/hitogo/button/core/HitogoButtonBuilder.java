@@ -18,29 +18,38 @@ public abstract class HitogoButtonBuilder {
 
     private HitogoButtonParamsHolder holder = new HitogoButtonParamsHolder();
 
+    private Bundle privateBundle = new Bundle();
+    private HitogoButtonType builderType;
+
     public HitogoButtonBuilder(@NonNull Class<? extends HitogoButton> targetClass,
                                @NonNull Class<? extends HitogoButtonParams> paramClass,
-                               @NonNull HitogoContainer container) {
+                               @NonNull HitogoContainer container, HitogoButtonType builderType) {
         this.targetClass = targetClass;
         this.paramClass = paramClass;
         this.containerRef = new WeakReference<>(container);
+        this.builderType = builderType;
     }
 
     @NonNull
     @SuppressWarnings("unchecked")
     public final HitogoButton build() {
         onProvideData(holder);
+        onProvidePrivateData(holder);
 
         try {
             HitogoButton object = targetClass.getConstructor().newInstance();
             HitogoButtonParams params = paramClass.getConstructor().newInstance();
-            params.provideData(holder, new Bundle());
+            params.provideData(holder, privateBundle);
             object.buildButton(getController(), params);
             return object;
         } catch (Exception e) {
             Log.wtf(HitogoButtonBuilder.class.getName(), "Build process failed.");
             throw new IllegalStateException(e);
         }
+    }
+
+    private void onProvidePrivateData(HitogoButtonParamsHolder holder) {
+        privateBundle.putSerializable("type", builderType);
     }
 
     protected abstract void onProvideData(HitogoButtonParamsHolder holder);

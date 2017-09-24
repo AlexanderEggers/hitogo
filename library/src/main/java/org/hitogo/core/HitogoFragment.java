@@ -1,5 +1,6 @@
 package org.hitogo.core;
 
+import android.arch.lifecycle.Lifecycle;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -21,4 +22,7 @@ public abstract class HitogoFragment extends Fragment implements HitogoContainer
     public HitogoController getController() {
         return hitogoController;
     }
+
+    @NonNull
+    public abstract HitogoController initialiseHitogo(@NonNull Lifecycle lifecycle);
 }
