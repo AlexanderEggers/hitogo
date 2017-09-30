@@ -145,7 +145,7 @@ public class HitogoView extends HitogoAlert<HitogoViewParams> {
                     @Override
                     public void onClick(View v) {
                         callToActionButton.getParams().getListener().onClick();
-                        if(callToActionButton.getParams().isClosingAfterExecute()) {
+                        if(callToActionButton.getParams().isClosingAfterClick()) {
                             close();
                         }
                     }

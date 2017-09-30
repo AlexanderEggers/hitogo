@@ -12,12 +12,11 @@ public abstract class HitogoButtonParams extends HitogoParams<HitogoButtonParams
     private HitogoButtonType type;
 
     protected void provideData(HitogoButtonParamsHolder holder, Bundle privateBundle) {
-        listener = holder.getListener();
+        this.type = (HitogoButtonType) privateBundle.getSerializable("type");
+        this.listener = holder.getListener();
 
-        type = (HitogoButtonType) privateBundle.getSerializable("type");
-
-        if(listener == null) {
-            listener = new HitogoDefaultActionListener();
+        if(this.listener == null) {
+            this.listener = new HitogoDefaultActionListener();
         }
 
         onCreateParams(holder);

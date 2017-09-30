@@ -19,7 +19,7 @@ public class HitogoActionBuilder extends HitogoButtonBuilder {
     private String text;
     private int[] viewIds;
     private boolean hasActionView;
-    private boolean closeAfterExecute;
+    private boolean closeAfterClick;
 
     private HitogoButtonListener listener;
 
@@ -48,31 +48,31 @@ public class HitogoActionBuilder extends HitogoButtonBuilder {
 
     @NonNull
     public HitogoActionBuilder forViewAction(Integer closeIconId, @Nullable Integer optionalCloseViewId) {
-        hasActionView = true;
-        viewIds = new int[2];
-        viewIds[0] = closeIconId;
-        viewIds[1] = optionalCloseViewId != null ? optionalCloseViewId : closeIconId;
+        this.hasActionView = true;
+        this.viewIds = new int[2];
+        this.viewIds[0] = closeIconId;
+        this.viewIds[1] = optionalCloseViewId != null ? optionalCloseViewId : closeIconId;
         return this;
     }
 
     @NonNull
     public HitogoActionBuilder forClickOnlyAction() {
-        hasActionView = false;
-        viewIds = new int[0];
+        this.hasActionView = false;
+        this.viewIds = new int[0];
         return this;
     }
 
     @NonNull
     public HitogoActionBuilder listenWith(@Nullable HitogoButtonListener listener) {
         this.listener = listener;
-        this.closeAfterExecute = true;
+        this.closeAfterClick = true;
         return this;
     }
 
     @NonNull
-    public HitogoActionBuilder listenWith(@Nullable HitogoButtonListener listener, boolean closingAfterExecute) {
+    public HitogoActionBuilder listenWith(@Nullable HitogoButtonListener listener, boolean closeAfterClick) {
         this.listener = listener;
-        this.closeAfterExecute = closingAfterExecute;
+        this.closeAfterClick = closeAfterClick;
         return this;
     }
 
@@ -81,7 +81,7 @@ public class HitogoActionBuilder extends HitogoButtonBuilder {
         holder.provideString("text", text);
         holder.provideIntArray("viewIds", viewIds);
         holder.provideBoolean("hasActionView", hasActionView);
-        holder.provideBoolean("closeAfterExecute", closeAfterExecute);
+        holder.provideBoolean("closeAfterClick", closeAfterClick);
         holder.provideButtonListener(listener);
     }
 }

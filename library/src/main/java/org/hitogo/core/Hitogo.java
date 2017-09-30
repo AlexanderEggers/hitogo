@@ -40,7 +40,7 @@ public class Hitogo implements HitogoViewFactory<HitogoViewBuilder>,
     }
 
     public HitogoViewBuilder asView(@NonNull Class<? extends HitogoAlert> targetClass,
-                                           @NonNull Class<? extends HitogoAlertParams> paramClass) {
+                                    @NonNull Class<? extends HitogoAlertParams> paramClass) {
         return new HitogoViewBuilder(targetClass, paramClass, container);
     }
 
@@ -54,7 +54,7 @@ public class Hitogo implements HitogoViewFactory<HitogoViewBuilder>,
     }
 
     public HitogoDialogBuilder asDialog(@NonNull Class<? extends HitogoAlert> targetClass,
-                                               @NonNull Class<? extends HitogoAlertParams> paramClass) {
+                                        @NonNull Class<? extends HitogoAlertParams> paramClass) {
         return new HitogoDialogBuilder(targetClass, paramClass, container);
     }
 

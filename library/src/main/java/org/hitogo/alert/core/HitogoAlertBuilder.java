@@ -58,7 +58,7 @@ public abstract class HitogoAlertBuilder<T> {
             HitogoAlert object = targetClass.getConstructor().newInstance();
             HitogoAlertParams params = paramClass.getConstructor().newInstance();
             params.provideData(holder, privateBundle);
-            object.startHitogo(containerRef.get(), params);
+            object.startHitogo(getContainer(), params);
             return object;
         } catch (Exception e) {
             Log.wtf(HitogoViewBuilder.class.getName(), "Build process failed.");

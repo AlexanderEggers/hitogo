@@ -121,7 +121,7 @@ public class HitogoDialog extends HitogoAlert<HitogoDialogParams> {
                     @Override
                     public void onClick(View v) {
                         callToActionButton.getParams().getListener().onClick();
-                        if (callToActionButton.getParams().isClosingAfterExecute()) {
+                        if (callToActionButton.getParams().isClosingAfterClick()) {
                             close();
                         }
                     }
