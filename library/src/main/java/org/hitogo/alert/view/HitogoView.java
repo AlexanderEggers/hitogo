@@ -26,7 +26,6 @@ public class HitogoView extends HitogoAlert<HitogoViewParams> {
 
     private ViewGroup viewGroup;
     private HitogoAnimation animation;
-    private HitogoViewParams params;
 
     @Override
     protected void onCheck(@NonNull HitogoController controller, @NonNull HitogoViewParams params) {
@@ -49,7 +48,6 @@ public class HitogoView extends HitogoAlert<HitogoViewParams> {
 
     @Override
     protected void onCreate(@NonNull HitogoController controller, @NonNull HitogoViewParams params) {
-        this.params = params;
         this.animation = params.getAnimation();
         if (animation == null) {
             this.animation = controller.provideDefaultAnimation();
@@ -71,10 +69,10 @@ public class HitogoView extends HitogoAlert<HitogoViewParams> {
         View view = inflater.inflate(getController().provideViewLayout(params.getState()), null);
 
         if (view != null) {
-            buildLayoutInteractions(view);
-            buildLayoutContent(view);
-            buildCallToActionButtons(view);
-            buildCloseButtons(view);
+            buildLayoutInteractions(params, view);
+            buildLayoutContent(params, view);
+            buildCallToActionButtons(params, view);
+            buildCloseButtons(params, view);
             return view;
         } else {
             throw new InvalidParameterException("Hitogo view is null. Is the layout existing for " +
@@ -82,7 +80,7 @@ public class HitogoView extends HitogoAlert<HitogoViewParams> {
         }
     }
 
-    private void buildLayoutInteractions(@NonNull View containerView) {
+    private void buildLayoutInteractions(@NonNull HitogoViewParams params, @NonNull View containerView) {
         if(params.consumeLayoutClick()) {
             containerView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -94,7 +92,7 @@ public class HitogoView extends HitogoAlert<HitogoViewParams> {
         }
     }
 
-    private void buildLayoutContent(@NonNull View containerView) {
+    private void buildLayoutContent(@NonNull HitogoViewParams params, @NonNull View containerView) {
         if(params.getTitle() != null) {
             setViewString(containerView, params.getTitleViewId(), params.getTitle());
             setViewString(containerView, params.getTextViewId(), params.getText());
@@ -129,7 +127,7 @@ public class HitogoView extends HitogoAlert<HitogoViewParams> {
         }
     }
 
-    private void buildCallToActionButtons(@NonNull View containerView) {
+    private void buildCallToActionButtons(@NonNull HitogoViewParams params, @NonNull View containerView) {
         for (HitogoButton buttonObject : params.getCallToActionButtons()) {
             final HitogoAction callToActionButton = (HitogoAction) buttonObject;
 
@@ -157,7 +155,7 @@ public class HitogoView extends HitogoAlert<HitogoViewParams> {
         }
     }
 
-    private void buildCloseButtons(@NonNull View containerView) {
+    private void buildCloseButtons(@NonNull HitogoViewParams params, @NonNull View containerView) {
         final HitogoAction closeButton = (HitogoAction) params.getCloseButton();
         boolean isDismissible = params.isDismissible();
 
@@ -204,14 +202,14 @@ public class HitogoView extends HitogoAlert<HitogoViewParams> {
     protected void onShowAnimation(@NonNull Activity activity) {
         if (animation != null) {
             HitogoUtils.measureView(activity, getView(), viewGroup);
-            animation.showAnimation(params, getView(), this);
+            animation.showAnimation(getParams(), getView(), this);
         }
     }
 
     @Override
     protected void onCloseAnimation(@NonNull Activity activity) {
         if (animation != null) {
-            animation.hideAnimation(params, getView(), this);
+            animation.hideAnimation(getParams(), getView(), this);
         }
     }
 

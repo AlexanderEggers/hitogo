@@ -37,6 +37,7 @@ public abstract class HitogoAlert<T extends HitogoAlertParams> extends HitogoAle
     private HitogoVisibilityListener listener;
 
     private WeakReference<HitogoContainer> containerRef;
+    private T params;
     private View view;
     private Dialog dialog;
 
@@ -48,6 +49,7 @@ public abstract class HitogoAlert<T extends HitogoAlertParams> extends HitogoAle
         }
 
         this.containerRef = new WeakReference<>(container);
+        this.params = params;
         this.hashCode = params.getHashCode();
         this.closeOthers = params.isClosingOthers();
         this.hasAnimation = params.hasAnimation();
@@ -229,6 +231,11 @@ public abstract class HitogoAlert<T extends HitogoAlertParams> extends HitogoAle
     @NonNull
     public final HitogoAlertType getType() {
         return type;
+    }
+
+    @NonNull
+    public T getParams() {
+        return params;
     }
 
     @Nullable
