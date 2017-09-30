@@ -15,11 +15,11 @@ repositories {
 }
 
 dependencies {
-  compile 'org.hitogo:Hitogo:1.0.0-alpha5'
+  compile 'org.hitogo:Hitogo:1.0.0-beta1'
 }
 ```
 
-How do I use Hitogo? (Step-by-step introduction for 1.0.0-alpha5)
+How do I use Hitogo? (Step-by-step introduction for 1.0.0-beta1)
 -------------------
 
 1. Extend the HitogoController
@@ -39,7 +39,7 @@ public class HitogoExampleController extends HitogoController {
     }
 
     @Override
-    public Integer provideLayout(int state) {
+    public Integer provideViewLayout(int state) {
         switch (state) {
             case SUCCESS:
                 return R.layout.hitogo_success;
@@ -110,7 +110,7 @@ protected void someMethod() {
 //Here is a more complex alert, that has two buttons:
 public void someMethod() {
   ...
-  HitogoButtonObject button = Hitogo.with(this)
+       HitogoButton button = Hitogo.with(this)
                 .asButton()
                 .listenWith(new HitogoButtonListener() {
                     @Override
@@ -122,7 +122,7 @@ public void someMethod() {
                 .setText("Click me!")
                 .build();
 
-        HitogoButtonObject closeButton = Hitogo.with(this)
+        HitogoButton closeButton = Hitogo.with(this)
                 .asButton()
                 .listenWith(new HitogoButtonListener() {
                     @Override
@@ -143,12 +143,17 @@ public void someMethod() {
                 .consumeLayoutClick()
                 .addVisibilityListener(new HitogoVisibilityListener() {
                     @Override
-                    public void onShow() {
+                    public void onCreate(HitogoAlert object) {
+                        Log.i(MainActivity.class.getName(), "Creating Hitogo");
+                    }
+                
+                    @Override
+                    public void onShow(HitogoAlert object) {
                         Log.i(MainActivity.class.getName(), "Showing Hitogo");
                     }
 
                     @Override
-                    public void onClose() {
+                    public void onClose(HitogoAlert object) {
                         Log.i(MainActivity.class.getName(), "Closing Hitogo");
                     }
                 })
@@ -160,7 +165,7 @@ public void someMethod() {
 //Here an example to create a dialog:
 public void someMethod() {
   ...
-  HitogoButtonObject button = Hitogo.with(this)
+       HitogoButton button = Hitogo.with(this)
                 .asButton()
                 .listenWith(new HitogoButtonListener() {
                     @Override
@@ -195,7 +200,7 @@ But wait, there is much more! Some features are already included but not documen
 
 Status
 ------
-Version 1 is in development. Updates are currently released at least monthly with new features and bug fixes. **Please keep in mind that the api is not stable yet and will change!**
+Version 1 is still in development. Updates are currently released at least monthly with new features and bug fixes. **Please keep in mind that the api is not stable yet and might change!**
 
 Comments/bugs/questions/pull requests are always welcome!
 
@@ -209,7 +214,6 @@ Compatibility
 TODO
 -------------
 * More animations (fade, slide top down/up, slide left in/out, slide right in/out)
-* Hitogo layouts (for all possible types)
 * Unit testing
 * More examples
 * Full documentation (source code and wiki)
