@@ -189,15 +189,6 @@ public void someMethod() {
 }
 ```
 
-But wait, there is much more! Some features are already included but not documented yet:
-- Generics (you can inject your own builder, alerts and holder into this library)
-- Animations
-- Hitogo lifecycle
-- Bundle usage
-- Buttons
-- Parameter classes
-- and much more!
-
 Status
 ------
 Version 1 is still in development. Updates are currently released at least monthly with new features and bug fixes. **Please keep in mind that the api is not stable yet and might change!**
