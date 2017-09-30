@@ -1,7 +1,6 @@
 package org.hitogo.alert.dialog;
 
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 
 import org.hitogo.alert.core.HitogoAlertParams;
 import org.hitogo.alert.core.HitogoAlertParamsHolder;
