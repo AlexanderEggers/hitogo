@@ -13,7 +13,7 @@ public abstract class HitogoButton<T extends HitogoButtonParams> extends HitogoB
     private WeakReference<HitogoContainer> containerRef;
     private T params;
 
-    final HitogoButton<T> buildButton(@NonNull HitogoContainer container, @NonNull T params) {
+    final HitogoButton<T> create(@NonNull HitogoContainer container, @NonNull T params) {
         this.containerRef = new WeakReference<>(container);
         this.params = params;
 

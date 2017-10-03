@@ -40,7 +40,7 @@ public abstract class HitogoButtonBuilder {
             HitogoButton object = targetClass.getConstructor().newInstance();
             HitogoButtonParams params = paramClass.getConstructor().newInstance();
             params.provideData(holder, privateBundle);
-            object.buildButton(getContainer(), params);
+            object.create(getContainer(), params);
             return object;
         } catch (Exception e) {
             Log.wtf(HitogoButtonBuilder.class.getName(), "Build process failed.");

@@ -50,14 +50,14 @@ public abstract class HitogoController implements LifecycleObserver {
     private HitogoAlert[] validateHitogo(List<HitogoAlert> currentObjects, HitogoAlert newHitogo) {
         HitogoAlert[] hitogoStack = new HitogoAlert[2];
         HitogoAlert currentHitogo = !currentObjects.isEmpty() ? currentObjects.get(0) : null;
-        HitogoAlert lastCrouton = null;
+        HitogoAlert lastHitogo = null;
 
         if (currentHitogo != null) {
             if (!currentHitogo.equals(newHitogo)) {
                 if(newHitogo.isClosingOthers()) {
                     closeByType(newHitogo.getType());
                 }
-                lastCrouton = currentHitogo;
+                lastHitogo = currentHitogo;
                 currentHitogo = newHitogo;
                 currentObjects.add(newHitogo);
             }
@@ -67,7 +67,7 @@ public abstract class HitogoController implements LifecycleObserver {
         }
 
         hitogoStack[0] = currentHitogo;
-        hitogoStack[1] = lastCrouton;
+        hitogoStack[1] = lastHitogo;
         return hitogoStack;
     }
 
