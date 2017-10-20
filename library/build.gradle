@@ -18,7 +18,7 @@ ext {
     developerId = 'mordag'
     developerName = 'Alexander Eggers'
 
-    def Properties properties = new Properties()
+    Properties properties = new Properties()
     properties.load(project.rootProject.file("local.properties").newDataInputStream())
     developerEmail = properties.getProperty("user.email", "")
 
@@ -45,18 +45,17 @@ android {
 }
 
 android.libraryVariants.all { variant ->
-    variant.outputs.each { output ->
-        output.outputFile = new File(
-                output.outputFile.parent, "Hitogo-${version}.aar")
+    variant.outputs.all {
+        outputFileName = "Hitogo-${version}.aar"
     }
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
 
     //Support lib dependencies
-    compile 'com.android.support:support-annotations:26.1.0'
-    compile 'com.android.support:appcompat-v7:26.1.0'
+    api 'com.android.support:support-annotations:26.1.0'
+    api 'com.android.support:appcompat-v7:26.1.0'
 }
 
 apply from: 'https://raw.githubusercontent.com/nuuneoi/JCenter/master/installv1.gradle'
