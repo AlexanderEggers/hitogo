@@ -85,6 +85,11 @@ public abstract class HitogoAlert<T extends HitogoAlertParams> extends HitogoAle
         onCreate(getController(), params);
 
         LayoutInflater inflater = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+
+        if(inflater == null) {
+            throw new IllegalStateException("Fatal error: Layout inflater is null.");
+        }
+
         if (type == HitogoAlertType.VIEW) {
             view = onCreateView(inflater, getActivity(), params);
         } else {

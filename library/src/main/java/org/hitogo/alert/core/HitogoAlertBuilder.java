@@ -58,8 +58,7 @@ public abstract class HitogoAlertBuilder<T> {
             HitogoAlert object = targetClass.getConstructor().newInstance();
             HitogoAlertParams params = paramClass.getConstructor().newInstance();
             params.provideData(holder, privateBundle);
-            object.create(getContainer(), params);
-            return object;
+            return object.create(getContainer(), params);
         } catch (Exception e) {
             Log.wtf(HitogoViewBuilder.class.getName(), "Build process failed.");
             throw new IllegalStateException(e);
