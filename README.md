@@ -199,8 +199,8 @@ Compatibility
 -------------
 
  * **Minimum Android SDK**: Hitogo requires a minimum API level of 14.
- * **Compile Android SDK**: Hitogo requires you to compile against API 26.
- * **Required Android-Support Library**: Hitogo requires the version 26.1.0 of the support libraries "support-annotations" and "appcompat-v7".
+ * **Compile Android SDK**: Hitogo requires you to compile against API 27.
+ * **Required Android-Support Library**: Hitogo requires the version 27.0.0 of the support libraries "support-annotations" and "appcompat-v7".
  
 TODO
 -------------
