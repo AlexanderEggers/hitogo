@@ -28,7 +28,7 @@ ext {
 }
 
 android {
-    compileSdkVersion 26
+    compileSdkVersion 27
     buildToolsVersion "27.0.0"
 
     defaultConfig {
@@ -54,8 +54,8 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
     //Support lib dependencies
-    api 'com.android.support:support-annotations:26.1.0'
-    api 'com.android.support:appcompat-v7:26.1.0'
+    api 'com.android.support:support-annotations:27.0.0'
+    api 'com.android.support:appcompat-v7:27.0.0'
 }
 
 apply from: 'https://raw.githubusercontent.com/nuuneoi/JCenter/master/installv1.gradle'
