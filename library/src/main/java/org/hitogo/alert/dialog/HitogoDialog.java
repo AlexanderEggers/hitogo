@@ -7,6 +7,7 @@ import android.content.DialogInterface;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Log;
+import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
@@ -27,15 +28,15 @@ public class HitogoDialog extends HitogoAlert<HitogoDialogParams> {
 
     @Override
     protected void onCheck(@NonNull HitogoDialogParams params) {
-        if (params.getTitle().isEmpty()) {
-            Log.i(HitogoViewBuilder.class.getName(), "Title parameter should not be empty.");
+        if (params.getTitle() != null || params.getTitle().isEmpty()) {
+            Log.i(HitogoViewBuilder.class.getName(), "Title parameter is empty.");
         }
 
-        if (params.getText() == null) {
-            throw new InvalidParameterException("Text parameter cannot be null.");
+        if (params.getTextMap() == null || params.getTextMap().size() == 0) {
+            throw new InvalidParameterException("You need to add a text to this dialog.");
         }
 
-        if (params.getCallToActionButtons().isEmpty()) {
+        if (params.getButtons().isEmpty()) {
             throw new InvalidParameterException("This hitogo needs at least one button.");
         }
 
@@ -50,7 +51,7 @@ public class HitogoDialog extends HitogoAlert<HitogoDialogParams> {
     protected Dialog onCreateDialog(@NonNull LayoutInflater inflater, @NonNull Activity activity,
                                     @NonNull HitogoDialogParams params) {
         this.params = params;
-        List<HitogoButton> buttonList = params.getCallToActionButtons();
+        List<HitogoButton> buttonList = params.getButtons();
         Integer themeResId = params.getDialogThemeResId();
 
         AlertDialog.Builder dialogBuilder;
@@ -85,10 +86,15 @@ public class HitogoDialog extends HitogoAlert<HitogoDialogParams> {
             builder.setTitle(params.getTitle());
         }
 
-        if (view != null && params.getTextViewId() != null) {
-            ((TextView) view.findViewById(params.getTextViewId())).setText(params.getText());
+        SparseArray<String> textMap = params.getTextMap();
+        if (view != null) {
+            for(int i = 0; i < textMap.size(); i++) {
+                Integer viewId = textMap.keyAt(i);
+                String text = textMap.valueAt(i);
+                ((TextView) view.findViewById(viewId)).setText(text);
+            }
         } else {
-            builder.setMessage(params.getText());
+            builder.setMessage(textMap.valueAt(0));
         }
 
         HitogoAction testButton = (HitogoAction) buttonList.get(0);
@@ -106,7 +112,7 @@ public class HitogoDialog extends HitogoAlert<HitogoDialogParams> {
     }
 
     private void buildCallToActionButtons(@NonNull View dialogView) {
-        for (HitogoButton buttonObject : params.getCallToActionButtons()) {
+        for (HitogoButton buttonObject : params.getButtons()) {
             final HitogoAction callToActionButton = (HitogoAction) buttonObject;
 
             View button = dialogView.findViewById(callToActionButton.getParams().getViewIds()[0]);
@@ -134,7 +140,6 @@ public class HitogoDialog extends HitogoAlert<HitogoDialogParams> {
     }
 
     private void generateDefaultButtons(AlertDialog.Builder builder, List<HitogoButton> buttonList) {
-
         final HitogoAction positiveButton = (HitogoAction) buttonList.get(0);
         if (positiveButton.getParams().getText() != null && HitogoUtils.isNotEmpty(
                 positiveButton.getParams().getText())) {
@@ -148,7 +153,6 @@ public class HitogoDialog extends HitogoAlert<HitogoDialogParams> {
 
         if (buttonList.size() > 1) {
             final HitogoAction negativeButton = (HitogoAction) buttonList.get(1);
-
             if (negativeButton.getParams().getText() != null && HitogoUtils.isNotEmpty(
                     negativeButton.getParams().getText())) {
                 builder.setNegativeButton(negativeButton.getParams().getText(), new DialogInterface.OnClickListener() {
@@ -162,7 +166,6 @@ public class HitogoDialog extends HitogoAlert<HitogoDialogParams> {
 
         if (buttonList.size() > 2) {
             final HitogoAction neutralButton = (HitogoAction) buttonList.get(2);
-
             if (neutralButton.getParams().getText() != null && HitogoUtils.isNotEmpty(
                     neutralButton.getParams().getText())) {
                 builder.setNeutralButton(neutralButton.getParams().getText(), new DialogInterface.OnClickListener() {

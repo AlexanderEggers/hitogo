@@ -4,17 +4,20 @@ import android.arch.lifecycle.Lifecycle;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.util.Log;
+import android.util.SparseArray;
 
 import org.hitogo.alert.view.HitogoViewBuilder;
+import org.hitogo.button.core.HitogoButton;
 import org.hitogo.core.HitogoContainer;
 import org.hitogo.core.HitogoController;
 
 import java.lang.ref.WeakReference;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 @SuppressWarnings({"WeakerAccess", "unused", "unchecked"})
 public abstract class HitogoAlertBuilder<T> {
-
-    private static final int DEFAULT_SHOW_DELAY_IN_MS = 1000;
 
     private Class<? extends HitogoAlert> targetClass;
     private Class<? extends HitogoAlertParams> paramClass;
@@ -23,6 +26,12 @@ public abstract class HitogoAlertBuilder<T> {
     private HitogoVisibilityListener visibilityListener;
 
     private HitogoAlertParamsHolder holder = new HitogoAlertParamsHolder();
+
+    private SparseArray<String> textMap = new SparseArray<>();
+    private List<HitogoButton> buttons = new ArrayList<>();
+    private HitogoButton closeButton;
+    private String title;
+    private Integer titleViewId;
 
     private Bundle privateBundle = new Bundle();
     private Bundle arguments;
@@ -47,7 +56,7 @@ public abstract class HitogoAlertBuilder<T> {
         if(tag != null) {
             hashCode = tag.hashCode();
         } else {
-            tag = "";
+            tag = textMap.valueAt(0);
             hashCode = tag.hashCode();
         }
 
@@ -66,6 +75,8 @@ public abstract class HitogoAlertBuilder<T> {
     }
 
     private void onProvidePrivateData(HitogoAlertParamsHolder holder) {
+        privateBundle.putString("title", title);
+        privateBundle.putSerializable("titleViewId", titleViewId);
         privateBundle.putString("tag", tag);
         privateBundle.putInt("hashCode", hashCode);
         privateBundle.putBundle("arguments", arguments);
@@ -73,6 +84,9 @@ public abstract class HitogoAlertBuilder<T> {
         privateBundle.putSerializable("state", state);
 
         holder.provideVisibilityListener(visibilityListener);
+        holder.provideTextMap(textMap);
+        holder.provideButtons(buttons);
+        holder.provideCloseButton(closeButton);
     }
 
     protected abstract void onProvideData(HitogoAlertParamsHolder holder);
@@ -86,6 +100,29 @@ public abstract class HitogoAlertBuilder<T> {
     @NonNull
     public final T setBundle(@NonNull Bundle arguments) {
         this.arguments = arguments;
+        return (T) this;
+    }
+
+    @NonNull
+    public T setTitle(@NonNull String title) {
+        return setTitle(getController().provideDefaultTitleViewId(builderType), title);
+    }
+
+    @NonNull
+    public T setTitle(Integer viewId, @NonNull String title) {
+        this.titleViewId = viewId;
+        this.title = title;
+        return (T) this;
+    }
+
+    @NonNull
+    public T addText(@NonNull String text) {
+        return addText(getController().provideDefaultTextViewId(builderType), text);
+    }
+
+    @NonNull
+    public T addText(Integer viewId, @NonNull String text) {
+        textMap.put(viewId, text);
         return (T) this;
     }
 
@@ -110,6 +147,18 @@ public abstract class HitogoAlertBuilder<T> {
     @NonNull
     public final T addVisibilityListener(@NonNull HitogoVisibilityListener visibilityListener) {
         this.visibilityListener = visibilityListener;
+        return (T) this;
+    }
+
+    @NonNull
+    public T addButton(@NonNull HitogoButton... buttons) {
+        Collections.addAll(this.buttons, buttons);
+        return (T) this;
+    }
+
+    @NonNull
+    public T addCloseButton(@NonNull HitogoButton closeButton) {
+        this.closeButton = closeButton;
         return (T) this;
     }
 

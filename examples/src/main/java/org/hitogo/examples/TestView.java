@@ -18,7 +18,7 @@ public class TestView extends HitogoAlert<HitogoViewParams> {
     protected View onCreateView(@NonNull LayoutInflater inflater, @NonNull Activity activity,
                                 @NonNull HitogoViewParams params) {
         View v = inflater.inflate(getController().provideViewLayout(params.getState()), null);
-        ((TextView) v.findViewById(R.id.text)).setText(params.getText());
+        ((TextView) v.findViewById(R.id.text)).setText(params.getTextMap().valueAt(0));
         return v;
     }
 

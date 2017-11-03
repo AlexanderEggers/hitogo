@@ -6,6 +6,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.text.Html;
 import android.util.Log;
+import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,8 +30,8 @@ public class HitogoView extends HitogoAlert<HitogoViewParams> {
 
     @Override
     protected void onCheck(@NonNull HitogoController controller, @NonNull HitogoViewParams params) {
-        if (params.getText() == null) {
-            throw new InvalidParameterException("Text parameter cannot be null.");
+        if (params.getTextMap() == null || params.getTextMap().size() == 0) {
+            throw new InvalidParameterException("You need to add a text to this alert.");
         }
 
         if (params.getState() == null) {
@@ -39,7 +40,7 @@ public class HitogoView extends HitogoAlert<HitogoViewParams> {
                     "inside your HitogoController.");
         }
 
-        if (!params.isDismissible() && params.getCallToActionButtons().isEmpty()) {
+        if (!params.isDismissible() && params.getButtons().isEmpty()) {
             Log.w(HitogoViewBuilder.class.getName(), "Are you sure that this hitogo should have no " +
                     "interaction points? If yes, make sure to close this one if it's not " +
                     "needed anymore!");
@@ -95,9 +96,13 @@ public class HitogoView extends HitogoAlert<HitogoViewParams> {
     private void buildLayoutContent(@NonNull HitogoViewParams params, @NonNull View containerView) {
         if(params.getTitle() != null) {
             setViewString(containerView, params.getTitleViewId(), params.getTitle());
-            setViewString(containerView, params.getTextViewId(), params.getText());
-        } else {
-            setViewString(containerView, params.getTextViewId(), params.getText());
+        }
+
+        SparseArray<String> textMap = params.getTextMap();
+        for(int i = 0; i < textMap.size(); i++) {
+            Integer viewId = textMap.keyAt(i);
+            String text = textMap.valueAt(i);
+            setViewString(containerView, viewId, text);
         }
     }
 
@@ -128,7 +133,7 @@ public class HitogoView extends HitogoAlert<HitogoViewParams> {
     }
 
     private void buildCallToActionButtons(@NonNull HitogoViewParams params, @NonNull View containerView) {
-        for (HitogoButton buttonObject : params.getCallToActionButtons()) {
+        for (HitogoButton buttonObject : params.getButtons()) {
             final HitogoAction callToActionButton = (HitogoAction) buttonObject;
 
             View button = containerView.findViewById(callToActionButton.getParams().getViewIds()[0]);

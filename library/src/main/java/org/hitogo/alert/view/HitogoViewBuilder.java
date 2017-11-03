@@ -5,9 +5,6 @@ import android.support.annotation.Nullable;
 import android.util.Log;
 
 import java.security.InvalidParameterException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 
 import org.hitogo.alert.view.anim.HitogoAnimation;
 import org.hitogo.button.core.HitogoButton;
@@ -24,12 +21,7 @@ public class HitogoViewBuilder extends HitogoAlertBuilder<HitogoViewBuilder> {
 
     private static final HitogoAlertType type = HitogoAlertType.VIEW;
 
-    private String title;
-    private String text;
-
     private Integer containerId;
-    private Integer titleViewId;
-    private Integer textViewId;
     private Integer layoutViewId;
 
     private boolean isDismissible;
@@ -37,37 +29,11 @@ public class HitogoViewBuilder extends HitogoAlertBuilder<HitogoViewBuilder> {
     private boolean dismissByClick;
 
     private HitogoAnimation hitogoAnimation;
-    private List<HitogoButton> callToActionButtons = new ArrayList<>();
-    private HitogoButton closeButton;
 
     public HitogoViewBuilder(@NonNull Class<? extends HitogoAlert> targetClass,
                              @NonNull Class<? extends HitogoAlertParams> paramClass,
                              @NonNull HitogoContainer container) {
         super(targetClass, paramClass, container, type);
-    }
-
-    @NonNull
-    public HitogoViewBuilder setTitle(@NonNull String title) {
-        return setTitle(getController().provideDefaultTitleViewId(type), title);
-    }
-
-    @NonNull
-    public HitogoViewBuilder setTitle(Integer viewId, @NonNull String title) {
-        this.titleViewId = viewId;
-        this.title = title;
-        return this;
-    }
-
-    @NonNull
-    public HitogoViewBuilder setText(@NonNull String text) {
-        return setText(getController().provideDefaultTextViewId(type), text);
-    }
-
-    @NonNull
-    public HitogoViewBuilder setText(Integer viewId, @NonNull String text) {
-        this.textViewId = viewId;
-        this.text = text;
-        return this;
     }
 
     @NonNull
@@ -106,7 +72,7 @@ public class HitogoViewBuilder extends HitogoAlertBuilder<HitogoViewBuilder> {
         this.isDismissible = true;
 
         if (closeButton != null) {
-            this.closeButton = closeButton;
+            return super.addCloseButton(closeButton);
         }
         return this;
     }
@@ -116,21 +82,15 @@ public class HitogoViewBuilder extends HitogoAlertBuilder<HitogoViewBuilder> {
         this.isDismissible = true;
 
         try {
-            closeButton = Hitogo.with(getContainer())
+            return super.addCloseButton(Hitogo.with(getContainer())
                     .asButton()
                     .forViewAction()
-                    .build();
+                    .build());
         } catch (InvalidParameterException ex) {
             Log.e(HitogoViewBuilder.class.getName(), "Cannot add default close button.");
             Log.e(HitogoViewBuilder.class.getName(), "Reason: " + ex.getMessage());
         }
 
-        return this;
-    }
-
-    @NonNull
-    public HitogoViewBuilder addActionButton(@NonNull HitogoButton...buttons) {
-        Collections.addAll(callToActionButtons, buttons);
         return this;
     }
 
@@ -153,13 +113,12 @@ public class HitogoViewBuilder extends HitogoAlertBuilder<HitogoViewBuilder> {
 
     @NonNull
     public HitogoViewBuilder asSimpleView(@NonNull String text) {
-
         HitogoViewBuilder customBuilder = getController().provideSimpleView(this);
         if (customBuilder != null) {
             return customBuilder;
         } else {
             return asLayoutChild()
-                    .setText(text)
+                    .addText(text)
                     .asDismissible()
                     .withState(getController().provideDefaultState(type));
         }
@@ -167,8 +126,7 @@ public class HitogoViewBuilder extends HitogoAlertBuilder<HitogoViewBuilder> {
 
     @NonNull
     public HitogoViewBuilder asLayoutChild() {
-        asLayoutChild(getController().provideDefaultLayoutContainerId());
-        return this;
+        return asLayoutChild(getController().provideDefaultLayoutContainerId());
     }
 
     @NonNull
@@ -203,20 +161,12 @@ public class HitogoViewBuilder extends HitogoAlertBuilder<HitogoViewBuilder> {
 
     @Override
     protected void onProvideData(HitogoAlertParamsHolder holder) {
-        holder.provideString("title", title);
-        holder.provideString("text", text);
-
         holder.provideInteger("containerId", containerId);
-        holder.provideInteger("titleViewId", titleViewId);
-        holder.provideInteger("textViewId", textViewId);
         holder.provideInteger("layoutViewId", layoutViewId);
-
         holder.provideBoolean("isDismissible", isDismissible);
         holder.provideBoolean("closeOthers", closeOthers);
         holder.provideBoolean("dismissByClick", dismissByClick);
 
         holder.provideAnimation(hitogoAnimation);
-        holder.provideCallToActionButtons(callToActionButtons);
-        holder.provideCloseButton(closeButton);
     }
 }

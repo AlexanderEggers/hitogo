@@ -1,5 +1,7 @@
 package org.hitogo.alert.core;
 
+import android.util.SparseArray;
+
 import org.hitogo.alert.view.anim.HitogoAnimation;
 import org.hitogo.button.core.HitogoButton;
 import org.hitogo.core.HitogoParamsHolder;
@@ -12,6 +14,7 @@ public class HitogoAlertParamsHolder extends HitogoParamsHolder {
     private List<HitogoButton> callToActionButtons;
     private HitogoButton closeButton;
     private HitogoVisibilityListener listener;
+    private SparseArray<String> textMap;
 
     public final void provideAnimation(HitogoAnimation animation) {
         this.hitogoAnimation = animation;
@@ -21,11 +24,19 @@ public class HitogoAlertParamsHolder extends HitogoParamsHolder {
         this.listener = listener;
     }
 
-    public final void provideCallToActionButtons(List<HitogoButton> buttonList) {
+    public final void provideButtons(List<HitogoButton> buttonList) {
         this.callToActionButtons = buttonList;
     }
 
-    public final void provideCloseButton(HitogoButton button) {
+    void provideTextMap(SparseArray<String> textMap) {
+        this.textMap = textMap;
+    }
+
+    SparseArray<String> getTextMap() {
+        return textMap;
+    }
+
+    final void provideCloseButton(HitogoButton button) {
         this.closeButton = button;
     }
 
@@ -33,7 +44,7 @@ public class HitogoAlertParamsHolder extends HitogoParamsHolder {
         return hitogoAnimation;
     }
 
-    List<HitogoButton> getCallToActionButtons() {
+    List<HitogoButton> getButtons() {
         return callToActionButtons;
     }
 

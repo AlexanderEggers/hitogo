@@ -6,12 +6,7 @@ import org.hitogo.alert.core.HitogoAlertParamsHolder;
 @SuppressWarnings({"WeakerAccess", "unused"})
 public class HitogoViewParams extends HitogoAlertParams {
 
-    private String title;
-    private String text;
-
     private Integer containerId;
-    private Integer titleViewId;
-    private Integer textViewId;
     private Integer layoutViewId;
 
     private boolean isDismissible;
@@ -20,12 +15,7 @@ public class HitogoViewParams extends HitogoAlertParams {
 
     @Override
     protected void onCreateParams(HitogoAlertParamsHolder holder) {
-        title = holder.getString("title");
-        text = holder.getString("text");
-
         containerId = holder.getInteger("containerId");
-        titleViewId = holder.getInteger("titleViewId");
-        textViewId = holder.getInteger("textViewId");
         layoutViewId = holder.getInteger("layoutViewId");
 
         isDismissible = holder.getBoolean("isDismissible");
@@ -33,24 +23,8 @@ public class HitogoViewParams extends HitogoAlertParams {
         dismissByClick = holder.getBoolean("dismissByClick");
     }
 
-    public String getTitle() {
-        return title;
-    }
-
-    public String getText() {
-        return text;
-    }
-
     public Integer getContainerId() {
         return containerId;
-    }
-
-    public Integer getTitleViewId() {
-        return titleViewId;
-    }
-
-    public Integer getTextViewId() {
-        return textViewId;
     }
 
     public Integer getLayoutViewId() {
