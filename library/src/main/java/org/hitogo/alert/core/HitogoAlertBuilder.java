@@ -104,24 +104,24 @@ public abstract class HitogoAlertBuilder<T> {
     }
 
     @NonNull
-    public T setTitle(@NonNull String title) {
+    public final T setTitle(@NonNull String title) {
         return setTitle(getController().provideDefaultTitleViewId(builderType), title);
     }
 
     @NonNull
-    public T setTitle(Integer viewId, @NonNull String title) {
+    public final T setTitle(Integer viewId, @NonNull String title) {
         this.titleViewId = viewId;
         this.title = title;
         return (T) this;
     }
 
     @NonNull
-    public T addText(@NonNull String text) {
+    public final T addText(@NonNull String text) {
         return addText(getController().provideDefaultTextViewId(builderType), text);
     }
 
     @NonNull
-    public T addText(Integer viewId, @NonNull String text) {
+    public final T addText(Integer viewId, @NonNull String text) {
         textMap.put(viewId, text);
         return (T) this;
     }
@@ -151,13 +151,13 @@ public abstract class HitogoAlertBuilder<T> {
     }
 
     @NonNull
-    public T addButton(@NonNull HitogoButton... buttons) {
+    public final T addButton(@NonNull HitogoButton... buttons) {
         Collections.addAll(this.buttons, buttons);
         return (T) this;
     }
 
     @NonNull
-    public T addCloseButton(@NonNull HitogoButton closeButton) {
+    public final T addCloseButton(@NonNull HitogoButton closeButton) {
         this.closeButton = closeButton;
         return (T) this;
     }
