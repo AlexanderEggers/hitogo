@@ -2,4 +2,4 @@ include ':examples', ':library', ':test'
 project(":library").name = "Hitogo"
 project(":examples").name = "Examples"
 project(":test").name = "Test"
-rootProject.name = "Hitogo Library"
+rootProject.name = "Hitogo-Library"
