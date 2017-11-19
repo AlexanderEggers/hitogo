@@ -15,11 +15,11 @@ repositories {
 }
 
 dependencies {
-  compile 'org.hitogo:Hitogo:1.0.0-beta1'
+  compile 'org.hitogo:Hitogo:1.0.0-beta2'
 }
 ```
 
-How do I use Hitogo? (Step-by-step introduction for 1.0.0-beta1)
+How do I use Hitogo? (Step-by-step introduction for 1.0.0-beta2)
 -------------------
 
 1. Extend the HitogoController
@@ -100,7 +100,7 @@ protected void someMethod() {
     Hitogo.with(this)
                 .asView()
                 .withAnimations()
-                .setText("Test")
+                .addText("Test")
                 .asLayoutChild(R.id.container_layout)
                 .withState(HitogoDefaultController.HINT)
                 .setTag("TestHint")
@@ -137,7 +137,7 @@ public void someMethod() {
                 .asView()
                 .withAnimations(R.id.content)
                 .asDismissible(closeButton)
-                .setText("Test")
+                .addText("Test")
                 .asLayoutChild(R.id.container_layout)
                 .addActionButton(button)
                 .consumeLayoutClick()
@@ -180,7 +180,7 @@ public void someMethod() {
         Hitogo.with(this)
                 .asDialog()
                 .setTitle("Test Dialog")
-                .setText("Long message...")
+                .addText("Long message...")
                 .addButton(button)
                 .addButton("Cancel")
                 .asDismissible()
@@ -200,13 +200,10 @@ Compatibility
 
  * **Minimum Android SDK**: Hitogo requires a minimum API level of 14.
  * **Compile Android SDK**: Hitogo requires you to compile against API 27.
- * **Required Android-Support Library**: Hitogo requires the version 27.0.0 of the support libraries "support-annotations" and "appcompat-v7".
  
 TODO
 -------------
-* More animations (fade, slide top down/up, slide left in/out, slide right in/out)
 * Unit testing
-* More examples
 * Full documentation (source code and wiki)
 
 Author
