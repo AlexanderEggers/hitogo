@@ -10,19 +10,19 @@ public class HitogoParamsHolder {
     private Bundle bundle = new Bundle();
 
     public final void provideString(String key, String value) {
-        if(hasKey(key)) {
+        if(!hasKey(key)) {
             bundle.putString(key, value);
         }
     }
 
     public final void provideInteger(String key, Integer value) {
-        if(hasKey(key)) {
+        if(!hasKey(key)) {
             bundle.putSerializable(key, value);
         }
     }
 
     public final void provideBoolean(String key, Boolean value) {
-        if(hasKey(key)) {
+        if(!hasKey(key)) {
             bundle.putBoolean(key, value);
         }
     }

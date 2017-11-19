@@ -14,7 +14,7 @@ public class HitogoButtonParamsHolder extends HitogoParamsHolder {
     }
 
     public final void provideIntArray(String key, int[] value) {
-        if(hasKey(key)) {
+        if(!hasKey(key)) {
             getBundle().putIntArray(key, value);
         }
     }

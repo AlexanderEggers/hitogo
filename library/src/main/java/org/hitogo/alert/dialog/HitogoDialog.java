@@ -28,7 +28,7 @@ public class HitogoDialog extends HitogoAlert<HitogoDialogParams> {
 
     @Override
     protected void onCheck(@NonNull HitogoDialogParams params) {
-        if (params.getTitle() != null || params.getTitle().isEmpty()) {
+        if (params.getTitle() == null || params.getTitle().isEmpty()) {
             Log.i(HitogoViewBuilder.class.getName(), "Title parameter is empty.");
         }
 
@@ -37,7 +37,7 @@ public class HitogoDialog extends HitogoAlert<HitogoDialogParams> {
         }
 
         if (params.getButtons().isEmpty()) {
-            throw new InvalidParameterException("This hitogo needs at least one button.");
+            throw new InvalidParameterException("This dialog needs at least one button.");
         }
 
         if (params.getState() == null) {

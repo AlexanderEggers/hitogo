@@ -37,13 +37,13 @@ public class HitogoView extends HitogoAlert<HitogoViewParams> {
         }
 
         if (params.getState() == null) {
-            throw new InvalidParameterException("To display non-dialog hitogos you need to define " +
+            throw new InvalidParameterException("To display non-dialog alerts you need to define " +
                     "a state which will use a specific layout. This layout needs to be defined " +
                     "inside your HitogoController.");
         }
 
         if (!params.isDismissible() && params.getButtons().isEmpty()) {
-            Log.w(HitogoViewBuilder.class.getName(), "Are you sure that this hitogo should have no " +
+            Log.w(HitogoViewBuilder.class.getName(), "Are you sure that this alert should have no " +
                     "interaction points? If yes, make sure to close this one if it's not " +
                     "needed anymore!");
         }
