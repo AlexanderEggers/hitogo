@@ -14,8 +14,9 @@ public class HitogoButtonParamsHolder extends HitogoParamsHolder {
     }
 
     public final void provideIntArray(String key, int[] value) {
-        checkForKey(key);
-        getBundle().putIntArray(key, value);
+        if(hasKey(key)) {
+            getBundle().putIntArray(key, value);
+        }
     }
 
     public final void provideButtonListener(@Nullable HitogoButtonListener listener) {

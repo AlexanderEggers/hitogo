@@ -29,13 +29,13 @@ abstract class HitogoAlertLifecycle<T extends HitogoAlertParams> {
     }
 
     @Nullable
-    protected View onCreateView(@NonNull LayoutInflater inflater, @NonNull Context context,
+    protected View onCreateView(@Nullable LayoutInflater inflater, @NonNull Context context,
                                 @NonNull T params) {
         return null;
     }
 
     @Nullable
-    protected Dialog onCreateDialog(@NonNull LayoutInflater inflater, @NonNull Context context,
+    protected Dialog onCreateDialog(@Nullable LayoutInflater inflater, @NonNull Context context,
                                     @NonNull T params) {
         return null;
     }

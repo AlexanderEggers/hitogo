@@ -3,7 +3,6 @@ package org.hitogo.alert.dialog;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Log;
@@ -12,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
 
+import org.hitogo.BuildConfig;
 import org.hitogo.button.action.HitogoAction;
 import org.hitogo.button.core.HitogoButton;
 import org.hitogo.alert.core.HitogoAlert;
@@ -48,7 +48,7 @@ public class HitogoDialog extends HitogoAlert<HitogoDialogParams> {
 
     @Nullable
     @Override
-    protected Dialog onCreateDialog(@NonNull LayoutInflater inflater, @NonNull Context context,
+    protected Dialog onCreateDialog(@Nullable LayoutInflater inflater, @NonNull Context context,
                                     @NonNull HitogoDialogParams params) {
         this.params = params;
         List<HitogoButton> buttonList = params.getButtons();
@@ -61,13 +61,7 @@ public class HitogoDialog extends HitogoAlert<HitogoDialogParams> {
             dialogBuilder = new AlertDialog.Builder(context);
         }
 
-        dialogBuilder.setOnCancelListener(new DialogInterface.OnCancelListener() {
-            @Override
-            public void onCancel(DialogInterface dialogInterface) {
-                close();
-            }
-        });
-
+        dialogBuilder.setOnCancelListener(dialogInterface -> close());
         return generateDialog(dialogBuilder, inflater, buttonList).create();
     }
 
@@ -123,16 +117,13 @@ public class HitogoDialog extends HitogoAlert<HitogoDialogParams> {
                 }
 
                 button.setVisibility(View.VISIBLE);
-                button.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        callToActionButton.getParams().getListener().onClick();
-                        if (callToActionButton.getParams().isClosingAfterClick()) {
-                            close();
-                        }
+                button.setOnClickListener(v -> {
+                    callToActionButton.getParams().getListener().onClick();
+                    if (callToActionButton.getParams().isClosingAfterClick()) {
+                        close();
                     }
                 });
-            } else {
+            } else if(BuildConfig.DEBUG) {
                 throw new InvalidParameterException("Did you forget to add the " +
                         "call-to-action button to your layout?");
             }
@@ -143,11 +134,9 @@ public class HitogoDialog extends HitogoAlert<HitogoDialogParams> {
         final HitogoAction positiveButton = (HitogoAction) buttonList.get(0);
         if (positiveButton.getParams().getText() != null && HitogoUtils.isNotEmpty(
                 positiveButton.getParams().getText())) {
-            builder.setPositiveButton(positiveButton.getParams().getText(), new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int id) {
-                    positiveButton.getParams().getListener().onClick();
-                    close();
-                }
+            builder.setPositiveButton(positiveButton.getParams().getText(), (dialog, id) -> {
+                positiveButton.getParams().getListener().onClick();
+                close();
             });
         }
 
@@ -155,11 +144,9 @@ public class HitogoDialog extends HitogoAlert<HitogoDialogParams> {
             final HitogoAction negativeButton = (HitogoAction) buttonList.get(1);
             if (negativeButton.getParams().getText() != null && HitogoUtils.isNotEmpty(
                     negativeButton.getParams().getText())) {
-                builder.setNegativeButton(negativeButton.getParams().getText(), new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        negativeButton.getParams().getListener().onClick();
-                        close();
-                    }
+                builder.setNegativeButton(negativeButton.getParams().getText(), (dialog, id) -> {
+                    negativeButton.getParams().getListener().onClick();
+                    close();
                 });
             }
         }
@@ -168,11 +155,9 @@ public class HitogoDialog extends HitogoAlert<HitogoDialogParams> {
             final HitogoAction neutralButton = (HitogoAction) buttonList.get(2);
             if (neutralButton.getParams().getText() != null && HitogoUtils.isNotEmpty(
                     neutralButton.getParams().getText())) {
-                builder.setNeutralButton(neutralButton.getParams().getText(), new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        neutralButton.getParams().getListener().onClick();
-                        close();
-                    }
+                builder.setNeutralButton(neutralButton.getParams().getText(), (dialog, id) -> {
+                    neutralButton.getParams().getListener().onClick();
+                    close();
                 });
             }
         }

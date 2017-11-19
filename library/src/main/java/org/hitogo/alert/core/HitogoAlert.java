@@ -87,11 +87,6 @@ public abstract class HitogoAlert<T extends HitogoAlertParams> extends HitogoAle
         onCreate(getController(), params);
 
         LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-
-        if(inflater == null) {
-            throw new IllegalStateException("Fatal error: Layout inflater is null.");
-        }
-
         if (type == HitogoAlertType.VIEW) {
             view = onCreateView(inflater, getContext(), params);
         } else {
@@ -138,12 +133,9 @@ public abstract class HitogoAlert<T extends HitogoAlertParams> extends HitogoAle
 
         if (last != null && last.hasAnimation() && last.isClosing()) {
             Handler handler = new Handler();
-            handler.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    if (getContainer().getLifecycle().getCurrentState().isAtLeast(Lifecycle.State.CREATED)) {
-                        makeVisible(current, force);
-                    }
+            handler.postDelayed(() -> {
+                if (getContainer().getLifecycle().getCurrentState().isAtLeast(Lifecycle.State.CREATED)) {
+                    makeVisible(current, force);
                 }
             }, current.getAnimationDuration() + ANIMATION_BREAK_IN_MS);
         } else {
@@ -168,12 +160,9 @@ public abstract class HitogoAlert<T extends HitogoAlertParams> extends HitogoAle
         }
 
         Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                if (getContainer().getLifecycle().getCurrentState().isAtLeast(Lifecycle.State.CREATED)) {
-                    internalShow(force);
-                }
+        handler.postDelayed(() -> {
+            if (getContainer().getLifecycle().getCurrentState().isAtLeast(Lifecycle.State.CREATED)) {
+                internalShow(force);
             }
         }, delayInMs);
     }
@@ -209,12 +198,7 @@ public abstract class HitogoAlert<T extends HitogoAlertParams> extends HitogoAle
                 onCloseAnimation(getContext());
 
                 Handler handler = new Handler();
-                handler.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        detached = true;
-                    }
-                }, getAnimationDuration());
+                handler.postDelayed(() -> detached = true, getAnimationDuration());
             } else {
                 onCloseDefault(getContext());
                 detached = true;

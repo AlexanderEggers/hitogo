@@ -22,15 +22,12 @@ public class HitogoLeftAnimation extends HitogoAnimation {
     public void showAnimation(@NonNull final HitogoViewParams params, @NonNull final View hitogoView,
                               @NonNull final HitogoAlert object) {
         ValueAnimator anim = ValueAnimator.ofInt(0, hitogoView.getMeasuredWidth());
-        anim.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-            @Override
-            public void onAnimationUpdate(ValueAnimator valueAnimator) {
-                int animatedValue = (int) valueAnimator.getAnimatedValue();
-                ViewGroup.LayoutParams params = hitogoView.getLayoutParams();
-                params.width = animatedValue;
-                params.height = hitogoView.getMeasuredHeight();
-                hitogoView.setLayoutParams(params);
-            }
+        anim.addUpdateListener(valueAnimator -> {
+            int animatedValue = (int) valueAnimator.getAnimatedValue();
+            ViewGroup.LayoutParams params1 = hitogoView.getLayoutParams();
+            params1.width = animatedValue;
+            params1.height = hitogoView.getMeasuredHeight();
+            hitogoView.setLayoutParams(params1);
         });
         anim.addListener(new AnimatorListenerAdapter() {
             @Override
@@ -55,15 +52,12 @@ public class HitogoLeftAnimation extends HitogoAnimation {
     public void hideAnimation(@NonNull final HitogoViewParams params, @NonNull final View hitogoView,
                               @NonNull final HitogoAlert hitogoAlert) {
         ValueAnimator anim = ValueAnimator.ofInt(hitogoView.getMeasuredWidth(), 0);
-        anim.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-            @Override
-            public void onAnimationUpdate(ValueAnimator valueAnimator) {
-                int animatedValue = (int) valueAnimator.getAnimatedValue();
-                ViewGroup.LayoutParams params = hitogoView.getLayoutParams();
-                params.width = animatedValue;
-                params.height = hitogoView.getMeasuredHeight();
-                hitogoView.setLayoutParams(params);
-            }
+        anim.addUpdateListener(valueAnimator -> {
+            int animatedValue = (int) valueAnimator.getAnimatedValue();
+            ViewGroup.LayoutParams params1 = hitogoView.getLayoutParams();
+            params1.width = animatedValue;
+            params1.height = hitogoView.getMeasuredHeight();
+            hitogoView.setLayoutParams(params1);
         });
         anim.addListener(new AnimatorListenerAdapter() {
             @Override

@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.view.ViewManager;
 import android.widget.TextView;
 
+import org.hitogo.BuildConfig;
 import org.hitogo.alert.view.anim.HitogoAnimation;
 import org.hitogo.button.core.HitogoButton;
 import org.hitogo.core.HitogoController;
@@ -66,7 +67,7 @@ public class HitogoView extends HitogoAlert<HitogoViewParams> {
     }
 
     @Override
-    protected View onCreateView(@NonNull LayoutInflater inflater, @NonNull Context context,
+    protected View onCreateView(@Nullable LayoutInflater inflater, @NonNull Context context,
                                 @NonNull HitogoViewParams params) {
         View view = inflater.inflate(getController().provideViewLayout(params.getState()), null);
 
@@ -84,12 +85,7 @@ public class HitogoView extends HitogoAlert<HitogoViewParams> {
 
     private void buildLayoutInteractions(@NonNull HitogoViewParams params, @NonNull View containerView) {
         if(params.consumeLayoutClick()) {
-            containerView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    close();
-                }
-            });
+            containerView.setOnClickListener(view -> close());
             containerView.setClickable(true);
         }
     }
@@ -124,11 +120,11 @@ public class HitogoView extends HitogoAlert<HitogoViewParams> {
                 } else {
                     textView.setVisibility(View.GONE);
                 }
-            } else {
+            } else if(BuildConfig.DEBUG) {
                 throw new InvalidParameterException("Did you forget to add the " +
                         "title/text view to your layout?");
             }
-        } else {
+        } else if(BuildConfig.DEBUG) {
             throw new InvalidParameterException("Title or text view id is null.");
         }
     }
@@ -145,16 +141,13 @@ public class HitogoView extends HitogoAlert<HitogoViewParams> {
                 }
 
                 button.setVisibility(View.VISIBLE);
-                button.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        callToActionButton.getParams().getListener().onClick();
-                        if(callToActionButton.getParams().isClosingAfterClick()) {
-                            close();
-                        }
+                button.setOnClickListener(v -> {
+                    callToActionButton.getParams().getListener().onClick();
+                    if(callToActionButton.getParams().isClosingAfterClick()) {
+                        close();
                     }
                 });
-            } else {
+            } else if(BuildConfig.DEBUG) {
                 throw new InvalidParameterException("Did you forget to add the " +
                         "call-to-action button to your layout?");
             }
@@ -172,14 +165,11 @@ public class HitogoView extends HitogoAlert<HitogoViewParams> {
             if (removeIcon != null && removeClick != null) {
                 removeIcon.setVisibility(isDismissible ? View.VISIBLE : View.GONE);
                 removeClick.setVisibility(isDismissible ? View.VISIBLE : View.GONE);
-                removeClick.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        closeButton.getParams().getListener().onClick();
-                        close();
-                    }
+                removeClick.setOnClickListener(v -> {
+                    closeButton.getParams().getListener().onClick();
+                    close();
                 });
-            } else {
+            } else if(BuildConfig.DEBUG) {
                 throw new InvalidParameterException("Did you forget to add the close button to " +
                         "your layout?");
             }
