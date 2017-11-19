@@ -2,6 +2,7 @@ package org.hitogo.button.core;
 
 import android.support.annotation.NonNull;
 
+import org.hitogo.BuildConfig;
 import org.hitogo.core.HitogoContainer;
 import org.hitogo.core.HitogoController;
 
@@ -17,10 +18,12 @@ public abstract class HitogoButton<T extends HitogoButtonParams> extends HitogoB
         this.containerRef = new WeakReference<>(container);
         this.params = params;
 
-        onCheck(params);
-        onCheck(getController(), params);
-        onCreate(params);
+        if(BuildConfig.DEBUG) {
+            onCheck(params);
+            onCheck(getController(), params);
+        }
 
+        onCreate(params);
         return this;
     }
 

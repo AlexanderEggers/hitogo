@@ -1,6 +1,7 @@
 package org.hitogo.alert.view;
 
 import android.app.Activity;
+import android.content.Context;
 import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -65,7 +66,7 @@ public class HitogoView extends HitogoAlert<HitogoViewParams> {
     }
 
     @Override
-    protected View onCreateView(@NonNull LayoutInflater inflater, @NonNull Activity activity,
+    protected View onCreateView(@NonNull LayoutInflater inflater, @NonNull Context context,
                                 @NonNull HitogoViewParams params) {
         View view = inflater.inflate(getController().provideViewLayout(params.getState()), null);
 
@@ -186,7 +187,7 @@ public class HitogoView extends HitogoAlert<HitogoViewParams> {
     }
 
     @Override
-    protected void onAttach(@NonNull Activity activity) {
+    protected void onAttach(@NonNull Context context) {
         if (viewGroup != null) {
             viewGroup.addView(getView());
         } else {
@@ -196,30 +197,30 @@ public class HitogoView extends HitogoAlert<HitogoViewParams> {
                         ViewGroup.LayoutParams.WRAP_CONTENT);
             }
 
-            if (activity.isFinishing()) {
+            if (((Activity) context).isFinishing()) {
                 return;
             }
-            activity.addContentView(getView(), layoutParams);
+            ((Activity) context).addContentView(getView(), layoutParams);
         }
     }
 
     @Override
-    protected void onShowAnimation(@NonNull Activity activity) {
+    protected void onShowAnimation(@NonNull Context context) {
         if (animation != null) {
-            HitogoUtils.measureView(activity, getView(), viewGroup);
+            HitogoUtils.measureView((Activity) context, getView(), viewGroup);
             animation.showAnimation(getParams(), getView(), this);
         }
     }
 
     @Override
-    protected void onCloseAnimation(@NonNull Activity activity) {
+    protected void onCloseAnimation(@NonNull Context context) {
         if (animation != null) {
             animation.hideAnimation(getParams(), getView(), this);
         }
     }
 
     @Override
-    protected void onCloseDefault(@NonNull Activity activity) {
+    protected void onCloseDefault(@NonNull Context context) {
         final ViewManager manager = (ViewManager) getView().getParent();
         manager.removeView(getView());
     }

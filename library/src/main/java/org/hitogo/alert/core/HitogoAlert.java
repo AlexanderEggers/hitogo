@@ -1,6 +1,5 @@
 package org.hitogo.alert.core;
 
-import android.app.Activity;
 import android.app.Dialog;
 import android.arch.lifecycle.Lifecycle;
 import android.content.Context;
@@ -11,6 +10,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 
+import org.hitogo.BuildConfig;
 import org.hitogo.core.HitogoContainer;
 import org.hitogo.core.HitogoController;
 
@@ -74,8 +74,10 @@ public abstract class HitogoAlert<T extends HitogoAlertParams> extends HitogoAle
         this.tag = params.getTag();
         this.listener = params.getVisibilityListener();
 
-        onCheck(params);
-        onCheck(getController(), params);
+        if(BuildConfig.DEBUG) {
+            onCheck(params);
+            onCheck(getController(), params);
+        }
 
         if (listener != null) {
             listener.onCreate(this);
@@ -84,16 +86,16 @@ public abstract class HitogoAlert<T extends HitogoAlertParams> extends HitogoAle
         onCreate(params);
         onCreate(getController(), params);
 
-        LayoutInflater inflater = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
         if(inflater == null) {
             throw new IllegalStateException("Fatal error: Layout inflater is null.");
         }
 
         if (type == HitogoAlertType.VIEW) {
-            view = onCreateView(inflater, getActivity(), params);
+            view = onCreateView(inflater, getContext(), params);
         } else {
-            dialog = onCreateDialog(inflater, getActivity(), params);
+            dialog = onCreateDialog(inflater, getContext(), params);
         }
 
         return this;
@@ -196,7 +198,7 @@ public abstract class HitogoAlert<T extends HitogoAlertParams> extends HitogoAle
 
     public final void makeInvisible(boolean force) {
         if (isAttached()) {
-            onDetach(getActivity());
+            onDetach(getContext());
             attached = false;
 
             if (listener != null) {
@@ -204,7 +206,7 @@ public abstract class HitogoAlert<T extends HitogoAlertParams> extends HitogoAle
             }
 
             if (hasAnimation && !force) {
-                onCloseAnimation(getActivity());
+                onCloseAnimation(getContext());
 
                 Handler handler = new Handler();
                 handler.postDelayed(new Runnable() {
@@ -214,7 +216,7 @@ public abstract class HitogoAlert<T extends HitogoAlertParams> extends HitogoAle
                     }
                 }, getAnimationDuration());
             } else {
-                onCloseDefault(getActivity());
+                onCloseDefault(getContext());
                 detached = true;
             }
         }
@@ -253,7 +255,7 @@ public abstract class HitogoAlert<T extends HitogoAlertParams> extends HitogoAle
     }
 
     @NonNull
-    public final Activity getActivity() {
+    public final Context getContext() {
         return containerRef.get().getActivity();
     }
 

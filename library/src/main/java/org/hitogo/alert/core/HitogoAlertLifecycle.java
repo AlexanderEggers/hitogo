@@ -1,7 +1,7 @@
 package org.hitogo.alert.core;
 
-import android.app.Activity;
 import android.app.Dialog;
+import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -29,38 +29,38 @@ abstract class HitogoAlertLifecycle<T extends HitogoAlertParams> {
     }
 
     @Nullable
-    protected View onCreateView(@NonNull LayoutInflater inflater, @NonNull Activity activity,
+    protected View onCreateView(@NonNull LayoutInflater inflater, @NonNull Context context,
                                 @NonNull T params) {
         return null;
     }
 
     @Nullable
-    protected Dialog onCreateDialog(@NonNull LayoutInflater inflater, @NonNull Activity activity,
+    protected Dialog onCreateDialog(@NonNull LayoutInflater inflater, @NonNull Context context,
                                     @NonNull T params) {
         return null;
     }
 
-    protected void onAttach(@NonNull Activity activity) {
+    protected void onAttach(@NonNull Context context) {
 
     }
 
-    protected void onShowDefault(@NonNull Activity activity) {
+    protected void onShowDefault(@NonNull Context context) {
 
     }
 
-    protected void onShowAnimation(@NonNull Activity activity) {
+    protected void onShowAnimation(@NonNull Context context) {
 
     }
 
-    protected void onDetach(@NonNull Activity activity) {
+    protected void onDetach(@NonNull Context context) {
 
     }
 
-    protected void onCloseDefault(@NonNull Activity activity) {
+    protected void onCloseDefault(@NonNull Context context) {
 
     }
 
-    protected void onCloseAnimation(@NonNull Activity activity) {
+    protected void onCloseAnimation(@NonNull Context context) {
 
     }
 }

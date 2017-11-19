@@ -1,6 +1,7 @@
 package org.hitogo.examples;
 
 import android.app.Activity;
+import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -15,7 +16,7 @@ public class TestView extends HitogoAlert<HitogoViewParams> {
 
     @Nullable
     @Override
-    protected View onCreateView(@NonNull LayoutInflater inflater, @NonNull Activity activity,
+    protected View onCreateView(@NonNull LayoutInflater inflater, @NonNull Context context,
                                 @NonNull HitogoViewParams params) {
         View v = inflater.inflate(getController().provideViewLayout(params.getState()), null);
         ((TextView) v.findViewById(R.id.text)).setText(params.getTextMap().valueAt(0));
@@ -23,8 +24,8 @@ public class TestView extends HitogoAlert<HitogoViewParams> {
     }
 
     @Override
-    protected void onAttach(@NonNull Activity activity) {
-        super.onAttach(activity);
+    protected void onAttach(@NonNull Context context) {
+        super.onAttach(context);
 
         ViewGroup.LayoutParams params = getView().getLayoutParams();
         if (params == null) {
@@ -32,9 +33,9 @@ public class TestView extends HitogoAlert<HitogoViewParams> {
                     ViewGroup.LayoutParams.WRAP_CONTENT);
         }
 
-        if (activity.isFinishing()) {
+        if (((Activity) context).isFinishing()) {
             return;
         }
-        activity.addContentView(getView(), params);
+        ((Activity) context).addContentView(getView(), params);
     }
 }

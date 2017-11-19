@@ -1,8 +1,8 @@
 package org.hitogo.alert.dialog;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -48,7 +48,7 @@ public class HitogoDialog extends HitogoAlert<HitogoDialogParams> {
 
     @Nullable
     @Override
-    protected Dialog onCreateDialog(@NonNull LayoutInflater inflater, @NonNull Activity activity,
+    protected Dialog onCreateDialog(@NonNull LayoutInflater inflater, @NonNull Context context,
                                     @NonNull HitogoDialogParams params) {
         this.params = params;
         List<HitogoButton> buttonList = params.getButtons();
@@ -56,9 +56,9 @@ public class HitogoDialog extends HitogoAlert<HitogoDialogParams> {
 
         AlertDialog.Builder dialogBuilder;
         if (themeResId != null) {
-            dialogBuilder = new AlertDialog.Builder(activity, themeResId);
+            dialogBuilder = new AlertDialog.Builder(context, themeResId);
         } else {
-            dialogBuilder = new AlertDialog.Builder(activity);
+            dialogBuilder = new AlertDialog.Builder(context);
         }
 
         dialogBuilder.setOnCancelListener(new DialogInterface.OnCancelListener() {
@@ -179,14 +179,14 @@ public class HitogoDialog extends HitogoAlert<HitogoDialogParams> {
     }
 
     @Override
-    protected void onAttach(@NonNull Activity activity) {
+    protected void onAttach(@NonNull Context context) {
         if (getDialog() != null && !getDialog().isShowing()) {
             getDialog().show();
         }
     }
 
     @Override
-    public void onCloseDefault(@NonNull Activity activity) {
+    public void onCloseDefault(@NonNull Context context) {
         if (getDialog() != null && getDialog().isShowing()) {
             getDialog().dismiss();
         }
