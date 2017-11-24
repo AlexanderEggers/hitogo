@@ -98,6 +98,11 @@ public class HitogoView extends HitogoAlert<HitogoViewParams> {
     private void buildLayoutContent(@NonNull HitogoViewParams params, @NonNull View containerView) {
         if(params.getTitle() != null) {
             setViewString(containerView, params.getTitleViewId(), params.getTitle());
+        } else if(params.getTitleViewId() != null) {
+            TextView titleView = containerView.findViewById(params.getTitleViewId());
+            if(titleView != null) {
+                titleView.setVisibility(View.GONE);
+            }
         }
 
         SparseArray<String> textMap = params.getTextMap();
