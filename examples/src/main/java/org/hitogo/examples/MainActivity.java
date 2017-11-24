@@ -53,6 +53,7 @@ public class MainActivity extends HitogoActivity {
                 .withAnimations(R.id.content)
                 .asDismissible(closeButton)
                 .addText("Test")
+                .setTitle("Test Title")
                 .asLayoutChild(R.id.container_layout)
                 .addButton(button)
                 .consumeLayoutClick()

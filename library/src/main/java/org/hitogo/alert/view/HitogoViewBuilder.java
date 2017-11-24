@@ -107,7 +107,8 @@ public class HitogoViewBuilder extends HitogoAlertBuilder<HitogoViewBuilder> {
 
     @NonNull
     public HitogoViewBuilder asOverlay(@Nullable Integer overlayId) {
-        this.containerId = overlayId;
+        this.containerId = overlayId == null ?
+                getController().provideDefaultOverlayContainerId() : overlayId;
         return this;
     }
 

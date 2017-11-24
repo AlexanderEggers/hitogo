@@ -44,6 +44,12 @@ public class HitogoDefaultController extends HitogoController {
 
     @Nullable
     @Override
+    public Integer provideDefaultTitleViewId(HitogoAlertType type) {
+        return R.id.title;
+    }
+
+    @Nullable
+    @Override
     public Integer provideDefaultTextViewId(HitogoAlertType type) {
         return R.id.text;
     }

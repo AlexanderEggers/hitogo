@@ -21,9 +21,6 @@ public class HitogoTopAnimation extends HitogoAnimation {
     @Override
     public void showAnimation(@NonNull final HitogoViewParams params, @NonNull final View hitogoView,
                               @NonNull final HitogoAlert hitogoAlert) {
-        final Integer layoutViewId = params.getLayoutViewId() != null ?
-                params.getLayoutViewId() : hitogoAlert.getController().provideDefaultLayoutViewId();
-
         ValueAnimator anim = ValueAnimator.ofInt(0, hitogoView.getMeasuredHeight());
         anim.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
@@ -37,15 +34,15 @@ public class HitogoTopAnimation extends HitogoAnimation {
         anim.addListener(new AnimatorListenerAdapter() {
             @Override
             public void onAnimationEnd(Animator animation) {
-                if (layoutViewId != null) {
-                    hitogoView.findViewById(layoutViewId).setVisibility(View.VISIBLE);
+                if (params.getLayoutViewId() != null) {
+                    hitogoView.findViewById(params.getLayoutViewId()).setVisibility(View.VISIBLE);
                 }
             }
 
             @Override
             public void onAnimationStart(Animator animation) {
-                if (layoutViewId != null) {
-                    hitogoView.findViewById(layoutViewId).setVisibility(View.INVISIBLE);
+                if (params.getLayoutViewId() != null) {
+                    hitogoView.findViewById(params.getLayoutViewId()).setVisibility(View.INVISIBLE);
                 }
             }
         });
@@ -56,9 +53,6 @@ public class HitogoTopAnimation extends HitogoAnimation {
     @Override
     public void hideAnimation(@NonNull final HitogoViewParams params, @NonNull final View hitogoView,
                               @NonNull final HitogoAlert hitogoAlert) {
-        final Integer layoutViewId = params.getLayoutViewId() != null ?
-                params.getLayoutViewId() : hitogoAlert.getController().provideDefaultLayoutViewId();
-
         ValueAnimator anim = ValueAnimator.ofInt(hitogoView.getMeasuredHeight(), 0);
         anim.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
@@ -77,8 +71,8 @@ public class HitogoTopAnimation extends HitogoAnimation {
 
             @Override
             public void onAnimationStart(Animator animation) {
-                if (layoutViewId != null) {
-                    hitogoView.findViewById(layoutViewId).setVisibility(View.INVISIBLE);
+                if (params.getLayoutViewId() != null) {
+                    hitogoView.findViewById(params.getLayoutViewId()).setVisibility(View.INVISIBLE);
                 }
             }
         });

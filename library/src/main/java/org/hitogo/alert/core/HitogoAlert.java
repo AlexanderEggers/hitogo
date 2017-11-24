@@ -69,7 +69,7 @@ public abstract class HitogoAlert<T extends HitogoAlertParams> extends HitogoAle
         this.params = params;
         this.hashCode = params.getHashCode();
         this.closeOthers = params.isClosingOthers();
-        this.hasAnimation = params.hasAnimation() || getController().provideDefaultAnimation() != null;
+        this.hasAnimation = params.hasAnimation();
         this.type = params.getType();
         this.tag = params.getTag();
         this.listener = params.getVisibilityListener();
