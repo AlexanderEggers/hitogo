@@ -15,11 +15,11 @@ repositories {
 }
 
 dependencies {
-  compile 'org.hitogo:Hitogo:1.0.0-beta3'
+  compile 'org.hitogo:Hitogo:1.0.0-beta4'
 }
 ```
 
-How do I use Hitogo? (Step-by-step introduction for 1.0.0-beta3)
+How do I use Hitogo? (Step-by-step introduction for 1.0.0-beta4)
 -------------------
 
 1. Extend the HitogoController
@@ -200,7 +200,6 @@ Compatibility
 
  * **Minimum Android SDK**: Hitogo requires a minimum API level of 14.
  * **Compile Android SDK**: Hitogo requires you to compile against API 27.
- * **sourceCompatibility**: Hitogo requires JavaVersion.VERSION_1_8 to compile.
  
 TODO
 -------------
