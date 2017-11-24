@@ -146,10 +146,13 @@ public class HitogoView extends HitogoAlert<HitogoViewParams> {
                 }
 
                 button.setVisibility(View.VISIBLE);
-                button.setOnClickListener(v -> {
-                    callToActionButton.getParams().getListener().onClick();
-                    if(callToActionButton.getParams().isClosingAfterClick()) {
-                        close();
+                button.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        callToActionButton.getParams().getListener().onClick();
+                        if (callToActionButton.getParams().isClosingAfterClick()) {
+                            close();
+                        }
                     }
                 });
             } else if(BuildConfig.DEBUG) {

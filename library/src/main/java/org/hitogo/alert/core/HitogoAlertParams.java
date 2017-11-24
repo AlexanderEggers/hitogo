@@ -91,7 +91,7 @@ public abstract class HitogoAlertParams extends HitogoParams<HitogoAlertParamsHo
 
     @NonNull
     public final List<HitogoButton> getButtons() {
-        return buttons != null ? buttons : new ArrayList<>();
+        return buttons != null ? buttons : new ArrayList<HitogoButton>();
     }
 
     public final SparseArray<String> getTextMap() {
