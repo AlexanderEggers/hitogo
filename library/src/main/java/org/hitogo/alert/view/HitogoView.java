@@ -85,7 +85,12 @@ public class HitogoView extends HitogoAlert<HitogoViewParams> {
 
     private void buildLayoutInteractions(@NonNull HitogoViewParams params, @NonNull View containerView) {
         if(params.consumeLayoutClick()) {
-            containerView.setOnClickListener(view -> close());
+            containerView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    close();
+                }
+            });
             containerView.setClickable(true);
         }
     }
@@ -165,9 +170,12 @@ public class HitogoView extends HitogoAlert<HitogoViewParams> {
             if (removeIcon != null && removeClick != null) {
                 removeIcon.setVisibility(isDismissible ? View.VISIBLE : View.GONE);
                 removeClick.setVisibility(isDismissible ? View.VISIBLE : View.GONE);
-                removeClick.setOnClickListener(v -> {
-                    closeButton.getParams().getListener().onClick();
-                    close();
+                removeClick.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        closeButton.getParams().getListener().onClick();
+                        close();
+                    }
                 });
             } else if(BuildConfig.DEBUG) {
                 throw new InvalidParameterException("Did you forget to add the close button to " +

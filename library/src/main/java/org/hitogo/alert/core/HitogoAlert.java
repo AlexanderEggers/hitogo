@@ -69,7 +69,7 @@ public abstract class HitogoAlert<T extends HitogoAlertParams> extends HitogoAle
         this.params = params;
         this.hashCode = params.getHashCode();
         this.closeOthers = params.isClosingOthers();
-        this.hasAnimation = params.hasAnimation();
+        this.hasAnimation = params.hasAnimation() || getController().provideDefaultAnimation() != null;
         this.type = params.getType();
         this.tag = params.getTag();
         this.listener = params.getVisibilityListener();
@@ -133,9 +133,12 @@ public abstract class HitogoAlert<T extends HitogoAlertParams> extends HitogoAle
 
         if (last != null && last.hasAnimation() && last.isClosing()) {
             Handler handler = new Handler();
-            handler.postDelayed(() -> {
-                if (getContainer().getLifecycle().getCurrentState().isAtLeast(Lifecycle.State.CREATED)) {
-                    makeVisible(current, force);
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    if (getContainer().getLifecycle().getCurrentState().isAtLeast(Lifecycle.State.CREATED)) {
+                        makeVisible(current, force);
+                    }
                 }
             }, current.getAnimationDuration() + ANIMATION_BREAK_IN_MS);
         } else {
@@ -160,9 +163,12 @@ public abstract class HitogoAlert<T extends HitogoAlertParams> extends HitogoAle
         }
 
         Handler handler = new Handler();
-        handler.postDelayed(() -> {
-            if (getContainer().getLifecycle().getCurrentState().isAtLeast(Lifecycle.State.CREATED)) {
-                internalShow(force);
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if (getContainer().getLifecycle().getCurrentState().isAtLeast(Lifecycle.State.CREATED)) {
+                    internalShow(force);
+                }
             }
         }, delayInMs);
     }
@@ -198,7 +204,12 @@ public abstract class HitogoAlert<T extends HitogoAlertParams> extends HitogoAle
                 onCloseAnimation(getContext());
 
                 Handler handler = new Handler();
-                handler.postDelayed(() -> detached = true, getAnimationDuration());
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        detached = true;
+                    }
+                }, getAnimationDuration());
             } else {
                 onCloseDefault(getContext());
                 detached = true;
