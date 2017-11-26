@@ -8,10 +8,12 @@ public abstract class HitogoVisibilityAdapter implements HitogoVisibilityListene
         //implementation optional
     }
 
+    @Override
     public void onShow(HitogoAlert object) {
         //implementation optional
     }
 
+    @Override
     public void onClose(HitogoAlert object) {
         //implementation optional
     }
