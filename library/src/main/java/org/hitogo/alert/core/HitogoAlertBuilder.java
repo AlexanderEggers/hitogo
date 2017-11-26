@@ -172,16 +172,24 @@ public abstract class HitogoAlertBuilder<T> {
     }
 
     public final void show() {
+        show(false);
+    }
+
+    public final void show(boolean force) {
         HitogoContainer container = containerRef.get();
         if(container.getLifecycle().getCurrentState().isAtLeast(Lifecycle.State.STARTED)) {
-            build().show();
+            build().show(force);
         } else {
-            build().showDelayed(HitogoAlert.DEFAULT_SHOW_DELAY_IN_MS);
+            build().showDelayed(HitogoAlert.DEFAULT_SHOW_DELAY_IN_MS, force);
         }
     }
 
     public final void showDelayed(long millis) {
-        build().showDelayed(millis);
+        build().showDelayed(millis, false);
+    }
+
+    public final void showDelayed(long millis, boolean force) {
+        build().showDelayed(millis, force);
     }
 
     protected final HitogoContainer getContainer() {

@@ -148,7 +148,7 @@ public class MainActivity extends HitogoActivity {
                 .addButton(button)
                 .withState(AlertState.WARNING)
                 .setTag("TestHint 2")
-                .show();
+                .show(true);
     }
 
     private void showThirdView() {
