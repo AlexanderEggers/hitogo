@@ -72,19 +72,15 @@ public abstract class HitogoController implements LifecycleObserver {
     }
 
     public final void closeAll() {
-        internalCloseAll(false);
-    }
-
-    public final void closeAll(boolean force) {
-        internalCloseAll(force);
+        closeAll(false);
     }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
     protected final void closeAllOnDestroy() {
-        internalCloseAll(true);
+        closeAll(true);
     }
 
-    private void internalCloseAll(boolean force) {
+    public final void closeAll(boolean force) {
         Iterator<HitogoAlert> it = currentViews.iterator();
         while(it.hasNext()) {
             HitogoAlert object = it.next();
