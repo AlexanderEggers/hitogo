@@ -75,8 +75,12 @@ public abstract class HitogoController implements LifecycleObserver {
         internalCloseAll(false);
     }
 
+    public final void closeAll(boolean force) {
+        internalCloseAll(force);
+    }
+
     @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
-    public final void forceCloseAll() {
+    protected final void closeAllOnDestroy() {
         internalCloseAll(true);
     }
 
@@ -101,14 +105,10 @@ public abstract class HitogoController implements LifecycleObserver {
     }
 
     public final void closeByType(@NonNull HitogoAlertType type) {
-        internalCloseByType(type, false);
+        closeByType(type, false);
     }
 
-    public final void forceCloseByType(@NonNull HitogoAlertType type) {
-        internalCloseByType(type, true);
-    }
-
-    private void internalCloseByType(@NonNull HitogoAlertType type, boolean force) {
+    public final void closeByType(@NonNull HitogoAlertType type, boolean force) {
         synchronized (syncLock) {
             Iterator<HitogoAlert> it = currentViews.iterator();
             while(it.hasNext()) {
@@ -131,14 +131,10 @@ public abstract class HitogoController implements LifecycleObserver {
     }
 
     public final void closeByTag(@NonNull String tag) {
-        internalCloseByTag(tag, false);
+        closeByTag(tag, false);
     }
 
-    public final void forceCloseByTag(@NonNull String tag) {
-        internalCloseByTag(tag, true);
-    }
-
-    private void internalCloseByTag(@NonNull String tag, boolean force) {
+    public final void closeByTag(@NonNull String tag, boolean force) {
         synchronized (syncLock) {
             int tagHashCode = tag.hashCode();
 
@@ -257,5 +253,9 @@ public abstract class HitogoController implements LifecycleObserver {
     @Nullable
     public HitogoDialogBuilder provideSimpleDialog(@NonNull HitogoDialogBuilder builder) {
         return null;
+    }
+
+    public boolean shouldOverrideDebugMode() {
+        return false;
     }
 }

@@ -20,11 +20,11 @@ public class HitogoAlertParamsHolder extends HitogoParamsHolder {
         this.hitogoAnimation = animation;
     }
 
-    public final void provideVisibilityListener(HitogoVisibilityListener listener) {
+    final void provideVisibilityListener(HitogoVisibilityListener listener) {
         this.listener = listener;
     }
 
-    public final void provideButtons(List<HitogoButton> buttonList) {
+    final void provideButtons(List<HitogoButton> buttonList) {
         this.callToActionButtons = buttonList;
     }
 

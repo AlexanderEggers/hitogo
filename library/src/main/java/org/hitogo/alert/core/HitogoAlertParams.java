@@ -16,45 +16,51 @@ import java.util.List;
 public abstract class HitogoAlertParams extends HitogoParams<HitogoAlertParamsHolder> {
 
     private String title;
-    private Integer titleViewId;
     private String tag;
-    private int hashCode;
-    private Integer state;
-    private HitogoAlertType type;
-    private Bundle arguments;
-
     private SparseArray<String> textMap;
-    private HitogoAnimation hitogoAnimation;
+
+    private Integer layoutRes;
+    private int hashCode;
+    private Integer titleViewId;
+    private Integer state;
+
     private List<HitogoButton> buttons;
     private HitogoButton closeButton;
+
+    private HitogoAlertType type;
+    private Bundle arguments;
+    private HitogoAnimation hitogoAnimation;
     private HitogoVisibilityListener listener;
 
     @Override
     protected void provideData(HitogoAlertParamsHolder holder, Bundle privateBundle) {
-        hitogoAnimation = holder.getAnimation();
-        buttons = holder.getButtons();
-        closeButton = holder.getCloseButton();
-        listener = holder.getVisibilityListener();
+        title = privateBundle.getString("title");
+        tag = privateBundle.getString("tag");
         textMap = holder.getTextMap();
 
-        title = privateBundle.getString("title");
-        titleViewId = (Integer) privateBundle.getSerializable("titleViewId");
-        tag = privateBundle.getString("tag");
+        layoutRes = (Integer) privateBundle.getSerializable("layoutRes");
         hashCode = privateBundle.getInt("hashCode");
-        arguments = privateBundle.getBundle("arguments");
-        type = (HitogoAlertType) privateBundle.getSerializable("type");
+        titleViewId = (Integer) privateBundle.getSerializable("titleViewId");
         state = (Integer) privateBundle.getSerializable("state");
+
+        buttons = holder.getButtons();
+        closeButton = holder.getCloseButton();
+
+        type = (HitogoAlertType) privateBundle.getSerializable("type");
+        arguments = privateBundle.getBundle("arguments");
+        hitogoAnimation = holder.getAnimation();
+        listener = holder.getVisibilityListener();
 
         onCreateParams(holder);
     }
 
     protected abstract void onCreateParams(HitogoAlertParamsHolder holder);
 
-    public String getTitle() {
+    public final String getTitle() {
         return title;
     }
 
-    public Integer getTitleViewId() {
+    public final Integer getTitleViewId() {
         return titleViewId;
     }
 
@@ -84,6 +90,10 @@ public abstract class HitogoAlertParams extends HitogoParams<HitogoAlertParamsHo
         return state;
     }
 
+    public final Integer getLayoutRes() {
+        return layoutRes;
+    }
+
     @Nullable
     public final HitogoAnimation getAnimation() {
         return hitogoAnimation;
@@ -106,7 +116,7 @@ public abstract class HitogoAlertParams extends HitogoParams<HitogoAlertParamsHo
         return closeButton;
     }
 
-    public HitogoVisibilityListener getVisibilityListener() {
+    public final HitogoVisibilityListener getVisibilityListener() {
         return listener;
     }
 

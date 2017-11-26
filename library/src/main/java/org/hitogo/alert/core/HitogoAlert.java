@@ -29,27 +29,97 @@ import java.lang.ref.WeakReference;
 @SuppressWarnings({"WeakerAccess", "unused"})
 public abstract class HitogoAlert<T extends HitogoAlertParams> extends HitogoAlertLifecycle<T> {
 
+    /**
+     * This value is as an default value for the (display-)delay if the alerts is shown using the
+     * onCreate of one control. To prevent visual bugs while showing this alert (due to not
+     * finished layout rendering in this state), this value is used to force a delay.
+     */
     public static final int DEFAULT_SHOW_DELAY_IN_MS = 1000;
+
+    /**
+     * This value is used if no animation is defined.
+     */
     public static final int NO_ANIMATION_LENGTH = 0;
+
+    /**
+     * This value is used for the break between the hide-animation and showing the new alert.
+     */
     public static final int ANIMATION_BREAK_IN_MS = 100;
 
-    private static final int CURRENT_HITOGO = 0;
-    private static final int LAST_HITOGO = 1;
+    /**
+     * This value describes the minimum delay value which can be used.
+     */
+    public static final int MIN_ANIMATION_LENGTH = 100;
 
+    /**
+     * Defines the current (new) alert inside the given controller array.
+     */
+    private static final int CURRENT_ALERT = 0;
+
+    /**
+     * Defines the last (current) alert inside the given controller array.
+     */
+    private static final int LAST_ALERT = 1;
+
+    /**
+     * True if this alert has been attached to the controller, otherwise false.
+     */
     private boolean attached;
+
+    /**
+     * True if this alert has been detached from the controller, otherwise false.
+     */
     private boolean detached;
+
+    /**
+     * Defines if this alert has an animation which will be shown if the alert is changing it's
+     * visibility.
+     */
     private boolean hasAnimation;
+
+    /**
+     * True if this alert should hide all other alert from it's type, false otherwise.
+     */
     private boolean closeOthers;
 
+    /**
+     * This value is used to define the tag this alert. The tag can be used to close a specific via
+     * the controller if needed.
+     */
     private String tag;
+
+    /**
+     * The hashcode is the value which is used by the controller to compare two different alerts.
+     */
     private int hashCode;
+
+    /**
+     * Defines the type of this alert. This type is used to determine specific lifecycle methods or
+     * to limit certain features to ensure ux-errors.
+     */
     private HitogoAlertType type;
 
+    /**
+     * This value represents the visibility listener that can be used to react to specific alert
+     * states.
+     */
     private HitogoVisibilityListener listener;
 
     private WeakReference<HitogoContainer> containerRef;
+
+    /**
+     * Parameter object which holds all relevant data for this specific alert.
+     */
     private T params;
+
+    /**
+     * View object which defines this alert. This view is null if the type is 'dialog'.
+     */
     private View view;
+
+    /**
+     * Dialog object which defines this alert. This view is null if the type is 'view'.
+     */
     private Dialog dialog;
 
     /**
@@ -64,7 +134,7 @@ public abstract class HitogoAlert<T extends HitogoAlertParams> extends HitogoAle
      * @see org.hitogo.alert.view.HitogoViewParams
      * @since 1.0.0
      */
-    final HitogoAlert<T> create(@NonNull HitogoContainer container, @NonNull T params) {
+    final HitogoAlert<T> create(final @NonNull HitogoContainer container, final @NonNull T params) {
         this.containerRef = new WeakReference<>(container);
         this.params = params;
         this.hashCode = params.getHashCode();
@@ -74,7 +144,7 @@ public abstract class HitogoAlert<T extends HitogoAlertParams> extends HitogoAle
         this.tag = params.getTag();
         this.listener = params.getVisibilityListener();
 
-        if(BuildConfig.DEBUG) {
+        if (BuildConfig.DEBUG || getController().shouldOverrideDebugMode()) {
             onCheck(params);
             onCheck(getController(), params);
         }
@@ -103,41 +173,32 @@ public abstract class HitogoAlert<T extends HitogoAlertParams> extends HitogoAle
      * @since 1.0.0
      */
     public final void show() {
-        internalShow(false);
+        show(false);
     }
 
     /**
-     * Forces the attach-process for this alert. This means that any running animations will be
-     * ignored. <b>Keep in mind that forcing this process could reduce performance and/or the
-     * visual quality.</b>
-     *
-     * @since 1.0.0
-     */
-    public final void forceShow() {
-        internalShow(true);
-    }
-
-    /**
-     * Internal process which is managing the process to attach an alert to the display. This
+     * Method which is managing the process to attach an alert to the display. This
      * process is depending on the given parameter which will decide if the method should wait for
      * other running animations.
      *
      * @param force determines if the attach-process should be forced (therefore not waiting for
-     *              running animations of other alerts) or not
+     *              running animations of other alerts and will not play the own animation) or not.
+     *              <b>Keep in mind that forcing this process could reduce performance and/or the
+     *              visual quality.</b>
      * @since 1.0.0
      */
-    private void internalShow(final boolean force) {
+    public final void show(final boolean force) {
         final HitogoAlert[] objects = getController().validate(this);
-        final HitogoAlert current = objects[CURRENT_HITOGO];
-        final HitogoAlert last = objects[LAST_HITOGO];
+        final HitogoAlert current = objects[CURRENT_ALERT];
+        final HitogoAlert last = objects[LAST_ALERT];
 
-        if (last != null && last.hasAnimation() && last.isClosing()) {
+        if (last != null && last.hasAnimation() && last.isClosing() && !force) {
             Handler handler = new Handler();
             handler.postDelayed(new Runnable() {
                 @Override
                 public void run() {
                     if (getContainer().getLifecycle().getCurrentState().isAtLeast(Lifecycle.State.CREATED)) {
-                        makeVisible(current, force);
+                        makeVisible(current, false);
                     }
                 }
             }, current.getAnimationDuration() + ANIMATION_BREAK_IN_MS);
@@ -146,20 +207,29 @@ public abstract class HitogoAlert<T extends HitogoAlertParams> extends HitogoAle
         }
     }
 
-    public final void showDelayed(long millis) {
-        internalShowDelayed(millis, false);
+    public final void showDelayed(final long millis) {
+        if (getType().equals(HitogoAlertType.VIEW)) {
+            internalShowDelayed(millis, false);
+        } else {
+            show(false);
+        }
     }
 
-    public final void forceShowDelayed(long millis) {
-        internalShowDelayed(millis, true);
+    public final void showDelayed(final long millis, final boolean force) {
+        if (getType().equals(HitogoAlertType.VIEW)) {
+            internalShowDelayed(millis, force);
+        } else {
+            show(force);
+        }
     }
 
-    private void internalShowDelayed(long millis, final boolean force) {
+    private void internalShowDelayed(final long millis, final boolean force) {
         long delayInMs = millis;
 
-        if (millis <= NO_ANIMATION_LENGTH) {
-            Log.i(HitogoAlertBuilder.class.getName(), "Delayed cannot be null. Using default delay time value.");
-            delayInMs = DEFAULT_SHOW_DELAY_IN_MS;
+        if (millis <= MIN_ANIMATION_LENGTH) {
+            Log.i(HitogoAlertBuilder.class.getName(), "Delayed time is too short. Using " +
+                    "default delay time value.");
+            delayInMs = MIN_ANIMATION_LENGTH;
         }
 
         Handler handler = new Handler();
@@ -167,13 +237,13 @@ public abstract class HitogoAlert<T extends HitogoAlertParams> extends HitogoAle
             @Override
             public void run() {
                 if (getContainer().getLifecycle().getCurrentState().isAtLeast(Lifecycle.State.CREATED)) {
-                    internalShow(force);
+                    show(force);
                 }
             }
         }, delayInMs);
     }
 
-    public final void makeVisible(HitogoAlert object, boolean force) {
+    public final void makeVisible(final HitogoAlert object, final boolean force) {
         if (!object.isAttached()) {
             object.onAttach(getContainer().getActivity());
             attached = true;
@@ -191,7 +261,7 @@ public abstract class HitogoAlert<T extends HitogoAlertParams> extends HitogoAle
         }
     }
 
-    public final void makeInvisible(boolean force) {
+    public final void makeInvisible(final boolean force) {
         if (isAttached()) {
             onDetach(getContext());
             attached = false;
@@ -221,8 +291,8 @@ public abstract class HitogoAlert<T extends HitogoAlertParams> extends HitogoAle
         getController().closeByTag(tag);
     }
 
-    public final void forceClose() {
-        getController().forceCloseByTag(tag);
+    public final void close(final boolean force) {
+        getController().closeByTag(tag, force);
     }
 
     public long getAnimationDuration() {
@@ -254,11 +324,6 @@ public abstract class HitogoAlert<T extends HitogoAlertParams> extends HitogoAle
         return containerRef.get().getActivity();
     }
 
-    @Nullable
-    public final View getRootView() {
-        return containerRef.get().getView();
-    }
-
     @NonNull
     public final HitogoContainer getContainer() {
         return containerRef.get();
@@ -275,8 +340,18 @@ public abstract class HitogoAlert<T extends HitogoAlertParams> extends HitogoAle
     }
 
     @NonNull
-    public T getParams() {
+    public final T getParams() {
         return params;
+    }
+
+    @NonNull
+    public final String getTag() {
+        return tag;
+    }
+
+    @Nullable
+    public final View getRootView() {
+        return containerRef.get().getView();
     }
 
     @Nullable
@@ -289,17 +364,13 @@ public abstract class HitogoAlert<T extends HitogoAlertParams> extends HitogoAle
         return dialog;
     }
 
-    public final String getTag() {
-        return tag;
-    }
-
     @Override
     public final int hashCode() {
         return hashCode;
     }
 
     @Override
-    public final boolean equals(Object obj) {
+    public final boolean equals(final Object obj) {
         return obj != null && obj instanceof HitogoAlert && this.hashCode == obj.hashCode();
     }
 }

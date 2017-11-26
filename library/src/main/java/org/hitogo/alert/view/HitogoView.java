@@ -36,16 +36,17 @@ public class HitogoView extends HitogoAlert<HitogoViewParams> {
             throw new InvalidParameterException("You need to add a text to this alert.");
         }
 
-        if (params.getState() == null) {
+        if (params.getState() == null && params.getLayoutRes() == null) {
             throw new InvalidParameterException("To display non-dialog alerts you need to define " +
                     "a state which will use a specific layout. This layout needs to be defined " +
-                    "inside your HitogoController.");
+                    "inside your HitogoController. Optionally you can define a custom layout via " +
+                    "setLayout.");
         }
 
         if (!params.isDismissible() && params.getButtons().isEmpty()) {
-            Log.w(HitogoViewBuilder.class.getName(), "Are you sure that this alert should have no " +
-                    "interaction points? If yes, make sure to close this one if it's not " +
-                    "needed anymore!");
+            Log.w(HitogoViewBuilder.class.getName(), "Are you sure that this alert should have " +
+                    "no interaction points? If yes, make sure to close this one if it's not needed " +
+                    "anymore!");
         }
     }
 
@@ -69,7 +70,13 @@ public class HitogoView extends HitogoAlert<HitogoViewParams> {
     @Override
     protected View onCreateView(@Nullable LayoutInflater inflater, @NonNull Context context,
                                 @NonNull HitogoViewParams params) {
-        View view = inflater.inflate(getController().provideViewLayout(params.getState()), null);
+
+        View view = null;
+        if(params.getLayoutRes() != null && params.getLayoutRes() != 0) {
+            view = inflater.inflate(params.getLayoutRes(), null);
+        } else if(params.getState() != null) {
+            view = inflater.inflate(getController().provideViewLayout(params.getState()), null);
+        }
 
         if (view != null) {
             buildLayoutInteractions(params, view);
@@ -77,10 +84,11 @@ public class HitogoView extends HitogoAlert<HitogoViewParams> {
             buildCallToActionButtons(params, view);
             buildCloseButtons(params, view);
             return view;
-        } else {
+        } else if(BuildConfig.DEBUG || getController().shouldOverrideDebugMode()) {
             throw new InvalidParameterException("Hitogo view is null. Is the layout existing for " +
                     "the state: '" + params.getState() + "'?");
         }
+        return null;
     }
 
     private void buildLayoutInteractions(@NonNull HitogoViewParams params, @NonNull View containerView) {
@@ -125,11 +133,11 @@ public class HitogoView extends HitogoAlert<HitogoViewParams> {
                 } else {
                     textView.setVisibility(View.GONE);
                 }
-            } else if(BuildConfig.DEBUG) {
+            } else if(BuildConfig.DEBUG || getController().shouldOverrideDebugMode()) {
                 throw new InvalidParameterException("Did you forget to add the " +
                         "title/text view to your layout?");
             }
-        } else if(BuildConfig.DEBUG) {
+        } else if(BuildConfig.DEBUG || getController().shouldOverrideDebugMode()) {
             throw new InvalidParameterException("Title or text view id is null.");
         }
     }
@@ -155,7 +163,7 @@ public class HitogoView extends HitogoAlert<HitogoViewParams> {
                         }
                     }
                 });
-            } else if(BuildConfig.DEBUG) {
+            } else if(BuildConfig.DEBUG || getController().shouldOverrideDebugMode()) {
                 throw new InvalidParameterException("Did you forget to add the " +
                         "call-to-action button to your layout?");
             }
@@ -180,7 +188,7 @@ public class HitogoView extends HitogoAlert<HitogoViewParams> {
                         close();
                     }
                 });
-            } else if(BuildConfig.DEBUG) {
+            } else if(BuildConfig.DEBUG || getController().shouldOverrideDebugMode()) {
                 throw new InvalidParameterException("Did you forget to add the close button to " +
                         "your layout?");
             }

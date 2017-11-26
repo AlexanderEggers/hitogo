@@ -41,9 +41,9 @@ public class HitogoDialog extends HitogoAlert<HitogoDialogParams> {
             throw new InvalidParameterException("This dialog needs at least one button.");
         }
 
-        if (params.getState() == null) {
-            Log.i(HitogoViewBuilder.class.getName(), "State is null. This dialog will use the " +
-                    "default alert dialog implementation instead.");
+        if (params.getState() == null && params.getLayoutRes() == null) {
+            Log.i(HitogoViewBuilder.class.getName(), "State and custom layout is null. This " +
+                    "dialog will use the default alert dialog implementation instead.");
         }
     }
 
@@ -75,7 +75,9 @@ public class HitogoDialog extends HitogoAlert<HitogoDialogParams> {
     private AlertDialog.Builder generateDialog(AlertDialog.Builder builder, LayoutInflater inflater,
                                                List<HitogoButton> buttonList) {
         View view = null;
-        if (params.getState() != null) {
+        if(params.getLayoutRes() != null && params.getLayoutRes() != 0) {
+            view = inflater.inflate(params.getLayoutRes(), null);
+        } else if (params.getState() != null) {
             view = inflater.inflate(getController().provideDialogLayout(params.getState()), null);
         }
         builder.setCancelable(!params.isDismissible());
@@ -132,7 +134,7 @@ public class HitogoDialog extends HitogoAlert<HitogoDialogParams> {
                         }
                     }
                 });
-            } else if(BuildConfig.DEBUG) {
+            } else if(BuildConfig.DEBUG || getController().shouldOverrideDebugMode()) {
                 throw new InvalidParameterException("Did you forget to add the " +
                         "call-to-action button to your layout?");
             }

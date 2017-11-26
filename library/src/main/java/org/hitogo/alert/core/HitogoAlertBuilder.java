@@ -2,6 +2,7 @@ package org.hitogo.alert.core;
 
 import android.arch.lifecycle.Lifecycle;
 import android.os.Bundle;
+import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.util.Log;
 import android.util.SparseArray;
@@ -39,6 +40,7 @@ public abstract class HitogoAlertBuilder<T> {
     private String tag;
     private int hashCode;
     private HitogoAlertType builderType;
+    private Integer layoutRes;
 
     public HitogoAlertBuilder(@NonNull Class<? extends HitogoAlert> targetClass,
                               @NonNull Class<? extends HitogoAlertParams> paramClass,
@@ -82,6 +84,7 @@ public abstract class HitogoAlertBuilder<T> {
         privateBundle.putBundle("arguments", arguments);
         privateBundle.putSerializable("type", builderType);
         privateBundle.putSerializable("state", state);
+        privateBundle.putSerializable("layoutRes", layoutRes);
 
         holder.provideVisibilityListener(visibilityListener);
         holder.provideTextMap(textMap);
@@ -159,6 +162,12 @@ public abstract class HitogoAlertBuilder<T> {
     @NonNull
     public final T addCloseButton(@NonNull HitogoButton closeButton) {
         this.closeButton = closeButton;
+        return (T) this;
+    }
+
+    @NonNull
+    public final T setLayout(@LayoutRes Integer layoutRes) {
+        this.layoutRes = layoutRes;
         return (T) this;
     }
 

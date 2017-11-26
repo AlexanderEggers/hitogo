@@ -42,7 +42,7 @@ public class MainActivity extends HitogoActivity {
                 .listenWith(new HitogoButtonListener() {
                     @Override
                     public void onClick() {
-                        getController().forceCloseAll();
+                        getController().closeAll(true);
                     }
                 }, false)
                 .forViewAction(R.id.close)
