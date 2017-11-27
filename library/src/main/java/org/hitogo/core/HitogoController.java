@@ -3,6 +3,7 @@ package org.hitogo.core;
 import android.arch.lifecycle.Lifecycle;
 import android.arch.lifecycle.LifecycleObserver;
 import android.arch.lifecycle.OnLifecycleEvent;
+import android.os.Handler;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -21,135 +22,205 @@ import org.hitogo.alert.view.HitogoView;
 import org.hitogo.alert.view.HitogoViewBuilder;
 import org.hitogo.alert.view.HitogoViewParams;
 
-import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.List;
+import java.util.LinkedList;
+import java.util.Queue;
 
 @SuppressWarnings({"WeakerAccess", "unused"})
 public abstract class HitogoController implements LifecycleObserver {
 
     private final Object syncLock = new Object();
 
-    private final List<HitogoAlert> currentViews = new ArrayList<>();
-    private final List<HitogoAlert> currentDialogs = new ArrayList<>();
+    private final Queue<HitogoAlert> currentViews = new LinkedList<>();
+    private final Queue<HitogoAlert> currentDialogs = new LinkedList<>();
+    private final Queue<HitogoAlert> currentPopups = new LinkedList<>();
 
     public HitogoController(@NonNull Lifecycle lifecycle) {
         lifecycle.addObserver(this);
     }
 
-    public final HitogoAlert[] validate(HitogoAlert hitogo) {
+    public final void show(HitogoAlert hitogo, boolean force) {
+        show(hitogo, force, false);
+    }
+
+    public final void show(HitogoAlert hitogo, boolean force, boolean showLater) {
         synchronized (syncLock) {
-            if(hitogo.getType() == HitogoAlertType.VIEW) {
-                return validateHitogo(currentViews, hitogo);
-            } else {
-                return validateHitogo(currentDialogs, hitogo);
+            switch (hitogo.getType()) {
+                case VIEW:
+                    internalShow(currentViews, hitogo, force, showLater);
+                    break;
+                case DIALOG:
+                    internalShow(currentDialogs, hitogo, force, showLater);
+                    break;
+                case POPUP:
+                    internalShow(currentPopups, hitogo, force, showLater);
+                    break;
             }
         }
     }
 
-    private HitogoAlert[] validateHitogo(List<HitogoAlert> currentObjects, HitogoAlert newHitogo) {
-        HitogoAlert[] hitogoStack = new HitogoAlert[2];
-        HitogoAlert currentHitogo = !currentObjects.isEmpty() ? currentObjects.get(0) : null;
-        HitogoAlert lastHitogo = null;
+    public final void showNext(final boolean force, final HitogoAlertType type) {
+        synchronized (syncLock) {
+            final Queue<HitogoAlert> currentAlerts = getCurrentAlert(type);
 
-        if (currentHitogo != null) {
-            if (!currentHitogo.equals(newHitogo)) {
-                if(newHitogo.isClosingOthers()) {
-                    closeByType(newHitogo.getType());
+            if(!currentAlerts.isEmpty()) {
+                HitogoAlert currentAlert = currentAlerts.poll();
+                currentAlert.makeInvisible(force);
+
+                Handler handler = new Handler();
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        if(!currentAlerts.isEmpty()) {
+                            HitogoAlert newAlert = currentAlerts.poll();
+                            if (newAlert != null && newAlert.getContainer().getLifecycle().getCurrentState()
+                                    .isAtLeast(Lifecycle.State.CREATED)) {
+                                newAlert.makeVisible(force);
+                            }
+                        }
+                    }
+                }, currentAlert.getAnimationDuration());
+            }
+        }
+    }
+
+    private Queue<HitogoAlert> getCurrentAlert(HitogoAlertType type) {
+        switch (type) {
+            case VIEW:
+                return currentViews;
+            case DIALOG:
+                return currentDialogs;
+            case POPUP:
+                return currentPopups;
+            default:
+                return new LinkedList<>();
+        }
+    }
+
+    private void internalShow(final Queue<HitogoAlert> currentObjects, final HitogoAlert newAlert,
+                              final boolean force, final boolean showLater) {
+        long waitForClosing = 0;
+
+        currentObjects.add(newAlert);
+
+        if(showLater) {
+            return;
+        }
+
+        if(!currentObjects.isEmpty() && newAlert.isClosingOthers()) {
+            waitForClosing = closeByType(newAlert.getType());
+        }
+
+        if(!force) {
+            Handler handler = new Handler();
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    if (newAlert.getContainer().getLifecycle().getCurrentState().isAtLeast(Lifecycle.State.CREATED)) {
+                        newAlert.makeVisible(false);
+                    }
                 }
-                lastHitogo = currentHitogo;
-                currentHitogo = newHitogo;
-                currentObjects.add(newHitogo);
-            }
+            }, waitForClosing);
         } else {
-            currentHitogo = newHitogo;
-            currentObjects.add(newHitogo);
+            newAlert.makeVisible(true);
         }
-
-        hitogoStack[0] = currentHitogo;
-        hitogoStack[1] = lastHitogo;
-        return hitogoStack;
     }
 
-    public final void closeAll() {
-        closeAll(false);
+    public final long closeAll() {
+        return closeAll(false);
     }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
-    protected final void closeAllOnDestroy() {
-        closeAll(true);
+    protected final long closeAllOnDestroy() {
+       return closeAll(true);
     }
 
-    public final void closeAll(boolean force) {
-        Iterator<HitogoAlert> it = currentViews.iterator();
+    public final long closeAll(boolean force) {
+        synchronized (syncLock) {
+            long longestClosingAnim = 0;
+            internalCloseByTag(currentViews.iterator(), force, longestClosingAnim);
+            internalCloseByTag(currentDialogs.iterator(), force, longestClosingAnim);
+            internalCloseByTag(currentPopups.iterator(), force, longestClosingAnim);
+            return longestClosingAnim;
+        }
+    }
+
+    private void internalCloseByTag(Iterator<HitogoAlert> it, boolean force, long currentLongest) {
         while(it.hasNext()) {
             HitogoAlert object = it.next();
             if(object != null && object.isAttached()) {
+                if(object.getAnimationDuration() > currentLongest) {
+                    currentLongest = object.getAnimationDuration();
+                }
+
+                object.makeInvisible(force);
+                it.remove();
+            }
+        }
+    }
+
+    public final long closeByType(@NonNull HitogoAlertType type) {
+        return closeByType(type, false);
+    }
+
+    public final long closeByType(@NonNull HitogoAlertType type, boolean force) {
+        synchronized (syncLock) {
+            if(type == HitogoAlertType.VIEW) {
+                return internalCloseByType(currentViews.iterator(), type, force);
+            } else if(type == HitogoAlertType.DIALOG) {
+                return internalCloseByType(currentDialogs.iterator(), type, force);
+            } else if(type == HitogoAlertType.POPUP) {
+                return internalCloseByType(currentPopups.iterator(), type, force);
+            } else {
+                return 0;
+            }
+        }
+    }
+
+    private long internalCloseByType(Iterator<HitogoAlert> it, @NonNull HitogoAlertType type, boolean force) {
+        long longestClosingAnim = 0;
+
+        while(it.hasNext()) {
+            HitogoAlert object = it.next();
+            if(object != null && type == object.getType() && object.isAttached()) {
+                if(object.getAnimationDuration() > longestClosingAnim) {
+                    longestClosingAnim = object.getAnimationDuration();
+                }
+
                 object.makeInvisible(force);
                 it.remove();
             }
         }
 
-        it = currentDialogs.iterator();
+        return longestClosingAnim;
+    }
+
+    public final long closeByTag(@NonNull String tag) {
+        return closeByTag(tag, false);
+    }
+
+    public final long closeByTag(@NonNull String tag, boolean force) {
+        synchronized (syncLock) {
+            long longestClosingAnim = 0;
+            internalCloseByTag(currentViews.iterator(), tag, force, longestClosingAnim);
+            internalCloseByTag(currentDialogs.iterator(), tag, force, longestClosingAnim);
+            internalCloseByTag(currentPopups.iterator(), tag, force, longestClosingAnim);
+            return longestClosingAnim;
+        }
+    }
+
+    private void internalCloseByTag(Iterator<HitogoAlert> it, @NonNull String tag, boolean force, long currentLongest) {
+        int tagHashCode = tag.hashCode();
+
         while(it.hasNext()) {
             HitogoAlert object = it.next();
-            if(object != null && object.isAttached()) {
+            if(object != null && object.isAttached() && object.hashCode() == tagHashCode) {
+                if(object.getAnimationDuration() > currentLongest) {
+                    currentLongest = object.getAnimationDuration();
+                }
+
                 object.makeInvisible(force);
                 it.remove();
-            }
-        }
-    }
-
-    public final void closeByType(@NonNull HitogoAlertType type) {
-        closeByType(type, false);
-    }
-
-    public final void closeByType(@NonNull HitogoAlertType type, boolean force) {
-        synchronized (syncLock) {
-            Iterator<HitogoAlert> it = currentViews.iterator();
-            while(it.hasNext()) {
-                HitogoAlert object = it.next();
-                if(object != null && type == object.getType() && object.isAttached()) {
-                    object.makeInvisible(force);
-                    it.remove();
-                }
-            }
-
-            it = currentDialogs.iterator();
-            while(it.hasNext()) {
-                HitogoAlert object = it.next();
-                if(object != null && type == object.getType() && object.isAttached()) {
-                    object.makeInvisible(force);
-                    it.remove();
-                }
-            }
-        }
-    }
-
-    public final void closeByTag(@NonNull String tag) {
-        closeByTag(tag, false);
-    }
-
-    public final void closeByTag(@NonNull String tag, boolean force) {
-        synchronized (syncLock) {
-            int tagHashCode = tag.hashCode();
-
-            Iterator<HitogoAlert> it = currentViews.iterator();
-            while(it.hasNext()) {
-                HitogoAlert object = it.next();
-                if(object != null && object.isAttached() && object.hashCode() == tagHashCode) {
-                    object.makeInvisible(force);
-                    it.remove();
-                }
-            }
-
-            it = currentDialogs.iterator();
-            while(it.hasNext()) {
-                HitogoAlert object = it.next();
-                if(object != null && object.isAttached() && object.hashCode() == tagHashCode) {
-                    object.makeInvisible(force);
-                    it.remove();
-                }
             }
         }
     }

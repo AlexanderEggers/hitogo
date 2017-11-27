@@ -6,6 +6,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.PopupWindow;
 
 import org.hitogo.core.HitogoController;
 
@@ -37,6 +38,12 @@ abstract class HitogoAlertLifecycle<T extends HitogoAlertParams> {
     @Nullable
     protected Dialog onCreateDialog(@Nullable LayoutInflater inflater, @NonNull Context context,
                                     @NonNull T params) {
+        return null;
+    }
+
+    @Nullable
+    protected PopupWindow onCreatePopup(@Nullable LayoutInflater inflater, @NonNull Context context,
+                                        @NonNull T params) {
         return null;
     }
 

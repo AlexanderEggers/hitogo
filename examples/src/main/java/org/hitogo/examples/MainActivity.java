@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 import android.os.Bundle;
 import android.util.Log;
 
+import org.hitogo.alert.core.HitogoAlertType;
 import org.hitogo.button.core.HitogoButtonListener;
 import org.hitogo.button.core.HitogoButton;
 import org.hitogo.core.Hitogo;
@@ -132,7 +133,7 @@ public class MainActivity extends HitogoActivity {
                 .listenWith(new HitogoButtonListener() {
                     @Override
                     public void onClick() {
-                        showThirdView();
+                        showTestView();
                     }
                 }, false)
                 .forViewAction(R.id.button)
@@ -148,7 +149,45 @@ public class MainActivity extends HitogoActivity {
                 .addButton(button)
                 .withState(AlertState.WARNING)
                 .setTag("TestHint 2")
-                .show(true);
+                .show();
+    }
+
+    private void showTestView() {
+        HitogoButton next = Hitogo.with(this)
+                .asButton()
+                .listenWith(new HitogoButtonListener() {
+                    @Override
+                    public void onClick() {
+                        getController().showNext(false, HitogoAlertType.VIEW);
+                    }
+                }, true)
+                .forViewAction(R.id.button)
+                .setText("Next")
+                .build();
+
+        HitogoButton save = Hitogo.with(this)
+                .asButton()
+                .listenWith(new HitogoButtonListener() {
+                    @Override
+                    public void onClick() {
+                        showThirdView();
+                    }
+                }, false)
+                .forViewAction(R.id.close)
+                .setText("Load next internally")
+                .build();
+
+        Hitogo.with(this)
+                .asView()
+                .withAnimations(HitogoLeftAnimation.build(), R.id.content)
+                .addText("Test for 'Show Later'")
+                .asLayoutChild(R.id.container_layout)
+                .addButton(next)
+                .closeOthers()
+                .addButton(save)
+                .withState(AlertState.HINT)
+                .setTag("TestHint 2")
+                .show();
     }
 
     private void showThirdView() {
@@ -172,7 +211,7 @@ public class MainActivity extends HitogoActivity {
                 .addButton(button)
                 .withState(AlertState.WARNING)
                 .setTag("TestHint 3")
-                .show();
+                .showLater(true);
     }
 
     @NonNull

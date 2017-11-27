@@ -184,6 +184,14 @@ public abstract class HitogoAlertBuilder<T> {
         }
     }
 
+    public final void showLater(boolean showLater) {
+        if(!showLater) {
+            show(false);
+        } else {
+            build().showLater(true);
+        }
+    }
+
     public final void showDelayed(long millis) {
         build().showDelayed(millis, false);
     }

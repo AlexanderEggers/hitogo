@@ -9,6 +9,7 @@ import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.PopupWindow;
 
 import org.hitogo.BuildConfig;
 import org.hitogo.core.HitogoContainer;
@@ -113,14 +114,19 @@ public abstract class HitogoAlert<T extends HitogoAlertParams> extends HitogoAle
     private T params;
 
     /**
-     * View object which defines this alert. This view is null if the type is 'dialog'.
+     * View object which defines this alert.
      */
     private View view;
 
     /**
-     * Dialog object which defines this alert. This view is null if the type is 'view'.
+     * Dialog object which defines this alert.
      */
     private Dialog dialog;
+
+    /**
+     * Popup object which defines this alert.
+     */
+    private PopupWindow popup;
 
     /**
      * Creates the alert and starts the internal lifecycle process. This method is only used by
@@ -159,8 +165,10 @@ public abstract class HitogoAlert<T extends HitogoAlertParams> extends HitogoAle
         LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         if (type == HitogoAlertType.VIEW) {
             view = onCreateView(inflater, getContext(), params);
-        } else {
+        } else if (type == HitogoAlertType.DIALOG) {
             dialog = onCreateDialog(inflater, getContext(), params);
+        } else {
+            popup = onCreatePopup(inflater, getContext(), params);
         }
 
         return this;
@@ -188,27 +196,15 @@ public abstract class HitogoAlert<T extends HitogoAlertParams> extends HitogoAle
      * @since 1.0.0
      */
     public final void show(final boolean force) {
-        final HitogoAlert[] objects = getController().validate(this);
-        final HitogoAlert current = objects[CURRENT_ALERT];
-        final HitogoAlert last = objects[LAST_ALERT];
+        getController().show(this, force);
+    }
 
-        if (last != null && last.hasAnimation() && last.isClosing() && !force) {
-            Handler handler = new Handler();
-            handler.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    if (getContainer().getLifecycle().getCurrentState().isAtLeast(Lifecycle.State.CREATED)) {
-                        makeVisible(current, false);
-                    }
-                }
-            }, current.getAnimationDuration() + ANIMATION_BREAK_IN_MS);
-        } else {
-            makeVisible(current, force);
-        }
+    public final void showLater(boolean showLater) {
+        getController().show(this, false, showLater);
     }
 
     public final void showDelayed(final long millis) {
-        if (getType().equals(HitogoAlertType.VIEW)) {
+        if (hasAnimation()) {
             internalShowDelayed(millis, false);
         } else {
             show(false);
@@ -216,7 +212,7 @@ public abstract class HitogoAlert<T extends HitogoAlertParams> extends HitogoAle
     }
 
     public final void showDelayed(final long millis, final boolean force) {
-        if (getType().equals(HitogoAlertType.VIEW)) {
+        if (hasAnimation()) {
             internalShowDelayed(millis, force);
         } else {
             show(force);
@@ -243,9 +239,9 @@ public abstract class HitogoAlert<T extends HitogoAlertParams> extends HitogoAle
         }, delayInMs);
     }
 
-    public final void makeVisible(final HitogoAlert object, final boolean force) {
-        if (!object.isAttached()) {
-            object.onAttach(getContainer().getActivity());
+    public final void makeVisible(final boolean force) {
+        if (!isAttached()) {
+            onAttach(getContainer().getActivity());
             attached = true;
             detached = false;
 
@@ -270,7 +266,7 @@ public abstract class HitogoAlert<T extends HitogoAlertParams> extends HitogoAle
                 listener.onClose(this);
             }
 
-            if (hasAnimation && !force) {
+            if (hasAnimation() && !force) {
                 onCloseAnimation(getContext());
 
                 Handler handler = new Handler();
@@ -362,6 +358,11 @@ public abstract class HitogoAlert<T extends HitogoAlertParams> extends HitogoAle
     @Nullable
     public final Dialog getDialog() {
         return dialog;
+    }
+
+    @Nullable
+    public PopupWindow getPopup() {
+        return popup;
     }
 
     @Override
