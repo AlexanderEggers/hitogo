@@ -15,11 +15,11 @@ repositories {
 }
 
 dependencies {
-  compile 'org.hitogo:Hitogo:1.0.0-beta6'
+  compile 'org.hitogo:Hitogo:1.0.0-beta7'
 }
 ```
 
-How do I use Hitogo? (Step-by-step introduction for 1.0.0-beta6)
+How do I use Hitogo? (Step-by-step introduction for 1.0.0-beta7)
 -------------------
 
 1. Extend the HitogoController
@@ -91,7 +91,7 @@ public class MainActivity extends HitogoActivity {
 
 3. Start using Hitogo!
 
-If you have finished step 1 and 2, you are ready to go! Using Hitogo you can create hint views and dialogs. Each builder system will be covered in full length inside the wiki (Coming soon!).
+If you have finished step 1 and 2, you are ready to go! Using Hitogo you can create views, popups and dialogs. Each builder system will be covered in full length inside the wiki (Coming soon!).
 
 ```java
 // To create a simple alert that displays a short message, you could do that:
@@ -102,7 +102,7 @@ protected void someMethod() {
                 .withAnimations()
                 .addText("Test")
                 .asLayoutChild(R.id.container_layout)
-                .withState(HitogoDefaultController.HINT)
+                .setState(HitogoDefaultController.HINT)
                 .setTag("TestHint")
                 .show();
 }
@@ -127,7 +127,7 @@ public void someMethod() {
                 .listenWith(new HitogoButtonListener() {
                     @Override
                     public void onClick() {
-                        getController().forceCloseAll();
+                        getController().closeAll(true);
                     }
                 }, false)
                 .forViewAction(R.id.close)
@@ -157,7 +157,7 @@ public void someMethod() {
                         Log.i(MainActivity.class.getName(), "Closing Hitogo");
                     }
                 })
-                .withState(HitogoDefaultController.HINT)
+                .setState(HitogoDefaultController.HINT)
                 .setTag("TestHint 1")
                 .show();
 }
@@ -181,10 +181,22 @@ public void someMethod() {
                 .asDialog()
                 .setTitle("Test Dialog")
                 .addText("Long message...")
+                .setState(HitogoDefaultController.DANGER)
                 .addButton(button)
                 .addButton("Cancel")
                 .asDismissible()
                 .setTag("Test Dialog")
+                .show();
+                
+//Last example for creating a popup:
+public void someMethod() {
+  ...
+       Hitogo.with(this)
+                .asPopup()
+                .addText("Test Popup")
+                .setAnchor(R.id.button_test)
+                .setState(HitogoDefaultController.HINT)
+                .asDismissible()
                 .show();
 }
 ```
