@@ -163,14 +163,17 @@ public abstract class HitogoAlert<T extends HitogoAlertParams> extends HitogoAle
         onCreate(getController(), params);
 
         LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        if (type == HitogoAlertType.VIEW) {
-            view = onCreateView(inflater, getContext(), params);
-        } else if (type == HitogoAlertType.DIALOG) {
-            dialog = onCreateDialog(inflater, getContext(), params);
-        } else {
-            popup = onCreatePopup(inflater, getContext(), params);
+        switch (type) {
+            case VIEW:
+                view = onCreateView(inflater, getContext(), params);
+                break;
+            case DIALOG:
+                dialog = onCreateDialog(inflater, getContext(), params);
+                break;
+            case POPUP:
+                popup = onCreatePopup(inflater, getContext(), params);
+                break;
         }
-
         return this;
     }
 
