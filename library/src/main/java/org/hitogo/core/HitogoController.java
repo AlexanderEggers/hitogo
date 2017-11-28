@@ -24,16 +24,15 @@ import org.hitogo.alert.view.HitogoViewParams;
 
 import java.util.Iterator;
 import java.util.LinkedList;
-import java.util.Queue;
 
 @SuppressWarnings({"WeakerAccess", "unused"})
 public abstract class HitogoController implements LifecycleObserver {
 
     private final Object syncLock = new Object();
 
-    private final Queue<HitogoAlert> currentViews = new LinkedList<>();
-    private final Queue<HitogoAlert> currentDialogs = new LinkedList<>();
-    private final Queue<HitogoAlert> currentPopups = new LinkedList<>();
+    private final LinkedList<HitogoAlert> currentViews = new LinkedList<>();
+    private final LinkedList<HitogoAlert> currentDialogs = new LinkedList<>();
+    private final LinkedList<HitogoAlert> currentPopups = new LinkedList<>();
 
     public HitogoController(@NonNull Lifecycle lifecycle) {
         lifecycle.addObserver(this);
@@ -61,30 +60,35 @@ public abstract class HitogoController implements LifecycleObserver {
 
     public final void showNext(final boolean force, final HitogoAlertType type) {
         synchronized (syncLock) {
-            final Queue<HitogoAlert> currentAlerts = getCurrentAlert(type);
+            final LinkedList<HitogoAlert> currentAlerts = getCurrentAlert(type);
 
             if(!currentAlerts.isEmpty()) {
-                HitogoAlert currentAlert = currentAlerts.poll();
+                HitogoAlert currentAlert = currentAlerts.pollLast();
                 currentAlert.makeInvisible(force);
 
-                Handler handler = new Handler();
-                handler.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        if(!currentAlerts.isEmpty()) {
-                            HitogoAlert newAlert = currentAlerts.poll();
-                            if (newAlert != null && newAlert.getContainer().getLifecycle().getCurrentState()
-                                    .isAtLeast(Lifecycle.State.CREATED)) {
-                                newAlert.makeVisible(force);
+                if(!currentAlerts.isEmpty()) {
+                    Handler handler = new Handler();
+                    handler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            for(HitogoAlert alert : currentAlerts) {
+                                if(!alert.isAttached()) {
+                                    HitogoAlert newAlert = currentAlerts.pollLast();
+                                    if (newAlert != null && newAlert.getContainer().getLifecycle()
+                                            .getCurrentState().isAtLeast(Lifecycle.State.CREATED)) {
+                                        newAlert.makeVisible(force);
+                                    }
+                                    break;
+                                }
                             }
                         }
-                    }
-                }, currentAlert.getAnimationDuration());
+                    }, currentAlert.getAnimationDuration());
+                }
             }
         }
     }
 
-    private Queue<HitogoAlert> getCurrentAlert(HitogoAlertType type) {
+    private LinkedList<HitogoAlert> getCurrentAlert(HitogoAlertType type) {
         switch (type) {
             case VIEW:
                 return currentViews;
@@ -97,11 +101,11 @@ public abstract class HitogoController implements LifecycleObserver {
         }
     }
 
-    private void internalShow(final Queue<HitogoAlert> currentObjects, final HitogoAlert newAlert,
+    private void internalShow(final LinkedList<HitogoAlert> currentObjects, final HitogoAlert newAlert,
                               final boolean force, final boolean showLater) {
         long waitForClosing = 0;
 
-        currentObjects.add(newAlert);
+        currentObjects.addFirst(newAlert);
 
         if(showLater) {
             return;
