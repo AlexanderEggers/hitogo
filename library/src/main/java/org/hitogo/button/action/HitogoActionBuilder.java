@@ -17,7 +17,9 @@ public class HitogoActionBuilder extends HitogoButtonBuilder {
     private static final HitogoButtonType type = HitogoButtonType.ACTION;
 
     private String text;
+
     private int[] viewIds;
+
     private boolean hasActionView;
     private boolean closeAfterClick;
 

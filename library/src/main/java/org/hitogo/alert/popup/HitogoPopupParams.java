@@ -6,42 +6,52 @@ import org.hitogo.alert.core.HitogoAlertParamsHolder;
 @SuppressWarnings({"WeakerAccess", "unused"})
 public class HitogoPopupParams extends HitogoAlertParams {
 
-    private Integer containerId;
-    private Integer layoutViewId;
+    private Integer drawableRes;
+    private int anchorViewId;
+    private int xoff;
+    private int yoff;
+    private int width;
+    private int height;
 
     private boolean isDismissible;
-    private boolean closeOthers;
-    private boolean dismissByClick;
 
     @Override
     protected void onCreateParams(HitogoAlertParamsHolder holder) {
-        containerId = holder.getInteger("containerId");
-        layoutViewId = holder.getInteger("layoutViewId");
+        drawableRes = holder.getInteger("drawableRes");
+        anchorViewId = holder.getInteger("anchorViewId");
+        xoff = holder.getInteger("xoff");
+        yoff = holder.getInteger("yoff");
+        width = holder.getInteger("width");
+        height = holder.getInteger("height");
 
         isDismissible = holder.getBoolean("isDismissible");
-        closeOthers = holder.getBoolean("closeOthers");
-        dismissByClick = holder.getBoolean("dismissByClick");
     }
 
-    public Integer getContainerId() {
-        return containerId;
+    public int getAnchorViewId() {
+        return anchorViewId;
     }
 
-    public Integer getLayoutViewId() {
-        return layoutViewId;
+    public int getXoff() {
+        return xoff;
     }
 
-    @Override
-    public boolean isClosingOthers() {
-        return closeOthers;
+    public int getYoff() {
+        return yoff;
+    }
+
+    public Integer getDrawableRes() {
+        return drawableRes;
+    }
+
+    public int getWidth() {
+        return width;
+    }
+
+    public int getHeight() {
+        return height;
     }
 
     protected boolean isDismissible() {
         return isDismissible;
-    }
-
-    @Override
-    public boolean consumeLayoutClick() {
-        return dismissByClick;
     }
 }

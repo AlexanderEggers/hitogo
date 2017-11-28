@@ -4,6 +4,8 @@ import android.support.annotation.NonNull;
 
 import org.hitogo.alert.core.HitogoAlert;
 import org.hitogo.alert.core.HitogoAlertParams;
+import org.hitogo.alert.popup.HitogoPopupBuilder;
+import org.hitogo.alert.popup.HitogoPopupFactory;
 import org.hitogo.button.action.HitogoActionBuilder;
 import org.hitogo.button.action.HitogoActionFactory;
 import org.hitogo.button.core.HitogoButton;
@@ -15,7 +17,8 @@ import org.hitogo.button.core.HitogoButtonParams;
 
 @SuppressWarnings({"WeakerAccess", "unused"})
 public class Hitogo implements HitogoViewFactory<HitogoViewBuilder>,
-        HitogoDialogFactory<HitogoDialogBuilder>, HitogoActionFactory<HitogoActionBuilder> {
+        HitogoDialogFactory<HitogoDialogBuilder>, HitogoActionFactory<HitogoActionBuilder>,
+        HitogoPopupFactory<HitogoPopupBuilder>{
 
     private HitogoContainer container;
     private HitogoController controller;
@@ -73,5 +76,22 @@ public class Hitogo implements HitogoViewFactory<HitogoViewBuilder>,
     public HitogoActionBuilder asButton(@NonNull Class<? extends HitogoButton> targetClass,
                                         @NonNull Class<? extends HitogoButtonParams> paramClass) {
         return new HitogoActionBuilder(targetClass, paramClass, container);
+    }
+
+    @Override
+    public HitogoPopupBuilder asPopup() {
+        return new HitogoPopupBuilder(controller.provideDefaultPopupClass(),
+                controller.provideDefaultPopupParamsClass(), container);
+    }
+
+    @Override
+    public HitogoPopupBuilder asPopup(@NonNull Class<? extends HitogoAlert> targetClass) {
+        return new HitogoPopupBuilder(targetClass, controller.provideDefaultPopupParamsClass(), container);
+    }
+
+    @Override
+    public HitogoPopupBuilder asPopup(@NonNull Class<? extends HitogoAlert> targetClass,
+                                      @NonNull Class<? extends HitogoAlertParams> paramClass) {
+        return new HitogoPopupBuilder(targetClass, paramClass, container);
     }
 }

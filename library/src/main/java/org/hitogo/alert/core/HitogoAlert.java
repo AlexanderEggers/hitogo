@@ -98,19 +98,8 @@ public abstract class HitogoAlert<T extends HitogoAlertParams> extends HitogoAle
      */
     private T params;
 
-    /**
-     * View object which defines this alert.
-     */
     private View view;
-
-    /**
-     * Dialog object which defines this alert.
-     */
     private Dialog dialog;
-
-    /**
-     * Popup object which defines this alert.
-     */
     private PopupWindow popup;
 
     /**

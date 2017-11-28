@@ -44,6 +44,17 @@ public class HitogoDefaultController extends HitogoController {
 
     @Nullable
     @Override
+    public Integer providePopupLayout(int state) {
+        AlertState alertState = AlertState.parse(state);
+
+        switch (alertState) {
+            default:
+                return R.layout.hitogo_popup;
+        }
+    }
+
+    @Nullable
+    @Override
     public Integer provideDefaultTitleViewId(HitogoAlertType type) {
         return R.id.title;
     }

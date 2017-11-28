@@ -7,7 +7,7 @@ import org.hitogo.alert.core.HitogoAlertParamsHolder;
 public class HitogoViewParams extends HitogoAlertParams {
 
     private Integer containerId;
-    private Integer layoutViewId;
+    private Integer innerLayoutViewId;
 
     private boolean isDismissible;
     private boolean closeOthers;
@@ -16,7 +16,7 @@ public class HitogoViewParams extends HitogoAlertParams {
     @Override
     protected void onCreateParams(HitogoAlertParamsHolder holder) {
         containerId = holder.getInteger("containerId");
-        layoutViewId = holder.getInteger("layoutViewId");
+        innerLayoutViewId = holder.getInteger("innerLayoutViewId");
 
         isDismissible = holder.getBoolean("isDismissible");
         closeOthers = holder.getBoolean("closeOthers");
@@ -27,8 +27,8 @@ public class HitogoViewParams extends HitogoAlertParams {
         return containerId;
     }
 
-    public Integer getLayoutViewId() {
-        return layoutViewId;
+    public final Integer getInnerLayoutViewId() {
+        return innerLayoutViewId;
     }
 
     @Override

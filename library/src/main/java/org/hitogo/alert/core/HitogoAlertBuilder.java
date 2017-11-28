@@ -136,13 +136,13 @@ public abstract class HitogoAlertBuilder<T> {
     }
 
     @NonNull
-    public final T withState(Integer state) {
+    public final T setState(Integer state) {
         this.state = state;
         return (T) this;
     }
 
     @NonNull
-    public final T withState(Enum state) {
+    public final T setState(Enum state) {
         this.state = state != null ? state.ordinal() : null;
         return (T) this;
     }

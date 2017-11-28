@@ -35,15 +35,15 @@ public class HitogoLeftAnimation extends HitogoAnimation {
         anim.addListener(new AnimatorListenerAdapter() {
             @Override
             public void onAnimationEnd(Animator animation) {
-                if (params.getLayoutViewId() != null) {
-                    hitogoView.findViewById(params.getLayoutViewId()).setVisibility(View.VISIBLE);
+                if (params.getInnerLayoutViewId() != null) {
+                    hitogoView.findViewById(params.getInnerLayoutViewId()).setVisibility(View.VISIBLE);
                 }
             }
 
             @Override
             public void onAnimationStart(Animator animation) {
-                if (params.getLayoutViewId() != null) {
-                    hitogoView.findViewById(params.getLayoutViewId()).setVisibility(View.INVISIBLE);
+                if (params.getInnerLayoutViewId() != null) {
+                    hitogoView.findViewById(params.getInnerLayoutViewId()).setVisibility(View.INVISIBLE);
                 }
             }
         });
@@ -73,8 +73,8 @@ public class HitogoLeftAnimation extends HitogoAnimation {
 
             @Override
             public void onAnimationStart(Animator animation) {
-                if (params.getLayoutViewId() != null) {
-                    hitogoView.findViewById(params.getLayoutViewId()).setVisibility(View.INVISIBLE);
+                if (params.getInnerLayoutViewId() != null) {
+                    hitogoView.findViewById(params.getInnerLayoutViewId()).setVisibility(View.INVISIBLE);
                 }
             }
         });

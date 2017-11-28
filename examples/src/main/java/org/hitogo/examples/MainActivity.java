@@ -74,7 +74,7 @@ public class MainActivity extends HitogoActivity {
                         Log.i(MainActivity.class.getName(), "Closing Hitogo");
                     }
                 })
-                .withState(AlertState.HINT)
+                .setState(AlertState.HINT)
                 .setTag("TestHint 1")
                 .showDelayed(1000);
     }
@@ -109,7 +109,7 @@ public class MainActivity extends HitogoActivity {
                 .listenWith(new HitogoButtonListener() {
                     @Override
                     public void onClick() {
-                        showSecondView();
+                        showPopup();
                     }
                 }, false)
                 .forClickOnlyAction()
@@ -120,7 +120,7 @@ public class MainActivity extends HitogoActivity {
                 .asDialog()
                 .setTitle(R.id.title, "Test Dialog")
                 .addText(R.id.text, "Long message...")
-                .withState(AlertState.DANGER)
+                .setState(AlertState.DANGER)
                 .addButton(button)
                 .asDismissible()
                 .setTag("Test Dialog 2")
@@ -147,7 +147,7 @@ public class MainActivity extends HitogoActivity {
                 .allowOthers()
                 .asLayoutChild(R.id.container_layout)
                 .addButton(button)
-                .withState(AlertState.WARNING)
+                .setState(AlertState.WARNING)
                 .setTag("TestHint 2")
                 .show();
     }
@@ -185,7 +185,7 @@ public class MainActivity extends HitogoActivity {
                 .addButton(next)
                 .closeOthers()
                 .addButton(save)
-                .withState(AlertState.HINT)
+                .setState(AlertState.HINT)
                 .setTag("TestHint 2")
                 .show();
     }
@@ -209,9 +209,19 @@ public class MainActivity extends HitogoActivity {
                 .addText("Test 3")
                 .asLayoutChild(R.id.container_layout)
                 .addButton(button)
-                .withState(AlertState.WARNING)
+                .setState(AlertState.WARNING)
                 .setTag("TestHint 3")
                 .showLater(true);
+    }
+
+    private void showPopup() {
+        Hitogo.with(this)
+                .asPopup()
+                .addText("Test Popup >> Nice button here!")
+                .setAnchor(R.id.button_test)
+                .setState(AlertState.HINT)
+                .asDismissible()
+                .show();
     }
 
     @NonNull

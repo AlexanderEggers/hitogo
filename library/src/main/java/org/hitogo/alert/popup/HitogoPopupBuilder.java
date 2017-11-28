@@ -1,34 +1,30 @@
 package org.hitogo.alert.popup;
 
+import android.support.annotation.DrawableRes;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.util.Log;
+import android.widget.LinearLayout;
 
 import org.hitogo.alert.core.HitogoAlert;
 import org.hitogo.alert.core.HitogoAlertBuilder;
 import org.hitogo.alert.core.HitogoAlertParams;
 import org.hitogo.alert.core.HitogoAlertParamsHolder;
 import org.hitogo.alert.core.HitogoAlertType;
-import org.hitogo.alert.view.anim.HitogoAnimation;
-import org.hitogo.button.core.HitogoButton;
-import org.hitogo.core.Hitogo;
 import org.hitogo.core.HitogoContainer;
-
-import java.security.InvalidParameterException;
 
 @SuppressWarnings({"WeakerAccess", "unused"})
 public class HitogoPopupBuilder extends HitogoAlertBuilder<HitogoPopupBuilder> {
 
     private static final HitogoAlertType type = HitogoAlertType.POPUP;
 
-    private Integer containerId;
-    private Integer layoutViewId;
+    private Integer drawableRes;
+    private int anchorViewId;
+    private int xoff;
+    private int yoff;
+
+    private int width = LinearLayout.LayoutParams.WRAP_CONTENT;
+    private int height = LinearLayout.LayoutParams.WRAP_CONTENT;
 
     private boolean isDismissible;
-    private boolean closeOthers = true;
-    private boolean dismissByClick;
-
-    private HitogoAnimation hitogoAnimation;
 
     public HitogoPopupBuilder(@NonNull Class<? extends HitogoAlert> targetClass,
                               @NonNull Class<? extends HitogoAlertParams> paramClass,
@@ -43,37 +39,40 @@ public class HitogoPopupBuilder extends HitogoAlertBuilder<HitogoPopupBuilder> {
     }
 
     @NonNull
-    public HitogoPopupBuilder closeOthers() {
-        this.closeOthers = true;
+    public HitogoPopupBuilder setAnchor(int anchorViewId) {
+        this.anchorViewId = anchorViewId;
         return this;
     }
 
     @NonNull
-    public HitogoPopupBuilder allowOthers() {
-        this.closeOthers = false;
+    public HitogoPopupBuilder setOffset(int xoff, int yoff) {
+        this.xoff = xoff;
+        this.yoff = yoff;
         return this;
     }
 
     @NonNull
-    public HitogoPopupBuilder consumeLayoutClick() {
-        this.dismissByClick = true;
+    public HitogoPopupBuilder setBackgroundDrawable(@DrawableRes Integer drawableRes) {
+        this.drawableRes = drawableRes;
         return this;
     }
 
     @NonNull
-    public HitogoPopupBuilder ignoreLayoutClick() {
-        this.dismissByClick = false;
+    public HitogoPopupBuilder setDimensions(int width, int height) {
+        this.width = width;
+        this.height = height;
         return this;
     }
 
     @Override
     protected void onProvideData(HitogoAlertParamsHolder holder) {
-        holder.provideInteger("containerId", containerId);
-        holder.provideInteger("layoutViewId", layoutViewId);
-        holder.provideBoolean("isDismissible", isDismissible);
-        holder.provideBoolean("closeOthers", closeOthers);
-        holder.provideBoolean("dismissByClick", dismissByClick);
+        holder.provideInteger("drawableRes", drawableRes);
+        holder.provideInteger("anchorViewId", anchorViewId);
+        holder.provideInteger("xoff", xoff);
+        holder.provideInteger("yoff", yoff);
+        holder.provideInteger("width", width);
+        holder.provideInteger("height", height);
 
-        holder.provideAnimation(hitogoAnimation);
+        holder.provideBoolean("isDismissible", isDismissible);
     }
 }

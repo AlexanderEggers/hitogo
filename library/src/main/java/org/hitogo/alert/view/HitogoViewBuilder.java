@@ -22,7 +22,7 @@ public class HitogoViewBuilder extends HitogoAlertBuilder<HitogoViewBuilder> {
     private static final HitogoAlertType type = HitogoAlertType.VIEW;
 
     private Integer containerId;
-    private Integer layoutViewId;
+    private Integer innerLayoutViewId;
 
     private boolean isDismissible;
     private boolean closeOthers = true;
@@ -56,7 +56,7 @@ public class HitogoViewBuilder extends HitogoAlertBuilder<HitogoViewBuilder> {
     public HitogoViewBuilder withAnimations(@Nullable HitogoAnimation animation,
                                             @Nullable Integer innerLayoutViewId) {
         this.hitogoAnimation = animation;
-        this.layoutViewId = innerLayoutViewId == null ?
+        this.innerLayoutViewId = innerLayoutViewId == null ?
                 getController().provideDefaultLayoutViewId() : innerLayoutViewId;
         return this;
     }
@@ -121,7 +121,7 @@ public class HitogoViewBuilder extends HitogoAlertBuilder<HitogoViewBuilder> {
             return asLayoutChild()
                     .addText(text)
                     .asDismissible()
-                    .withState(getController().provideDefaultState(type));
+                    .setState(getController().provideDefaultState(type));
         }
     }
 
@@ -163,7 +163,7 @@ public class HitogoViewBuilder extends HitogoAlertBuilder<HitogoViewBuilder> {
     @Override
     protected void onProvideData(HitogoAlertParamsHolder holder) {
         holder.provideInteger("containerId", containerId);
-        holder.provideInteger("layoutViewId", layoutViewId);
+        holder.provideInteger("innerLayoutViewId", innerLayoutViewId);
         holder.provideBoolean("isDismissible", isDismissible);
         holder.provideBoolean("closeOthers", closeOthers);
         holder.provideBoolean("dismissByClick", dismissByClick);

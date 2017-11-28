@@ -21,7 +21,7 @@ public class HitogoParamsHolder {
         }
     }
 
-    public final void provideBoolean(String key, Boolean value) {
+    public final void provideBoolean(String key, boolean value) {
         if(!hasKey(key)) {
             bundle.putBoolean(key, value);
         }
@@ -45,7 +45,7 @@ public class HitogoParamsHolder {
         return (Integer) bundle.getSerializable(key);
     }
 
-    public final Boolean getBoolean(String key) {
+    public final boolean getBoolean(String key) {
         return bundle.getBoolean(key);
     }
 
