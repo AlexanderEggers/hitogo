@@ -43,24 +43,9 @@ public abstract class HitogoAlert<T extends HitogoAlertParams> extends HitogoAle
     public static final int NO_ANIMATION_LENGTH = 0;
 
     /**
-     * This value is used for the break between the hide-animation and showing the new alert.
-     */
-    public static final int ANIMATION_BREAK_IN_MS = 100;
-
-    /**
      * This value describes the minimum delay value which can be used.
      */
     public static final int MIN_ANIMATION_LENGTH = 100;
-
-    /**
-     * Defines the current (new) alert inside the given controller array.
-     */
-    private static final int CURRENT_ALERT = 0;
-
-    /**
-     * Defines the last (current) alert inside the given controller array.
-     */
-    private static final int LAST_ALERT = 1;
 
     /**
      * True if this alert has been attached to the controller, otherwise false.
