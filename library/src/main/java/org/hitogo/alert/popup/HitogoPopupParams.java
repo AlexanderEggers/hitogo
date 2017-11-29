@@ -7,6 +7,9 @@ import org.hitogo.alert.core.HitogoAlertParamsHolder;
 public class HitogoPopupParams extends HitogoAlertParams {
 
     private Integer drawableRes;
+    private Float elevation;
+    private String anchorViewTag;
+
     private int anchorViewId;
     private int xoff;
     private int yoff;
@@ -18,6 +21,9 @@ public class HitogoPopupParams extends HitogoAlertParams {
     @Override
     protected void onCreateParams(HitogoAlertParamsHolder holder) {
         drawableRes = holder.getInteger("drawableRes");
+        elevation = holder.getFloat("elevation");
+        anchorViewTag = holder.getString("anchorViewTag");
+
         anchorViewId = holder.getInteger("anchorViewId");
         xoff = holder.getInteger("xoff");
         yoff = holder.getInteger("yoff");
@@ -41,6 +47,14 @@ public class HitogoPopupParams extends HitogoAlertParams {
 
     public Integer getDrawableRes() {
         return drawableRes;
+    }
+
+    public Float getElevation() {
+        return elevation;
+    }
+
+    public String getAnchorViewTag() {
+        return anchorViewTag;
     }
 
     public int getWidth() {

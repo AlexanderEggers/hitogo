@@ -15,6 +15,12 @@ public class HitogoParamsHolder {
         }
     }
 
+    public final void provideFloat(String key, Float value) {
+        if(!hasKey(key)) {
+            bundle.putSerializable(key, value);
+        }
+    }
+
     public final void provideInteger(String key, Integer value) {
         if(!hasKey(key)) {
             bundle.putSerializable(key, value);
@@ -43,6 +49,10 @@ public class HitogoParamsHolder {
 
     public final Integer getInteger(String key) {
         return (Integer) bundle.getSerializable(key);
+    }
+
+    public final Float getFloat(String key) {
+        return (Float) bundle.getSerializable(key);
     }
 
     public final boolean getBoolean(String key) {

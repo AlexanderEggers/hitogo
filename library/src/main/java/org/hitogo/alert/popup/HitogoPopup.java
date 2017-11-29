@@ -40,9 +40,9 @@ public class HitogoPopup extends HitogoAlert<HitogoPopupParams> {
                     "setLayout.");
         }
 
-        if (params.getAnchorViewId() == 0) {
-            throw new InvalidParameterException("Anchor view cannot be 0. Please use setAnchor to " +
-                    "fix this problem.");
+        if (params.getAnchorViewId() == 0 && params.getAnchorViewTag() == null) {
+            throw new InvalidParameterException("You haven't defined the anchor view. You can " +
+                    "use setAnchor to define the view by viewId or viewTag.");
         }
 
         if (params.getXoff() == 0 || params.getYoff() == 0) {
@@ -68,13 +68,21 @@ public class HitogoPopup extends HitogoAlert<HitogoPopupParams> {
             view = inflater.inflate(getController().providePopupLayout(params.getState()), null);
         }
 
-        anchorView = getRootView().findViewById(params.getAnchorViewId());
+        if(params.getAnchorViewTag() != null) {
+            view = getRootView().findViewWithTag(params.getAnchorViewTag());
+        } else {
+            anchorView = getRootView().findViewById(params.getAnchorViewId());
+        }
 
         if (view != null) {
             buildLayoutContent(params, view);
             buildCallToActionButtons(params, view);
 
             PopupWindow window = new PopupWindow(view, params.getWidth(), params.getHeight());
+
+            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && params.getElevation() != null) {
+                window.setElevation(params.getElevation());
+            }
 
             if (params.isDismissible()) {
                 window.setBackgroundDrawable(null);
