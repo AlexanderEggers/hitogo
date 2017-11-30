@@ -8,7 +8,7 @@ import org.hitogo.alert.core.HitogoAlertParamsHolder;
 import java.util.List;
 
 @SuppressWarnings({"WeakerAccess", "unused"})
-public class HitogoPopupParams extends HitogoAlertParams {
+public abstract class HitogoPopupParams extends HitogoAlertParams {
 
     private Integer drawableRes;
     private Integer anchorViewId;
