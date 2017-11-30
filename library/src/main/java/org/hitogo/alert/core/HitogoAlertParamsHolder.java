@@ -1,13 +1,16 @@
 package org.hitogo.alert.core;
 
+import android.transition.Transition;
 import android.util.SparseArray;
 
 import org.hitogo.alert.view.anim.HitogoAnimation;
 import org.hitogo.button.core.HitogoButton;
 import org.hitogo.core.HitogoParamsHolder;
 
+import java.util.ArrayList;
 import java.util.List;
 
+@SuppressWarnings("WeakerAccess")
 public class HitogoAlertParamsHolder extends HitogoParamsHolder {
 
     private HitogoAnimation hitogoAnimation;
@@ -15,6 +18,8 @@ public class HitogoAlertParamsHolder extends HitogoParamsHolder {
     private HitogoButton closeButton;
     private HitogoVisibilityListener listener;
     private SparseArray<String> textMap;
+    private List<Transition> transitions = new ArrayList<>();
+    private List<Object> customObjects = new ArrayList<>();
 
     public final void provideAnimation(HitogoAnimation animation) {
         this.hitogoAnimation = animation;
@@ -24,20 +29,28 @@ public class HitogoAlertParamsHolder extends HitogoParamsHolder {
         this.listener = listener;
     }
 
-    final void provideButtons(List<HitogoButton> buttonList) {
+    public final void provideTransition(Transition transition) {
+        this.transitions.add(transition);
+    }
+
+    public final void provideCustomObject(Object object) {
+        this.customObjects.add(object);
+    }
+
+    public final void provideButtons(List<HitogoButton> buttonList) {
         this.callToActionButtons = buttonList;
     }
 
-    void provideTextMap(SparseArray<String> textMap) {
+    public void provideTextMap(SparseArray<String> textMap) {
         this.textMap = textMap;
+    }
+
+    public final void provideCloseButton(HitogoButton button) {
+        this.closeButton = button;
     }
 
     SparseArray<String> getTextMap() {
         return textMap;
-    }
-
-    final void provideCloseButton(HitogoButton button) {
-        this.closeButton = button;
     }
 
     HitogoAnimation getAnimation() {
@@ -54,5 +67,13 @@ public class HitogoAlertParamsHolder extends HitogoParamsHolder {
 
     HitogoVisibilityListener getVisibilityListener() {
         return listener;
+    }
+
+    List<Transition> getTransitions() {
+        return transitions;
+    }
+
+    List<Object> getCustomObjects() {
+        return customObjects;
     }
 }

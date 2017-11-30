@@ -55,10 +55,20 @@ public abstract class HitogoAlertBuilder<T> {
     @NonNull
     @SuppressWarnings("unchecked")
     public final HitogoAlert build() {
-        if(tag != null) {
+        if (tag != null) {
             hashCode = tag.hashCode();
         } else {
-            tag = textMap.valueAt(0);
+            StringBuilder builder = new StringBuilder();
+
+            for (int i = 0; i < textMap.size(); i++) {
+                builder.append(textMap.valueAt(i));
+
+                if (i + 1 < textMap.size()) {
+                    builder.append(" ");
+                }
+            }
+
+            tag = builder.toString();
             hashCode = tag.hashCode();
         }
 
@@ -77,14 +87,14 @@ public abstract class HitogoAlertBuilder<T> {
     }
 
     private void onProvidePrivateData(HitogoAlertParamsHolder holder) {
-        privateBundle.putString("title", title);
-        privateBundle.putSerializable("titleViewId", titleViewId);
-        privateBundle.putString("tag", tag);
-        privateBundle.putInt("hashCode", hashCode);
-        privateBundle.putBundle("arguments", arguments);
-        privateBundle.putSerializable("type", builderType);
-        privateBundle.putSerializable("state", state);
-        privateBundle.putSerializable("layoutRes", layoutRes);
+        privateBundle.putString(HitogoAlertParamsKeys.TITLE_KEY, title);
+        privateBundle.putSerializable(HitogoAlertParamsKeys.TITLE_VIEW_ID_KEY, titleViewId);
+        privateBundle.putString(HitogoAlertParamsKeys.TAG_KEY, tag);
+        privateBundle.putInt(HitogoAlertParamsKeys.HASH_CODE_KEY, hashCode);
+        privateBundle.putBundle(HitogoAlertParamsKeys.ARGUMENTS_KEY, arguments);
+        privateBundle.putSerializable(HitogoAlertParamsKeys.TYPE_KEY, builderType);
+        privateBundle.putSerializable(HitogoAlertParamsKeys.STATE_KEY, state);
+        privateBundle.putSerializable(HitogoAlertParamsKeys.LAYOUT_RES_KEY, layoutRes);
 
         holder.provideVisibilityListener(visibilityListener);
         holder.provideTextMap(textMap);
@@ -177,7 +187,7 @@ public abstract class HitogoAlertBuilder<T> {
 
     public final void show(boolean force) {
         HitogoContainer container = containerRef.get();
-        if(container.getLifecycle().getCurrentState().isAtLeast(Lifecycle.State.STARTED)) {
+        if (container.getLifecycle().getCurrentState().isAtLeast(Lifecycle.State.STARTED)) {
             build().show(force);
         } else {
             build().showDelayed(HitogoAlert.DEFAULT_SHOW_DELAY_IN_MS, force);
@@ -185,7 +195,7 @@ public abstract class HitogoAlertBuilder<T> {
     }
 
     public final void showLater(boolean showLater) {
-        if(!showLater) {
+        if (!showLater) {
             show(false);
         } else {
             build().showLater(true);

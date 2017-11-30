@@ -12,11 +12,11 @@ public class HitogoActionParams extends HitogoButtonParams {
     private boolean closeAfterClick;
 
     @Override
-    protected void onCreateParams(HitogoButtonParamsHolder holder) {
-        text = holder.getString("text");
-        viewIds = holder.getIntList("viewIds");
-        hasActionView = holder.getBoolean("hasActionView");
-        closeAfterClick = holder.getBoolean("closeAfterClick");
+    protected void onCreateParams(HitogoButtonParamsHolder holder, HitogoButtonParams buttonParams) {
+        text = holder.getString(HitogoActionParamsKeys.TEXT_KEY);
+        viewIds = holder.getIntList(HitogoActionParamsKeys.VIEW_IDS_KEY);
+        hasActionView = holder.getBoolean(HitogoActionParamsKeys.HAS_ACTION_VIEW_KEY);
+        closeAfterClick = holder.getBoolean(HitogoActionParamsKeys.CLOSE_AFTER_CLICK_KEY);
     }
 
     public String getText() {

@@ -14,20 +14,20 @@ public class HitogoViewParams extends HitogoAlertParams {
     private boolean dismissByClick;
 
     @Override
-    protected void onCreateParams(HitogoAlertParamsHolder holder) {
-        containerId = holder.getInteger("containerId");
-        innerLayoutViewId = holder.getInteger("innerLayoutViewId");
+    protected void onCreateParams(HitogoAlertParamsHolder holder, HitogoAlertParams alertParams) {
+        containerId = holder.getInteger(HitogoViewParamsKeys.CONTAINER_ID_KEY);
+        innerLayoutViewId = holder.getInteger(HitogoViewParamsKeys.INNER_LAYOUT_VIEW_ID_KEY);
 
-        isDismissible = holder.getBoolean("isDismissible");
-        closeOthers = holder.getBoolean("closeOthers");
-        dismissByClick = holder.getBoolean("dismissByClick");
+        isDismissible = holder.getBoolean(HitogoViewParamsKeys.IS_DISMISSIBLE_KEY);
+        closeOthers = holder.getBoolean(HitogoViewParamsKeys.CLOSE_OTHERS_KEY);
+        dismissByClick = holder.getBoolean(HitogoViewParamsKeys.DISMISS_BY_CLICK_KEY);
     }
 
     public Integer getContainerId() {
         return containerId;
     }
 
-    public final Integer getInnerLayoutViewId() {
+    public Integer getInnerLayoutViewId() {
         return innerLayoutViewId;
     }
 

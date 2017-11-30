@@ -3,6 +3,7 @@ package org.hitogo.alert.core;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.transition.Transition;
 import android.util.SparseArray;
 
 import org.hitogo.alert.view.anim.HitogoAnimation;
@@ -13,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @SuppressWarnings({"WeakerAccess", "unused"})
-public abstract class HitogoAlertParams extends HitogoParams<HitogoAlertParamsHolder> {
+public abstract class HitogoAlertParams extends HitogoParams<HitogoAlertParamsHolder, HitogoAlertParams> {
 
     private String title;
     private String tag;
@@ -29,32 +30,36 @@ public abstract class HitogoAlertParams extends HitogoParams<HitogoAlertParamsHo
 
     private HitogoAlertType type;
     private Bundle arguments;
-    private HitogoAnimation hitogoAnimation;
-    private HitogoVisibilityListener listener;
+    private HitogoAnimation animation;
+    private HitogoVisibilityListener visibilityListener;
+    private List<Transition> transitions;
+    private List<Object> customObjects;
 
     @Override
     protected void provideData(HitogoAlertParamsHolder holder, Bundle privateBundle) {
-        title = privateBundle.getString("title");
-        tag = privateBundle.getString("tag");
+        title = privateBundle.getString(HitogoAlertParamsKeys.TITLE_KEY);
+        tag = privateBundle.getString(HitogoAlertParamsKeys.TAG_KEY);
         textMap = holder.getTextMap();
 
-        layoutRes = (Integer) privateBundle.getSerializable("layoutRes");
-        hashCode = privateBundle.getInt("hashCode");
-        titleViewId = (Integer) privateBundle.getSerializable("titleViewId");
-        state = (Integer) privateBundle.getSerializable("state");
+        layoutRes = (Integer) privateBundle.getSerializable(HitogoAlertParamsKeys.LAYOUT_RES_KEY);
+        hashCode = privateBundle.getInt(HitogoAlertParamsKeys.HASH_CODE_KEY);
+        titleViewId = (Integer) privateBundle.getSerializable(HitogoAlertParamsKeys.TITLE_VIEW_ID_KEY);
+        state = (Integer) privateBundle.getSerializable(HitogoAlertParamsKeys.STATE_KEY);
 
         buttons = holder.getButtons();
         closeButton = holder.getCloseButton();
 
-        type = (HitogoAlertType) privateBundle.getSerializable("type");
-        arguments = privateBundle.getBundle("arguments");
-        hitogoAnimation = holder.getAnimation();
-        listener = holder.getVisibilityListener();
+        type = (HitogoAlertType) privateBundle.getSerializable(HitogoAlertParamsKeys.TYPE_KEY);
+        arguments = privateBundle.getBundle(HitogoAlertParamsKeys.ARGUMENTS_KEY);
+        animation = holder.getAnimation();
+        visibilityListener = holder.getVisibilityListener();
+        transitions = holder.getTransitions();
+        customObjects = holder.getCustomObjects();
 
-        onCreateParams(holder);
+        onCreateParams(holder, this);
     }
 
-    protected abstract void onCreateParams(HitogoAlertParamsHolder holder);
+    protected abstract void onCreateParams(HitogoAlertParamsHolder holder, HitogoAlertParams alertParams);
 
     public final String getTitle() {
         return title;
@@ -65,7 +70,7 @@ public abstract class HitogoAlertParams extends HitogoParams<HitogoAlertParamsHo
     }
 
     public final boolean hasAnimation() {
-        return hitogoAnimation != null;
+        return animation != null;
     }
 
     public final int getHashCode() {
@@ -96,7 +101,7 @@ public abstract class HitogoAlertParams extends HitogoParams<HitogoAlertParamsHo
 
     @Nullable
     public final HitogoAnimation getAnimation() {
-        return hitogoAnimation;
+        return animation;
     }
 
     @NonNull
@@ -117,7 +122,17 @@ public abstract class HitogoAlertParams extends HitogoParams<HitogoAlertParamsHo
     }
 
     public final HitogoVisibilityListener getVisibilityListener() {
-        return listener;
+        return visibilityListener;
+    }
+
+    @NonNull
+    public final List<Object> getCustomObjects() {
+        return customObjects;
+    }
+
+    @NonNull
+    public final List<Transition> getTransitions() {
+        return transitions;
     }
 
     public boolean consumeLayoutClick() {

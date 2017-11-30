@@ -34,7 +34,7 @@ public class HitogoDialogBuilder extends HitogoAlertBuilder<HitogoDialogBuilder>
     }
 
     @NonNull
-    public HitogoDialogBuilder asSimple(@NonNull String title, @NonNull String text) {
+    public HitogoDialogBuilder asSimpleDialog(@NonNull String title, @NonNull String text) {
         super.setTitle(title);
         super.addText(text);
 
@@ -60,14 +60,14 @@ public class HitogoDialogBuilder extends HitogoAlertBuilder<HitogoDialogBuilder>
     }
 
     @NonNull
-    public HitogoDialogBuilder useStyle(@Nullable @StyleRes Integer dialogThemeResId) {
+    public HitogoDialogBuilder setStyle(@Nullable @StyleRes Integer dialogThemeResId) {
         this.dialogThemeResId = dialogThemeResId;
         return this;
     }
 
     @Override
     protected void onProvideData(HitogoAlertParamsHolder holder) {
-        holder.provideInteger("dialogThemeResId", dialogThemeResId);
-        holder.provideBoolean("isDismissible", isDismissible);
+        holder.provideInteger(HitogoDialogParamsKeys.DIALOG_THEME_RES_ID, dialogThemeResId);
+        holder.provideBoolean(HitogoDialogParamsKeys.IS_DISMISSIBLE_KEY, isDismissible);
     }
 }

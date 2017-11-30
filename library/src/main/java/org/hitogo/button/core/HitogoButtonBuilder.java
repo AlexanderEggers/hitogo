@@ -48,7 +48,7 @@ public abstract class HitogoButtonBuilder {
     }
 
     private void onProvidePrivateData(HitogoButtonParamsHolder holder) {
-        privateBundle.putSerializable("type", builderType);
+        privateBundle.putSerializable(HitogoButtonParamsKeys.TYPE_KEY, builderType);
     }
 
     protected abstract void onProvideData(HitogoButtonParamsHolder holder);

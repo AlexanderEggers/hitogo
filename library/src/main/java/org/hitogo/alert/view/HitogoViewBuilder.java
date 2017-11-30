@@ -162,11 +162,11 @@ public class HitogoViewBuilder extends HitogoAlertBuilder<HitogoViewBuilder> {
 
     @Override
     protected void onProvideData(HitogoAlertParamsHolder holder) {
-        holder.provideInteger("containerId", containerId);
-        holder.provideInteger("innerLayoutViewId", innerLayoutViewId);
-        holder.provideBoolean("isDismissible", isDismissible);
-        holder.provideBoolean("closeOthers", closeOthers);
-        holder.provideBoolean("dismissByClick", dismissByClick);
+        holder.provideInteger(HitogoViewParamsKeys.CONTAINER_ID_KEY, containerId);
+        holder.provideInteger(HitogoViewParamsKeys.INNER_LAYOUT_VIEW_ID_KEY, innerLayoutViewId);
+        holder.provideBoolean(HitogoViewParamsKeys.IS_DISMISSIBLE_KEY, isDismissible);
+        holder.provideBoolean(HitogoViewParamsKeys.CLOSE_OTHERS_KEY, closeOthers);
+        holder.provideBoolean(HitogoViewParamsKeys.DISMISS_BY_CLICK_KEY, dismissByClick);
 
         holder.provideAnimation(hitogoAnimation);
     }

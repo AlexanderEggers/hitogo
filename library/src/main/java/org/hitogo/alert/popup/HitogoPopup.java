@@ -40,14 +40,9 @@ public class HitogoPopup extends HitogoAlert<HitogoPopupParams> {
                     "setLayout.");
         }
 
-        if (params.getAnchorViewId() == 0 && params.getAnchorViewTag() == null) {
+        if (params.getAnchorViewId() == null && params.getAnchorViewTag() == null) {
             throw new InvalidParameterException("You haven't defined the anchor view. You can " +
                     "use setAnchor to define the view by viewId or viewTag.");
-        }
-
-        if (params.getXoff() == 0 || params.getYoff() == 0) {
-            Log.w(HitogoPopupBuilder.class.getName(), "You haven't defined the offset " +
-                    "position for this popup. Use setOffset to fix this problem.");
         }
 
         if (!params.isDismissible() && params.getButtons().isEmpty()) {
@@ -69,7 +64,7 @@ public class HitogoPopup extends HitogoAlert<HitogoPopupParams> {
         }
 
         if(params.getAnchorViewTag() != null) {
-            view = getRootView().findViewWithTag(params.getAnchorViewTag());
+            anchorView = getRootView().findViewWithTag(params.getAnchorViewTag());
         } else {
             anchorView = getRootView().findViewById(params.getAnchorViewId());
         }
@@ -79,6 +74,18 @@ public class HitogoPopup extends HitogoAlert<HitogoPopupParams> {
             buildCallToActionButtons(params, view);
 
             PopupWindow window = new PopupWindow(view, params.getWidth(), params.getHeight());
+
+            if(params.getAnimationStyle() != null) {
+                window.setAnimationStyle(params.getAnimationStyle());
+            }
+
+            if(params.getEnterTransition() != null && Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                window.setEnterTransition(params.getEnterTransition());
+            }
+
+            if(params.getEnterTransition() != null && Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                window.setExitTransition(params.getExitTransition());
+            }
 
             if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && params.getElevation() != null) {
                 window.setElevation(params.getElevation());

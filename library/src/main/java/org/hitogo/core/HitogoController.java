@@ -9,6 +9,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import org.hitogo.alert.popup.HitogoPopup;
+import org.hitogo.alert.popup.HitogoPopupBuilder;
 import org.hitogo.alert.popup.HitogoPopupParams;
 import org.hitogo.alert.view.anim.HitogoAnimation;
 import org.hitogo.alert.core.HitogoAlert;
@@ -348,6 +349,11 @@ public abstract class HitogoController implements LifecycleObserver {
 
     @Nullable
     public HitogoDialogBuilder provideSimpleDialog(@NonNull HitogoDialogBuilder builder) {
+        return null;
+    }
+
+    @Nullable
+    public HitogoPopupBuilder provideSimplePopup(@NonNull HitogoPopupBuilder builder) {
         return null;
     }
 

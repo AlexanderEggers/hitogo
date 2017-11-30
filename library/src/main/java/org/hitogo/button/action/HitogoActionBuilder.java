@@ -80,10 +80,10 @@ public class HitogoActionBuilder extends HitogoButtonBuilder {
 
     @Override
     protected void onProvideData(HitogoButtonParamsHolder holder) {
-        holder.provideString("text", text);
-        holder.provideIntArray("viewIds", viewIds);
-        holder.provideBoolean("hasActionView", hasActionView);
-        holder.provideBoolean("closeAfterClick", closeAfterClick);
+        holder.provideString(HitogoActionParamsKeys.TEXT_KEY, text);
+        holder.provideIntArray(HitogoActionParamsKeys.VIEW_IDS_KEY, viewIds);
+        holder.provideBoolean(HitogoActionParamsKeys.HAS_ACTION_VIEW_KEY, hasActionView);
+        holder.provideBoolean(HitogoActionParamsKeys.CLOSE_AFTER_CLICK_KEY, closeAfterClick);
         holder.provideButtonListener(listener);
     }
 }
