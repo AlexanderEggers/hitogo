@@ -47,57 +47,20 @@ public abstract class HitogoAlert<T extends HitogoAlertParams> extends HitogoAle
      */
     public static final int MIN_ANIMATION_LENGTH = 100;
 
-    /**
-     * True if this alert has been attached to the controller, otherwise false.
-     */
     private boolean attached;
-
-    /**
-     * True if this alert has been detached from the controller, otherwise false.
-     */
     private boolean detached;
-
-    /**
-     * Defines if this alert has an animation which will be shown if the alert is changing it's
-     * visibility.
-     */
     private boolean hasAnimation;
-
-    /**
-     * True if this alert should hide all other alert from it's type, false otherwise.
-     */
     private boolean closeOthers;
 
-    /**
-     * This value is used to define the tag this alert. The tag can be used to close a specific via
-     * the controller if needed.
-     */
     private String tag;
 
-    /**
-     * The hashcode is the value which is used by the controller to compare two different alerts.
-     */
     private int hashCode;
 
-    /**
-     * Defines the type of this alert. This type is used to determine specific lifecycle methods or
-     * to limit certain features to ensure ux-errors.
-     */
     private HitogoAlertType type;
-
-    /**
-     * This value represents the visibility listener that can be used to react to specific alert
-     * states.
-     */
     private HitogoVisibilityListener listener;
-
     private WeakReference<HitogoContainer> containerRef;
-
-    /**
-     * Parameter object which holds all relevant data for this specific alert.
-     */
     private T params;
-
+    
     private View view;
     private Dialog dialog;
     private PopupWindow popup;
