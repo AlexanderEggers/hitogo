@@ -4,7 +4,7 @@ import org.hitogo.alert.core.HitogoAlertParams;
 import org.hitogo.alert.core.HitogoAlertParamsHolder;
 
 @SuppressWarnings({"WeakerAccess", "unused"})
-public abstract class HitogoDialogParams extends HitogoAlertParams {
+public class HitogoDialogParams extends HitogoAlertParams {
 
     private Integer dialogThemeResId;
     private boolean isDismissible;

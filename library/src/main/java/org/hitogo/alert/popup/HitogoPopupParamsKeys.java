@@ -3,7 +3,7 @@ package org.hitogo.alert.popup;
 import org.hitogo.alert.core.HitogoAlertParamsKeys;
 
 @SuppressWarnings("WeakerAccess")
-public class HitogoPopupParamsKeys extends HitogoAlertParamsKeys {
+public abstract class HitogoPopupParamsKeys extends HitogoAlertParamsKeys {
     public static final String DRAWABLE_RES_KEY = "drawableRes";
     public static final String ANIMATION_STYLE_KEY = "animationStyle";
     public static final String ANCHOR_VIEW_ID_KEY = "anchorViewId";
