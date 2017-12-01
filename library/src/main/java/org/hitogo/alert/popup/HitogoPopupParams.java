@@ -13,6 +13,7 @@ public class HitogoPopupParams extends HitogoAlertParams {
     private Integer drawableRes;
     private Integer anchorViewId;
     private Integer animationStyle;
+    private Integer gravity;
 
     private int xoff;
     private int yoff;
@@ -31,6 +32,7 @@ public class HitogoPopupParams extends HitogoAlertParams {
         drawableRes = holder.getInteger(HitogoPopupParamsKeys.DRAWABLE_RES_KEY);
         anchorViewId = holder.getInteger(HitogoPopupParamsKeys.ANCHOR_VIEW_ID_KEY);
         animationStyle = holder.getInteger(HitogoPopupParamsKeys.ANIMATION_STYLE_KEY);
+        gravity = holder.getInteger(HitogoPopupParamsKeys.GRAVITY_KEY);
 
         xoff = holder.getInteger(HitogoPopupParamsKeys.X_OFF_KEY);
         yoff = holder.getInteger(HitogoPopupParamsKeys.Y_OFF_KEY);
@@ -60,6 +62,10 @@ public class HitogoPopupParams extends HitogoAlertParams {
 
     public Integer getDrawableRes() {
         return drawableRes;
+    }
+
+    public Integer getGravity() {
+        return gravity;
     }
 
     public Integer getAnimationStyle() {

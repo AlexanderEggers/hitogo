@@ -4,6 +4,7 @@ import android.support.annotation.DrawableRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
 import android.transition.Transition;
+import android.view.View;
 import android.widget.LinearLayout;
 
 import org.hitogo.alert.core.HitogoAlert;
@@ -13,6 +14,7 @@ import org.hitogo.alert.core.HitogoAlertParamsHolder;
 import org.hitogo.alert.core.HitogoAlertType;
 import org.hitogo.core.HitogoContainer;
 
+import static android.os.Build.VERSION_CODES.KITKAT;
 import static android.os.Build.VERSION_CODES.LOLLIPOP;
 import static android.os.Build.VERSION_CODES.M;
 
@@ -24,6 +26,7 @@ public class HitogoPopupBuilder extends HitogoAlertBuilder<HitogoPopupBuilder> {
     private Integer drawableRes;
     private Integer anchorViewId;
     private Integer animationStyle;
+    private Integer gravity;
 
     private int xoff;
     private int yoff;
@@ -36,6 +39,7 @@ public class HitogoPopupBuilder extends HitogoAlertBuilder<HitogoPopupBuilder> {
 
     private Transition enterTransition;
     private Transition exitTransition;
+    private View.OnTouchListener onTouchListener;
 
     public HitogoPopupBuilder(@NonNull Class<? extends HitogoAlert> targetClass,
                               @NonNull Class<? extends HitogoAlertParams> paramClass,
@@ -95,6 +99,13 @@ public class HitogoPopupBuilder extends HitogoAlertBuilder<HitogoPopupBuilder> {
     }
 
     @NonNull
+    @RequiresApi(KITKAT)
+    public HitogoPopupBuilder setGravity(int gravity) {
+        this.gravity = gravity;
+        return this;
+    }
+
+    @NonNull
     @RequiresApi(LOLLIPOP)
     public HitogoPopupBuilder setElevation(float elevation) {
         this.elevation = elevation;
@@ -120,6 +131,11 @@ public class HitogoPopupBuilder extends HitogoAlertBuilder<HitogoPopupBuilder> {
         return this;
     }
 
+    public HitogoPopupBuilder setTouchListener(View.OnTouchListener onTouchListener) {
+        this.onTouchListener = onTouchListener;
+        return this;
+    }
+
     @NonNull
     @RequiresApi(M)
     public HitogoPopupBuilder setTransition(Transition enterTransition, Transition exitTransition) {
@@ -133,6 +149,7 @@ public class HitogoPopupBuilder extends HitogoAlertBuilder<HitogoPopupBuilder> {
         holder.provideInteger(HitogoPopupParamsKeys.DRAWABLE_RES_KEY, drawableRes);
         holder.provideInteger(HitogoPopupParamsKeys.ANIMATION_STYLE_KEY, animationStyle);
         holder.provideInteger(HitogoPopupParamsKeys.ANCHOR_VIEW_ID_KEY, anchorViewId);
+        holder.provideInteger(HitogoPopupParamsKeys.GRAVITY_KEY, gravity);
 
         holder.provideInteger(HitogoPopupParamsKeys.X_OFF_KEY, xoff);
         holder.provideInteger(HitogoPopupParamsKeys.Y_OFF_KEY, yoff);
@@ -145,5 +162,6 @@ public class HitogoPopupBuilder extends HitogoAlertBuilder<HitogoPopupBuilder> {
 
         holder.provideTransition(enterTransition);
         holder.provideTransition(exitTransition);
+        holder.provideOnTouchListener(onTouchListener);
     }
 }

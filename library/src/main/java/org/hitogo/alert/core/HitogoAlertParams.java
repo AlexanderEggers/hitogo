@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.transition.Transition;
 import android.util.SparseArray;
+import android.view.View;
 
 import org.hitogo.alert.view.anim.HitogoAnimation;
 import org.hitogo.button.core.HitogoButton;
@@ -34,6 +35,7 @@ public abstract class HitogoAlertParams extends HitogoParams<HitogoAlertParamsHo
     private HitogoVisibilityListener visibilityListener;
     private List<Transition> transitions;
     private List<Object> customObjects;
+    private View.OnTouchListener onTouchListener;
 
     @Override
     protected void provideData(HitogoAlertParamsHolder holder, Bundle privateBundle) {
@@ -55,6 +57,7 @@ public abstract class HitogoAlertParams extends HitogoParams<HitogoAlertParamsHo
         visibilityListener = holder.getVisibilityListener();
         transitions = holder.getTransitions();
         customObjects = holder.getCustomObjects();
+        onTouchListener = holder.getOnTouchListener();
 
         onCreateParams(holder, this);
     }
@@ -133,6 +136,10 @@ public abstract class HitogoAlertParams extends HitogoParams<HitogoAlertParamsHo
     @NonNull
     public final List<Transition> getTransitions() {
         return transitions;
+    }
+
+    public final View.OnTouchListener getOnTouchListener() {
+        return onTouchListener;
     }
 
     public boolean consumeLayoutClick() {

@@ -105,7 +105,7 @@ public abstract class HitogoAlertBuilder<T> {
     protected abstract void onProvideData(HitogoAlertParamsHolder holder);
 
     @NonNull
-    public final T controlledBy(HitogoController controller) {
+    public final T setController(HitogoController controller) {
         this.controller = controller;
         return (T) this;
     }

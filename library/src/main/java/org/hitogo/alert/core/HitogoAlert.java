@@ -60,7 +60,7 @@ public abstract class HitogoAlert<T extends HitogoAlertParams> extends HitogoAle
     private HitogoVisibilityListener listener;
     private WeakReference<HitogoContainer> containerRef;
     private T params;
-    
+
     private View view;
     private Dialog dialog;
     private PopupWindow popup;

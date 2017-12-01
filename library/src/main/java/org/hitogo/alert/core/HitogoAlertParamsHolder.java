@@ -2,6 +2,7 @@ package org.hitogo.alert.core;
 
 import android.transition.Transition;
 import android.util.SparseArray;
+import android.view.View;
 
 import org.hitogo.alert.view.anim.HitogoAnimation;
 import org.hitogo.button.core.HitogoButton;
@@ -20,9 +21,14 @@ public class HitogoAlertParamsHolder extends HitogoParamsHolder {
     private SparseArray<String> textMap;
     private List<Transition> transitions = new ArrayList<>();
     private List<Object> customObjects = new ArrayList<>();
+    private View.OnTouchListener onTouchListener;
 
     public final void provideAnimation(HitogoAnimation animation) {
         this.hitogoAnimation = animation;
+    }
+
+    public void provideOnTouchListener(View.OnTouchListener onTouchListener) {
+        this.onTouchListener = onTouchListener;
     }
 
     final void provideVisibilityListener(HitogoVisibilityListener listener) {
@@ -67,6 +73,10 @@ public class HitogoAlertParamsHolder extends HitogoParamsHolder {
 
     HitogoVisibilityListener getVisibilityListener() {
         return listener;
+    }
+
+    View.OnTouchListener getOnTouchListener() {
+        return onTouchListener;
     }
 
     List<Transition> getTransitions() {

@@ -79,6 +79,10 @@ public class HitogoPopup extends HitogoAlert<HitogoPopupParams> {
                 window.setAnimationStyle(params.getAnimationStyle());
             }
 
+            if(params.getOnTouchListener() != null) {
+                window.setTouchInterceptor(params.getOnTouchListener());
+            }
+
             if(params.getEnterTransition() != null && Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 window.setEnterTransition(params.getEnterTransition());
             }
@@ -179,7 +183,10 @@ public class HitogoPopup extends HitogoAlert<HitogoPopupParams> {
         int xoff = getParams().getXoff();
         int yoff = getParams().getYoff();
 
-        if (anchorView != null && xoff != 0 && yoff != 0) {
+        if(anchorView != null && getParams().getGravity() != null &&
+                Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            getPopup().showAsDropDown(anchorView, xoff, yoff, getParams().getGravity());
+        } else if (anchorView != null && xoff != 0 && yoff != 0) {
             getPopup().showAsDropDown(anchorView, xoff, yoff);
         } else if (anchorView != null) {
             getPopup().showAsDropDown(anchorView);
