@@ -7,7 +7,7 @@ import android.util.Log;
 
 import org.hitogo.alert.core.Alert;
 import org.hitogo.alert.core.AlertType;
-import org.hitogo.button.core.Button;
+import org.hitogo.button.action.ActionButton;
 import org.hitogo.button.core.ButtonListener;
 import org.hitogo.core.Hitogo;
 import org.hitogo.core.HitogoActivity;
@@ -26,7 +26,7 @@ public class MainActivity extends HitogoActivity {
     }
 
     private void showFirstView() {
-        Button button = Hitogo.with(this)
+        ActionButton button = Hitogo.with(this)
                 .asButton()
                 .listenWith(new ButtonListener() {
                     @Override
@@ -38,7 +38,7 @@ public class MainActivity extends HitogoActivity {
                 .setText("Click me!")
                 .build();
 
-        Button closeButton = Hitogo.with(this)
+        ActionButton closeButton = Hitogo.with(this)
                 .asButton()
                 .listenWith(new ButtonListener() {
                     @Override
@@ -80,7 +80,7 @@ public class MainActivity extends HitogoActivity {
     }
 
     private void testOnClick() {
-        Button button = Hitogo.with(this)
+        ActionButton button = Hitogo.with(this)
                 .asButton()
                 .listenWith(new ButtonListener() {
                     @Override
@@ -104,7 +104,7 @@ public class MainActivity extends HitogoActivity {
     }
 
     private void dialogTest2() {
-        Button button = Hitogo.with(this)
+        ActionButton button = Hitogo.with(this)
                 .asButton()
                 .listenWith(new ButtonListener() {
                     @Override
@@ -128,7 +128,7 @@ public class MainActivity extends HitogoActivity {
     }
 
     private void showSecondView() {
-        Button button = Hitogo.with(this)
+        ActionButton button = Hitogo.with(this)
                 .asButton()
                 .listenWith(new ButtonListener() {
                     @Override
@@ -153,7 +153,7 @@ public class MainActivity extends HitogoActivity {
     }
 
     private void showTestView() {
-        Button next = Hitogo.with(this)
+        ActionButton next = Hitogo.with(this)
                 .asButton()
                 .listenWith(new ButtonListener() {
                     @Override
@@ -165,7 +165,7 @@ public class MainActivity extends HitogoActivity {
                 .setText("Next")
                 .build();
 
-        Button save = Hitogo.with(this)
+        ActionButton save = Hitogo.with(this)
                 .asButton()
                 .listenWith(new ButtonListener() {
                     @Override
@@ -191,7 +191,7 @@ public class MainActivity extends HitogoActivity {
     }
 
     private void showThirdView() {
-        Button button = Hitogo.with(this)
+        ActionButton button = Hitogo.with(this)
                 .asButton()
                 .listenWith(new ButtonListener() {
                     @Override
