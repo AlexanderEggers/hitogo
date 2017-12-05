@@ -28,17 +28,17 @@ public abstract class ButtonImpl<T extends ButtonParams> extends ButtonLifecycle
     }
 
     @NonNull
-    public final T getParams() {
-        return params;
-    }
-
-    @NonNull
-    protected final HitogoContainer getContainer() {
+    public final HitogoContainer getContainer() {
         return containerRef.get();
     }
 
     @NonNull
-    protected final HitogoController getController() {
+    public final HitogoController getController() {
         return containerRef.get().getController();
+    }
+
+    @NonNull
+    public final T getParams() {
+        return params;
     }
 }

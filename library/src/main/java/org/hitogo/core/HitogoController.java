@@ -13,7 +13,6 @@ import org.hitogo.alert.popup.PopupAlertImpl;
 import org.hitogo.alert.popup.PopupAlertBuilder;
 import org.hitogo.alert.popup.PopupAlertParams;
 import org.hitogo.alert.view.ViewAlertImpl;
-import org.hitogo.alert.view.anim.Animation;
 import org.hitogo.alert.core.AlertImpl;
 import org.hitogo.alert.core.AlertParams;
 import org.hitogo.alert.core.AlertType;
@@ -334,7 +333,7 @@ public abstract class HitogoController implements LifecycleObserver {
     }
 
     @Nullable
-    public Animation provideDefaultAnimation() {
+    public HitogoAnimation provideDefaultAnimation() {
         return null;
     }
 

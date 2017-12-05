@@ -10,11 +10,12 @@ import android.view.ViewManager;
 
 import org.hitogo.alert.core.AlertImpl;
 import org.hitogo.alert.view.ViewAlertParams;
+import org.hitogo.core.HitogoAnimation;
 
 @SuppressWarnings({"WeakerAccess", "unused"})
-public class LeftAnimation extends Animation {
+public class LeftAnimation extends HitogoAnimation {
 
-    public static Animation build() {
+    public static HitogoAnimation build() {
         return new LeftAnimation();
     }
 

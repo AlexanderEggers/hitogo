@@ -6,7 +6,7 @@ import android.util.Log;
 
 import java.security.InvalidParameterException;
 
-import org.hitogo.alert.view.anim.Animation;
+import org.hitogo.core.HitogoAnimation;
 import org.hitogo.button.core.Button;
 import org.hitogo.core.Hitogo;
 import org.hitogo.alert.core.AlertBuilder;
@@ -28,7 +28,7 @@ public class ViewAlertBuilder extends AlertBuilder<ViewAlertBuilder, ViewAlert> 
     private boolean closeOthers = true;
     private boolean dismissByClick;
 
-    private Animation animation;
+    private HitogoAnimation animation;
 
     public ViewAlertBuilder(@NonNull Class<? extends AlertImpl> targetClass,
                             @NonNull Class<? extends AlertParams> paramClass,
@@ -48,12 +48,12 @@ public class ViewAlertBuilder extends AlertBuilder<ViewAlertBuilder, ViewAlert> 
     }
 
     @NonNull
-    public ViewAlertBuilder withAnimations(@Nullable Animation animation) {
+    public ViewAlertBuilder withAnimations(@Nullable HitogoAnimation animation) {
         return withAnimations(animation, getController().provideDefaultLayoutViewId());
     }
 
     @NonNull
-    public ViewAlertBuilder withAnimations(@Nullable Animation animation,
+    public ViewAlertBuilder withAnimations(@Nullable HitogoAnimation animation,
                                            @Nullable Integer innerLayoutViewId) {
         this.animation = animation;
         this.innerLayoutViewId = innerLayoutViewId == null ?

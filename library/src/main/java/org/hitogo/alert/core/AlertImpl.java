@@ -264,6 +264,16 @@ public abstract class AlertImpl<T extends AlertParams> extends AlertLifecycle<T>
     }
 
     @NonNull
+    public final HitogoContainer getContainer() {
+        return containerRef.get();
+    }
+
+    @NonNull
+    public final HitogoController getController() {
+        return containerRef.get().getController();
+    }
+
+    @NonNull
     public final AlertType getType() {
         return type;
     }
@@ -306,15 +316,5 @@ public abstract class AlertImpl<T extends AlertParams> extends AlertLifecycle<T>
     @Override
     public final boolean equals(final Object obj) {
         return obj != null && obj instanceof AlertImpl && this.hashCode == obj.hashCode();
-    }
-
-    @NonNull
-    protected final HitogoContainer getContainer() {
-        return containerRef.get();
-    }
-
-    @NonNull
-    protected final HitogoController getController() {
-        return containerRef.get().getController();
     }
 }

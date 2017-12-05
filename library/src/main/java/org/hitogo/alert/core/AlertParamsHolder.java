@@ -4,7 +4,7 @@ import android.transition.Transition;
 import android.util.SparseArray;
 import android.view.View;
 
-import org.hitogo.alert.view.anim.Animation;
+import org.hitogo.core.HitogoAnimation;
 import org.hitogo.button.core.Button;
 import org.hitogo.core.HitogoParamsHolder;
 
@@ -14,7 +14,7 @@ import java.util.List;
 @SuppressWarnings("WeakerAccess")
 public class AlertParamsHolder extends HitogoParamsHolder {
 
-    private Animation animation;
+    private HitogoAnimation animation;
     private List<Button> callToActionButtons;
     private Button closeButton;
     private VisibilityListener listener;
@@ -23,7 +23,7 @@ public class AlertParamsHolder extends HitogoParamsHolder {
     private List<Object> customObjects = new ArrayList<>();
     private View.OnTouchListener onTouchListener;
 
-    public final void provideAnimation(Animation animation) {
+    public final void provideAnimation(HitogoAnimation animation) {
         this.animation = animation;
     }
 
@@ -59,7 +59,7 @@ public class AlertParamsHolder extends HitogoParamsHolder {
         return textMap;
     }
 
-    Animation getAnimation() {
+    HitogoAnimation getAnimation() {
         return animation;
     }
 

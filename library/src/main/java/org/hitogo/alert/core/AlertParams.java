@@ -7,7 +7,7 @@ import android.transition.Transition;
 import android.util.SparseArray;
 import android.view.View;
 
-import org.hitogo.alert.view.anim.Animation;
+import org.hitogo.core.HitogoAnimation;
 import org.hitogo.button.core.Button;
 import org.hitogo.core.HitogoParams;
 
@@ -31,7 +31,7 @@ public abstract class AlertParams extends HitogoParams<AlertParamsHolder, AlertP
 
     private AlertType type;
     private Bundle arguments;
-    private Animation animation;
+    private HitogoAnimation animation;
     private VisibilityListener visibilityListener;
     private List<Transition> transitions;
     private List<Object> customObjects;
@@ -103,7 +103,7 @@ public abstract class AlertParams extends HitogoParams<AlertParamsHolder, AlertP
     }
 
     @Nullable
-    public final Animation getAnimation() {
+    public final HitogoAnimation getAnimation() {
         return animation;
     }
 

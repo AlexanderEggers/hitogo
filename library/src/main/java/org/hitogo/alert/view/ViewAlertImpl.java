@@ -15,7 +15,7 @@ import android.view.ViewManager;
 import android.widget.TextView;
 
 import org.hitogo.BuildConfig;
-import org.hitogo.alert.view.anim.Animation;
+import org.hitogo.core.HitogoAnimation;
 import org.hitogo.button.action.ActionButton;
 import org.hitogo.button.core.Button;
 import org.hitogo.core.HitogoController;
@@ -28,7 +28,7 @@ import java.security.InvalidParameterException;
 public class ViewAlertImpl extends AlertImpl<ViewAlertParams> implements ViewAlert {
 
     private ViewGroup viewGroup;
-    private Animation animation;
+    private HitogoAnimation animation;
 
     @Override
     protected void onCheck(@NonNull HitogoController controller, @NonNull ViewAlertParams params) {
