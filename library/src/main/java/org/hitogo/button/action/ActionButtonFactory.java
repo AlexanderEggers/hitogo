@@ -8,8 +8,8 @@ import org.hitogo.button.core.ButtonParams;
 
 public interface ActionButtonFactory<B extends ButtonBuilder> {
 
-    B asButton();
-    B asButton(@NonNull Class<? extends ButtonImpl> targetClass);
-    B asButton(@NonNull Class<? extends ButtonImpl> targetClass,
-               @NonNull Class<? extends ButtonParams> paramClass);
+    B asActionButton();
+    B asActionButton(@NonNull Class<? extends ButtonImpl> targetClass);
+    B asActionButton(@NonNull Class<? extends ButtonImpl> targetClass,
+                     @NonNull Class<? extends ButtonParams> paramClass);
 }

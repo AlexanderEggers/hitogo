@@ -27,7 +27,7 @@ public class MainActivity extends HitogoActivity {
 
     private void showFirstView() {
         ActionButton button = Hitogo.with(this)
-                .asButton()
+                .asActionButton()
                 .listenWith(new ButtonListener() {
                     @Override
                     public void onClick() {
@@ -39,7 +39,7 @@ public class MainActivity extends HitogoActivity {
                 .build();
 
         ActionButton closeButton = Hitogo.with(this)
-                .asButton()
+                .asActionButton()
                 .listenWith(new ButtonListener() {
                     @Override
                     public void onClick() {
@@ -50,7 +50,7 @@ public class MainActivity extends HitogoActivity {
                 .build();
 
         Hitogo.with(this)
-                .asView()
+                .asViewAlert()
                 .withAnimations(R.id.content)
                 .asDismissible(closeButton)
                 .addText("Test")
@@ -81,7 +81,7 @@ public class MainActivity extends HitogoActivity {
 
     private void testOnClick() {
         ActionButton button = Hitogo.with(this)
-                .asButton()
+                .asActionButton()
                 .listenWith(new ButtonListener() {
                     @Override
                     public void onClick() {
@@ -93,7 +93,7 @@ public class MainActivity extends HitogoActivity {
                 .build();
 
         Hitogo.with(this)
-                .asDialog()
+                .asDialogAlert()
                 .setTitle("Test Dialog")
                 .addText("Long message...")
                 .addButton(button)
@@ -105,7 +105,7 @@ public class MainActivity extends HitogoActivity {
 
     private void dialogTest2() {
         ActionButton button = Hitogo.with(this)
-                .asButton()
+                .asActionButton()
                 .listenWith(new ButtonListener() {
                     @Override
                     public void onClick() {
@@ -117,7 +117,7 @@ public class MainActivity extends HitogoActivity {
                 .build();
 
         Hitogo.with(this)
-                .asDialog()
+                .asDialogAlert()
                 .setTitle(R.id.title, "Test Dialog")
                 .addText(R.id.text, "Long message...")
                 .setState(AlertState.DANGER)
@@ -129,7 +129,7 @@ public class MainActivity extends HitogoActivity {
 
     private void showSecondView() {
         ActionButton button = Hitogo.with(this)
-                .asButton()
+                .asActionButton()
                 .listenWith(new ButtonListener() {
                     @Override
                     public void onClick() {
@@ -141,7 +141,7 @@ public class MainActivity extends HitogoActivity {
                 .build();
 
         Hitogo.with(this)
-                .asView()
+                .asViewAlert()
                 .withAnimations(LeftAnimation.build(), R.id.content)
                 .addText("Test 2")
                 .allowOthers()
@@ -154,7 +154,7 @@ public class MainActivity extends HitogoActivity {
 
     private void showTestView() {
         ActionButton next = Hitogo.with(this)
-                .asButton()
+                .asActionButton()
                 .listenWith(new ButtonListener() {
                     @Override
                     public void onClick() {
@@ -166,7 +166,7 @@ public class MainActivity extends HitogoActivity {
                 .build();
 
         ActionButton save = Hitogo.with(this)
-                .asButton()
+                .asActionButton()
                 .listenWith(new ButtonListener() {
                     @Override
                     public void onClick() {
@@ -178,7 +178,7 @@ public class MainActivity extends HitogoActivity {
                 .build();
 
         Hitogo.with(this)
-                .asView()
+                .asViewAlert()
                 .withAnimations(LeftAnimation.build(), R.id.content)
                 .addText("Test for 'Show Later'")
                 .asLayoutChild(R.id.container_layout)
@@ -192,7 +192,7 @@ public class MainActivity extends HitogoActivity {
 
     private void showThirdView() {
         ActionButton button = Hitogo.with(this)
-                .asButton()
+                .asActionButton()
                 .listenWith(new ButtonListener() {
                     @Override
                     public void onClick() {
@@ -204,7 +204,7 @@ public class MainActivity extends HitogoActivity {
                 .build();
 
         Hitogo.with(this)
-                .asView()
+                .asViewAlert()
                 .withAnimations(TopAnimation.build(), R.id.content)
                 .addText("Test 3")
                 .asLayoutChild(R.id.container_layout)
@@ -216,7 +216,7 @@ public class MainActivity extends HitogoActivity {
 
     private void showPopup() {
         Hitogo.with(this)
-                .asPopup()
+                .asPopupAlert()
                 .addText("Test Popup >> Nice button here!")
                 .setAnchor(R.id.button_test)
                 .setState(AlertState.HINT)

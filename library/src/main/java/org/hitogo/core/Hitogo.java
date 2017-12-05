@@ -22,83 +22,85 @@ public class Hitogo implements ViewAlertFactory<ViewAlertBuilder>, DialogAlertFa
     private HitogoContainer container;
     private HitogoController controller;
 
-    protected Hitogo(HitogoContainer container) {
+    protected Hitogo(@NonNull HitogoContainer container) {
         this.container = container;
         this.controller = container.getController();
     }
 
-    public static Hitogo with(HitogoContainer container) {
+    public static Hitogo with(@NonNull HitogoContainer container) {
         return new Hitogo(container);
     }
 
-    public ViewAlertBuilder asView() {
+    public ViewAlertBuilder asViewAlert() {
         return new ViewAlertBuilder(controller.provideDefaultViewClass(),
                 controller.provideDefaultViewParamsClass(), container);
     }
 
-    public ViewAlertBuilder asView(@NonNull Class<? extends AlertImpl> targetClass) {
+    public ViewAlertBuilder asViewAlert(@NonNull Class<? extends AlertImpl> targetClass) {
         return new ViewAlertBuilder(
                 targetClass, controller.provideDefaultViewParamsClass(), container);
     }
 
-    public ViewAlertBuilder asView(@NonNull Class<? extends AlertImpl> targetClass,
-                                   @NonNull Class<? extends AlertParams> paramClass) {
+    public ViewAlertBuilder asViewAlert(@NonNull Class<? extends AlertImpl> targetClass,
+                                        @NonNull Class<? extends AlertParams> paramClass) {
         return new ViewAlertBuilder(targetClass, paramClass, container);
     }
 
-    public DialogAlertBuilder asDialog() {
+    public DialogAlertBuilder asDialogAlert() {
         return new DialogAlertBuilder(controller.provideDefaultDialogClass(),
                 controller.provideDefaultDialogParamsClass(), container);
     }
 
-    public DialogAlertBuilder asDialog(@NonNull Class<? extends AlertImpl> targetClass) {
+    public DialogAlertBuilder asDialogAlert(@NonNull Class<? extends AlertImpl> targetClass) {
         return new DialogAlertBuilder(targetClass, controller.provideDefaultDialogParamsClass(), container);
     }
 
-    public DialogAlertBuilder asDialog(@NonNull Class<? extends AlertImpl> targetClass,
-                                       @NonNull Class<? extends AlertParams> paramClass) {
+    public DialogAlertBuilder asDialogAlert(@NonNull Class<? extends AlertImpl> targetClass,
+                                            @NonNull Class<? extends AlertParams> paramClass) {
         return new DialogAlertBuilder(targetClass, paramClass, container);
     }
 
     @Override
-    public ActionButtonBuilder asButton() {
+    public ActionButtonBuilder asActionButton() {
         return new ActionButtonBuilder(controller.provideDefaultButtonClass(),
                 controller.provideDefaultButtonParamsClass(), container);
     }
 
     @Override
-    public ActionButtonBuilder asButton(@NonNull Class<? extends ButtonImpl> targetClass) {
+    public ActionButtonBuilder asActionButton(@NonNull Class<? extends ButtonImpl> targetClass) {
         return new ActionButtonBuilder(targetClass, controller.provideDefaultButtonParamsClass(), container);
     }
 
     @Override
-    public ActionButtonBuilder asButton(@NonNull Class<? extends ButtonImpl> targetClass,
-                                        @NonNull Class<? extends ButtonParams> paramClass) {
+    public ActionButtonBuilder asActionButton(@NonNull Class<? extends ButtonImpl> targetClass,
+                                              @NonNull Class<? extends ButtonParams> paramClass) {
         return new ActionButtonBuilder(targetClass, paramClass, container);
     }
 
     @Override
-    public PopupAlertBuilder asPopup() {
+    public PopupAlertBuilder asPopupAlert() {
         return new PopupAlertBuilder(controller.provideDefaultPopupClass(),
                 controller.provideDefaultPopupParamsClass(), container);
     }
 
     @Override
-    public PopupAlertBuilder asPopup(@NonNull Class<? extends AlertImpl> targetClass) {
+    public PopupAlertBuilder asPopupAlert(@NonNull Class<? extends AlertImpl> targetClass) {
         return new PopupAlertBuilder(targetClass, controller.provideDefaultPopupParamsClass(), container);
     }
 
     @Override
-    public PopupAlertBuilder asPopup(@NonNull Class<? extends AlertImpl> targetClass,
-                                     @NonNull Class<? extends AlertParams> paramClass) {
+    public PopupAlertBuilder asPopupAlert(@NonNull Class<? extends AlertImpl> targetClass,
+                                          @NonNull Class<? extends AlertParams> paramClass) {
         return new PopupAlertBuilder(targetClass, paramClass, container);
     }
 
-    public HitogoContainer getContainer() {
+    @NonNull
+    protected HitogoContainer getContainer() {
         return container;
     }
 
-    public HitogoController getController() {
+    @NonNull
+    protected HitogoController getController() {
         return controller;
     }
 }

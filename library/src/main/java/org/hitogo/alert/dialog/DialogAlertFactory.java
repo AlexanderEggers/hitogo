@@ -8,8 +8,8 @@ import org.hitogo.alert.core.AlertParams;
 
 public interface DialogAlertFactory<D extends AlertBuilder> {
 
-    D asDialog();
-    D asDialog(@NonNull Class<? extends AlertImpl> targetClass);
-    D asDialog(@NonNull Class<? extends AlertImpl> targetClass,
-               @NonNull Class<? extends AlertParams> paramClass);
+    D asDialogAlert();
+    D asDialogAlert(@NonNull Class<? extends AlertImpl> targetClass);
+    D asDialogAlert(@NonNull Class<? extends AlertImpl> targetClass,
+                    @NonNull Class<? extends AlertParams> paramClass);
 }

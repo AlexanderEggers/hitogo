@@ -83,7 +83,7 @@ public class ViewAlertBuilder extends AlertBuilder<ViewAlertBuilder, ViewAlert> 
 
         try {
             return super.addCloseButton(Hitogo.with(getContainer())
-                    .asButton()
+                    .asActionButton()
                     .forViewAction()
                     .build());
         } catch (InvalidParameterException ex) {

@@ -8,8 +8,8 @@ import org.hitogo.alert.core.AlertParams;
 
 public interface PopupAlertFactory<V extends AlertBuilder> {
 
-    V asPopup();
-    V asPopup(@NonNull Class<? extends AlertImpl> targetClass);
-    V asPopup(@NonNull Class<? extends AlertImpl> targetClass,
-             @NonNull Class<? extends AlertParams> paramClass);
+    V asPopupAlert();
+    V asPopupAlert(@NonNull Class<? extends AlertImpl> targetClass);
+    V asPopupAlert(@NonNull Class<? extends AlertImpl> targetClass,
+                   @NonNull Class<? extends AlertParams> paramClass);
 }

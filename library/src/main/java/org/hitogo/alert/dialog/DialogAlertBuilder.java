@@ -50,7 +50,7 @@ public class DialogAlertBuilder extends AlertBuilder<DialogAlertBuilder, DialogA
     public DialogAlertBuilder addButton(@NonNull String... buttonContent) {
         for (String buttonText : buttonContent) {
             Button button = Hitogo.with(getContainer())
-                    .asButton()
+                    .asActionButton()
                     .forClickOnlyAction()
                     .setText(buttonText)
                     .build();
