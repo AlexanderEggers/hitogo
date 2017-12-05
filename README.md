@@ -15,11 +15,11 @@ repositories {
 }
 
 dependencies {
-  compile 'org.hitogo:Hitogo:1.0.0-beta8'
+  compile 'org.hitogo:Hitogo:1.0.0-beta9'
 }
 ```
 
-How do I use Hitogo? (Step-by-step introduction for 1.0.0-beta8)
+How do I use Hitogo? (Step-by-step introduction for 1.0.0-beta9)
 -------------------
 
 1. Extend the HitogoController
@@ -98,7 +98,7 @@ If you have finished step 1 and 2, you are ready to go! Using Hitogo you can cre
 protected void someMethod() {
     ...
     Hitogo.with(this)
-                .asView()
+                .asViewAlert()
                 .withAnimations()
                 .addText("Test")
                 .asLayoutChild(R.id.container_layout)
@@ -111,7 +111,7 @@ protected void someMethod() {
 public void someMethod() {
   ...
        ActionButton button = Hitogo.with(this)
-                .asButton()
+                .asActionButton()
                 .listenWith(new ButtonListener() {
                     @Override
                     public void onClick() {
@@ -123,7 +123,7 @@ public void someMethod() {
                 .build();
 
         ActionButton closeButton = Hitogo.with(this)
-                .asButton()
+                .asActionButton()
                 .listenWith(new ButtonListener() {
                     @Override
                     public void onClick() {
@@ -134,7 +134,7 @@ public void someMethod() {
                 .build();
 
         Hitogo.with(this)
-                .asView()
+                .asViewAlert()
                 .withAnimations(R.id.content)
                 .asDismissible(closeButton)
                 .addText("Test")
@@ -166,7 +166,7 @@ public void someMethod() {
 public void someMethod() {
   ...
        ActionButton button = Hitogo.with(this)
-                .asButton()
+                .asActionButton()
                 .listenWith(new HitogoButtonListener() {
                     @Override
                     public void onClick() {
@@ -178,7 +178,7 @@ public void someMethod() {
                 .build();
 
         Hitogo.with(this)
-                .asDialog()
+                .asDialogAlert()
                 .setTitle("Test Dialog")
                 .addText("Long message...")
                 .setState(HitogoDefaultController.DANGER)
@@ -192,7 +192,7 @@ public void someMethod() {
 public void someMethod() {
   ...
        Hitogo.with(this)
-                .asPopup()
+                .asPopupAlert()
                 .addText("Test Popup")
                 .setAnchor(R.id.button_test)
                 .setState(HitogoDefaultController.HINT)
