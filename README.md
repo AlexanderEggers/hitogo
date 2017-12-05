@@ -15,11 +15,11 @@ repositories {
 }
 
 dependencies {
-  compile 'org.hitogo:Hitogo:1.0.0-beta7'
+  compile 'org.hitogo:Hitogo:1.0.0-beta8'
 }
 ```
 
-How do I use Hitogo? (Step-by-step introduction for 1.0.0-beta7)
+How do I use Hitogo? (Step-by-step introduction for 1.0.0-beta8)
 -------------------
 
 1. Extend the HitogoController
@@ -27,14 +27,14 @@ How do I use Hitogo? (Step-by-step introduction for 1.0.0-beta7)
 The HitogoController is the base for the alert system. It decides if the new requested alert should be shown and which should be closed. It also holds several provider-methods which are pointing to your default configuration. The methods are useful if your layouts are quite similar to each other, but only differ for example in the usage of color. For example: getDefaultTitleViewId() holds the view id for the default title textview.
 
 ```java
-public class HitogoExampleController extends HitogoController {
+public class AlertController extends HitogoController {
 
     public static final int HINT = 0;
     public static final int SUCCESS = 1;
     public static final int WARNING = 2;
     public static final int DANGER = 3;
 
-    public HitogoExampleController(Lifecycle lifecycle) {
+    public AlertController(Lifecycle lifecycle) {
         super(lifecycle);
     }
 
@@ -62,7 +62,7 @@ public class HitogoExampleController extends HitogoController {
     @Nullable
     @Override
     public HitogoAnimation provideDefaultAnimation() {
-        return HitogoTopAnimation.build();
+        return TopAnimation.build();
     }
 }
 ```
@@ -84,7 +84,7 @@ public class MainActivity extends HitogoActivity {
     @NonNull
     @Override
     public HitogoController initialiseHitogo(@NonNull Lifecycle lifecycle) {
-        return new HitogoExampleController(lifecycle);
+        return new AlertController(lifecycle);
     }
 }
 ```
@@ -110,9 +110,9 @@ protected void someMethod() {
 //Here is a more complex alert, that has two buttons:
 public void someMethod() {
   ...
-       HitogoButton button = Hitogo.with(this)
+       Button button = Hitogo.with(this)
                 .asButton()
-                .listenWith(new HitogoButtonListener() {
+                .listenWith(new ButtonListener() {
                     @Override
                     public void onClick() {
                         testOnClick();
@@ -122,9 +122,9 @@ public void someMethod() {
                 .setText("Click me!")
                 .build();
 
-        HitogoButton closeButton = Hitogo.with(this)
+        Button closeButton = Hitogo.with(this)
                 .asButton()
-                .listenWith(new HitogoButtonListener() {
+                .listenWith(new ButtonListener() {
                     @Override
                     public void onClick() {
                         getController().closeAll(true);
@@ -141,19 +141,19 @@ public void someMethod() {
                 .asLayoutChild(R.id.container_layout)
                 .addActionButton(button)
                 .consumeLayoutClick()
-                .addVisibilityListener(new HitogoVisibilityListener() {
+                .addVisibilityListener(new VisibilityListener() {
                     @Override
-                    public void onCreate(HitogoAlert object) {
+                    public void onCreate(Alert object) {
                         Log.i(MainActivity.class.getName(), "Creating Hitogo");
                     }
                 
                     @Override
-                    public void onShow(HitogoAlert object) {
+                    public void onShow(Alert object) {
                         Log.i(MainActivity.class.getName(), "Showing Hitogo");
                     }
 
                     @Override
-                    public void onClose(HitogoAlert object) {
+                    public void onClose(Alert object) {
                         Log.i(MainActivity.class.getName(), "Closing Hitogo");
                     }
                 })
@@ -165,7 +165,7 @@ public void someMethod() {
 //Here an example to create a dialog:
 public void someMethod() {
   ...
-       HitogoButton button = Hitogo.with(this)
+       Button button = Hitogo.with(this)
                 .asButton()
                 .listenWith(new HitogoButtonListener() {
                     @Override
