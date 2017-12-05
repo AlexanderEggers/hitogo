@@ -110,7 +110,7 @@ protected void someMethod() {
 //Here is a more complex alert, that has two buttons:
 public void someMethod() {
   ...
-       Button button = Hitogo.with(this)
+       ActionButton button = Hitogo.with(this)
                 .asButton()
                 .listenWith(new ButtonListener() {
                     @Override
@@ -122,7 +122,7 @@ public void someMethod() {
                 .setText("Click me!")
                 .build();
 
-        Button closeButton = Hitogo.with(this)
+        ActionButton closeButton = Hitogo.with(this)
                 .asButton()
                 .listenWith(new ButtonListener() {
                     @Override
@@ -165,7 +165,7 @@ public void someMethod() {
 //Here an example to create a dialog:
 public void someMethod() {
   ...
-       Button button = Hitogo.with(this)
+       ActionButton button = Hitogo.with(this)
                 .asButton()
                 .listenWith(new HitogoButtonListener() {
                     @Override
