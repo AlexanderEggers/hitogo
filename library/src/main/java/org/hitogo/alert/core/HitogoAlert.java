@@ -6,7 +6,6 @@ import android.content.Context;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.PopupWindow;
@@ -38,12 +37,12 @@ public abstract class HitogoAlert<T extends HitogoAlertParams> extends HitogoAle
     public static final int DEFAULT_SHOW_DELAY_IN_MS = 1000;
 
     /**
-     * This value is used if no animation is defined.
+     * This value is used if no animation is defined for this alert.
      */
     public static final int NO_ANIMATION_LENGTH = 0;
 
     /**
-     * This value describes the minimum delay value which can be used.
+     * This value describes the minimum animation length.
      */
     public static final int MIN_ANIMATION_LENGTH = 100;
 
@@ -136,38 +135,41 @@ public abstract class HitogoAlert<T extends HitogoAlertParams> extends HitogoAle
      * @since 1.0.0
      */
     public final void show(final boolean force) {
-        getController().show(this, force);
+        getRootView().post(new Runnable() {
+            @Override
+            public void run() {
+                getController().show(HitogoAlert.this, force);
+            }
+        });
     }
 
-    public final void showLater(boolean showLater) {
-        getController().show(this, false, showLater);
+    public final void showLater(final boolean showLater) {
+        getRootView().post(new Runnable() {
+            @Override
+            public void run() {
+                getController().show(HitogoAlert.this, false, showLater);
+            }
+        });
     }
 
     public final void showDelayed(final long millis) {
-        if (hasAnimation()) {
-            internalShowDelayed(millis, false);
-        } else {
-            show(false);
-        }
+        showDelayed(millis, false);
     }
 
     public final void showDelayed(final long millis, final boolean force) {
-        if (hasAnimation()) {
-            internalShowDelayed(millis, force);
-        } else {
-            show(force);
-        }
+        getRootView().post(new Runnable() {
+            @Override
+            public void run() {
+                if (hasAnimation()) {
+                    internalShowDelayed(millis, force);
+                } else {
+                    show(force);
+                }
+            }
+        });
     }
 
     private void internalShowDelayed(final long millis, final boolean force) {
-        long delayInMs = millis;
-
-        if (millis <= MIN_ANIMATION_LENGTH) {
-            Log.i(HitogoAlertBuilder.class.getName(), "Delayed time is too short. Using " +
-                    "default delay time value.");
-            delayInMs = MIN_ANIMATION_LENGTH;
-        }
-
         Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
             @Override
@@ -176,7 +178,7 @@ public abstract class HitogoAlert<T extends HitogoAlertParams> extends HitogoAle
                     show(force);
                 }
             }
-        }, delayInMs);
+        }, millis);
     }
 
     public final void makeVisible(final boolean force) {

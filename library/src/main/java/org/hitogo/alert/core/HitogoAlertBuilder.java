@@ -1,6 +1,5 @@
 package org.hitogo.alert.core;
 
-import android.arch.lifecycle.Lifecycle;
 import android.os.Bundle;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
@@ -186,12 +185,7 @@ public abstract class HitogoAlertBuilder<T> {
     }
 
     public final void show(boolean force) {
-        HitogoContainer container = containerRef.get();
-        if (container.getLifecycle().getCurrentState().isAtLeast(Lifecycle.State.STARTED)) {
-            build().show(force);
-        } else {
-            build().showDelayed(HitogoAlert.DEFAULT_SHOW_DELAY_IN_MS, force);
-        }
+        build().show(force);
     }
 
     public final void showLater(boolean showLater) {
@@ -203,7 +197,7 @@ public abstract class HitogoAlertBuilder<T> {
     }
 
     public final void showDelayed(long millis) {
-        build().showDelayed(millis, false);
+        showDelayed(millis, false);
     }
 
     public final void showDelayed(long millis, boolean force) {

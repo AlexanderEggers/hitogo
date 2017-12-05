@@ -8,9 +8,9 @@ import org.hitogo.core.HitogoController;
 import org.hitogo.alert.core.HitogoAlertType;
 import org.hitogo.alert.view.anim.HitogoTopAnimation;
 
-public class HitogoDefaultController extends HitogoController {
+public class AlertController extends HitogoController {
 
-    public HitogoDefaultController(Lifecycle lifecycle) {
+    public AlertController(Lifecycle lifecycle) {
         super(lifecycle);
     }
 

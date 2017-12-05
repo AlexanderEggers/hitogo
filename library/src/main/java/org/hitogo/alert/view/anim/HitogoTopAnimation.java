@@ -82,6 +82,6 @@ public class HitogoTopAnimation extends HitogoAnimation {
 
     @Override
     public long getAnimationDuration() {
-        return 400;
+        return 500;
     }
 }

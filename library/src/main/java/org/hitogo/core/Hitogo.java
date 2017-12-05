@@ -23,7 +23,7 @@ public class Hitogo implements HitogoViewFactory<HitogoViewBuilder>,
     private HitogoContainer container;
     private HitogoController controller;
 
-    private Hitogo(HitogoContainer container) {
+    protected Hitogo(HitogoContainer container) {
         this.container = container;
         this.controller = container.getController();
     }
@@ -93,5 +93,13 @@ public class Hitogo implements HitogoViewFactory<HitogoViewBuilder>,
     public HitogoPopupBuilder asPopup(@NonNull Class<? extends HitogoAlert> targetClass,
                                       @NonNull Class<? extends HitogoAlertParams> paramClass) {
         return new HitogoPopupBuilder(targetClass, paramClass, container);
+    }
+
+    public HitogoContainer getContainer() {
+        return container;
+    }
+
+    public HitogoController getController() {
+        return controller;
     }
 }
