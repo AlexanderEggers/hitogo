@@ -2,23 +2,22 @@ package org.hitogo.core;
 
 import android.support.annotation.NonNull;
 
-import org.hitogo.alert.core.HitogoAlert;
-import org.hitogo.alert.core.HitogoAlertParams;
-import org.hitogo.alert.popup.HitogoPopupBuilder;
-import org.hitogo.alert.popup.HitogoPopupFactory;
-import org.hitogo.button.action.HitogoActionBuilder;
-import org.hitogo.button.action.HitogoActionFactory;
-import org.hitogo.button.core.HitogoButton;
-import org.hitogo.alert.dialog.HitogoDialogBuilder;
-import org.hitogo.alert.dialog.HitogoDialogFactory;
-import org.hitogo.alert.view.HitogoViewBuilder;
-import org.hitogo.alert.view.HitogoViewFactory;
-import org.hitogo.button.core.HitogoButtonParams;
+import org.hitogo.alert.core.AlertImpl;
+import org.hitogo.alert.core.AlertParams;
+import org.hitogo.alert.popup.PopupAlertBuilder;
+import org.hitogo.alert.popup.PopupAlertFactory;
+import org.hitogo.button.action.ActionButtonBuilder;
+import org.hitogo.button.action.ActionButtonFactory;
+import org.hitogo.button.core.ButtonImpl;
+import org.hitogo.alert.dialog.DialogAlertBuilder;
+import org.hitogo.alert.dialog.DialogAlertFactory;
+import org.hitogo.alert.view.ViewAlertBuilder;
+import org.hitogo.alert.view.ViewAlertFactory;
+import org.hitogo.button.core.ButtonParams;
 
 @SuppressWarnings({"WeakerAccess", "unused"})
-public class Hitogo implements HitogoViewFactory<HitogoViewBuilder>,
-        HitogoDialogFactory<HitogoDialogBuilder>, HitogoActionFactory<HitogoActionBuilder>,
-        HitogoPopupFactory<HitogoPopupBuilder>{
+public class Hitogo implements ViewAlertFactory<ViewAlertBuilder>, DialogAlertFactory<DialogAlertBuilder>,
+        ActionButtonFactory<ActionButtonBuilder>, PopupAlertFactory<PopupAlertBuilder> {
 
     private HitogoContainer container;
     private HitogoController controller;
@@ -32,67 +31,67 @@ public class Hitogo implements HitogoViewFactory<HitogoViewBuilder>,
         return new Hitogo(container);
     }
 
-    public HitogoViewBuilder asView() {
-        return new HitogoViewBuilder(controller.provideDefaultViewClass(),
+    public ViewAlertBuilder asView() {
+        return new ViewAlertBuilder(controller.provideDefaultViewClass(),
                 controller.provideDefaultViewParamsClass(), container);
     }
 
-    public HitogoViewBuilder asView(@NonNull Class<? extends HitogoAlert> targetClass) {
-        return new HitogoViewBuilder(
+    public ViewAlertBuilder asView(@NonNull Class<? extends AlertImpl> targetClass) {
+        return new ViewAlertBuilder(
                 targetClass, controller.provideDefaultViewParamsClass(), container);
     }
 
-    public HitogoViewBuilder asView(@NonNull Class<? extends HitogoAlert> targetClass,
-                                    @NonNull Class<? extends HitogoAlertParams> paramClass) {
-        return new HitogoViewBuilder(targetClass, paramClass, container);
+    public ViewAlertBuilder asView(@NonNull Class<? extends AlertImpl> targetClass,
+                                   @NonNull Class<? extends AlertParams> paramClass) {
+        return new ViewAlertBuilder(targetClass, paramClass, container);
     }
 
-    public HitogoDialogBuilder asDialog() {
-        return new HitogoDialogBuilder(controller.provideDefaultDialogClass(),
+    public DialogAlertBuilder asDialog() {
+        return new DialogAlertBuilder(controller.provideDefaultDialogClass(),
                 controller.provideDefaultDialogParamsClass(), container);
     }
 
-    public HitogoDialogBuilder asDialog(@NonNull Class<? extends HitogoAlert> targetClass) {
-        return new HitogoDialogBuilder(targetClass, controller.provideDefaultDialogParamsClass(), container);
+    public DialogAlertBuilder asDialog(@NonNull Class<? extends AlertImpl> targetClass) {
+        return new DialogAlertBuilder(targetClass, controller.provideDefaultDialogParamsClass(), container);
     }
 
-    public HitogoDialogBuilder asDialog(@NonNull Class<? extends HitogoAlert> targetClass,
-                                        @NonNull Class<? extends HitogoAlertParams> paramClass) {
-        return new HitogoDialogBuilder(targetClass, paramClass, container);
+    public DialogAlertBuilder asDialog(@NonNull Class<? extends AlertImpl> targetClass,
+                                       @NonNull Class<? extends AlertParams> paramClass) {
+        return new DialogAlertBuilder(targetClass, paramClass, container);
     }
 
     @Override
-    public HitogoActionBuilder asButton() {
-        return new HitogoActionBuilder(controller.provideDefaultButtonClass(),
+    public ActionButtonBuilder asButton() {
+        return new ActionButtonBuilder(controller.provideDefaultButtonClass(),
                 controller.provideDefaultButtonParamsClass(), container);
     }
 
     @Override
-    public HitogoActionBuilder asButton(@NonNull Class<? extends HitogoButton> targetClass) {
-        return new HitogoActionBuilder(targetClass, controller.provideDefaultButtonParamsClass(), container);
+    public ActionButtonBuilder asButton(@NonNull Class<? extends ButtonImpl> targetClass) {
+        return new ActionButtonBuilder(targetClass, controller.provideDefaultButtonParamsClass(), container);
     }
 
     @Override
-    public HitogoActionBuilder asButton(@NonNull Class<? extends HitogoButton> targetClass,
-                                        @NonNull Class<? extends HitogoButtonParams> paramClass) {
-        return new HitogoActionBuilder(targetClass, paramClass, container);
+    public ActionButtonBuilder asButton(@NonNull Class<? extends ButtonImpl> targetClass,
+                                        @NonNull Class<? extends ButtonParams> paramClass) {
+        return new ActionButtonBuilder(targetClass, paramClass, container);
     }
 
     @Override
-    public HitogoPopupBuilder asPopup() {
-        return new HitogoPopupBuilder(controller.provideDefaultPopupClass(),
+    public PopupAlertBuilder asPopup() {
+        return new PopupAlertBuilder(controller.provideDefaultPopupClass(),
                 controller.provideDefaultPopupParamsClass(), container);
     }
 
     @Override
-    public HitogoPopupBuilder asPopup(@NonNull Class<? extends HitogoAlert> targetClass) {
-        return new HitogoPopupBuilder(targetClass, controller.provideDefaultPopupParamsClass(), container);
+    public PopupAlertBuilder asPopup(@NonNull Class<? extends AlertImpl> targetClass) {
+        return new PopupAlertBuilder(targetClass, controller.provideDefaultPopupParamsClass(), container);
     }
 
     @Override
-    public HitogoPopupBuilder asPopup(@NonNull Class<? extends HitogoAlert> targetClass,
-                                      @NonNull Class<? extends HitogoAlertParams> paramClass) {
-        return new HitogoPopupBuilder(targetClass, paramClass, container);
+    public PopupAlertBuilder asPopup(@NonNull Class<? extends AlertImpl> targetClass,
+                                     @NonNull Class<? extends AlertParams> paramClass) {
+        return new PopupAlertBuilder(targetClass, paramClass, container);
     }
 
     public HitogoContainer getContainer() {

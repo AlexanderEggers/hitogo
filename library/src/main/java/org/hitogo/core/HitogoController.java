@@ -8,22 +8,23 @@ import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-import org.hitogo.alert.popup.HitogoPopup;
-import org.hitogo.alert.popup.HitogoPopupBuilder;
-import org.hitogo.alert.popup.HitogoPopupParams;
-import org.hitogo.alert.view.anim.HitogoAnimation;
-import org.hitogo.alert.core.HitogoAlert;
-import org.hitogo.alert.core.HitogoAlertParams;
-import org.hitogo.alert.core.HitogoAlertType;
-import org.hitogo.button.action.HitogoAction;
-import org.hitogo.button.core.HitogoButton;
-import org.hitogo.button.action.HitogoActionParams;
-import org.hitogo.alert.dialog.HitogoDialog;
-import org.hitogo.alert.dialog.HitogoDialogBuilder;
-import org.hitogo.alert.dialog.HitogoDialogParams;
-import org.hitogo.alert.view.HitogoView;
-import org.hitogo.alert.view.HitogoViewBuilder;
-import org.hitogo.alert.view.HitogoViewParams;
+import org.hitogo.alert.dialog.DialogAlertImpl;
+import org.hitogo.alert.popup.PopupAlertImpl;
+import org.hitogo.alert.popup.PopupAlertBuilder;
+import org.hitogo.alert.popup.PopupAlertParams;
+import org.hitogo.alert.view.ViewAlertImpl;
+import org.hitogo.alert.view.anim.Animation;
+import org.hitogo.alert.core.AlertImpl;
+import org.hitogo.alert.core.AlertParams;
+import org.hitogo.alert.core.AlertType;
+import org.hitogo.button.action.ActionButtonImpl;
+import org.hitogo.button.core.ButtonImpl;
+import org.hitogo.button.action.ActionButtonParams;
+import org.hitogo.alert.dialog.DialogAlertBuilder;
+import org.hitogo.alert.dialog.DialogAlertParams;
+import org.hitogo.alert.view.ViewAlertBuilder;
+import org.hitogo.alert.view.ViewAlertParams;
+import org.hitogo.button.core.ButtonParams;
 
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -33,19 +34,19 @@ public abstract class HitogoController implements LifecycleObserver {
 
     private final Object syncLock = new Object();
 
-    private final LinkedList<HitogoAlert> currentViews = new LinkedList<>();
-    private final LinkedList<HitogoAlert> currentDialogs = new LinkedList<>();
-    private final LinkedList<HitogoAlert> currentPopups = new LinkedList<>();
+    private final LinkedList<AlertImpl> currentViews = new LinkedList<>();
+    private final LinkedList<AlertImpl> currentDialogs = new LinkedList<>();
+    private final LinkedList<AlertImpl> currentPopups = new LinkedList<>();
 
     public HitogoController(@NonNull Lifecycle lifecycle) {
         lifecycle.addObserver(this);
     }
 
-    public final void show(HitogoAlert hitogo, boolean force) {
+    public final void show(AlertImpl hitogo, boolean force) {
         show(hitogo, force, false);
     }
 
-    public final void show(HitogoAlert hitogo, boolean force, boolean showLater) {
+    public final void show(AlertImpl hitogo, boolean force, boolean showLater) {
         synchronized (syncLock) {
             switch (hitogo.getType()) {
                 case VIEW:
@@ -61,12 +62,12 @@ public abstract class HitogoController implements LifecycleObserver {
         }
     }
 
-    public final void showNext(final boolean force, final HitogoAlertType type) {
+    public final void showNext(final boolean force, final AlertType type) {
         synchronized (syncLock) {
-            final LinkedList<HitogoAlert> currentAlerts = getCurrentAlertList(type);
+            final LinkedList<AlertImpl> currentAlerts = getCurrentAlertList(type);
 
             if(!currentAlerts.isEmpty()) {
-                HitogoAlert currentAlert = currentAlerts.pollLast();
+                AlertImpl currentAlert = currentAlerts.pollLast();
                 currentAlert.makeInvisible(force);
 
                 if(!currentAlerts.isEmpty()) {
@@ -76,13 +77,13 @@ public abstract class HitogoController implements LifecycleObserver {
         }
     }
 
-    private void showNextInvisibleAlert(final LinkedList<HitogoAlert> currentAlerts,
+    private void showNextInvisibleAlert(final LinkedList<AlertImpl> currentAlerts,
                                         final boolean force, final long wait) {
         Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                for (HitogoAlert alert : currentAlerts) {
+                for (AlertImpl alert : currentAlerts) {
                     if (!alert.isAttached()) {
                         if (alert.getContainer().getLifecycle()
                                 .getCurrentState().isAtLeast(Lifecycle.State.CREATED)) {
@@ -97,7 +98,7 @@ public abstract class HitogoController implements LifecycleObserver {
     }
 
     @NonNull
-    private LinkedList<HitogoAlert> getCurrentAlertList(HitogoAlertType type) {
+    private LinkedList<AlertImpl> getCurrentAlertList(AlertType type) {
         switch (type) {
             case VIEW:
                 return currentViews;
@@ -110,7 +111,7 @@ public abstract class HitogoController implements LifecycleObserver {
         }
     }
 
-    private void internalShow(final LinkedList<HitogoAlert> currentObjects, final HitogoAlert newAlert,
+    private void internalShow(final LinkedList<AlertImpl> currentObjects, final AlertImpl newAlert,
                               final boolean force, final boolean showLater) {
 
         currentObjects.addFirst(newAlert);
@@ -159,9 +160,9 @@ public abstract class HitogoController implements LifecycleObserver {
         }
     }
 
-    private void internalCloseByTag(Iterator<HitogoAlert> it, boolean force, long currentLongest) {
+    private void internalCloseByTag(Iterator<AlertImpl> it, boolean force, long currentLongest) {
         while(it.hasNext()) {
-            HitogoAlert object = it.next();
+            AlertImpl object = it.next();
             if(object != null && object.isAttached()) {
                 if(object.getAnimationDuration() > currentLongest) {
                     currentLongest = object.getAnimationDuration();
@@ -173,17 +174,17 @@ public abstract class HitogoController implements LifecycleObserver {
         }
     }
 
-    public final long closeByType(@NonNull HitogoAlertType type) {
+    public final long closeByType(@NonNull AlertType type) {
         return closeByType(type, false);
     }
 
-    public final long closeByType(@NonNull HitogoAlertType type, boolean force) {
+    public final long closeByType(@NonNull AlertType type, boolean force) {
         synchronized (syncLock) {
-            if(type == HitogoAlertType.VIEW) {
+            if(type == AlertType.VIEW) {
                 return internalCloseByType(currentViews.iterator(), type, force);
-            } else if(type == HitogoAlertType.DIALOG) {
+            } else if(type == AlertType.DIALOG) {
                 return internalCloseByType(currentDialogs.iterator(), type, force);
-            } else if(type == HitogoAlertType.POPUP) {
+            } else if(type == AlertType.POPUP) {
                 return internalCloseByType(currentPopups.iterator(), type, force);
             } else {
                 return 0;
@@ -191,11 +192,11 @@ public abstract class HitogoController implements LifecycleObserver {
         }
     }
 
-    private long internalCloseByType(Iterator<HitogoAlert> it, @NonNull HitogoAlertType type, boolean force) {
+    private long internalCloseByType(Iterator<AlertImpl> it, @NonNull AlertType type, boolean force) {
         long longestClosingAnim = 0;
 
         while(it.hasNext()) {
-            HitogoAlert object = it.next();
+            AlertImpl object = it.next();
             if(object != null && type == object.getType() && object.isAttached()) {
                 if(object.getAnimationDuration() > longestClosingAnim) {
                     longestClosingAnim = object.getAnimationDuration();
@@ -223,11 +224,11 @@ public abstract class HitogoController implements LifecycleObserver {
         }
     }
 
-    private void internalCloseByTag(Iterator<HitogoAlert> it, @NonNull String tag, boolean force, long currentLongest) {
+    private void internalCloseByTag(Iterator<AlertImpl> it, @NonNull String tag, boolean force, long currentLongest) {
         int tagHashCode = tag.hashCode();
 
         while(it.hasNext()) {
-            HitogoAlert object = it.next();
+            AlertImpl object = it.next();
             if(object != null && object.isAttached() && object.hashCode() == tagHashCode) {
                 if(object.getAnimationDuration() > currentLongest) {
                     currentLongest = object.getAnimationDuration();
@@ -240,43 +241,43 @@ public abstract class HitogoController implements LifecycleObserver {
     }
 
     @NonNull
-    public Class<? extends HitogoAlert> provideDefaultViewClass() {
-        return HitogoView.class;
+    public Class<? extends AlertImpl> provideDefaultViewClass() {
+        return ViewAlertImpl.class;
     }
 
     @NonNull
-    public Class<? extends HitogoAlertParams> provideDefaultViewParamsClass() {
-        return HitogoViewParams.class;
+    public Class<? extends AlertParams> provideDefaultViewParamsClass() {
+        return ViewAlertParams.class;
     }
 
     @NonNull
-    public Class<? extends HitogoAlert> provideDefaultDialogClass() {
-        return HitogoDialog.class;
+    public Class<? extends AlertImpl> provideDefaultDialogClass() {
+        return DialogAlertImpl.class;
     }
 
     @NonNull
-    public Class<? extends HitogoAlertParams> provideDefaultDialogParamsClass() {
-        return HitogoDialogParams.class;
+    public Class<? extends AlertParams> provideDefaultDialogParamsClass() {
+        return DialogAlertParams.class;
     }
 
     @NonNull
-    public Class<? extends HitogoAlert> provideDefaultPopupClass() {
-        return HitogoPopup.class;
+    public Class<? extends AlertImpl> provideDefaultPopupClass() {
+        return PopupAlertImpl.class;
     }
 
     @NonNull
-    public Class<? extends HitogoAlertParams> provideDefaultPopupParamsClass() {
-        return HitogoPopupParams.class;
+    public Class<? extends AlertParams> provideDefaultPopupParamsClass() {
+        return PopupAlertParams.class;
     }
 
     @NonNull
-    public Class<? extends HitogoButton> provideDefaultButtonClass() {
-        return HitogoAction.class;
+    public Class<? extends ButtonImpl> provideDefaultButtonClass() {
+        return ActionButtonImpl.class;
     }
 
     @NonNull
-    public Class<? extends org.hitogo.button.core.HitogoButtonParams> provideDefaultButtonParamsClass() {
-        return HitogoActionParams.class;
+    public Class<? extends ButtonParams> provideDefaultButtonParamsClass() {
+        return ActionButtonParams.class;
     }
 
     @LayoutRes
@@ -298,7 +299,7 @@ public abstract class HitogoController implements LifecycleObserver {
     }
 
     @Nullable
-    public Integer provideDefaultState(HitogoAlertType type) {
+    public Integer provideDefaultState(AlertType type) {
         return null;
     }
 
@@ -313,12 +314,12 @@ public abstract class HitogoController implements LifecycleObserver {
     }
 
     @Nullable
-    public Integer provideDefaultTextViewId(HitogoAlertType type) {
+    public Integer provideDefaultTextViewId(AlertType type) {
         return null;
     }
 
     @Nullable
-    public Integer provideDefaultTitleViewId(HitogoAlertType type) {
+    public Integer provideDefaultTitleViewId(AlertType type) {
         return null;
     }
 
@@ -333,7 +334,7 @@ public abstract class HitogoController implements LifecycleObserver {
     }
 
     @Nullable
-    public HitogoAnimation provideDefaultAnimation() {
+    public Animation provideDefaultAnimation() {
         return null;
     }
 
@@ -343,17 +344,17 @@ public abstract class HitogoController implements LifecycleObserver {
     }
 
     @Nullable
-    public HitogoViewBuilder provideSimpleView(@NonNull HitogoViewBuilder builder) {
+    public ViewAlertBuilder provideSimpleView(@NonNull ViewAlertBuilder builder) {
         return null;
     }
 
     @Nullable
-    public HitogoDialogBuilder provideSimpleDialog(@NonNull HitogoDialogBuilder builder) {
+    public DialogAlertBuilder provideSimpleDialog(@NonNull DialogAlertBuilder builder) {
         return null;
     }
 
     @Nullable
-    public HitogoPopupBuilder provideSimplePopup(@NonNull HitogoPopupBuilder builder) {
+    public PopupAlertBuilder provideSimplePopup(@NonNull PopupAlertBuilder builder) {
         return null;
     }
 

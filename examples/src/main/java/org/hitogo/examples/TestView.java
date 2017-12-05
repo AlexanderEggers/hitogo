@@ -9,15 +9,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import org.hitogo.alert.core.HitogoAlert;
-import org.hitogo.alert.view.HitogoViewParams;
+import org.hitogo.alert.core.AlertImpl;
+import org.hitogo.alert.view.ViewAlertParams;
 
-public class TestView extends HitogoAlert<HitogoViewParams> {
+public class TestView extends AlertImpl<ViewAlertParams> {
 
     @Nullable
     @Override
     protected View onCreateView(@Nullable LayoutInflater inflater, @NonNull Context context,
-                                @NonNull HitogoViewParams params) {
+                                @NonNull ViewAlertParams params) {
         View v = inflater.inflate(getController().provideViewLayout(params.getState()), null);
         ((TextView) v.findViewById(R.id.text)).setText(params.getTextMap().valueAt(0));
         return v;
