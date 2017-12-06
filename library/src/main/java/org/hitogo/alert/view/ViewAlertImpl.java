@@ -59,7 +59,12 @@ public class ViewAlertImpl extends AlertImpl<ViewAlertParams> implements ViewAle
 
         if (params.getContainerId() != null && getRootView() != null) {
             View containerView = getRootView().findViewById(params.getContainerId());
-            if (containerView instanceof ViewGroup) {
+
+            if(containerView == null && getController().provideDefaultOverlayContainerId() != null) {
+                containerView = getRootView().findViewById(getController().provideDefaultOverlayContainerId());
+            }
+
+            if (containerView != null && containerView instanceof ViewGroup) {
                 viewGroup = (ViewGroup) containerView;
             } else {
                 viewGroup = null;
