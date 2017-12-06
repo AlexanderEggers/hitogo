@@ -55,7 +55,7 @@ public class MainActivity extends HitogoActivity {
                 .asDismissible(closeButton)
                 .addText("Test")
                 .setTitle("Test Title")
-                .asLayoutChild(R.id.container_layout)
+                .asLayoutChild(R.id.fake_id)
                 .addButton(button)
                 .consumeLayoutClick()
                 .addVisibilityListener(new VisibilityListener() {

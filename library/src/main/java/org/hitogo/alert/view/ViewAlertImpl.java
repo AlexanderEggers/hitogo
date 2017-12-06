@@ -61,12 +61,22 @@ public class ViewAlertImpl extends AlertImpl<ViewAlertParams> implements ViewAle
             View containerView = getRootView().findViewById(params.getContainerId());
 
             if(containerView == null && getController().provideDefaultOverlayContainerId() != null) {
+                Log.e(ViewAlertBuilder.class.getName(), "Cannot find container view. " +
+                        "Using default overlay container layout as fallback.");
                 containerView = getRootView().findViewById(getController().provideDefaultOverlayContainerId());
             }
 
-            if (containerView != null && containerView instanceof ViewGroup) {
+            if(containerView != null && !(containerView instanceof ViewGroup) &&
+                    (BuildConfig.DEBUG || getController().shouldOverrideDebugMode())) {
+                throw new InvalidParameterException("Your container view needs to be a ViewGroup. " +
+                        "Use for example the LinearLayout to solve this issue.");
+            }
+
+            if (containerView != null) {
                 viewGroup = (ViewGroup) containerView;
             } else {
+                Log.e(ViewAlertBuilder.class.getName(), "Cannot find overlay container view. " +
+                        "Using activity content view (layer) fallback.");
                 viewGroup = null;
             }
         }

@@ -55,6 +55,12 @@ public class AlertController extends HitogoController {
 
     @Nullable
     @Override
+    public Integer provideDefaultOverlayContainerId() {
+        return R.id.container_overview_layout;
+    }
+
+    @Nullable
+    @Override
     public Integer provideDefaultTitleViewId(AlertType type) {
         return R.id.title;
     }
