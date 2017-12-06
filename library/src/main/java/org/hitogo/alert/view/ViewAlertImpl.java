@@ -60,9 +60,15 @@ public class ViewAlertImpl extends AlertImpl<ViewAlertParams> implements ViewAle
         if (params.getContainerId() != null && getRootView() != null) {
             View containerView = getRootView().findViewById(params.getContainerId());
 
+            if(containerView == null && getController().provideDefaultLayoutContainerId() != null) {
+                Log.e(ViewAlertBuilder.class.getName(), "Cannot find container view. " +
+                        "Using default layout container view as fallback.");
+                containerView = getRootView().findViewById(getController().provideDefaultLayoutContainerId());
+            }
+
             if(containerView == null && getController().provideDefaultOverlayContainerId() != null) {
                 Log.e(ViewAlertBuilder.class.getName(), "Cannot find container view. " +
-                        "Using default overlay container layout as fallback.");
+                        "Using default overlay container view as fallback.");
                 containerView = getRootView().findViewById(getController().provideDefaultOverlayContainerId());
             }
 
