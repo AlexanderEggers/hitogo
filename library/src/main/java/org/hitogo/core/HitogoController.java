@@ -113,6 +113,11 @@ public abstract class HitogoController implements LifecycleObserver {
     private void internalShow(final LinkedList<AlertImpl> currentObjects, final AlertImpl newAlert,
                               final boolean force, final boolean showLater) {
 
+        boolean allowShow = checkNewAlert(currentObjects, newAlert);
+        if(!allowShow) {
+            return;
+        }
+
         currentObjects.addFirst(newAlert);
 
         if(showLater) {
@@ -138,6 +143,15 @@ public abstract class HitogoController implements LifecycleObserver {
         } else {
             newAlert.makeVisible(true);
         }
+    }
+
+    private boolean checkNewAlert(final LinkedList<AlertImpl> currentObjects, final AlertImpl newAlert) {
+        for(AlertImpl alert : currentObjects) {
+            if(alert.getTag().equals(newAlert.getTag())) {
+                return false;
+            }
+        }
+        return true;
     }
 
     public final long closeAll() {
