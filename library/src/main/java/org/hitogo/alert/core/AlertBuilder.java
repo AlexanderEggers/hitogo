@@ -3,15 +3,18 @@ package org.hitogo.alert.core;
 import android.os.Bundle;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.util.Log;
 import android.util.SparseArray;
 
 import org.hitogo.alert.view.ViewAlertBuilder;
 import org.hitogo.button.core.Button;
+import org.hitogo.core.Hitogo;
 import org.hitogo.core.HitogoContainer;
 import org.hitogo.core.HitogoController;
 
 import java.lang.ref.WeakReference;
+import java.security.InvalidParameterException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -39,6 +42,7 @@ public abstract class AlertBuilder<T, A extends Alert> {
     private String tag;
     private AlertType builderType;
     private Integer layoutRes;
+    private boolean isDismissible;
 
     public AlertBuilder(@NonNull Class<? extends AlertImpl> targetClass,
                         @NonNull Class<? extends AlertParams> paramClass,
@@ -75,6 +79,7 @@ public abstract class AlertBuilder<T, A extends Alert> {
         privateBundle.putSerializable(AlertParamsKeys.TYPE_KEY, builderType);
         privateBundle.putSerializable(AlertParamsKeys.STATE_KEY, state);
         privateBundle.putSerializable(AlertParamsKeys.LAYOUT_RES_KEY, layoutRes);
+        privateBundle.putBoolean(AlertParamsKeys.IS_DISMISSIBLE_KEY, isDismissible);
 
         holder.provideVisibilityListener(visibilityListener);
         holder.provideTextMap(textMap);
@@ -83,6 +88,33 @@ public abstract class AlertBuilder<T, A extends Alert> {
     }
 
     protected abstract void onProvideData(AlertParamsHolder holder);
+
+    @NonNull
+    public T asDismissible(@Nullable Button closeButton) {
+        this.isDismissible = true;
+
+        if (closeButton != null) {
+            this.closeButton = closeButton;
+        }
+        return (T) this;
+    }
+
+    @NonNull
+    public T asDismissible() {
+        this.isDismissible = true;
+
+        try {
+            this.closeButton = Hitogo.with(getContainer())
+                    .asActionButton()
+                    .forViewAction()
+                    .build();
+        } catch (InvalidParameterException ex) {
+            Log.e(ViewAlertBuilder.class.getName(), "Cannot add default close button.");
+            Log.e(ViewAlertBuilder.class.getName(), "Reason: " + ex.getMessage());
+        }
+
+        return (T) this;
+    }
 
     @NonNull
     public final T setController(HitogoController controller) {
@@ -146,12 +178,6 @@ public abstract class AlertBuilder<T, A extends Alert> {
     @NonNull
     public final T addButton(@NonNull Button... buttons) {
         Collections.addAll(this.buttons, buttons);
-        return (T) this;
-    }
-
-    @NonNull
-    protected final T addCloseButton(@NonNull Button closeButton) {
-        this.closeButton = closeButton;
         return (T) this;
     }
 

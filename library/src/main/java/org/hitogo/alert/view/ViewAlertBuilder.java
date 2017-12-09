@@ -2,13 +2,8 @@ package org.hitogo.alert.view;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.util.Log;
-
-import java.security.InvalidParameterException;
 
 import org.hitogo.core.HitogoAnimation;
-import org.hitogo.button.core.Button;
-import org.hitogo.core.Hitogo;
 import org.hitogo.alert.core.AlertBuilder;
 import org.hitogo.core.HitogoContainer;
 import org.hitogo.alert.core.AlertImpl;
@@ -24,7 +19,6 @@ public class ViewAlertBuilder extends AlertBuilder<ViewAlertBuilder, ViewAlert> 
     private Integer containerId;
     private Integer innerLayoutViewId;
 
-    private boolean isDismissible;
     private boolean closeOthers;
     private boolean dismissByClick;
 
@@ -64,33 +58,6 @@ public class ViewAlertBuilder extends AlertBuilder<ViewAlertBuilder, ViewAlert> 
     @NonNull
     public ViewAlertBuilder withoutAnimations() {
         this.animation = null;
-        return this;
-    }
-
-    @NonNull
-    public ViewAlertBuilder asDismissible(@Nullable Button closeButton) {
-        this.isDismissible = true;
-
-        if (closeButton != null) {
-            return super.addCloseButton(closeButton);
-        }
-        return this;
-    }
-
-    @NonNull
-    public ViewAlertBuilder asDismissible() {
-        this.isDismissible = true;
-
-        try {
-            return super.addCloseButton(Hitogo.with(getContainer())
-                    .asActionButton()
-                    .forViewAction()
-                    .build());
-        } catch (InvalidParameterException ex) {
-            Log.e(ViewAlertBuilder.class.getName(), "Cannot add default close button.");
-            Log.e(ViewAlertBuilder.class.getName(), "Reason: " + ex.getMessage());
-        }
-
         return this;
     }
 
@@ -189,7 +156,6 @@ public class ViewAlertBuilder extends AlertBuilder<ViewAlertBuilder, ViewAlert> 
     protected void onProvideData(AlertParamsHolder holder) {
         holder.provideInteger(ViewAlertParamsKeys.CONTAINER_ID_KEY, containerId);
         holder.provideInteger(ViewAlertParamsKeys.INNER_LAYOUT_VIEW_ID_KEY, innerLayoutViewId);
-        holder.provideBoolean(ViewAlertParamsKeys.IS_DISMISSIBLE_KEY, isDismissible);
         holder.provideBoolean(ViewAlertParamsKeys.CLOSE_OTHERS_KEY, closeOthers);
         holder.provideBoolean(ViewAlertParamsKeys.DISMISS_BY_CLICK_KEY, dismissByClick);
 
