@@ -15,11 +15,11 @@ repositories {
 }
 
 dependencies {
-  compile 'org.hitogo:Hitogo:1.0.0-beta9.1'
+  compile 'org.hitogo:Hitogo:1.0.0-beta10'
 }
 ```
 
-How do I use Hitogo? (Step-by-step introduction for 1.0.0-beta9.1)
+How do I use Hitogo? (Step-by-step introduction for 1.0.0-beta10)
 -------------------
 
 1. Extend the HitogoController
