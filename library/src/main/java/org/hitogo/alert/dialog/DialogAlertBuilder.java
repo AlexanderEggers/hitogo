@@ -19,18 +19,11 @@ public class DialogAlertBuilder extends AlertBuilder<DialogAlertBuilder, DialogA
     private static final AlertType type = AlertType.DIALOG;
 
     private Integer dialogThemeResId;
-    private boolean isDismissible;
 
     public DialogAlertBuilder(@NonNull Class<? extends AlertImpl> targetClass,
                               @NonNull Class<? extends AlertParams> paramClass,
                               @NonNull HitogoContainer container) {
         super(targetClass, paramClass, container, type);
-    }
-
-    @NonNull
-    public DialogAlertBuilder asDismissible() {
-        this.isDismissible = true;
-        return this;
     }
 
     @NonNull
@@ -68,6 +61,5 @@ public class DialogAlertBuilder extends AlertBuilder<DialogAlertBuilder, DialogA
     @Override
     protected void onProvideData(AlertParamsHolder holder) {
         holder.provideInteger(DialogAlertParamsKeys.DIALOG_THEME_RES_ID, dialogThemeResId);
-        holder.provideBoolean(DialogAlertParamsKeys.IS_DISMISSIBLE_KEY, isDismissible);
     }
 }

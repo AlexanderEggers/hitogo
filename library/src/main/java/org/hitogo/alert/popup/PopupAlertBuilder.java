@@ -35,7 +35,6 @@ public class PopupAlertBuilder extends AlertBuilder<PopupAlertBuilder, PopupAler
 
     private Float elevation;
     private String anchorViewTag;
-    private boolean isDismissible;
 
     private Transition enterTransition;
     private Transition exitTransition;
@@ -45,12 +44,6 @@ public class PopupAlertBuilder extends AlertBuilder<PopupAlertBuilder, PopupAler
                              @NonNull Class<? extends AlertParams> paramClass,
                              @NonNull HitogoContainer container) {
         super(targetClass, paramClass, container, type);
-    }
-
-    @NonNull
-    public PopupAlertBuilder asDismissible() {
-        this.isDismissible = true;
-        return this;
     }
 
     @NonNull
@@ -183,7 +176,6 @@ public class PopupAlertBuilder extends AlertBuilder<PopupAlertBuilder, PopupAler
 
         holder.provideFloat(PopupAlertParamsKeys.ELEVATION_KEY, elevation);
         holder.provideString(PopupAlertParamsKeys.ANCHOR_VIEW_TAG_KEY, anchorViewTag);
-        holder.provideBoolean(PopupAlertParamsKeys.IS_DISMISSIBLE_KEY, isDismissible);
 
         holder.provideTransition(enterTransition);
         holder.provideTransition(exitTransition);
