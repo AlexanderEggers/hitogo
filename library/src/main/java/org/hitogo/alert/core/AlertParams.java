@@ -22,7 +22,6 @@ public abstract class AlertParams extends HitogoParams<AlertParamsHolder, AlertP
     private SparseArray<String> textMap;
 
     private Integer layoutRes;
-    private int hashCode;
     private Integer titleViewId;
     private Integer state;
 
@@ -44,7 +43,6 @@ public abstract class AlertParams extends HitogoParams<AlertParamsHolder, AlertP
         textMap = holder.getTextMap();
 
         layoutRes = (Integer) privateBundle.getSerializable(AlertParamsKeys.LAYOUT_RES_KEY);
-        hashCode = privateBundle.getInt(AlertParamsKeys.HASH_CODE_KEY);
         titleViewId = (Integer) privateBundle.getSerializable(AlertParamsKeys.TITLE_VIEW_ID_KEY);
         state = (Integer) privateBundle.getSerializable(AlertParamsKeys.STATE_KEY);
 
@@ -74,10 +72,6 @@ public abstract class AlertParams extends HitogoParams<AlertParamsHolder, AlertP
 
     public final boolean hasAnimation() {
         return animation != null;
-    }
-
-    public final int getHashCode() {
-        return hashCode;
     }
 
     public boolean isClosingOthers() {
@@ -112,8 +106,9 @@ public abstract class AlertParams extends HitogoParams<AlertParamsHolder, AlertP
         return buttons != null ? buttons : new ArrayList<Button>();
     }
 
+    @NonNull
     public final SparseArray<String> getTextMap() {
-        return textMap;
+        return textMap != null ? textMap : new SparseArray<String>();
     }
 
     public final Bundle getArguments() {

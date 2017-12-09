@@ -5,7 +5,6 @@ import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
-import android.text.Html;
 import android.util.Log;
 import android.util.SparseArray;
 import android.view.LayoutInflater;
@@ -29,7 +28,7 @@ public class PopupAlertImpl extends AlertImpl<PopupAlertParams> implements Popup
 
     @Override
     protected void onCheck(@NonNull HitogoController controller, @NonNull PopupAlertParams params) {
-        if (params.getTextMap() == null || params.getTextMap().size() == 0) {
+        if (params.getTextMap().size() == 0) {
             throw new InvalidParameterException("You need to add a text to this alert.");
         }
 
@@ -87,7 +86,7 @@ public class PopupAlertImpl extends AlertImpl<PopupAlertParams> implements Popup
                 window.setEnterTransition(params.getEnterTransition());
             }
 
-            if(params.getEnterTransition() != null && Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if(params.getExitTransition() != null && Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 window.setExitTransition(params.getExitTransition());
             }
 
@@ -130,14 +129,9 @@ public class PopupAlertImpl extends AlertImpl<PopupAlertParams> implements Popup
         if (viewId != null) {
             TextView textView = containerView.findViewById(viewId);
             if (textView != null) {
-                if (chars != null && HitogoUtils.isNotEmpty(chars)) {
+                if (HitogoUtils.isNotEmpty(chars)) {
                     textView.setVisibility(View.VISIBLE);
-
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                        textView.setText(Html.fromHtml(chars, Html.FROM_HTML_MODE_LEGACY));
-                    } else {
-                        textView.setText(Html.fromHtml(chars));
-                    }
+                    textView.setText(HitogoUtils.getText(chars));
                 } else {
                     textView.setVisibility(View.GONE);
                 }
@@ -157,8 +151,7 @@ public class PopupAlertImpl extends AlertImpl<PopupAlertParams> implements Popup
             View button = containerView.findViewById(callToActionButton.getParams().getViewIds()[0]);
             if (button != null) {
                 if (button instanceof TextView) {
-                    ((TextView) button).setText(callToActionButton.getParams().getText() != null ?
-                            callToActionButton.getParams().getText() : "");
+                    HitogoUtils.getText(callToActionButton.getParams().getText());
                 }
 
                 button.setVisibility(View.VISIBLE);

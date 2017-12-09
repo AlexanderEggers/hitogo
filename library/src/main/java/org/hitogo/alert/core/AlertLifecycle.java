@@ -30,7 +30,7 @@ abstract class AlertLifecycle<T extends AlertParams> {
     }
 
     @Nullable
-    protected View onCreateView(@Nullable LayoutInflater inflater, @NonNull Context context,
+    protected View onCreateView(@NonNull LayoutInflater inflater, @NonNull Context context,
                                 @NonNull T params) {
         return null;
     }

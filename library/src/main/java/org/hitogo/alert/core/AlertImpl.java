@@ -5,7 +5,6 @@ import android.arch.lifecycle.Lifecycle;
 import android.content.Context;
 import android.os.Handler;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.PopupWindow;
@@ -14,6 +13,7 @@ import org.hitogo.BuildConfig;
 import org.hitogo.alert.view.ViewAlertParams;
 import org.hitogo.core.HitogoContainer;
 import org.hitogo.core.HitogoController;
+import org.hitogo.core.HitogoUtils;
 
 import java.lang.ref.WeakReference;
 
@@ -55,6 +55,7 @@ public abstract class AlertImpl<T extends AlertParams> extends AlertLifecycle<T>
     private String tag;
 
     private int hashCode;
+    private int state;
 
     private AlertType type;
     private VisibilityListener listener;
@@ -80,12 +81,13 @@ public abstract class AlertImpl<T extends AlertParams> extends AlertLifecycle<T>
     final AlertImpl<T> create(final @NonNull HitogoContainer container, final @NonNull T params) {
         this.containerRef = new WeakReference<>(container);
         this.params = params;
-        this.hashCode = params.getHashCode();
+        this.hashCode = HitogoUtils.getAlertHashCode(params);
         this.closeOthers = params.isClosingOthers();
         this.hasAnimation = params.hasAnimation();
         this.type = params.getType();
         this.tag = params.getTag();
         this.listener = params.getVisibilityListener();
+        this.state = params.getState() != null ? params.getState() : -1;
 
         if (BuildConfig.DEBUG || getController().shouldOverrideDebugMode()) {
             onCheck(params);
@@ -227,11 +229,11 @@ public abstract class AlertImpl<T extends AlertParams> extends AlertLifecycle<T>
     }
 
     public final void close() {
-        getController().closeByTag(tag);
+        getController().closeByAlert(this);
     }
 
     public final void close(final boolean force) {
-        getController().closeByTag(tag, force);
+        getController().closeByAlert(this, force);
     }
 
     public long getAnimationDuration() {
@@ -258,52 +260,42 @@ public abstract class AlertImpl<T extends AlertParams> extends AlertLifecycle<T>
         return closeOthers;
     }
 
-    @NonNull
     public final Context getContext() {
         return containerRef.get().getActivity();
     }
 
-    @NonNull
     public final HitogoContainer getContainer() {
         return containerRef.get();
     }
 
-    @NonNull
     public final HitogoController getController() {
         return containerRef.get().getController();
     }
 
-    @NonNull
     public final AlertType getType() {
         return type;
     }
 
-    @NonNull
     public final T getParams() {
         return params;
     }
 
-    @NonNull
     public final String getTag() {
         return tag;
     }
 
-    @Nullable
     public final View getRootView() {
         return containerRef.get().getView();
     }
 
-    @Nullable
     public final View getView() {
         return view;
     }
 
-    @Nullable
     public final Dialog getDialog() {
         return dialog;
     }
 
-    @Nullable
     public PopupWindow getPopup() {
         return popup;
     }
@@ -313,8 +305,12 @@ public abstract class AlertImpl<T extends AlertParams> extends AlertLifecycle<T>
         return hashCode;
     }
 
+    public int getState() {
+        return state;
+    }
+
     @Override
     public final boolean equals(final Object obj) {
-        return obj != null && obj instanceof AlertImpl && this.hashCode == obj.hashCode();
+        return obj != null && obj instanceof Alert && hashCode() == obj.hashCode();
     }
 }

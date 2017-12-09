@@ -25,15 +25,13 @@ import java.util.List;
 @SuppressWarnings({"WeakerAccess", "unused"})
 public class DialogAlertImpl extends AlertImpl<DialogAlertParams> implements DialogAlert {
 
-    private DialogAlertParams params;
-
     @Override
     protected void onCheck(@NonNull DialogAlertParams params) {
         if (params.getTitle() == null || params.getTitle().isEmpty()) {
             Log.i(ViewAlertBuilder.class.getName(), "Title parameter is empty.");
         }
 
-        if (params.getTextMap() == null || params.getTextMap().size() == 0) {
+        if (params.getTextMap().size() == 0) {
             throw new InvalidParameterException("You need to add a text to this dialog.");
         }
 
@@ -51,7 +49,6 @@ public class DialogAlertImpl extends AlertImpl<DialogAlertParams> implements Dia
     @Override
     protected Dialog onCreateDialog(@Nullable LayoutInflater inflater, @NonNull Context context,
                                     @NonNull DialogAlertParams params) {
-        this.params = params;
         List<Button> buttonList = params.getButtons();
         Integer themeResId = params.getDialogThemeResId();
 
@@ -75,20 +72,20 @@ public class DialogAlertImpl extends AlertImpl<DialogAlertParams> implements Dia
     private AlertDialog.Builder generateDialog(AlertDialog.Builder builder, LayoutInflater inflater,
                                                List<Button> buttonList) {
         View view = null;
-        if(params.getLayoutRes() != null && params.getLayoutRes() != 0) {
-            view = inflater.inflate(params.getLayoutRes(), null);
-        } else if (params.getState() != null) {
-            view = inflater.inflate(getController().provideDialogLayout(params.getState()), null);
+        if(getParams().getLayoutRes() != null && getParams().getLayoutRes() != 0) {
+            view = inflater.inflate(getParams().getLayoutRes(), null);
+        } else if (getParams().getState() != null) {
+            view = inflater.inflate(getController().provideDialogLayout(getParams().getState()), null);
         }
-        builder.setCancelable(!params.isDismissible());
+        builder.setCancelable(!getParams().isDismissible());
 
-        if (view != null && params.getTitleViewId() != null) {
-            ((TextView) view.findViewById(params.getTitleViewId())).setText(params.getTitle());
+        if (view != null && getParams().getTitleViewId() != null) {
+            ((TextView) view.findViewById(getParams().getTitleViewId())).setText(getParams().getTitle());
         } else {
-            builder.setTitle(params.getTitle());
+            builder.setTitle(getParams().getTitle());
         }
 
-        SparseArray<String> textMap = params.getTextMap();
+        SparseArray<String> textMap = getParams().getTextMap();
         if (view != null) {
             for(int i = 0; i < textMap.size(); i++) {
                 Integer viewId = textMap.keyAt(i);
@@ -114,14 +111,13 @@ public class DialogAlertImpl extends AlertImpl<DialogAlertParams> implements Dia
     }
 
     private void buildCallToActionButtons(@NonNull View dialogView) {
-        for (Button buttonObject : params.getButtons()) {
+        for (Button buttonObject : getParams().getButtons()) {
             final ActionButton callToActionButton = (ActionButton) buttonObject;
 
             View button = dialogView.findViewById(callToActionButton.getParams().getViewIds()[0]);
             if (button != null) {
                 if (button instanceof TextView) {
-                    ((TextView) button).setText(callToActionButton.getParams().getText() != null ?
-                            callToActionButton.getParams().getText() : "");
+                    HitogoUtils.getText(callToActionButton.getParams().getText());
                 }
 
                 button.setVisibility(View.VISIBLE);
@@ -143,8 +139,7 @@ public class DialogAlertImpl extends AlertImpl<DialogAlertParams> implements Dia
 
     private void generateDefaultButtons(AlertDialog.Builder builder, List<Button> buttonList) {
         final ActionButton positiveButton = (ActionButton) buttonList.get(0);
-        if (positiveButton.getParams().getText() != null && HitogoUtils.isNotEmpty(
-                positiveButton.getParams().getText())) {
+        if (HitogoUtils.isNotEmpty(positiveButton.getParams().getText())) {
             builder.setPositiveButton(positiveButton.getParams().getText(), new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int id) {
@@ -156,8 +151,7 @@ public class DialogAlertImpl extends AlertImpl<DialogAlertParams> implements Dia
 
         if (buttonList.size() > 1) {
             final ActionButton negativeButton = (ActionButton) buttonList.get(1);
-            if (negativeButton.getParams().getText() != null && HitogoUtils.isNotEmpty(
-                    negativeButton.getParams().getText())) {
+            if (HitogoUtils.isNotEmpty(negativeButton.getParams().getText())) {
                 builder.setNegativeButton(negativeButton.getParams().getText(), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int id) {
@@ -170,8 +164,7 @@ public class DialogAlertImpl extends AlertImpl<DialogAlertParams> implements Dia
 
         if (buttonList.size() > 2) {
             final ActionButton neutralButton = (ActionButton) buttonList.get(2);
-            if (neutralButton.getParams().getText() != null && HitogoUtils.isNotEmpty(
-                    neutralButton.getParams().getText())) {
+            if (HitogoUtils.isNotEmpty(neutralButton.getParams().getText())) {
                 builder.setNeutralButton(neutralButton.getParams().getText(), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int id) {

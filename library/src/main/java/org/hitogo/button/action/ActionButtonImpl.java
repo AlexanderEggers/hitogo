@@ -31,4 +31,14 @@ public class ActionButtonImpl extends ButtonImpl<ActionButtonParams> implements 
             }
         }
     }
+
+    @Override
+    public final boolean equals(final Object obj) {
+        return obj != null && obj instanceof ActionButtonImpl && hashCode() == obj.hashCode();
+    }
+
+    @Override
+    public int hashCode() {
+        return getParams().getText() != null ? getParams().getText().hashCode() : 0;
+    }
 }

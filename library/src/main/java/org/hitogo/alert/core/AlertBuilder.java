@@ -37,7 +37,6 @@ public abstract class AlertBuilder<T, A extends Alert> {
     private Bundle arguments;
     private Integer state;
     private String tag;
-    private int hashCode;
     private AlertType builderType;
     private Integer layoutRes;
 
@@ -54,23 +53,6 @@ public abstract class AlertBuilder<T, A extends Alert> {
     @NonNull
     @SuppressWarnings("unchecked")
     public final A build() {
-        if (tag != null) {
-            hashCode = tag.hashCode();
-        } else {
-            StringBuilder builder = new StringBuilder();
-
-            for (int i = 0; i < textMap.size(); i++) {
-                builder.append(textMap.valueAt(i));
-
-                if (i + 1 < textMap.size()) {
-                    builder.append(" ");
-                }
-            }
-
-            tag = builder.toString();
-            hashCode = tag.hashCode();
-        }
-
         onProvideData(holder);
         onProvidePrivateData(holder);
 
@@ -89,7 +71,6 @@ public abstract class AlertBuilder<T, A extends Alert> {
         privateBundle.putString(AlertParamsKeys.TITLE_KEY, title);
         privateBundle.putSerializable(AlertParamsKeys.TITLE_VIEW_ID_KEY, titleViewId);
         privateBundle.putString(AlertParamsKeys.TAG_KEY, tag);
-        privateBundle.putInt(AlertParamsKeys.HASH_CODE_KEY, hashCode);
         privateBundle.putBundle(AlertParamsKeys.ARGUMENTS_KEY, arguments);
         privateBundle.putSerializable(AlertParamsKeys.TYPE_KEY, builderType);
         privateBundle.putSerializable(AlertParamsKeys.STATE_KEY, state);
@@ -169,7 +150,7 @@ public abstract class AlertBuilder<T, A extends Alert> {
     }
 
     @NonNull
-    public final T addCloseButton(@NonNull Button closeButton) {
+    protected final T addCloseButton(@NonNull Button closeButton) {
         this.closeButton = closeButton;
         return (T) this;
     }

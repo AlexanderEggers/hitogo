@@ -23,17 +23,15 @@ public interface Alert<T extends AlertParams> {
 
     int hashCode();
 
+    int getState();
+
     boolean equals(final Object obj);
 
-    @NonNull
     AlertType getType();
 
-    @NonNull
     T getParams();
 
-    @NonNull
     String getTag();
 
-    @NonNull
     Context getContext();
 }

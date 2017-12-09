@@ -25,7 +25,7 @@ public class ViewAlertBuilder extends AlertBuilder<ViewAlertBuilder, ViewAlert> 
     private Integer innerLayoutViewId;
 
     private boolean isDismissible;
-    private boolean closeOthers = true;
+    private boolean closeOthers;
     private boolean dismissByClick;
 
     private HitogoAnimation animation;
@@ -170,10 +170,10 @@ public class ViewAlertBuilder extends AlertBuilder<ViewAlertBuilder, ViewAlert> 
     }
 
     public final void showLater(boolean showLater) {
-        if (!showLater) {
-            show(false);
-        } else {
+        if (showLater) {
             build().showLater(true);
+        } else {
+            show(false);
         }
     }
 

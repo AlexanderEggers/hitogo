@@ -2,10 +2,8 @@ package org.hitogo.alert.view;
 
 import android.app.Activity;
 import android.content.Context;
-import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.text.Html;
 import android.util.Log;
 import android.util.SparseArray;
 import android.view.LayoutInflater;
@@ -32,7 +30,7 @@ public class ViewAlertImpl extends AlertImpl<ViewAlertParams> implements ViewAle
 
     @Override
     protected void onCheck(@NonNull HitogoController controller, @NonNull ViewAlertParams params) {
-        if (params.getTextMap() == null || params.getTextMap().size() == 0) {
+        if (params.getTextMap().size() == 0) {
             throw new InvalidParameterException("You need to add a text to this alert.");
         }
 
@@ -60,16 +58,18 @@ public class ViewAlertImpl extends AlertImpl<ViewAlertParams> implements ViewAle
         if (params.getContainerId() != null && getRootView() != null) {
             View containerView = getRootView().findViewById(params.getContainerId());
 
-            if(containerView == null && getController().provideDefaultLayoutContainerId() != null) {
+            Integer layoutContainerId = getController().provideDefaultOverlayContainerId();
+            if(containerView == null && layoutContainerId != null) {
                 Log.e(ViewAlertBuilder.class.getName(), "Cannot find container view. " +
                         "Using default layout container view as fallback.");
-                containerView = getRootView().findViewById(getController().provideDefaultLayoutContainerId());
+                containerView = getRootView().findViewById(layoutContainerId);
             }
 
-            if(containerView == null && getController().provideDefaultOverlayContainerId() != null) {
+            Integer overlayContainerId = getController().provideDefaultOverlayContainerId();
+            if(containerView == null && overlayContainerId != null) {
                 Log.e(ViewAlertBuilder.class.getName(), "Cannot find container view. " +
                         "Using default overlay container view as fallback.");
-                containerView = getRootView().findViewById(getController().provideDefaultOverlayContainerId());
+                containerView = getRootView().findViewById(overlayContainerId);
             }
 
             if(containerView != null && !(containerView instanceof ViewGroup) &&
@@ -78,7 +78,7 @@ public class ViewAlertImpl extends AlertImpl<ViewAlertParams> implements ViewAle
                         "Use for example the LinearLayout to solve this issue.");
             }
 
-            if (containerView != null) {
+            if (containerView != null && containerView instanceof ViewGroup) {
                 viewGroup = (ViewGroup) containerView;
             } else {
                 Log.e(ViewAlertBuilder.class.getName(), "Cannot find overlay container view. " +
@@ -89,7 +89,7 @@ public class ViewAlertImpl extends AlertImpl<ViewAlertParams> implements ViewAle
     }
 
     @Override
-    protected View onCreateView(@Nullable LayoutInflater inflater, @NonNull Context context,
+    protected View onCreateView(@NonNull LayoutInflater inflater, @NonNull Context context,
                                              @NonNull ViewAlertParams params) {
 
         View view = null;
@@ -145,21 +145,15 @@ public class ViewAlertImpl extends AlertImpl<ViewAlertParams> implements ViewAle
             if (textView != null) {
                 if (chars != null && HitogoUtils.isNotEmpty(chars)) {
                     textView.setVisibility(View.VISIBLE);
-
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                        textView.setText(Html.fromHtml(chars, Html.FROM_HTML_MODE_LEGACY));
-                    } else {
-                        textView.setText(Html.fromHtml(chars));
-                    }
+                    textView.setText(HitogoUtils.getText(chars));
                 } else {
                     textView.setVisibility(View.GONE);
                 }
             } else if(BuildConfig.DEBUG || getController().shouldOverrideDebugMode()) {
-                throw new InvalidParameterException("Did you forget to add the " +
-                        "title/text view to your layout?");
+                throw new InvalidParameterException("Did you forget to add the view to your layout?");
             }
         } else if(BuildConfig.DEBUG || getController().shouldOverrideDebugMode()) {
-            throw new InvalidParameterException("Title or text view id is null.");
+            throw new InvalidParameterException("View id is null.");
         }
     }
 
@@ -170,8 +164,7 @@ public class ViewAlertImpl extends AlertImpl<ViewAlertParams> implements ViewAle
             View button = containerView.findViewById(callToActionButton.getParams().getViewIds()[0]);
             if (button != null) {
                 if (button instanceof TextView) {
-                    ((TextView) button).setText(callToActionButton.getParams().getText() != null ?
-                            callToActionButton.getParams().getText() : "");
+                    ((TextView) button).setText(HitogoUtils.getText(callToActionButton.getParams().getText()));
                 }
 
                 button.setVisibility(android.view.View.VISIBLE);
@@ -200,6 +193,10 @@ public class ViewAlertImpl extends AlertImpl<ViewAlertParams> implements ViewAle
             final View removeClick = containerView.findViewById(closeButton.getParams().getViewIds()[1]);
 
             if (removeIcon != null && removeClick != null) {
+                if (removeIcon instanceof TextView) {
+                    ((TextView) removeIcon).setText(HitogoUtils.getText(closeButton.getParams().getText()));
+                }
+
                 removeIcon.setVisibility(isDismissible ? View.VISIBLE : View.GONE);
                 removeClick.setVisibility(isDismissible ? View.VISIBLE : View.GONE);
                 removeClick.setOnClickListener(new android.view.View.OnClickListener() {
