@@ -15,11 +15,11 @@ repositories {
 }
 
 dependencies {
-  compile 'org.hitogo:Hitogo:1.0.0-beta10'
+  compile 'org.hitogo:Hitogo:1.0.0-beta11'
 }
 ```
 
-How do I use Hitogo? (Step-by-step introduction for 1.0.0-beta10)
+How do I use Hitogo? (Step-by-step introduction for 1.0.0-beta11)
 -------------------
 
 1. Extend the HitogoController
@@ -112,7 +112,7 @@ public void someMethod() {
   ...
        ActionButton button = Hitogo.with(this)
                 .asActionButton()
-                .listenWith(new ButtonListener() {
+                .setButtonListener(new ButtonListener() {
                     @Override
                     public void onClick() {
                         testOnClick();
@@ -124,7 +124,7 @@ public void someMethod() {
 
         ActionButton closeButton = Hitogo.with(this)
                 .asActionButton()
-                .listenWith(new ButtonListener() {
+                .setButtonListener(new ButtonListener() {
                     @Override
                     public void onClick() {
                         getController().closeAll(true);
@@ -139,22 +139,22 @@ public void someMethod() {
                 .asDismissible(closeButton)
                 .addText("Test")
                 .asLayoutChild(R.id.container_layout)
-                .addActionButton(button)
-                .consumeLayoutClick()
-                .addVisibilityListener(new VisibilityListener() {
+                .addButton(button)
+                .dismissByClick(false)
+                .setVisibilityListener(new VisibilityListener() {
                     @Override
                     public void onCreate(Alert object) {
-                        Log.i(MainActivity.class.getName(), "Creating Hitogo");
+                        Log.i(MainActivity.class.getName(), "Creating Alert");
                     }
                 
                     @Override
                     public void onShow(Alert object) {
-                        Log.i(MainActivity.class.getName(), "Showing Hitogo");
+                        Log.i(MainActivity.class.getName(), "Showing Alert");
                     }
 
                     @Override
                     public void onClose(Alert object) {
-                        Log.i(MainActivity.class.getName(), "Closing Hitogo");
+                        Log.i(MainActivity.class.getName(), "Closing Alert");
                     }
                 })
                 .setState(HitogoDefaultController.HINT)
@@ -167,7 +167,7 @@ public void someMethod() {
   ...
        ActionButton button = Hitogo.with(this)
                 .asActionButton()
-                .listenWith(new HitogoButtonListener() {
+                .setButtonListener(new HitogoButtonListener() {
                     @Override
                     public void onClick() {
                         testClick();
