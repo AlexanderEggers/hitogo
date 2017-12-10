@@ -2,6 +2,7 @@ package org.hitogo.alert.popup;
 
 import android.support.annotation.DrawableRes;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 import android.transition.Transition;
 import android.view.View;
@@ -12,6 +13,7 @@ import org.hitogo.alert.core.AlertBuilder;
 import org.hitogo.alert.core.AlertParams;
 import org.hitogo.alert.core.AlertParamsHolder;
 import org.hitogo.alert.core.AlertType;
+import org.hitogo.button.core.Button;
 import org.hitogo.core.HitogoContainer;
 
 import static android.os.Build.VERSION_CODES.KITKAT;
@@ -55,6 +57,16 @@ public class PopupAlertBuilder extends AlertBuilder<PopupAlertBuilder, PopupAler
     @NonNull
     public PopupAlertBuilder asDismissible(boolean isDismissible) {
         this.isDismissible = isDismissible;
+        return this;
+    }
+
+    @NonNull
+    public PopupAlertBuilder asDismissible(@Nullable Button closeButton) {
+        this.isDismissible = true;
+
+        if (closeButton != null) {
+            return super.setCloseButton(closeButton);
+        }
         return this;
     }
 

@@ -98,7 +98,8 @@ public class DialogAlertImpl extends AlertImpl<DialogAlertParams> implements Dia
 
         ActionButton testButton = (ActionButton) buttonList.get(0);
         if (view != null && testButton.getParams().hasActionView()) {
-            buildCallToActionButtons(view);
+            buildLayoutButtons(view);
+            buildCloseButtons(view);
         } else {
             generateDefaultButtons(builder, buttonList);
         }
@@ -110,7 +111,7 @@ public class DialogAlertImpl extends AlertImpl<DialogAlertParams> implements Dia
         return builder;
     }
 
-    private void buildCallToActionButtons(@NonNull View dialogView) {
+    private void buildLayoutButtons(@NonNull View dialogView) {
         for (Button buttonObject : getParams().getButtons()) {
             final ActionButton callToActionButton = (ActionButton) buttonObject;
 
@@ -133,6 +134,34 @@ public class DialogAlertImpl extends AlertImpl<DialogAlertParams> implements Dia
             } else if(BuildConfig.DEBUG || getController().shouldOverrideDebugMode()) {
                 throw new InvalidParameterException("Did you forget to add the " +
                         "call-to-action button to your layout?");
+            }
+        }
+    }
+
+    private void buildCloseButtons(@NonNull View dialogView) {
+        final ActionButton closeButton = (ActionButton) getParams().getCloseButton();
+
+        if(closeButton != null) {
+            final View removeIcon = dialogView.findViewById(closeButton.getParams().getViewIds()[0]);
+            final View removeClick = dialogView.findViewById(closeButton.getParams().getViewIds()[1]);
+
+            if (removeIcon != null && removeClick != null) {
+                if (removeIcon instanceof TextView) {
+                    ((TextView) removeIcon).setText(HitogoUtils.getText(closeButton.getParams().getText()));
+                }
+
+                removeIcon.setVisibility(View.VISIBLE);
+                removeClick.setVisibility(View.VISIBLE);
+                removeClick.setOnClickListener(new android.view.View.OnClickListener() {
+                    @Override
+                    public void onClick(android.view.View v) {
+                        closeButton.getParams().getListener().onClick();
+                        close();
+                    }
+                });
+            } else if(BuildConfig.DEBUG || getController().shouldOverrideDebugMode()) {
+                throw new InvalidParameterException("Did you forget to add the close button to " +
+                        "your layout?");
             }
         }
     }

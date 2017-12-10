@@ -9,7 +9,6 @@ public class ViewAlertParams extends AlertParams {
     private Integer containerId;
     private Integer innerLayoutViewId;
 
-    private boolean isDismissible;
     private boolean closeOthers;
     private boolean dismissByClick;
 
@@ -18,7 +17,6 @@ public class ViewAlertParams extends AlertParams {
         containerId = holder.getInteger(ViewAlertParamsKeys.CONTAINER_ID_KEY);
         innerLayoutViewId = holder.getInteger(ViewAlertParamsKeys.INNER_LAYOUT_VIEW_ID_KEY);
 
-        isDismissible = holder.getBoolean(ViewAlertParamsKeys.IS_DISMISSIBLE_KEY);
         closeOthers = holder.getBoolean(ViewAlertParamsKeys.CLOSE_OTHERS_KEY);
         dismissByClick = holder.getBoolean(ViewAlertParamsKeys.DISMISS_BY_CLICK_KEY);
     }
@@ -36,12 +34,8 @@ public class ViewAlertParams extends AlertParams {
         return closeOthers;
     }
 
-    protected boolean isDismissible() {
-        return isDismissible;
-    }
-
     @Override
-    public boolean consumeLayoutClick() {
+    public boolean dismissByClick() {
         return dismissByClick;
     }
 }

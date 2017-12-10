@@ -69,8 +69,9 @@ public class PopupAlertImpl extends AlertImpl<PopupAlertParams> implements Popup
         }
 
         if (view != null) {
-            buildLayoutContent(params, view);
-            buildCallToActionButtons(params, view);
+            buildLayoutContent(view);
+            buildLayoutButtons(view);
+            buildCloseButtons(view);
 
             PopupWindow window = new PopupWindow(view, params.getWidth(), params.getHeight());
 
@@ -110,12 +111,12 @@ public class PopupAlertImpl extends AlertImpl<PopupAlertParams> implements Popup
         return null;
     }
 
-    private void buildLayoutContent(@NonNull PopupAlertParams params, @NonNull View containerView) {
-        if (params.getTitleViewId() != null) {
-            setViewString(containerView, params.getTitleViewId(), params.getTitle());
+    private void buildLayoutContent(@NonNull View containerView) {
+        if (getParams().getTitleViewId() != null) {
+            setViewString(containerView, getParams().getTitleViewId(), getParams().getTitle());
         }
 
-        SparseArray<String> textMap = params.getTextMap();
+        SparseArray<String> textMap = getParams().getTextMap();
         for (int i = 0; i < textMap.size(); i++) {
             Integer viewId = textMap.keyAt(i);
             String text = textMap.valueAt(i);
@@ -144,8 +145,8 @@ public class PopupAlertImpl extends AlertImpl<PopupAlertParams> implements Popup
         }
     }
 
-    private void buildCallToActionButtons(@NonNull PopupAlertParams params, @NonNull View containerView) {
-        for (Button buttonObject : params.getButtons()) {
+    private void buildLayoutButtons(@NonNull View containerView) {
+        for (Button buttonObject : getParams().getButtons()) {
             final ActionButton callToActionButton = (ActionButton) buttonObject;
 
             View button = containerView.findViewById(callToActionButton.getParams().getViewIds()[0]);
@@ -167,6 +168,34 @@ public class PopupAlertImpl extends AlertImpl<PopupAlertParams> implements Popup
             } else if (BuildConfig.DEBUG || getController().shouldOverrideDebugMode()) {
                 throw new InvalidParameterException("Did you forget to add the " +
                         "call-to-action button to your layout?");
+            }
+        }
+    }
+
+    private void buildCloseButtons(@NonNull View containerView) {
+        final ActionButton closeButton = (ActionButton) getParams().getCloseButton();
+
+        if(closeButton != null) {
+            final View removeIcon = containerView.findViewById(closeButton.getParams().getViewIds()[0]);
+            final View removeClick = containerView.findViewById(closeButton.getParams().getViewIds()[1]);
+
+            if (removeIcon != null && removeClick != null) {
+                if (removeIcon instanceof TextView) {
+                    ((TextView) removeIcon).setText(HitogoUtils.getText(closeButton.getParams().getText()));
+                }
+
+                removeIcon.setVisibility(View.VISIBLE);
+                removeClick.setVisibility(View.VISIBLE);
+                removeClick.setOnClickListener(new android.view.View.OnClickListener() {
+                    @Override
+                    public void onClick(android.view.View v) {
+                        closeButton.getParams().getListener().onClick();
+                        close();
+                    }
+                });
+            } else if(BuildConfig.DEBUG || getController().shouldOverrideDebugMode()) {
+                throw new InvalidParameterException("Did you forget to add the close button to " +
+                        "your layout?");
             }
         }
     }

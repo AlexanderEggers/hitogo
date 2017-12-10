@@ -24,7 +24,6 @@ public class ViewAlertBuilder extends AlertBuilder<ViewAlertBuilder, ViewAlert> 
     private Integer containerId;
     private Integer innerLayoutViewId;
 
-    private boolean isDismissible;
     private boolean closeOthers;
     private boolean dismissByClick;
 
@@ -94,8 +93,6 @@ public class ViewAlertBuilder extends AlertBuilder<ViewAlertBuilder, ViewAlert> 
 
     @NonNull
     public ViewAlertBuilder asDismissible(@Nullable Button closeButton) {
-        this.isDismissible = true;
-
         if (closeButton != null) {
             return super.setCloseButton(closeButton);
         }
@@ -195,7 +192,6 @@ public class ViewAlertBuilder extends AlertBuilder<ViewAlertBuilder, ViewAlert> 
     protected void onProvideData(AlertParamsHolder holder) {
         holder.provideInteger(ViewAlertParamsKeys.CONTAINER_ID_KEY, containerId);
         holder.provideInteger(ViewAlertParamsKeys.INNER_LAYOUT_VIEW_ID_KEY, innerLayoutViewId);
-        holder.provideBoolean(ViewAlertParamsKeys.IS_DISMISSIBLE_KEY, isDismissible);
         holder.provideBoolean(ViewAlertParamsKeys.CLOSE_OTHERS_KEY, closeOthers);
         holder.provideBoolean(ViewAlertParamsKeys.DISMISS_BY_CLICK_KEY, dismissByClick);
 

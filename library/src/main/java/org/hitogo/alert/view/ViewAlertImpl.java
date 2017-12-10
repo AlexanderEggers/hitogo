@@ -40,12 +40,6 @@ public class ViewAlertImpl extends AlertImpl<ViewAlertParams> implements ViewAle
                     "inside your HitogoController. Optionally you can define a custom layout via " +
                     "setLayout.");
         }
-
-        if (!params.isDismissible() && params.getButtons().isEmpty()) {
-            Log.w(ViewAlertBuilder.class.getName(), "Are you sure that this alert should have " +
-                    "no interaction points? If yes, make sure to close this one if it's not needed " +
-                    "anymore!");
-        }
     }
 
     @Override
@@ -100,10 +94,10 @@ public class ViewAlertImpl extends AlertImpl<ViewAlertParams> implements ViewAle
         }
 
         if (view != null) {
-            buildLayoutInteractions(params, view);
-            buildLayoutContent(params, view);
-            buildCallToActionButtons(params, view);
-            buildCloseButtons(params, view);
+            buildLayoutInteractions(view);
+            buildLayoutContent(view);
+            buildLayoutButtons(view);
+            buildCloseButtons(view);
             return view;
         } else if(BuildConfig.DEBUG || getController().shouldOverrideDebugMode()) {
             throw new InvalidParameterException("Hitogo view is null. Is the layout existing for " +
@@ -112,8 +106,8 @@ public class ViewAlertImpl extends AlertImpl<ViewAlertParams> implements ViewAle
         return null;
     }
 
-    private void buildLayoutInteractions(@NonNull ViewAlertParams params, @NonNull View containerView) {
-        if(params.consumeLayoutClick()) {
+    private void buildLayoutInteractions(@NonNull View containerView) {
+        if(getParams().dismissByClick()) {
             containerView.setOnClickListener(new android.view.View.OnClickListener() {
                 @Override
                 public void onClick(android.view.View view) {
@@ -124,12 +118,12 @@ public class ViewAlertImpl extends AlertImpl<ViewAlertParams> implements ViewAle
         }
     }
 
-    private void buildLayoutContent(@NonNull ViewAlertParams params, @NonNull View containerView) {
-        if(params.getTitleViewId() != null) {
-            setViewString(containerView, params.getTitleViewId(), params.getTitle());
+    private void buildLayoutContent(@NonNull View containerView) {
+        if(getParams().getTitleViewId() != null) {
+            setViewString(containerView, getParams().getTitleViewId(), getParams().getTitle());
         }
 
-        SparseArray<String> textMap = params.getTextMap();
+        SparseArray<String> textMap = getParams().getTextMap();
         for(int i = 0; i < textMap.size(); i++) {
             Integer viewId = textMap.keyAt(i);
             String text = textMap.valueAt(i);
@@ -157,8 +151,8 @@ public class ViewAlertImpl extends AlertImpl<ViewAlertParams> implements ViewAle
         }
     }
 
-    private void buildCallToActionButtons(@NonNull ViewAlertParams params, @NonNull View containerView) {
-        for (Button buttonObject : params.getButtons()) {
+    private void buildLayoutButtons(@NonNull View containerView) {
+        for (Button buttonObject : getParams().getButtons()) {
             final ActionButton callToActionButton = (ActionButton) buttonObject;
 
             View button = containerView.findViewById(callToActionButton.getParams().getViewIds()[0]);
@@ -184,9 +178,8 @@ public class ViewAlertImpl extends AlertImpl<ViewAlertParams> implements ViewAle
         }
     }
 
-    private void buildCloseButtons(@NonNull ViewAlertParams params, @NonNull View containerView) {
-        final ActionButton closeButton = (ActionButton) params.getCloseButton();
-        boolean isDismissible = params.isDismissible();
+    private void buildCloseButtons(@NonNull View containerView) {
+        final ActionButton closeButton = (ActionButton) getParams().getCloseButton();
 
         if(closeButton != null) {
             final View removeIcon = containerView.findViewById(closeButton.getParams().getViewIds()[0]);
@@ -197,8 +190,8 @@ public class ViewAlertImpl extends AlertImpl<ViewAlertParams> implements ViewAle
                     ((TextView) removeIcon).setText(HitogoUtils.getText(closeButton.getParams().getText()));
                 }
 
-                removeIcon.setVisibility(isDismissible ? View.VISIBLE : View.GONE);
-                removeClick.setVisibility(isDismissible ? View.VISIBLE : View.GONE);
+                removeIcon.setVisibility(View.VISIBLE);
+                removeClick.setVisibility(View.VISIBLE);
                 removeClick.setOnClickListener(new android.view.View.OnClickListener() {
                     @Override
                     public void onClick(android.view.View v) {

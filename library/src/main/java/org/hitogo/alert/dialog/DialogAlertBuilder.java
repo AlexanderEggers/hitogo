@@ -39,6 +39,16 @@ public class DialogAlertBuilder extends AlertBuilder<DialogAlertBuilder, DialogA
     }
 
     @NonNull
+    public DialogAlertBuilder asDismissible(@Nullable Button closeButton) {
+        this.isDismissible = true;
+
+        if (closeButton != null) {
+            return super.setCloseButton(closeButton);
+        }
+        return this;
+    }
+
+    @NonNull
     public DialogAlertBuilder asSimpleDialog(@NonNull String title, @NonNull String text) {
         super.setTitle(title);
         super.addText(text);
