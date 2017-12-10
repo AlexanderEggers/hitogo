@@ -118,7 +118,7 @@ public class DialogAlertImpl extends AlertImpl<DialogAlertParams> implements Dia
             View button = dialogView.findViewById(callToActionButton.getParams().getViewIds()[0]);
             if (button != null) {
                 if (button instanceof TextView) {
-                    HitogoUtils.getText(callToActionButton.getParams().getText());
+                    HitogoUtils.getHtmlText(callToActionButton.getParams().getText());
                 }
 
                 button.setVisibility(View.VISIBLE);
@@ -147,7 +147,7 @@ public class DialogAlertImpl extends AlertImpl<DialogAlertParams> implements Dia
 
             if (removeIcon != null && removeClick != null) {
                 if (removeIcon instanceof TextView) {
-                    ((TextView) removeIcon).setText(HitogoUtils.getText(closeButton.getParams().getText()));
+                    ((TextView) removeIcon).setText(HitogoUtils.getHtmlText(closeButton.getParams().getText()));
                 }
 
                 removeIcon.setVisibility(View.VISIBLE);

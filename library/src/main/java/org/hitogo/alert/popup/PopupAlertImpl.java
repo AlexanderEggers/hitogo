@@ -132,7 +132,7 @@ public class PopupAlertImpl extends AlertImpl<PopupAlertParams> implements Popup
             if (textView != null) {
                 if (HitogoUtils.isNotEmpty(chars)) {
                     textView.setVisibility(View.VISIBLE);
-                    textView.setText(HitogoUtils.getText(chars));
+                    textView.setText(HitogoUtils.getHtmlText(chars));
                 } else {
                     textView.setVisibility(View.GONE);
                 }
@@ -152,7 +152,7 @@ public class PopupAlertImpl extends AlertImpl<PopupAlertParams> implements Popup
             View button = containerView.findViewById(callToActionButton.getParams().getViewIds()[0]);
             if (button != null) {
                 if (button instanceof TextView) {
-                    HitogoUtils.getText(callToActionButton.getParams().getText());
+                    HitogoUtils.getHtmlText(callToActionButton.getParams().getText());
                 }
 
                 button.setVisibility(View.VISIBLE);
@@ -181,7 +181,7 @@ public class PopupAlertImpl extends AlertImpl<PopupAlertParams> implements Popup
 
             if (removeIcon != null && removeClick != null) {
                 if (removeIcon instanceof TextView) {
-                    ((TextView) removeIcon).setText(HitogoUtils.getText(closeButton.getParams().getText()));
+                    ((TextView) removeIcon).setText(HitogoUtils.getHtmlText(closeButton.getParams().getText()));
                 }
 
                 removeIcon.setVisibility(View.VISIBLE);

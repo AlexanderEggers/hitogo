@@ -69,7 +69,7 @@ public final class HitogoUtils {
         return hashCode;
     }
 
-    public static Spanned getText(String text) {
+    public static Spanned getHtmlText(String text) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             return text != null ? Html.fromHtml(text, Html.FROM_HTML_MODE_LEGACY) : new SpannableString("");
         } else {

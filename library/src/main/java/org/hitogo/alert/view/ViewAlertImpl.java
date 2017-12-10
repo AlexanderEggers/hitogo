@@ -139,7 +139,7 @@ public class ViewAlertImpl extends AlertImpl<ViewAlertParams> implements ViewAle
             if (textView != null) {
                 if (chars != null && HitogoUtils.isNotEmpty(chars)) {
                     textView.setVisibility(View.VISIBLE);
-                    textView.setText(HitogoUtils.getText(chars));
+                    textView.setText(HitogoUtils.getHtmlText(chars));
                 } else {
                     textView.setVisibility(View.GONE);
                 }
@@ -158,7 +158,7 @@ public class ViewAlertImpl extends AlertImpl<ViewAlertParams> implements ViewAle
             View button = containerView.findViewById(callToActionButton.getParams().getViewIds()[0]);
             if (button != null) {
                 if (button instanceof TextView) {
-                    ((TextView) button).setText(HitogoUtils.getText(callToActionButton.getParams().getText()));
+                    ((TextView) button).setText(HitogoUtils.getHtmlText(callToActionButton.getParams().getText()));
                 }
 
                 button.setVisibility(android.view.View.VISIBLE);
@@ -187,7 +187,7 @@ public class ViewAlertImpl extends AlertImpl<ViewAlertParams> implements ViewAle
 
             if (removeIcon != null && removeClick != null) {
                 if (removeIcon instanceof TextView) {
-                    ((TextView) removeIcon).setText(HitogoUtils.getText(closeButton.getParams().getText()));
+                    ((TextView) removeIcon).setText(HitogoUtils.getHtmlText(closeButton.getParams().getText()));
                 }
 
                 removeIcon.setVisibility(View.VISIBLE);
