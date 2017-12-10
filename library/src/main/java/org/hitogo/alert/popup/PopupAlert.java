@@ -6,6 +6,7 @@ import android.widget.PopupWindow;
 
 import org.hitogo.alert.core.Alert;
 
+@SuppressWarnings("unused")
 public interface PopupAlert extends Alert<PopupAlertParams> {
 
     void show(final boolean force);

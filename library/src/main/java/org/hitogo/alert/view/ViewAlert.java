@@ -5,6 +5,7 @@ import android.view.View;
 
 import org.hitogo.alert.core.Alert;
 
+@SuppressWarnings("unused")
 public interface ViewAlert extends Alert<ViewAlertParams> {
 
     void show(final boolean force);
