@@ -18,7 +18,7 @@ public class ViewAlertParams extends AlertParams {
         innerLayoutViewId = holder.getInteger(ViewAlertParamsKeys.INNER_LAYOUT_VIEW_ID_KEY);
 
         closeOthers = holder.getBoolean(ViewAlertParamsKeys.CLOSE_OTHERS_KEY);
-        dismissByClick = holder.getBoolean(ViewAlertParamsKeys.DISMISS_BY_CLICK_KEY);
+        dismissByClick = holder.getBoolean(ViewAlertParamsKeys.DISMISS_BY_LAYOUT_CLICK_KEY);
     }
 
     public Integer getContainerId() {

@@ -153,12 +153,12 @@ public class ViewAlertBuilder extends AlertBuilder<ViewAlertBuilder, ViewAlert> 
     }
 
     @NonNull
-    public ViewAlertBuilder dismissByClick() {
-        return dismissByClick(true);
+    public ViewAlertBuilder dismissByLayoutClick() {
+        return dismissByLayoutClick(true);
     }
 
     @NonNull
-    public ViewAlertBuilder dismissByClick(boolean dismissByClick) {
+    public ViewAlertBuilder dismissByLayoutClick(boolean dismissByClick) {
         this.dismissByClick = dismissByClick;
         return this;
     }
@@ -193,7 +193,7 @@ public class ViewAlertBuilder extends AlertBuilder<ViewAlertBuilder, ViewAlert> 
         holder.provideInteger(ViewAlertParamsKeys.CONTAINER_ID_KEY, containerId);
         holder.provideInteger(ViewAlertParamsKeys.INNER_LAYOUT_VIEW_ID_KEY, innerLayoutViewId);
         holder.provideBoolean(ViewAlertParamsKeys.CLOSE_OTHERS_KEY, closeOthers);
-        holder.provideBoolean(ViewAlertParamsKeys.DISMISS_BY_CLICK_KEY, dismissByClick);
+        holder.provideBoolean(ViewAlertParamsKeys.DISMISS_BY_LAYOUT_CLICK_KEY, dismissByClick);
 
         holder.provideAnimation(animation);
     }

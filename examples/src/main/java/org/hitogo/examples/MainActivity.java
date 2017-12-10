@@ -58,7 +58,7 @@ public class MainActivity extends HitogoActivity {
                 .setTitle("Test Title")
                 .asLayoutChild(R.id.fake_id)
                 .addButton(button)
-                .dismissByClick()
+                .dismissByLayoutClick()
                 .setVisibilityListener(new VisibilityListener() {
                     @Override
                     public void onCreate(Alert object) {
