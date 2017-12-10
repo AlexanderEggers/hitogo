@@ -5,7 +5,6 @@ import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
-import android.util.Log;
 import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -43,12 +42,6 @@ public class PopupAlertImpl extends AlertImpl<PopupAlertParams> implements Popup
             throw new InvalidParameterException("You haven't defined the anchor view. You can " +
                     "use setAnchor to define the view by viewId or viewTag.");
         }
-
-        if (!params.isDismissible() && params.getButtons().isEmpty()) {
-            Log.w(PopupAlertBuilder.class.getName(), "Are you sure that this alert should have " +
-                    "no interaction points? If yes, make sure to close this one if it's not needed " +
-                    "anymore!");
-        }
     }
 
     @Nullable
@@ -74,41 +67,44 @@ public class PopupAlertImpl extends AlertImpl<PopupAlertParams> implements Popup
             buildCloseButtons(view);
 
             PopupWindow window = new PopupWindow(view, params.getWidth(), params.getHeight());
-
-            if(params.getAnimationStyle() != null) {
-                window.setAnimationStyle(params.getAnimationStyle());
-            }
-
-            if(params.getOnTouchListener() != null) {
-                window.setTouchInterceptor(params.getOnTouchListener());
-            }
-
-            if(params.getEnterTransition() != null && Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                window.setEnterTransition(params.getEnterTransition());
-            }
-
-            if(params.getExitTransition() != null && Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                window.setExitTransition(params.getExitTransition());
-            }
-
-            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && params.getElevation() != null) {
-                window.setElevation(params.getElevation());
-            }
-
-            if (params.isDismissible()) {
-                window.setBackgroundDrawable(null);
-                window.setOutsideTouchable(true);
-            } else if(params.getDrawableRes() != null) {
-                window.setBackgroundDrawable(ContextCompat.getDrawable(context, params.getDrawableRes()));
-            }
-
-            return window;
+            return buildPopupWindow(window);
         } else if (BuildConfig.DEBUG || getController().shouldOverrideDebugMode()) {
-            throw new InvalidParameterException("Hitogo view is null. Is the layout existing for " +
+            throw new InvalidParameterException("View is null. Is the layout existing for " +
                     "the state: '" + params.getState() + "'?");
         }
 
         return null;
+    }
+
+    private PopupWindow buildPopupWindow(PopupWindow window) {
+        if(getParams().getAnimationStyle() != null) {
+            window.setAnimationStyle(getParams().getAnimationStyle());
+        }
+
+        if(getParams().getOnTouchListener() != null) {
+            window.setTouchInterceptor(getParams().getOnTouchListener());
+        }
+
+        if(getParams().getEnterTransition() != null && Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            window.setEnterTransition(getParams().getEnterTransition());
+        }
+
+        if(getParams().getExitTransition() != null && Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            window.setExitTransition(getParams().getExitTransition());
+        }
+
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && getParams().getElevation() != null) {
+            window.setElevation(getParams().getElevation());
+        }
+
+        if (getParams().isDismissible()) {
+            window.setBackgroundDrawable(null);
+            window.setOutsideTouchable(true);
+        } else if(getParams().getDrawableRes() != null) {
+            window.setBackgroundDrawable(ContextCompat.getDrawable(getContext(), getParams().getDrawableRes()));
+        }
+
+        return window;
     }
 
     private void buildLayoutContent(@NonNull View containerView) {

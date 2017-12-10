@@ -44,29 +44,13 @@ public class ViewAlertImpl extends AlertImpl<ViewAlertParams> implements ViewAle
 
     @Override
     protected void onCreate(@NonNull HitogoController controller, @NonNull ViewAlertParams params) {
-        this.animation = params.getAnimation();
-        if (animation == null) {
-            this.animation = controller.provideDefaultAnimation();
-        }
+        this.animation = params.getAnimation() != null ?
+                params.getAnimation() : controller.provideDefaultAnimation();
 
-        if (params.getContainerId() != null && getRootView() != null) {
-            View containerView = getRootView().findViewById(params.getContainerId());
+        if (params.getContainerId() != null) {
+            View containerView = determineViewGroup();
 
-            Integer layoutContainerId = getController().provideDefaultOverlayContainerId();
-            if(containerView == null && layoutContainerId != null) {
-                Log.e(ViewAlertBuilder.class.getName(), "Cannot find container view. " +
-                        "Using default layout container view as fallback.");
-                containerView = getRootView().findViewById(layoutContainerId);
-            }
-
-            Integer overlayContainerId = getController().provideDefaultOverlayContainerId();
-            if(containerView == null && overlayContainerId != null) {
-                Log.e(ViewAlertBuilder.class.getName(), "Cannot find container view. " +
-                        "Using default overlay container view as fallback.");
-                containerView = getRootView().findViewById(overlayContainerId);
-            }
-
-            if(containerView != null && !(containerView instanceof ViewGroup) &&
+            if (containerView != null && !(containerView instanceof ViewGroup) &&
                     (BuildConfig.DEBUG || getController().shouldOverrideDebugMode())) {
                 throw new InvalidParameterException("Your container view needs to be a ViewGroup. " +
                         "Use for example the LinearLayout to solve this issue.");
@@ -81,15 +65,35 @@ public class ViewAlertImpl extends AlertImpl<ViewAlertParams> implements ViewAle
             }
         }
     }
+    
+    private View determineViewGroup() {
+        View containerView = getRootView().findViewById(getParams().getContainerId());
+
+        Integer layoutContainerId = getController().provideDefaultOverlayContainerId();
+        if (containerView == null && layoutContainerId != null) {
+            Log.e(ViewAlertBuilder.class.getName(), "Cannot find container view. " +
+                    "Using default layout container view as fallback.");
+            containerView = getRootView().findViewById(layoutContainerId);
+        }
+
+        Integer overlayContainerId = getController().provideDefaultOverlayContainerId();
+        if (containerView == null && overlayContainerId != null) {
+            Log.e(ViewAlertBuilder.class.getName(), "Cannot find container view. " +
+                    "Using default overlay container view as fallback.");
+            containerView = getRootView().findViewById(overlayContainerId);
+        }
+
+        return containerView;
+    }
 
     @Override
     protected View onCreateView(@NonNull LayoutInflater inflater, @NonNull Context context,
-                                             @NonNull ViewAlertParams params) {
+                                @NonNull ViewAlertParams params) {
 
         View view = null;
-        if(params.getLayoutRes() != null && params.getLayoutRes() != 0) {
+        if (params.getLayoutRes() != null && params.getLayoutRes() != 0) {
             view = inflater.inflate(params.getLayoutRes(), null);
-        } else if(params.getState() != null) {
+        } else if (params.getState() != null) {
             view = inflater.inflate(getController().provideViewLayout(params.getState()), null);
         }
 
@@ -99,7 +103,7 @@ public class ViewAlertImpl extends AlertImpl<ViewAlertParams> implements ViewAle
             buildLayoutButtons(view);
             buildCloseButtons(view);
             return view;
-        } else if(BuildConfig.DEBUG || getController().shouldOverrideDebugMode()) {
+        } else if (BuildConfig.DEBUG || getController().shouldOverrideDebugMode()) {
             throw new InvalidParameterException("Hitogo view is null. Is the layout existing for " +
                     "the state: '" + params.getState() + "'?");
         }
@@ -107,7 +111,7 @@ public class ViewAlertImpl extends AlertImpl<ViewAlertParams> implements ViewAle
     }
 
     private void buildLayoutInteractions(@NonNull View containerView) {
-        if(getParams().dismissByLayoutClick()) {
+        if (getParams().dismissByLayoutClick()) {
             containerView.setOnClickListener(new android.view.View.OnClickListener() {
                 @Override
                 public void onClick(android.view.View view) {
@@ -119,12 +123,12 @@ public class ViewAlertImpl extends AlertImpl<ViewAlertParams> implements ViewAle
     }
 
     private void buildLayoutContent(@NonNull View containerView) {
-        if(getParams().getTitleViewId() != null) {
+        if (getParams().getTitleViewId() != null) {
             setViewString(containerView, getParams().getTitleViewId(), getParams().getTitle());
         }
 
         SparseArray<String> textMap = getParams().getTextMap();
-        for(int i = 0; i < textMap.size(); i++) {
+        for (int i = 0; i < textMap.size(); i++) {
             Integer viewId = textMap.keyAt(i);
             String text = textMap.valueAt(i);
             setViewString(containerView, viewId, text);
@@ -143,10 +147,10 @@ public class ViewAlertImpl extends AlertImpl<ViewAlertParams> implements ViewAle
                 } else {
                     textView.setVisibility(View.GONE);
                 }
-            } else if(BuildConfig.DEBUG || getController().shouldOverrideDebugMode()) {
+            } else if (BuildConfig.DEBUG || getController().shouldOverrideDebugMode()) {
                 throw new InvalidParameterException("Did you forget to add the view to your layout?");
             }
-        } else if(BuildConfig.DEBUG || getController().shouldOverrideDebugMode()) {
+        } else if (BuildConfig.DEBUG || getController().shouldOverrideDebugMode()) {
             throw new InvalidParameterException("View id is null.");
         }
     }
@@ -171,7 +175,7 @@ public class ViewAlertImpl extends AlertImpl<ViewAlertParams> implements ViewAle
                         }
                     }
                 });
-            } else if(BuildConfig.DEBUG || getController().shouldOverrideDebugMode()) {
+            } else if (BuildConfig.DEBUG || getController().shouldOverrideDebugMode()) {
                 throw new InvalidParameterException("Did you forget to add the " +
                         "call-to-action button to your layout?");
             }
@@ -181,7 +185,7 @@ public class ViewAlertImpl extends AlertImpl<ViewAlertParams> implements ViewAle
     private void buildCloseButtons(@NonNull View containerView) {
         final ActionButton closeButton = (ActionButton) getParams().getCloseButton();
 
-        if(closeButton != null) {
+        if (closeButton != null) {
             final View removeIcon = containerView.findViewById(closeButton.getParams().getViewIds()[0]);
             final View removeClick = containerView.findViewById(closeButton.getParams().getViewIds()[1]);
 
@@ -199,7 +203,7 @@ public class ViewAlertImpl extends AlertImpl<ViewAlertParams> implements ViewAle
                         close();
                     }
                 });
-            } else if(BuildConfig.DEBUG || getController().shouldOverrideDebugMode()) {
+            } else if (BuildConfig.DEBUG || getController().shouldOverrideDebugMode()) {
                 throw new InvalidParameterException("Did you forget to add the close button to " +
                         "your layout?");
             }
