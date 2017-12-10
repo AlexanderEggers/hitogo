@@ -107,7 +107,7 @@ public class ViewAlertImpl extends AlertImpl<ViewAlertParams> implements ViewAle
     }
 
     private void buildLayoutInteractions(@NonNull View containerView) {
-        if(getParams().dismissByClick()) {
+        if(getParams().dismissByLayoutClick()) {
             containerView.setOnClickListener(new android.view.View.OnClickListener() {
                 @Override
                 public void onClick(android.view.View view) {

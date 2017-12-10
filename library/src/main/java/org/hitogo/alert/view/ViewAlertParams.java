@@ -35,7 +35,7 @@ public class ViewAlertParams extends AlertParams {
     }
 
     @Override
-    public boolean dismissByClick() {
+    public boolean dismissByLayoutClick() {
         return dismissByClick;
     }
 }

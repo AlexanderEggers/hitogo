@@ -137,7 +137,7 @@ public abstract class AlertParams extends HitogoParams<AlertParamsHolder, AlertP
         return onTouchListener;
     }
 
-    public boolean dismissByClick() {
+    public boolean dismissByLayoutClick() {
         return false;
     }
 }
