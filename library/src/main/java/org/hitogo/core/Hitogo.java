@@ -31,30 +31,36 @@ public class Hitogo implements ViewAlertFactory<ViewAlertBuilder>, DialogAlertFa
         return new Hitogo(container);
     }
 
+    @Override
     public ViewAlertBuilder asViewAlert() {
         return new ViewAlertBuilder(controller.provideDefaultViewClass(),
                 controller.provideDefaultViewParamsClass(), container);
     }
 
+    @Override
     public ViewAlertBuilder asViewAlert(@NonNull Class<? extends AlertImpl> targetClass) {
         return new ViewAlertBuilder(
                 targetClass, controller.provideDefaultViewParamsClass(), container);
     }
 
+    @Override
     public ViewAlertBuilder asViewAlert(@NonNull Class<? extends AlertImpl> targetClass,
                                         @NonNull Class<? extends AlertParams> paramClass) {
         return new ViewAlertBuilder(targetClass, paramClass, container);
     }
 
+    @Override
     public DialogAlertBuilder asDialogAlert() {
         return new DialogAlertBuilder(controller.provideDefaultDialogClass(),
                 controller.provideDefaultDialogParamsClass(), container);
     }
 
+    @Override
     public DialogAlertBuilder asDialogAlert(@NonNull Class<? extends AlertImpl> targetClass) {
         return new DialogAlertBuilder(targetClass, controller.provideDefaultDialogParamsClass(), container);
     }
 
+    @Override
     public DialogAlertBuilder asDialogAlert(@NonNull Class<? extends AlertImpl> targetClass,
                                             @NonNull Class<? extends AlertParams> paramClass) {
         return new DialogAlertBuilder(targetClass, paramClass, container);

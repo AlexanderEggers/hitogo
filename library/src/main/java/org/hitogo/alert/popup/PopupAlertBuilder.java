@@ -49,7 +49,12 @@ public class PopupAlertBuilder extends AlertBuilder<PopupAlertBuilder, PopupAler
 
     @NonNull
     public PopupAlertBuilder asDismissible() {
-        this.isDismissible = true;
+        return asDismissible(true);
+    }
+
+    @NonNull
+    public PopupAlertBuilder asDismissible(boolean isDismissible) {
+        this.isDismissible = isDismissible;
         return this;
     }
 
@@ -68,26 +73,24 @@ public class PopupAlertBuilder extends AlertBuilder<PopupAlertBuilder, PopupAler
     @NonNull
     public PopupAlertBuilder asSimplePopup(int anchorViewId, String text) {
         setAnchor(anchorViewId);
-        addText(text);
-
-        PopupAlertBuilder customBuilder = getController().provideSimplePopup(this);
-        if (customBuilder != null) {
-            return customBuilder;
-        } else {
-            return asDismissible();
-        }
+        return setInternalAsSimplePopup(text);
     }
 
     @NonNull
     public PopupAlertBuilder asSimplePopup(String anchorViewTag, String text) {
         setAnchor(anchorViewTag);
+        return setInternalAsSimplePopup(text);
+    }
+
+    @NonNull
+    private PopupAlertBuilder setInternalAsSimplePopup(String text) {
         addText(text);
 
         PopupAlertBuilder customBuilder = getController().provideSimplePopup(this);
         if (customBuilder != null) {
             return customBuilder;
         } else {
-            return asDismissible();
+            return asDismissible(true);
         }
     }
 

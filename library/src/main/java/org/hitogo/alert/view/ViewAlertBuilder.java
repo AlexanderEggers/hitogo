@@ -38,8 +38,17 @@ public class ViewAlertBuilder extends AlertBuilder<ViewAlertBuilder, ViewAlert> 
 
     @NonNull
     public ViewAlertBuilder withAnimations() {
-        return withAnimations(getController().provideDefaultAnimation(),
-                getController().provideDefaultLayoutViewId());
+        return withAnimations(true);
+    }
+
+    @NonNull
+    public ViewAlertBuilder withAnimations(boolean withAnimation) {
+        if(withAnimation) {
+            return withAnimations(getController().provideDefaultAnimation(),
+                    getController().provideDefaultLayoutViewId());
+        }
+        this.animation = null;
+        return this;
     }
 
     @NonNull
@@ -62,8 +71,24 @@ public class ViewAlertBuilder extends AlertBuilder<ViewAlertBuilder, ViewAlert> 
     }
 
     @NonNull
-    public ViewAlertBuilder withoutAnimations() {
-        this.animation = null;
+    public ViewAlertBuilder asDismissible() {
+        return asDismissible(true);
+    }
+
+    @NonNull
+    public ViewAlertBuilder asDismissible(boolean isDismissible) {
+        if(isDismissible) {
+            try {
+                return asDismissible(Hitogo.with(getContainer())
+                        .asActionButton()
+                        .forViewAction()
+                        .build());
+            } catch (InvalidParameterException ex) {
+                Log.e(ViewAlertBuilder.class.getName(), "Cannot add default close button.");
+                Log.e(ViewAlertBuilder.class.getName(), "Reason: " + ex.getMessage());
+            }
+        }
+
         return this;
     }
 
@@ -72,25 +97,8 @@ public class ViewAlertBuilder extends AlertBuilder<ViewAlertBuilder, ViewAlert> 
         this.isDismissible = true;
 
         if (closeButton != null) {
-            return super.addCloseButton(closeButton);
+            return super.setCloseButton(closeButton);
         }
-        return this;
-    }
-
-    @NonNull
-    public ViewAlertBuilder asDismissible() {
-        this.isDismissible = true;
-
-        try {
-            return super.addCloseButton(Hitogo.with(getContainer())
-                    .asActionButton()
-                    .forViewAction()
-                    .build());
-        } catch (InvalidParameterException ex) {
-            Log.e(ViewAlertBuilder.class.getName(), "Cannot add default close button.");
-            Log.e(ViewAlertBuilder.class.getName(), "Reason: " + ex.getMessage());
-        }
-
         return this;
     }
 
@@ -120,7 +128,7 @@ public class ViewAlertBuilder extends AlertBuilder<ViewAlertBuilder, ViewAlert> 
         } else {
             return asLayoutChild()
                     .addText(text)
-                    .asDismissible()
+                    .asDismissible(true)
                     .setState(getController().provideDefaultState(type));
         }
     }
@@ -138,25 +146,23 @@ public class ViewAlertBuilder extends AlertBuilder<ViewAlertBuilder, ViewAlert> 
 
     @NonNull
     public ViewAlertBuilder closeOthers() {
-        this.closeOthers = true;
+        return closeOthers(true);
+    }
+
+    @NonNull
+    public ViewAlertBuilder closeOthers(boolean closeOthers) {
+        this.closeOthers = closeOthers;
         return this;
     }
 
     @NonNull
-    public ViewAlertBuilder allowOthers() {
-        this.closeOthers = false;
-        return this;
+    public ViewAlertBuilder dismissByClick() {
+        return dismissByClick(true);
     }
 
     @NonNull
-    public ViewAlertBuilder consumeLayoutClick() {
-        this.dismissByClick = true;
-        return this;
-    }
-
-    @NonNull
-    public ViewAlertBuilder ignoreLayoutClick() {
-        this.dismissByClick = false;
+    public ViewAlertBuilder dismissByClick(boolean dismissByClick) {
+        this.dismissByClick = dismissByClick;
         return this;
     }
 

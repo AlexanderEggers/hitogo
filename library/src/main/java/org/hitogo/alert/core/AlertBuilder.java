@@ -138,7 +138,7 @@ public abstract class AlertBuilder<T, A extends Alert> {
     }
 
     @NonNull
-    public final T addVisibilityListener(@NonNull VisibilityListener visibilityListener) {
+    public final T setVisibilityListener(@NonNull VisibilityListener visibilityListener) {
         this.visibilityListener = visibilityListener;
         return (T) this;
     }
@@ -150,7 +150,7 @@ public abstract class AlertBuilder<T, A extends Alert> {
     }
 
     @NonNull
-    protected final T addCloseButton(@NonNull Button closeButton) {
+    protected final T setCloseButton(@NonNull Button closeButton) {
         this.closeButton = closeButton;
         return (T) this;
     }

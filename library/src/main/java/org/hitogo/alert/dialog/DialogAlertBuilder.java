@@ -29,7 +29,12 @@ public class DialogAlertBuilder extends AlertBuilder<DialogAlertBuilder, DialogA
 
     @NonNull
     public DialogAlertBuilder asDismissible() {
-        this.isDismissible = true;
+        return asDismissible(true);
+    }
+
+    @NonNull
+    public DialogAlertBuilder asDismissible(boolean isDismissible) {
+        this.isDismissible = isDismissible;
         return this;
     }
 
@@ -42,7 +47,7 @@ public class DialogAlertBuilder extends AlertBuilder<DialogAlertBuilder, DialogA
         if (customBuilder != null) {
             return customBuilder;
         } else {
-            return asDismissible();
+            return asDismissible(true);
         }
     }
 

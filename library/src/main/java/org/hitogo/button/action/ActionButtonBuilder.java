@@ -65,14 +65,14 @@ public class ActionButtonBuilder extends ButtonBuilder<ActionButton> {
     }
 
     @NonNull
-    public ActionButtonBuilder listenWith(@Nullable ButtonListener listener) {
+    public ActionButtonBuilder setButtonListener(@Nullable ButtonListener listener) {
         this.listener = listener;
         this.closeAfterClick = true;
         return this;
     }
 
     @NonNull
-    public ActionButtonBuilder listenWith(@Nullable ButtonListener listener, boolean closeAfterClick) {
+    public ActionButtonBuilder setButtonListener(@Nullable ButtonListener listener, boolean closeAfterClick) {
         this.listener = listener;
         this.closeAfterClick = closeAfterClick;
         return this;
