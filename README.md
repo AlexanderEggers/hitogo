@@ -15,11 +15,11 @@ repositories {
 }
 
 dependencies {
-  compile 'org.hitogo:Hitogo:1.0.0-beta11'
+  compile 'org.hitogo:Hitogo:1.0.0-beta12'
 }
 ```
 
-How do I use Hitogo? (Step-by-step introduction for 1.0.0-beta11)
+How do I use Hitogo? (Step-by-step introduction for 1.0.0-beta12)
 -------------------
 
 1. Extend the HitogoController
@@ -140,7 +140,7 @@ public void someMethod() {
                 .addText("Test")
                 .asLayoutChild(R.id.container_layout)
                 .addButton(button)
-                .dismissByClick(false)
+                .dismissByLayoutClick(false)
                 .setVisibilityListener(new VisibilityListener() {
                     @Override
                     public void onCreate(Alert object) {
