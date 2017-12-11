@@ -103,11 +103,11 @@ public class DialogAlertImpl extends AlertImpl<DialogAlertParams> implements Dia
         }
 
         for(Button button : buttonList) {
-            determineButtonCreation(button, view, builder, false);
+            determineButtonCreation(button, view, builder);
         }
 
         if(getParams().getCloseButton() != null) {
-            determineButtonCreation(getParams().getCloseButton(), view, builder, true);
+            determineButtonCreation(getParams().getCloseButton(), view, builder);
         }
 
         if (view != null) {
@@ -117,17 +117,17 @@ public class DialogAlertImpl extends AlertImpl<DialogAlertParams> implements Dia
         return builder;
     }
 
-    private void determineButtonCreation(Button button, View dialogView, AlertDialog.Builder builder, boolean forceClose) {
+    private void determineButtonCreation(Button button, View dialogView, AlertDialog.Builder builder) {
         ActionButton actionButton = (ActionButton) button;
 
         if(actionButton.getParams().hasActionView()) {
-            buildActionButton(actionButton, dialogView, forceClose);
+            buildActionButton(actionButton, dialogView);
         } else {
             buildDialogButton(builder, actionButton);
         }
     }
 
-    private void buildActionButton(final ActionButton button, View view, final boolean forceClose) {
+    private void buildActionButton(final ActionButton button, View view) {
         if(button != null) {
             final View icon = view.findViewById(button.getParams().getViewIds()[0]);
             final View click = view.findViewById(button.getParams().getViewIds()[1]);
@@ -143,10 +143,7 @@ public class DialogAlertImpl extends AlertImpl<DialogAlertParams> implements Dia
                     @Override
                     public void onClick(android.view.View v) {
                         button.getParams().getListener().onClick();
-
-                        if(button.getParams().isClosingAfterClick() || forceClose) {
-                            close();
-                        }
+                        close();
                     }
                 });
             } else if(BuildConfig.DEBUG || getController().shouldOverrideDebugMode()) {
