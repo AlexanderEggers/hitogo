@@ -63,8 +63,14 @@ public class PopupAlertImpl extends AlertImpl<PopupAlertParams> implements Popup
 
         if (view != null) {
             buildLayoutContent(view);
-            buildLayoutButtons(view);
-            buildCloseButtons(view);
+
+            for(Button button : params.getButtons()) {
+                determineButtonCreation(button, view, false);
+            }
+
+            if(params.getCloseButton() != null) {
+                determineButtonCreation(params.getCloseButton(), view, true);
+            }
 
             PopupWindow window = new PopupWindow(view, params.getWidth(), params.getHeight());
             return buildPopupWindow(window);
@@ -74,6 +80,16 @@ public class PopupAlertImpl extends AlertImpl<PopupAlertParams> implements Popup
         }
 
         return null;
+    }
+
+    private void determineButtonCreation(Button button, View dialogView, boolean forceClose) {
+        ActionButton actionButton = (ActionButton) button;
+
+        if(actionButton.getParams().hasActionView()) {
+            buildActionButton(actionButton, dialogView, forceClose);
+        } else if (BuildConfig.DEBUG || getController().shouldOverrideDebugMode()) {
+            throw new IllegalStateException("Popup can only process buttons that have a view (use forViewAction)");
+        }
     }
 
     private PopupWindow buildPopupWindow(PopupWindow window) {
@@ -141,57 +157,30 @@ public class PopupAlertImpl extends AlertImpl<PopupAlertParams> implements Popup
         }
     }
 
-    private void buildLayoutButtons(@NonNull View containerView) {
-        for (Button buttonObject : getParams().getButtons()) {
-            final ActionButton callToActionButton = (ActionButton) buttonObject;
+    private void buildActionButton(final ActionButton button, View view, final boolean forceClose) {
+        if(button != null) {
+            final View icon = view.findViewById(button.getParams().getViewIds()[0]);
+            final View click = view.findViewById(button.getParams().getViewIds()[1]);
 
-            View button = containerView.findViewById(callToActionButton.getParams().getViewIds()[0]);
-            if (button != null) {
-                if (button instanceof TextView) {
-                    HitogoUtils.getHtmlText(callToActionButton.getParams().getText());
+            if (icon != null && click != null) {
+                if (icon instanceof TextView) {
+                    ((TextView) icon).setText(HitogoUtils.getHtmlText(button.getParams().getText()));
                 }
 
-                button.setVisibility(View.VISIBLE);
-                button.setOnClickListener(new View.OnClickListener() {
+                icon.setVisibility(View.VISIBLE);
+                click.setVisibility(View.VISIBLE);
+                click.setOnClickListener(new android.view.View.OnClickListener() {
                     @Override
-                    public void onClick(View v) {
-                        callToActionButton.getParams().getListener().onClick();
-                        if (callToActionButton.getParams().isClosingAfterClick()) {
+                    public void onClick(android.view.View v) {
+                        button.getParams().getListener().onClick();
+
+                        if(button.getParams().isClosingAfterClick() || forceClose) {
                             close();
                         }
                     }
                 });
-            } else if (BuildConfig.DEBUG || getController().shouldOverrideDebugMode()) {
-                throw new InvalidParameterException("Did you forget to add the " +
-                        "call-to-action button to your layout?");
-            }
-        }
-    }
-
-    private void buildCloseButtons(@NonNull View containerView) {
-        final ActionButton closeButton = (ActionButton) getParams().getCloseButton();
-
-        if(closeButton != null) {
-            final View removeIcon = containerView.findViewById(closeButton.getParams().getViewIds()[0]);
-            final View removeClick = containerView.findViewById(closeButton.getParams().getViewIds()[1]);
-
-            if (removeIcon != null && removeClick != null) {
-                if (removeIcon instanceof TextView) {
-                    ((TextView) removeIcon).setText(HitogoUtils.getHtmlText(closeButton.getParams().getText()));
-                }
-
-                removeIcon.setVisibility(View.VISIBLE);
-                removeClick.setVisibility(View.VISIBLE);
-                removeClick.setOnClickListener(new android.view.View.OnClickListener() {
-                    @Override
-                    public void onClick(android.view.View v) {
-                        closeButton.getParams().getListener().onClick();
-                        close();
-                    }
-                });
             } else if(BuildConfig.DEBUG || getController().shouldOverrideDebugMode()) {
-                throw new InvalidParameterException("Did you forget to add the close button to " +
-                        "your layout?");
+                throw new InvalidParameterException("Did you forget to add the button to your layout?");
             }
         }
     }

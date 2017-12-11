@@ -25,6 +25,12 @@ import java.util.List;
 @SuppressWarnings({"WeakerAccess", "unused"})
 public class DialogAlertImpl extends AlertImpl<DialogAlertParams> implements DialogAlert {
 
+    private static final int PRIMARY_BUTTON = 0;
+    private static final int SECONDARY_BUTTON = 1;
+    private static final int NEUTRAL_BUTTON = 2;
+
+    private int dialogButtonCount;
+
     @Override
     protected void onCheck(@NonNull DialogAlertParams params) {
         if (params.getTitle() == null || params.getTitle().isEmpty()) {
@@ -96,12 +102,12 @@ public class DialogAlertImpl extends AlertImpl<DialogAlertParams> implements Dia
             builder.setMessage(textMap.valueAt(0));
         }
 
-        ActionButton testButton = (ActionButton) buttonList.get(0);
-        if (view != null && testButton.getParams().hasActionView()) {
-            buildLayoutButtons(view);
-            buildCloseButtons(view);
-        } else {
-            generateDefaultButtons(builder, buttonList);
+        for(Button button : buttonList) {
+            determineButtonCreation(button, view, builder, false);
+        }
+
+        if(getParams().getCloseButton() != null) {
+            determineButtonCreation(getParams().getCloseButton(), view, builder, true);
         }
 
         if (view != null) {
@@ -111,97 +117,72 @@ public class DialogAlertImpl extends AlertImpl<DialogAlertParams> implements Dia
         return builder;
     }
 
-    private void buildLayoutButtons(@NonNull View dialogView) {
-        for (Button buttonObject : getParams().getButtons()) {
-            final ActionButton callToActionButton = (ActionButton) buttonObject;
+    private void determineButtonCreation(Button button, View dialogView, AlertDialog.Builder builder, boolean forceClose) {
+        ActionButton actionButton = (ActionButton) button;
 
-            View button = dialogView.findViewById(callToActionButton.getParams().getViewIds()[0]);
-            if (button != null) {
-                if (button instanceof TextView) {
-                    HitogoUtils.getHtmlText(callToActionButton.getParams().getText());
+        if(actionButton.getParams().hasActionView()) {
+            buildActionButton(actionButton, dialogView, forceClose);
+        } else {
+            buildDialogButton(builder, actionButton);
+        }
+    }
+
+    private void buildActionButton(final ActionButton button, View view, final boolean forceClose) {
+        if(button != null) {
+            final View icon = view.findViewById(button.getParams().getViewIds()[0]);
+            final View click = view.findViewById(button.getParams().getViewIds()[1]);
+
+            if (icon != null && click != null) {
+                if (icon instanceof TextView) {
+                    ((TextView) icon).setText(HitogoUtils.getHtmlText(button.getParams().getText()));
                 }
 
-                button.setVisibility(View.VISIBLE);
-                button.setOnClickListener(new View.OnClickListener() {
+                icon.setVisibility(View.VISIBLE);
+                click.setVisibility(View.VISIBLE);
+                click.setOnClickListener(new android.view.View.OnClickListener() {
                     @Override
-                    public void onClick(View v) {
-                        callToActionButton.getParams().getListener().onClick();
-                        if (callToActionButton.getParams().isClosingAfterClick()) {
+                    public void onClick(android.view.View v) {
+                        button.getParams().getListener().onClick();
+
+                        if(button.getParams().isClosingAfterClick() || forceClose) {
                             close();
                         }
                     }
                 });
             } else if(BuildConfig.DEBUG || getController().shouldOverrideDebugMode()) {
-                throw new InvalidParameterException("Did you forget to add the " +
-                        "call-to-action button to your layout?");
+                throw new InvalidParameterException("Did you forget to add the button to your layout?");
             }
         }
     }
 
-    private void buildCloseButtons(@NonNull View dialogView) {
-        final ActionButton closeButton = (ActionButton) getParams().getCloseButton();
-
-        if(closeButton != null) {
-            final View removeIcon = dialogView.findViewById(closeButton.getParams().getViewIds()[0]);
-            final View removeClick = dialogView.findViewById(closeButton.getParams().getViewIds()[1]);
-
-            if (removeIcon != null && removeClick != null) {
-                if (removeIcon instanceof TextView) {
-                    ((TextView) removeIcon).setText(HitogoUtils.getHtmlText(closeButton.getParams().getText()));
-                }
-
-                removeIcon.setVisibility(View.VISIBLE);
-                removeClick.setVisibility(View.VISIBLE);
-                removeClick.setOnClickListener(new android.view.View.OnClickListener() {
-                    @Override
-                    public void onClick(android.view.View v) {
-                        closeButton.getParams().getListener().onClick();
-                        close();
-                    }
-                });
-            } else if(BuildConfig.DEBUG || getController().shouldOverrideDebugMode()) {
-                throw new InvalidParameterException("Did you forget to add the close button to " +
-                        "your layout?");
-            }
-        }
-    }
-
-    private void generateDefaultButtons(AlertDialog.Builder builder, List<Button> buttonList) {
-        final ActionButton positiveButton = (ActionButton) buttonList.get(0);
-        if (HitogoUtils.isNotEmpty(positiveButton.getParams().getText())) {
-            builder.setPositiveButton(positiveButton.getParams().getText(), new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int id) {
-                    positiveButton.getParams().getListener().onClick();
-                    close();
-                }
-            });
-        }
-
-        if (buttonList.size() > 1) {
-            final ActionButton negativeButton = (ActionButton) buttonList.get(1);
-            if (HitogoUtils.isNotEmpty(negativeButton.getParams().getText())) {
-                builder.setNegativeButton(negativeButton.getParams().getText(), new DialogInterface.OnClickListener() {
+    private void buildDialogButton(AlertDialog.Builder builder, final ActionButton button) {
+        if (HitogoUtils.isNotEmpty(button.getParams().getText())) {
+            if(dialogButtonCount == PRIMARY_BUTTON) {
+                builder.setPositiveButton(button.getParams().getText(), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int id) {
-                        negativeButton.getParams().getListener().onClick();
+                        button.getParams().getListener().onClick();
                         close();
                     }
                 });
-            }
-        }
-
-        if (buttonList.size() > 2) {
-            final ActionButton neutralButton = (ActionButton) buttonList.get(2);
-            if (HitogoUtils.isNotEmpty(neutralButton.getParams().getText())) {
-                builder.setNeutralButton(neutralButton.getParams().getText(), new DialogInterface.OnClickListener() {
+            } else if(dialogButtonCount == SECONDARY_BUTTON) {
+                builder.setNegativeButton(button.getParams().getText(), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int id) {
-                        neutralButton.getParams().getListener().onClick();
+                        button.getParams().getListener().onClick();
+                        close();
+                    }
+                });
+            } else if(dialogButtonCount == NEUTRAL_BUTTON) {
+                builder.setNeutralButton(button.getParams().getText(), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int id) {
+                        button.getParams().getListener().onClick();
                         close();
                     }
                 });
             }
+            dialogButtonCount++;
         }
     }
 
