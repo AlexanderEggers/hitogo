@@ -13,7 +13,6 @@ import android.widget.TextView;
 
 import org.hitogo.BuildConfig;
 import org.hitogo.alert.core.AlertImpl;
-import org.hitogo.button.action.ActionButton;
 import org.hitogo.button.core.Button;
 import org.hitogo.core.HitogoController;
 import org.hitogo.core.HitogoUtils;
@@ -83,10 +82,8 @@ public class PopupAlertImpl extends AlertImpl<PopupAlertParams> implements Popup
     }
 
     private void determineButtonCreation(Button button, View dialogView, boolean forceClose) {
-        ActionButton actionButton = (ActionButton) button;
-
-        if(actionButton.getParams().hasActionView()) {
-            buildActionButton(actionButton, dialogView, forceClose);
+        if(button.getParams().hasButtonView()) {
+            buildActionButton(button, dialogView, forceClose);
         } else if (BuildConfig.DEBUG || getController().shouldOverrideDebugMode()) {
             throw new IllegalStateException("Popup can only process buttons that have a view (use forViewAction)");
         }
@@ -157,7 +154,7 @@ public class PopupAlertImpl extends AlertImpl<PopupAlertParams> implements Popup
         }
     }
 
-    private void buildActionButton(final ActionButton button, View view, final boolean forceClose) {
+    private void buildActionButton(final Button button, View view, final boolean forceClose) {
         if(button != null) {
             final View icon = view.findViewById(button.getParams().getViewIds()[0]);
             final View click = view.findViewById(button.getParams().getViewIds()[1]);

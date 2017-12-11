@@ -31,4 +31,12 @@ public abstract class ButtonParams extends HitogoParams<ButtonParamsHolder, Butt
     public final ButtonType getType() {
         return type;
     }
+
+    public abstract String getText();
+
+    public abstract int[] getViewIds();
+
+    public abstract boolean hasButtonView();
+
+    public abstract boolean isClosingAfterClick();
 }

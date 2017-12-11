@@ -20,7 +20,7 @@ public class ActionButtonBuilder extends ButtonBuilder<ActionButton> {
 
     private int[] viewIds;
 
-    private boolean hasActionView;
+    private boolean hasButtonView;
     private boolean closeAfterClick;
 
     private ButtonListener listener;
@@ -50,7 +50,7 @@ public class ActionButtonBuilder extends ButtonBuilder<ActionButton> {
 
     @NonNull
     public ActionButtonBuilder forViewAction(Integer closeIconId, @Nullable Integer optionalCloseViewId) {
-        this.hasActionView = true;
+        this.hasButtonView = true;
         this.viewIds = new int[2];
         this.viewIds[0] = closeIconId;
         this.viewIds[1] = optionalCloseViewId != null ? optionalCloseViewId : closeIconId;
@@ -59,7 +59,7 @@ public class ActionButtonBuilder extends ButtonBuilder<ActionButton> {
 
     @NonNull
     public ActionButtonBuilder forClickOnlyAction() {
-        this.hasActionView = false;
+        this.hasButtonView = false;
         this.viewIds = new int[0];
         return this;
     }
@@ -82,7 +82,7 @@ public class ActionButtonBuilder extends ButtonBuilder<ActionButton> {
     protected void onProvideData(ButtonParamsHolder holder) {
         holder.provideString(ActionButtonParamsKeys.TEXT_KEY, text);
         holder.provideIntArray(ActionButtonParamsKeys.VIEW_IDS_KEY, viewIds);
-        holder.provideBoolean(ActionButtonParamsKeys.HAS_ACTION_VIEW_KEY, hasActionView);
+        holder.provideBoolean(ActionButtonParamsKeys.HAS_BUTTON_VIEW_KEY, hasButtonView);
         holder.provideBoolean(ActionButtonParamsKeys.CLOSE_AFTER_CLICK_KEY, closeAfterClick);
         holder.provideButtonListener(listener);
     }

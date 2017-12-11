@@ -18,12 +18,12 @@ public class ActionButtonImpl extends ButtonImpl<ActionButtonParams> implements 
                     "display a button with only one icon, you can ignore this warning.");
         }
 
-        if (params.hasActionView() && (params.getViewIds() == null || params.getViewIds().length == 0)) {
+        if (params.hasButtonView() && (params.getViewIds() == null || params.getViewIds().length == 0)) {
             throw new InvalidParameterException("Have you forgot to add at least one view id for " +
                     "this button?");
         }
 
-        if (params.hasActionView()) {
+        if (params.hasButtonView()) {
             for (int id : params.getViewIds()) {
                 if (id == -1) {
                     throw new InvalidParameterException("Button view id cannot be -1.");

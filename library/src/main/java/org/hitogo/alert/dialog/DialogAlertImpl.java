@@ -13,7 +13,6 @@ import android.view.View;
 import android.widget.TextView;
 
 import org.hitogo.BuildConfig;
-import org.hitogo.button.action.ActionButton;
 import org.hitogo.button.core.Button;
 import org.hitogo.alert.core.AlertImpl;
 import org.hitogo.core.HitogoUtils;
@@ -118,16 +117,14 @@ public class DialogAlertImpl extends AlertImpl<DialogAlertParams> implements Dia
     }
 
     private void determineButtonCreation(Button button, View dialogView, AlertDialog.Builder builder) {
-        ActionButton actionButton = (ActionButton) button;
-
-        if(actionButton.getParams().hasActionView()) {
-            buildActionButton(actionButton, dialogView);
+        if(button.getParams().hasButtonView()) {
+            buildActionButton(button, dialogView);
         } else {
-            buildDialogButton(builder, actionButton);
+            buildDialogButton(builder, button);
         }
     }
 
-    private void buildActionButton(final ActionButton button, View view) {
+    private void buildActionButton(final Button button, View view) {
         if(button != null) {
             final View icon = view.findViewById(button.getParams().getViewIds()[0]);
             final View click = view.findViewById(button.getParams().getViewIds()[1]);
@@ -152,7 +149,7 @@ public class DialogAlertImpl extends AlertImpl<DialogAlertParams> implements Dia
         }
     }
 
-    private void buildDialogButton(AlertDialog.Builder builder, final ActionButton button) {
+    private void buildDialogButton(AlertDialog.Builder builder, final Button button) {
         if (HitogoUtils.isNotEmpty(button.getParams().getText())) {
             if(dialogButtonCount == PRIMARY_BUTTON) {
                 builder.setPositiveButton(button.getParams().getText(), new DialogInterface.OnClickListener() {
