@@ -55,7 +55,7 @@ public class AlertController extends HitogoController {
 
     @Nullable
     @Override
-    public Integer provideDefaultTextViewId(HitogoAlertType type) {
+    public Integer provideDefaultTextViewId(AlertType type) {
         return R.id.text;
     }
 
