@@ -17,7 +17,7 @@ import java.util.Collections;
 import java.util.List;
 
 @SuppressWarnings({"WeakerAccess", "unused", "unchecked"})
-public abstract class AlertBuilder<T, A extends Alert> {
+public abstract class AlertBuilder<B extends AlertBuilder, A extends Alert> {
 
     private Class<? extends AlertImpl> targetClass;
     private Class<? extends AlertParams> paramClass;
@@ -85,80 +85,80 @@ public abstract class AlertBuilder<T, A extends Alert> {
     protected abstract void onProvideData(AlertParamsHolder holder);
 
     @NonNull
-    public final T setController(HitogoController controller) {
+    public final B setController(HitogoController controller) {
         this.controller = controller;
-        return (T) this;
+        return (B) this;
     }
 
     @NonNull
-    public final T setBundle(@NonNull Bundle arguments) {
+    public final B setBundle(@NonNull Bundle arguments) {
         this.arguments = arguments;
-        return (T) this;
+        return (B) this;
     }
 
     @NonNull
-    public final T setTitle(@NonNull String title) {
+    public final B setTitle(@NonNull String title) {
         return setTitle(getController().provideDefaultTitleViewId(builderType), title);
     }
 
     @NonNull
-    public final T setTitle(Integer viewId, @NonNull String title) {
+    public final B setTitle(Integer viewId, @NonNull String title) {
         this.titleViewId = viewId;
         this.title = title;
-        return (T) this;
+        return (B) this;
     }
 
     @NonNull
-    public final T addText(@NonNull String text) {
+    public final B addText(@NonNull String text) {
         return addText(getController().provideDefaultTextViewId(builderType), text);
     }
 
     @NonNull
-    public final T addText(Integer viewId, @NonNull String text) {
+    public final B addText(Integer viewId, @NonNull String text) {
         textMap.put(viewId, text);
-        return (T) this;
+        return (B) this;
     }
 
     @NonNull
-    public final T setTag(@NonNull String tag) {
+    public final B setTag(@NonNull String tag) {
         this.tag = tag;
-        return (T) this;
+        return (B) this;
     }
 
     @NonNull
-    public final T setState(Integer state) {
+    public final B setState(Integer state) {
         this.state = state;
-        return (T) this;
+        return (B) this;
     }
 
     @NonNull
-    public final T setState(Enum state) {
+    public final B setState(Enum state) {
         this.state = state != null ? state.ordinal() : null;
-        return (T) this;
+        return (B) this;
     }
 
     @NonNull
-    public final T setVisibilityListener(@NonNull VisibilityListener visibilityListener) {
+    public final B setVisibilityListener(@NonNull VisibilityListener visibilityListener) {
         this.visibilityListener = visibilityListener;
-        return (T) this;
+        return (B) this;
     }
 
     @NonNull
-    public final T addButton(@NonNull Button... buttons) {
+    public final B addButton(@NonNull Button... buttons) {
         Collections.addAll(this.buttons, buttons);
-        return (T) this;
+        return (B) this;
     }
 
     @NonNull
-    protected final T setCloseButton(@NonNull Button closeButton) {
+    protected final B setCloseButton(@NonNull Button closeButton) {
         this.closeButton = closeButton;
-        return (T) this;
+        return (B) this;
     }
 
     @NonNull
-    public final T setLayout(@LayoutRes Integer layoutRes) {
+    public final B setLayout(@LayoutRes Integer layoutRes) {
         this.layoutRes = layoutRes;
-        return (T) this;
+        return (B) this;
     }
 
     public void show() {
