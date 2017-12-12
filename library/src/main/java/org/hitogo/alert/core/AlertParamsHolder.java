@@ -1,5 +1,6 @@
 package org.hitogo.alert.core;
 
+import android.support.annotation.NonNull;
 import android.transition.Transition;
 import android.util.SparseArray;
 import android.view.View;
@@ -79,10 +80,12 @@ public class AlertParamsHolder extends HitogoParamsHolder {
         return onTouchListener;
     }
 
+    @NonNull
     List<Transition> getTransitions() {
         return transitions;
     }
 
+    @NonNull
     List<Object> getCustomObjects() {
         return customObjects;
     }

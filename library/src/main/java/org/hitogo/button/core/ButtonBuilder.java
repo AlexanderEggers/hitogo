@@ -86,6 +86,7 @@ public abstract class ButtonBuilder<C extends ButtonBuilder, B extends Button> {
         return containerRef.get();
     }
 
+    @NonNull
     protected final HitogoController getController() {
         return containerRef.get().getController();
     }

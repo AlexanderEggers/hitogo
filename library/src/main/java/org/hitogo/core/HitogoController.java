@@ -440,7 +440,5 @@ public abstract class HitogoController implements LifecycleObserver {
         return null;
     }
 
-    public boolean provideIsDebugState() {
-        return true;
-    }
+    public abstract boolean provideIsDebugState();
 }

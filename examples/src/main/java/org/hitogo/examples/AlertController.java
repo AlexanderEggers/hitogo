@@ -76,4 +76,9 @@ public class AlertController extends HitogoController {
     public HitogoAnimation provideDefaultAnimation() {
         return TopAnimation.build();
     }
+
+    @Override
+    public boolean provideIsDebugState() {
+        return BuildConfig.DEBUG;
+    }
 }
