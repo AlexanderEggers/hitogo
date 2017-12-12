@@ -73,18 +73,16 @@ public class PopupAlertImpl extends AlertImpl<PopupAlertParams> implements Popup
 
             PopupWindow window = new PopupWindow(view, params.getWidth(), params.getHeight());
             return buildPopupWindow(window);
-        } else if (BuildConfig.DEBUG || getController().shouldOverrideDebugMode()) {
+        } else {
             throw new InvalidParameterException("View is null. Is the layout existing for " +
                     "the state: '" + params.getState() + "'?");
         }
-
-        return null;
     }
 
     private void determineButtonCreation(Button button, View dialogView, boolean forceClose) {
         if(button.getParams().hasButtonView()) {
             buildActionButton(button, dialogView, forceClose);
-        } else if (BuildConfig.DEBUG || getController().shouldOverrideDebugMode()) {
+        } else {
             throw new IllegalStateException("Popup can only process buttons that have a view (use forViewAction)");
         }
     }
@@ -145,11 +143,11 @@ public class PopupAlertImpl extends AlertImpl<PopupAlertParams> implements Popup
                 } else {
                     textView.setVisibility(View.GONE);
                 }
-            } else if (BuildConfig.DEBUG || getController().shouldOverrideDebugMode()) {
+            } else {
                 throw new InvalidParameterException("Did you forget to add the " +
                         "title/text view to your layout?");
             }
-        } else if (BuildConfig.DEBUG || getController().shouldOverrideDebugMode()) {
+        } else {
             throw new InvalidParameterException("Title or text view id is null.");
         }
     }
@@ -180,7 +178,7 @@ public class PopupAlertImpl extends AlertImpl<PopupAlertParams> implements Popup
                         }
                     }
                 });
-            } else if(BuildConfig.DEBUG || getController().shouldOverrideDebugMode()) {
+            } else {
                 throw new InvalidParameterException("Did you forget to add the button to your layout?");
             }
         }

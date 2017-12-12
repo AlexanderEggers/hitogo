@@ -147,7 +147,7 @@ public class DialogAlertImpl extends AlertImpl<DialogAlertParams> implements Dia
                         close();
                     }
                 });
-            } else if(BuildConfig.DEBUG || getController().shouldOverrideDebugMode()) {
+            } else {
                 throw new InvalidParameterException("Did you forget to add the button to your layout?");
             }
         }

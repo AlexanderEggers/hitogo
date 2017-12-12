@@ -439,8 +439,4 @@ public abstract class HitogoController implements LifecycleObserver {
     public PopupAlertBuilder provideSimplePopup(@NonNull PopupAlertBuilder builder) {
         return null;
     }
-
-    public boolean shouldOverrideDebugMode() {
-        return false;
-    }
 }

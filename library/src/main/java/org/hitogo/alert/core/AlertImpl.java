@@ -89,10 +89,8 @@ public abstract class AlertImpl<T extends AlertParams> extends AlertLifecycle<T>
         this.listener = params.getVisibilityListener();
         this.state = params.getState() != null ? params.getState() : -1;
 
-        if (BuildConfig.DEBUG || getController().shouldOverrideDebugMode()) {
-            onCheck(params);
-            onCheck(getController(), params);
-        }
+        onCheck(params);
+        onCheck(getController(), params);
 
         if (listener != null) {
             listener.onCreate(this);

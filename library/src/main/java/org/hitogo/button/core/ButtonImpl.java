@@ -18,10 +18,8 @@ public abstract class ButtonImpl<T extends ButtonParams> extends ButtonLifecycle
         this.containerRef = new WeakReference<>(container);
         this.params = params;
 
-        if(BuildConfig.DEBUG) {
-            onCheck(params);
-            onCheck(getController(), params);
-        }
+        onCheck(params);
+        onCheck(getController(), params);
 
         onCreate(params);
         return this;
