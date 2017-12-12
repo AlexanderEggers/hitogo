@@ -36,13 +36,13 @@ abstract class AlertLifecycle<T extends AlertParams> {
     }
 
     @Nullable
-    protected Dialog onCreateDialog(@Nullable LayoutInflater inflater, @NonNull Context context,
+    protected Dialog onCreateDialog(@NonNull LayoutInflater inflater, @NonNull Context context,
                                     @NonNull T params) {
         return null;
     }
 
     @Nullable
-    protected PopupWindow onCreatePopup(@Nullable LayoutInflater inflater, @NonNull Context context,
+    protected PopupWindow onCreatePopup(@NonNull LayoutInflater inflater, @NonNull Context context,
                                         @NonNull T params) {
         return null;
     }

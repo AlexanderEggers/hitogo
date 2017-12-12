@@ -52,7 +52,7 @@ public class DialogAlertImpl extends AlertImpl<DialogAlertParams> implements Dia
 
     @Nullable
     @Override
-    protected Dialog onCreateDialog(@Nullable LayoutInflater inflater, @NonNull Context context,
+    protected Dialog onCreateDialog(@NonNull LayoutInflater inflater, @NonNull Context context,
                                     @NonNull DialogAlertParams params) {
         List<Button> buttonList = params.getButtons();
         Integer themeResId = params.getDialogThemeResId();
@@ -79,7 +79,7 @@ public class DialogAlertImpl extends AlertImpl<DialogAlertParams> implements Dia
         View view = null;
         if(getParams().getLayoutRes() != null && getParams().getLayoutRes() != 0) {
             view = inflater.inflate(getParams().getLayoutRes(), null);
-        } else if (getParams().getState() != null) {
+        } else if (getParams().getState() != null && getController().provideDialogLayout(getParams().getState()) != null) {
             view = inflater.inflate(getController().provideDialogLayout(getParams().getState()), null);
         }
         builder.setCancelable(getParams().isDismissible());

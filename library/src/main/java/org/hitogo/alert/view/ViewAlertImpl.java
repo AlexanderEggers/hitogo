@@ -92,7 +92,7 @@ public class ViewAlertImpl extends AlertImpl<ViewAlertParams> implements ViewAle
         View view = null;
         if (params.getLayoutRes() != null && params.getLayoutRes() != 0) {
             view = inflater.inflate(params.getLayoutRes(), null);
-        } else if (params.getState() != null) {
+        } else if (params.getState() != null && getController().provideViewLayout(params.getState()) != null) {
             view = inflater.inflate(getController().provideViewLayout(params.getState()), null);
         }
 
