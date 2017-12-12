@@ -12,7 +12,6 @@ import android.view.ViewGroup;
 import android.view.ViewManager;
 import android.widget.TextView;
 
-import org.hitogo.BuildConfig;
 import org.hitogo.core.HitogoAnimation;
 import org.hitogo.button.core.Button;
 import org.hitogo.core.HitogoController;
@@ -49,12 +48,13 @@ public class ViewAlertImpl extends AlertImpl<ViewAlertParams> implements ViewAle
         if (params.getContainerId() != null) {
             View containerView = determineViewGroup();
 
-            if (containerView != null && !(containerView instanceof ViewGroup)) {
+            if (containerView != null && !(containerView instanceof ViewGroup) &&
+                    (getController().provideIsDebugState())) {
                 throw new InvalidParameterException("Your container view needs to be a ViewGroup. " +
                         "Use for example the LinearLayout to solve this issue.");
             }
 
-            if (containerView != null) {
+            if (containerView != null && containerView instanceof ViewGroup) {
                 viewGroup = (ViewGroup) containerView;
             } else {
                 Log.e(ViewAlertBuilder.class.getName(), "Cannot find overlay container view. " +
@@ -108,16 +108,17 @@ public class ViewAlertImpl extends AlertImpl<ViewAlertParams> implements ViewAle
             }
 
             return view;
-        } else {
+        } else if (getController().provideIsDebugState()) {
             throw new InvalidParameterException("Hitogo view is null. Is the layout existing for " +
                     "the state: '" + params.getState() + "'?");
         }
+        return null;
     }
 
     private void determineButtonCreation(Button button, View dialogView, boolean forceClose) {
         if(button.getParams().hasButtonView()) {
             buildActionButton(button, dialogView, forceClose);
-        } else {
+        } else if (getController().provideIsDebugState()) {
             throw new IllegalStateException("Popup can only process buttons that have a view (use forViewAction)");
         }
     }
@@ -159,10 +160,10 @@ public class ViewAlertImpl extends AlertImpl<ViewAlertParams> implements ViewAle
                 } else {
                     textView.setVisibility(View.GONE);
                 }
-            } else {
+            } else if (getController().provideIsDebugState()) {
                 throw new InvalidParameterException("Did you forget to add the view to your layout?");
             }
-        } else {
+        } else if (getController().provideIsDebugState()) {
             throw new InvalidParameterException("View id is null.");
         }
     }
@@ -193,7 +194,7 @@ public class ViewAlertImpl extends AlertImpl<ViewAlertParams> implements ViewAle
                         }
                     }
                 });
-            } else {
+            } else if(getController().provideIsDebugState()) {
                 throw new InvalidParameterException("Did you forget to add the button to your layout?");
             }
         }

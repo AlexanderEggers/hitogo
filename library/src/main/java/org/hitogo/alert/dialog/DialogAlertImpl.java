@@ -12,7 +12,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
 
-import org.hitogo.BuildConfig;
 import org.hitogo.button.core.Button;
 import org.hitogo.alert.core.AlertImpl;
 import org.hitogo.core.HitogoUtils;
@@ -147,7 +146,7 @@ public class DialogAlertImpl extends AlertImpl<DialogAlertParams> implements Dia
                         close();
                     }
                 });
-            } else {
+            } else if(getController().provideIsDebugState()) {
                 throw new InvalidParameterException("Did you forget to add the button to your layout?");
             }
         }

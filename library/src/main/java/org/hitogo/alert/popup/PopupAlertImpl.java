@@ -11,7 +11,6 @@ import android.view.View;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
-import org.hitogo.BuildConfig;
 import org.hitogo.alert.core.AlertImpl;
 import org.hitogo.button.core.Button;
 import org.hitogo.core.HitogoController;
@@ -73,16 +72,18 @@ public class PopupAlertImpl extends AlertImpl<PopupAlertParams> implements Popup
 
             PopupWindow window = new PopupWindow(view, params.getWidth(), params.getHeight());
             return buildPopupWindow(window);
-        } else {
+        } else if (getController().provideIsDebugState()) {
             throw new InvalidParameterException("View is null. Is the layout existing for " +
                     "the state: '" + params.getState() + "'?");
         }
+
+        return null;
     }
 
     private void determineButtonCreation(Button button, View dialogView, boolean forceClose) {
         if(button.getParams().hasButtonView()) {
             buildActionButton(button, dialogView, forceClose);
-        } else {
+        } else if (getController().provideIsDebugState()) {
             throw new IllegalStateException("Popup can only process buttons that have a view (use forViewAction)");
         }
     }
@@ -143,11 +144,11 @@ public class PopupAlertImpl extends AlertImpl<PopupAlertParams> implements Popup
                 } else {
                     textView.setVisibility(View.GONE);
                 }
-            } else {
+            } else if (getController().provideIsDebugState()) {
                 throw new InvalidParameterException("Did you forget to add the " +
                         "title/text view to your layout?");
             }
-        } else {
+        } else if (getController().provideIsDebugState()) {
             throw new InvalidParameterException("Title or text view id is null.");
         }
     }
@@ -178,7 +179,7 @@ public class PopupAlertImpl extends AlertImpl<PopupAlertParams> implements Popup
                         }
                     }
                 });
-            } else {
+            } else if(getController().provideIsDebugState()) {
                 throw new InvalidParameterException("Did you forget to add the button to your layout?");
             }
         }

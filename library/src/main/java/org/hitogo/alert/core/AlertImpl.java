@@ -9,7 +9,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.PopupWindow;
 
-import org.hitogo.BuildConfig;
 import org.hitogo.alert.view.ViewAlertParams;
 import org.hitogo.core.HitogoContainer;
 import org.hitogo.core.HitogoController;
@@ -89,8 +88,10 @@ public abstract class AlertImpl<T extends AlertParams> extends AlertLifecycle<T>
         this.listener = params.getVisibilityListener();
         this.state = params.getState() != null ? params.getState() : -1;
 
-        onCheck(params);
-        onCheck(getController(), params);
+        if (getController().provideIsDebugState()) {
+            onCheck(params);
+            onCheck(getController(), params);
+        }
 
         if (listener != null) {
             listener.onCreate(this);
