@@ -82,7 +82,7 @@ public class DialogAlertImpl extends AlertImpl<DialogAlertParams> implements Dia
         } else if (getParams().getState() != null) {
             view = inflater.inflate(getController().provideDialogLayout(getParams().getState()), null);
         }
-        builder.setCancelable(!getParams().isDismissible());
+        builder.setCancelable(getParams().isDismissible());
 
         if (view != null && getParams().getTitleViewId() != null) {
             ((TextView) view.findViewById(getParams().getTitleViewId())).setText(HitogoUtils.getHtmlText(getParams().getTitle()));
