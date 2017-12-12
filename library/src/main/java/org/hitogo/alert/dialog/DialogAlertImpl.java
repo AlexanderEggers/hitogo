@@ -85,7 +85,7 @@ public class DialogAlertImpl extends AlertImpl<DialogAlertParams> implements Dia
         builder.setCancelable(!getParams().isDismissible());
 
         if (view != null && getParams().getTitleViewId() != null) {
-            ((TextView) view.findViewById(getParams().getTitleViewId())).setText(getParams().getTitle());
+            ((TextView) view.findViewById(getParams().getTitleViewId())).setText(HitogoUtils.getHtmlText(getParams().getTitle()));
         } else {
             builder.setTitle(getParams().getTitle());
         }
@@ -95,7 +95,7 @@ public class DialogAlertImpl extends AlertImpl<DialogAlertParams> implements Dia
             for(int i = 0; i < textMap.size(); i++) {
                 Integer viewId = textMap.keyAt(i);
                 String text = textMap.valueAt(i);
-                ((TextView) view.findViewById(viewId)).setText(text);
+                ((TextView) view.findViewById(viewId)).setText(HitogoUtils.getHtmlText(text));
             }
         } else {
             builder.setMessage(textMap.valueAt(0));
