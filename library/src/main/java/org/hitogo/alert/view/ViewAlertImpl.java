@@ -172,9 +172,13 @@ public class ViewAlertImpl extends AlertImpl<ViewAlertParams> implements ViewAle
     private void buildActionButton(final Button button, View view, final boolean forceClose) {
         if(button != null) {
             final View icon = view.findViewById(button.getParams().getViewIds()[0]);
-            final View click = view.findViewById(button.getParams().getViewIds()[1]);
+            View click = view.findViewById(button.getParams().getViewIds()[1]);
 
-            if (icon != null && click != null) {
+            if(click == null) {
+                click = icon;
+            }
+
+            if (icon != null) {
                 if (icon instanceof TextView) {
                     ((TextView) icon).setText(HitogoUtils.getHtmlText(button.getParams().getText()));
                 }
