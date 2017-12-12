@@ -5,36 +5,23 @@ import android.support.annotation.Nullable;
 
 import org.hitogo.button.core.ButtonBuilder;
 import org.hitogo.button.core.ButtonImpl;
-import org.hitogo.button.core.ButtonListener;
 import org.hitogo.button.core.ButtonParams;
 import org.hitogo.button.core.ButtonParamsHolder;
 import org.hitogo.button.core.ButtonType;
 import org.hitogo.core.HitogoContainer;
 
 @SuppressWarnings({"WeakerAccess", "unused"})
-public class ActionButtonBuilder extends ButtonBuilder<ActionButton> {
+public class ActionButtonBuilder extends ButtonBuilder<ActionButtonBuilder, ActionButton> {
 
     private static final ButtonType type = ButtonType.ACTION;
 
-    private String text;
-
     private int[] viewIds;
-
     private boolean hasButtonView;
-    private boolean closeAfterClick;
-
-    private ButtonListener listener;
 
     public ActionButtonBuilder(@NonNull Class<? extends ButtonImpl> targetClass,
                                @NonNull Class<? extends ButtonParams> paramClass,
                                @NonNull HitogoContainer container) {
         super(targetClass, paramClass, container, type);
-    }
-
-    @NonNull
-    public ActionButtonBuilder setText(String text) {
-        this.text = text;
-        return this;
     }
 
     @NonNull
@@ -64,26 +51,9 @@ public class ActionButtonBuilder extends ButtonBuilder<ActionButton> {
         return this;
     }
 
-    @NonNull
-    public ActionButtonBuilder setButtonListener(@Nullable ButtonListener listener) {
-        this.listener = listener;
-        this.closeAfterClick = true;
-        return this;
-    }
-
-    @NonNull
-    public ActionButtonBuilder setButtonListener(@Nullable ButtonListener listener, boolean closeAfterClick) {
-        this.listener = listener;
-        this.closeAfterClick = closeAfterClick;
-        return this;
-    }
-
     @Override
     protected void onProvideData(ButtonParamsHolder holder) {
-        holder.provideString(ActionButtonParamsKeys.TEXT_KEY, text);
         holder.provideIntArray(ActionButtonParamsKeys.VIEW_IDS_KEY, viewIds);
         holder.provideBoolean(ActionButtonParamsKeys.HAS_BUTTON_VIEW_KEY, hasButtonView);
-        holder.provideBoolean(ActionButtonParamsKeys.CLOSE_AFTER_CLICK_KEY, closeAfterClick);
-        holder.provideButtonListener(listener);
     }
 }
