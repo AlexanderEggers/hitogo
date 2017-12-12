@@ -20,7 +20,7 @@ import java.util.List;
 public final class HitogoUtils {
 
     private HitogoUtils() {
-        //Methods can only be accessed via static methods.
+
     }
 
     public static boolean isNotEmpty(String text) {
@@ -43,7 +43,7 @@ public final class HitogoUtils {
         customView.measure(widthSpec, View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED));
     }
 
-    public static int getAlertHashCode(AlertParams params) {
+    public static int generateAlertHashCode(AlertParams params) {
         int hashCode = 0;
 
         String title = params.getTitle();
