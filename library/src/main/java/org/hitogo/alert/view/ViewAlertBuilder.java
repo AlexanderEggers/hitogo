@@ -80,7 +80,7 @@ public class ViewAlertBuilder extends AlertBuilder<ViewAlertBuilder, ViewAlert> 
             try {
                 return asDismissible(Hitogo.with(getContainer())
                         .asActionButton()
-                        .forViewAction()
+                        .forCloseAction()
                         .build());
             } catch (InvalidParameterException ex) {
                 Log.e(ViewAlertBuilder.class.getName(), "Cannot add default close button.");
