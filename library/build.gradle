@@ -13,7 +13,7 @@ ext {
     siteUrl = 'https://github.com/Mordag/hitogo'
     gitUrl = 'https://github.com/Mordag/hitogo.git'
 
-    libraryVersion = '1.0.0-beta12.1'
+    libraryVersion = '1.0.0-beta12.2'
 
     developerId = 'mordag'
     developerName = 'Alexander Eggers'
@@ -34,7 +34,7 @@ android {
     defaultConfig {
         minSdkVersion 14
         targetSdkVersion 27
-        versionName "1.0.0-beta12.1"
+        versionName "1.0.0-beta12.2"
         consumerProguardFiles 'proguard-rules.pro'
     }
 

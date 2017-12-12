@@ -25,22 +25,32 @@ public class ActionButtonBuilder extends ButtonBuilder<ActionButtonBuilder, Acti
     }
 
     @NonNull
-    public ActionButtonBuilder forViewAction() {
-        return forViewAction(getController().provideDefaultCloseIconId(),
+    public ActionButtonBuilder forCloseAction() {
+        return forCloseAction(getController().provideDefaultCloseIconId(),
                 getController().provideDefaultCloseClickId());
     }
 
     @NonNull
-    public ActionButtonBuilder forViewAction(Integer closeIconId) {
-        return forViewAction(closeIconId, getController().provideDefaultCloseClickId());
+    public ActionButtonBuilder forCloseAction(Integer closeIconId) {
+        return forCloseAction(closeIconId, getController().provideDefaultCloseClickId());
     }
 
     @NonNull
-    public ActionButtonBuilder forViewAction(Integer closeIconId, @Nullable Integer optionalCloseViewId) {
+    public ActionButtonBuilder forCloseAction(Integer closeIconId, @Nullable Integer optionalCloseViewId) {
+        return forViewAction(closeIconId, optionalCloseViewId);
+    }
+
+    @NonNull
+    public ActionButtonBuilder forViewAction(Integer closeIconId) {
+        return forViewAction(closeIconId, null);
+    }
+
+    @NonNull
+    public ActionButtonBuilder forViewAction(Integer iconId, @Nullable Integer clickId) {
         this.hasButtonView = true;
         this.viewIds = new int[2];
-        this.viewIds[0] = closeIconId;
-        this.viewIds[1] = optionalCloseViewId != null ? optionalCloseViewId : closeIconId;
+        this.viewIds[0] = iconId;
+        this.viewIds[1] = clickId != null ? clickId : iconId;
         return this;
     }
 
