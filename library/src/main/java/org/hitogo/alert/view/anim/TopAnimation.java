@@ -27,9 +27,9 @@ public class TopAnimation extends HitogoAnimation {
             @Override
             public void onAnimationUpdate(ValueAnimator valueAnimator) {
                 int animatedValue = (int) valueAnimator.getAnimatedValue();
-                ViewGroup.LayoutParams params1 = hitogoView.getLayoutParams();
-                params1.height = animatedValue;
-                hitogoView.setLayoutParams(params1);
+                ViewGroup.LayoutParams layoutParams = hitogoView.getLayoutParams();
+                layoutParams.height = animatedValue;
+                hitogoView.setLayoutParams(layoutParams);
             }
         });
         anim.addListener(new AnimatorListenerAdapter() {
@@ -59,9 +59,9 @@ public class TopAnimation extends HitogoAnimation {
             @Override
             public void onAnimationUpdate(ValueAnimator valueAnimator) {
                 int animatedValue = (int) valueAnimator.getAnimatedValue();
-                ViewGroup.LayoutParams params1 = hitogoView.getLayoutParams();
-                params1.height = animatedValue;
-                hitogoView.setLayoutParams(params1);
+                ViewGroup.LayoutParams layoutParams = hitogoView.getLayoutParams();
+                layoutParams.height = animatedValue;
+                hitogoView.setLayoutParams(layoutParams);
             }
         });
         anim.addListener(new AnimatorListenerAdapter() {

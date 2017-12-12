@@ -27,10 +27,10 @@ public class LeftAnimation extends HitogoAnimation {
             @Override
             public void onAnimationUpdate(ValueAnimator valueAnimator) {
                 int animatedValue = (int) valueAnimator.getAnimatedValue();
-                ViewGroup.LayoutParams params1 = hitogoView.getLayoutParams();
-                params1.width = animatedValue;
-                params1.height = hitogoView.getMeasuredHeight();
-                hitogoView.setLayoutParams(params1);
+                ViewGroup.LayoutParams layoutParams = hitogoView.getLayoutParams();
+                layoutParams.width = animatedValue;
+                layoutParams.height = hitogoView.getMeasuredHeight();
+                hitogoView.setLayoutParams(layoutParams);
             }
         });
         anim.addListener(new AnimatorListenerAdapter() {
@@ -60,10 +60,10 @@ public class LeftAnimation extends HitogoAnimation {
             @Override
             public void onAnimationUpdate(ValueAnimator valueAnimator) {
                 int animatedValue = (int) valueAnimator.getAnimatedValue();
-                ViewGroup.LayoutParams params1 = hitogoView.getLayoutParams();
-                params1.width = animatedValue;
-                params1.height = hitogoView.getMeasuredHeight();
-                hitogoView.setLayoutParams(params1);
+                ViewGroup.LayoutParams layoutParams = hitogoView.getLayoutParams();
+                layoutParams.width = animatedValue;
+                layoutParams.height = hitogoView.getMeasuredHeight();
+                hitogoView.setLayoutParams(layoutParams);
             }
         });
         anim.addListener(new AnimatorListenerAdapter() {
