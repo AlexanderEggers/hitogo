@@ -115,11 +115,15 @@ public class DialogAlertImpl extends AlertImpl<DialogAlertParams> implements Dia
         return builder;
     }
 
-    private void determineButtonCreation(Button button, View dialogView, AlertDialog.Builder builder) {
+    private void determineButtonCreation(Button button, @Nullable View dialogView, AlertDialog.Builder builder) {
         if(button.getParams().hasButtonView()) {
-            buildActionButton(button, dialogView);
+            if(dialogView != null) {
+                buildActionButton(button, dialogView);
+            } else if(getController().provideIsDebugState()) {
+                throw new InvalidParameterException("The button cannot be attached to a null view. Check your dialog or button builder.");
+            }
         } else {
-            buildDialogButton(builder, button);
+            buildDialogButton(button, builder);
         }
     }
 
@@ -152,7 +156,7 @@ public class DialogAlertImpl extends AlertImpl<DialogAlertParams> implements Dia
         }
     }
 
-    private void buildDialogButton(AlertDialog.Builder builder, final Button button) {
+    private void buildDialogButton(final Button button, AlertDialog.Builder builder) {
         if (HitogoUtils.isNotEmpty(button.getParams().getText())) {
             if(dialogButtonCount == PRIMARY_BUTTON) {
                 builder.setPositiveButton(button.getParams().getText(), new DialogInterface.OnClickListener() {
