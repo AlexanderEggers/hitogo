@@ -15,11 +15,11 @@ repositories {
 }
 
 dependencies {
-  compile 'org.hitogo:Hitogo:1.0.0-beta12.7'
+  compile 'org.hitogo:Hitogo:1.0.0-beta12.8'
 }
 ```
 
-How do I use Hitogo? (Step-by-step introduction for 1.0.0-beta12.7)
+How do I use Hitogo? (Step-by-step introduction for 1.0.0-beta12.8)
 -------------------
 
 1. Extend the HitogoController
@@ -124,13 +124,13 @@ public void someMethod() {
 
         ActionButton closeButton = Hitogo.with(this)
                 .asActionButton()
+                .asCloseAction(R.id.close)
                 .setButtonListener(new ButtonListener() {
                     @Override
                     public void onClick() {
                         getController().closeAll(true);
                     }
                 }, false)
-                .forViewAction(R.id.close)
                 .build();
 
         Hitogo.with(this)
