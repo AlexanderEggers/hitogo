@@ -25,6 +25,8 @@ public class PopupAlertImpl extends AlertImpl<PopupAlertParams> implements Popup
 
     @Override
     protected void onCheck(@NonNull HitogoController controller, @NonNull PopupAlertParams params) {
+        super.onCheck(controller, params);
+
         if (params.getTextMap().size() == 0) {
             throw new InvalidParameterException("You need to add a text to this alert.");
         }
@@ -42,6 +44,17 @@ public class PopupAlertImpl extends AlertImpl<PopupAlertParams> implements Popup
         }
     }
 
+    @Override
+    protected void onCreate(@NonNull PopupAlertParams params) {
+        super.onCreate(params);
+
+        if(params.getAnchorViewTag() != null) {
+            anchorView = getRootView().findViewWithTag(params.getAnchorViewTag());
+        } else {
+            anchorView = getRootView().findViewById(params.getAnchorViewId());
+        }
+    }
+
     @Nullable
     @Override
     protected PopupWindow onCreatePopup(@NonNull LayoutInflater inflater, @NonNull Context context,
@@ -51,12 +64,6 @@ public class PopupAlertImpl extends AlertImpl<PopupAlertParams> implements Popup
             view = inflater.inflate(params.getLayoutRes(), null);
         } else if (params.getState() != null && getController().providePopupLayout(params.getState()) != null) {
             view = inflater.inflate(getController().providePopupLayout(params.getState()), null);
-        }
-
-        if(params.getAnchorViewTag() != null) {
-            anchorView = getRootView().findViewWithTag(params.getAnchorViewTag());
-        } else {
-            anchorView = getRootView().findViewById(params.getAnchorViewId());
         }
 
         if (view != null) {
@@ -132,7 +139,6 @@ public class PopupAlertImpl extends AlertImpl<PopupAlertParams> implements Popup
         }
     }
 
-    @SuppressWarnings("deprecation")
     private void setViewString(@NonNull View containerView, @Nullable Integer viewId,
                                @Nullable String chars) {
         if (viewId != null) {
@@ -163,7 +169,7 @@ public class PopupAlertImpl extends AlertImpl<PopupAlertParams> implements Popup
             }
 
             if (icon != null) {
-                if (icon instanceof TextView) {
+                if (icon instanceof TextView && HitogoUtils.isNotEmpty(button.getParams().getText())) {
                     ((TextView) icon).setText(HitogoUtils.getHtmlText(button.getParams().getText()));
                 }
 
@@ -187,6 +193,8 @@ public class PopupAlertImpl extends AlertImpl<PopupAlertParams> implements Popup
 
     @Override
     protected void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+
         int xoff = getParams().getXoff();
         int yoff = getParams().getYoff();
 
@@ -202,6 +210,7 @@ public class PopupAlertImpl extends AlertImpl<PopupAlertParams> implements Popup
 
     @Override
     protected void onCloseDefault(@NonNull Context context) {
+        super.onCloseDefault(context);
         getPopup().dismiss();
     }
 }

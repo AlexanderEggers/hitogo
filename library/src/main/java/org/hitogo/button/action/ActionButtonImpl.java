@@ -13,6 +13,8 @@ public class ActionButtonImpl extends ButtonImpl<ActionButtonParams> implements 
 
     @Override
     protected void onCheck(@NonNull ActionButtonParams params) {
+        super.onCheck(params);
+
         if (HitogoUtils.isEmpty(params.getText())) {
             Log.w(ActionButtonBuilder.class.getName(), "Button has no text. If you want to " +
                     "display a button with only one icon, you can ignore this warning.");

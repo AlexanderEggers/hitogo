@@ -23,6 +23,7 @@ import java.util.List;
 @SuppressWarnings({"WeakerAccess", "unused"})
 public class DialogAlertImpl extends AlertImpl<DialogAlertParams> implements DialogAlert {
 
+    private static final int MAX_BUILDER_BUTTON_AMOUNT = 3;
     private static final int PRIMARY_BUTTON = 0;
     private static final int SECONDARY_BUTTON = 1;
     private static final int NEUTRAL_BUTTON = 2;
@@ -31,9 +32,7 @@ public class DialogAlertImpl extends AlertImpl<DialogAlertParams> implements Dia
 
     @Override
     protected void onCheck(@NonNull DialogAlertParams params) {
-        if (params.getTitle() == null || params.getTitle().isEmpty()) {
-            Log.i(ViewAlertBuilder.class.getName(), "Title parameter is empty.");
-        }
+        super.onCheck(params);
 
         if (params.getTextMap().size() == 0) {
             throw new InvalidParameterException("You need to add a text to this dialog.");
@@ -76,35 +75,33 @@ public class DialogAlertImpl extends AlertImpl<DialogAlertParams> implements Dia
     private AlertDialog.Builder generateDialog(AlertDialog.Builder builder, LayoutInflater inflater,
                                                List<Button> buttonList) {
         View view = null;
-        if(getParams().getLayoutRes() != null && getParams().getLayoutRes() != 0) {
+        if (getParams().getLayoutRes() != null && getParams().getLayoutRes() != 0) {
             view = inflater.inflate(getParams().getLayoutRes(), null);
         } else if (getParams().getState() != null && getController().provideDialogLayout(getParams().getState()) != null) {
             view = inflater.inflate(getController().provideDialogLayout(getParams().getState()), null);
         }
         builder.setCancelable(getParams().isDismissible());
 
-        if (view != null && getParams().getTitleViewId() != null) {
-            ((TextView) view.findViewById(getParams().getTitleViewId())).setText(HitogoUtils.getHtmlText(getParams().getTitle()));
-        } else {
-            builder.setTitle(getParams().getTitle());
+        if (HitogoUtils.isNotEmpty(getParams().getTitle())) {
+            setDialogTitle(view, builder);
         }
 
         SparseArray<String> textMap = getParams().getTextMap();
         if (view != null) {
-            for(int i = 0; i < textMap.size(); i++) {
+            for (int i = 0; i < textMap.size(); i++) {
                 Integer viewId = textMap.keyAt(i);
                 String text = textMap.valueAt(i);
-                ((TextView) view.findViewById(viewId)).setText(HitogoUtils.getHtmlText(text));
+                setViewString(view, viewId, text);
             }
-        } else {
+        } else if (textMap.size() > 0) {
             builder.setMessage(textMap.valueAt(0));
         }
 
-        for(Button button : buttonList) {
+        for (Button button : buttonList) {
             determineButtonCreation(button, view, builder);
         }
 
-        if(getParams().getCloseButton() != null) {
+        if (getParams().getCloseButton() != null) {
             determineButtonCreation(getParams().getCloseButton(), view, builder);
         }
 
@@ -115,12 +112,41 @@ public class DialogAlertImpl extends AlertImpl<DialogAlertParams> implements Dia
         return builder;
     }
 
+    private void setDialogTitle(View containerView, AlertDialog.Builder builder) {
+        if (containerView != null && getParams().getTitleViewId() != null) {
+            ((TextView) containerView.findViewById(getParams().getTitleViewId()))
+                    .setText(HitogoUtils.getHtmlText(getParams().getTitle()));
+        } else {
+            builder.setTitle(getParams().getTitle());
+        }
+    }
+
+    private void setViewString(@NonNull View containerView, @Nullable Integer viewId,
+                               @Nullable String chars) {
+        if (viewId != null) {
+            TextView textView = containerView.findViewById(viewId);
+            if (textView != null) {
+                if (HitogoUtils.isNotEmpty(chars)) {
+                    textView.setVisibility(View.VISIBLE);
+                    textView.setText(HitogoUtils.getHtmlText(chars));
+                } else {
+                    textView.setVisibility(View.GONE);
+                }
+            } else if (getController().provideIsDebugState()) {
+                throw new InvalidParameterException("Did you forget to add the view to your layout?");
+            }
+        } else if (getController().provideIsDebugState()) {
+            throw new InvalidParameterException("View id is null.");
+        }
+    }
+
     private void determineButtonCreation(Button button, @Nullable View dialogView, AlertDialog.Builder builder) {
-        if(button.getParams().hasButtonView()) {
-            if(dialogView != null) {
+        if (button.getParams().hasButtonView()) {
+            if (dialogView != null) {
                 buildActionButton(button, dialogView);
-            } else if(getController().provideIsDebugState()) {
-                throw new InvalidParameterException("The button cannot be attached to a null view. Check your dialog or button builder.");
+            } else if (getController().provideIsDebugState()) {
+                throw new InvalidParameterException("The button cannot be attached to a null view. " +
+                        "Check your dialog or button builder.");
             }
         } else {
             buildDialogButton(button, builder);
@@ -128,16 +154,16 @@ public class DialogAlertImpl extends AlertImpl<DialogAlertParams> implements Dia
     }
 
     private void buildActionButton(final Button button, View view) {
-        if(button != null) {
+        if (button != null) {
             final View icon = view.findViewById(button.getParams().getViewIds()[0]);
             View click = view.findViewById(button.getParams().getViewIds()[1]);
 
-            if(click == null) {
+            if (click == null) {
                 click = icon;
             }
 
             if (icon != null) {
-                if (icon instanceof TextView) {
+                if (icon instanceof TextView && HitogoUtils.isNotEmpty(button.getParams().getText())) {
                     ((TextView) icon).setText(HitogoUtils.getHtmlText(button.getParams().getText()));
                 }
 
@@ -150,7 +176,7 @@ public class DialogAlertImpl extends AlertImpl<DialogAlertParams> implements Dia
                         close();
                     }
                 });
-            } else if(getController().provideIsDebugState()) {
+            } else if (getController().provideIsDebugState()) {
                 throw new InvalidParameterException("Did you forget to add the button to your layout?");
             }
         }
@@ -158,37 +184,52 @@ public class DialogAlertImpl extends AlertImpl<DialogAlertParams> implements Dia
 
     private void buildDialogButton(final Button button, AlertDialog.Builder builder) {
         if (HitogoUtils.isNotEmpty(button.getParams().getText())) {
-            if(dialogButtonCount == PRIMARY_BUTTON) {
-                builder.setPositiveButton(button.getParams().getText(), new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int id) {
-                        button.getParams().getListener().onClick();
-                        close();
-                    }
-                });
-            } else if(dialogButtonCount == SECONDARY_BUTTON) {
-                builder.setNegativeButton(button.getParams().getText(), new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int id) {
-                        button.getParams().getListener().onClick();
-                        close();
-                    }
-                });
-            } else if(dialogButtonCount == NEUTRAL_BUTTON) {
-                builder.setNeutralButton(button.getParams().getText(), new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int id) {
-                        button.getParams().getListener().onClick();
-                        close();
-                    }
-                });
+            switch (dialogButtonCount) {
+                case PRIMARY_BUTTON:
+                    builder.setPositiveButton(button.getParams().getText(), new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int id) {
+                            button.getParams().getListener().onClick();
+                            close();
+                        }
+                    });
+                    break;
+                case SECONDARY_BUTTON:
+                    builder.setNegativeButton(button.getParams().getText(), new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int id) {
+                            button.getParams().getListener().onClick();
+                            close();
+                        }
+                    });
+                    break;
+                case NEUTRAL_BUTTON:
+                    builder.setNeutralButton(button.getParams().getText(), new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int id) {
+                            button.getParams().getListener().onClick();
+                            close();
+                        }
+                    });
+                    break;
+                default:
+                    break;
             }
             dialogButtonCount++;
+
+            if (dialogButtonCount >= MAX_BUILDER_BUTTON_AMOUNT && getController().provideIsDebugState()) {
+                throw new InvalidParameterException("Dialog only supports up to three " +
+                        "different builder buttons (primary, secondary and neutral)!");
+            }
+        } else if (getController().provideIsDebugState()) {
+            throw new InvalidParameterException("Empty button text cannot be added to the dialog.");
         }
     }
 
     @Override
     protected void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+
         if (getDialog() != null && !getDialog().isShowing()) {
             getDialog().show();
         }
@@ -196,6 +237,8 @@ public class DialogAlertImpl extends AlertImpl<DialogAlertParams> implements Dia
 
     @Override
     public void onCloseDefault(@NonNull Context context) {
+        super.onCloseDefault(context);
+
         if (getDialog() != null && getDialog().isShowing()) {
             getDialog().dismiss();
         }

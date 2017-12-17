@@ -23,6 +23,7 @@ public abstract class ButtonImpl<T extends ButtonParams> extends ButtonLifecycle
         }
 
         onCreate(params);
+        onCreate(getController(), params);
         return this;
     }
 

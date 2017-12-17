@@ -27,7 +27,9 @@ public class ViewAlertImpl extends AlertImpl<ViewAlertParams> implements ViewAle
     private HitogoAnimation animation;
 
     @Override
-    protected void onCheck(@NonNull HitogoController controller, @NonNull ViewAlertParams params) {
+    protected void onCheck(@NonNull ViewAlertParams params) {
+        super.onCheck(params);
+
         if (params.getTextMap().size() == 0) {
             throw new InvalidParameterException("You need to add a text to this alert.");
         }
@@ -42,6 +44,8 @@ public class ViewAlertImpl extends AlertImpl<ViewAlertParams> implements ViewAle
 
     @Override
     protected void onCreate(@NonNull HitogoController controller, @NonNull ViewAlertParams params) {
+        super.onCreate(controller, params);
+
         this.animation = params.getAnimation() != null ?
                 params.getAnimation() : controller.provideDefaultAnimation();
 
@@ -148,13 +152,12 @@ public class ViewAlertImpl extends AlertImpl<ViewAlertParams> implements ViewAle
         }
     }
 
-    @SuppressWarnings("deprecation")
     private void setViewString(@NonNull View containerView, @Nullable Integer viewId,
                                @Nullable String chars) {
         if (viewId != null) {
             TextView textView = containerView.findViewById(viewId);
             if (textView != null) {
-                if (chars != null && HitogoUtils.isNotEmpty(chars)) {
+                if (HitogoUtils.isNotEmpty(chars)) {
                     textView.setVisibility(View.VISIBLE);
                     textView.setText(HitogoUtils.getHtmlText(chars));
                 } else {
@@ -178,7 +181,7 @@ public class ViewAlertImpl extends AlertImpl<ViewAlertParams> implements ViewAle
             }
 
             if (icon != null) {
-                if (icon instanceof TextView) {
+                if (icon instanceof TextView && HitogoUtils.isNotEmpty(button.getParams().getText())) {
                     ((TextView) icon).setText(HitogoUtils.getHtmlText(button.getParams().getText()));
                 }
 
@@ -202,6 +205,8 @@ public class ViewAlertImpl extends AlertImpl<ViewAlertParams> implements ViewAle
 
     @Override
     protected void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+
         if (viewGroup != null) {
             viewGroup.addView(getView());
         } else {
@@ -220,6 +225,8 @@ public class ViewAlertImpl extends AlertImpl<ViewAlertParams> implements ViewAle
 
     @Override
     protected void onShowAnimation(@NonNull Context context) {
+        super.onShowAnimation(context);
+
         if (animation != null) {
             HitogoUtils.measureView((Activity) context, getView(), viewGroup);
             animation.showAnimation(getParams(), getView(), this);
@@ -228,6 +235,8 @@ public class ViewAlertImpl extends AlertImpl<ViewAlertParams> implements ViewAle
 
     @Override
     protected void onCloseAnimation(@NonNull Context context) {
+        super.onCloseAnimation(context);
+
         if (animation != null) {
             animation.hideAnimation(getParams(), getView(), this);
         }
@@ -235,7 +244,8 @@ public class ViewAlertImpl extends AlertImpl<ViewAlertParams> implements ViewAle
 
     @Override
     protected void onCloseDefault(@NonNull Context context) {
-        final ViewManager manager = (ViewManager) getView().getParent();
+        super.onCloseDefault(context);
+        ViewManager manager = (ViewManager) getView().getParent();
         manager.removeView(getView());
     }
 
