@@ -5,14 +5,14 @@ import android.support.annotation.NonNull;
 import android.os.Bundle;
 import android.util.Log;
 
-import org.hitogo.alert.core.Alert;
 import org.hitogo.alert.core.AlertType;
+import org.hitogo.alert.core.VisibilityListener;
+import org.hitogo.alert.view.ViewAlert;
 import org.hitogo.button.action.ActionButton;
 import org.hitogo.button.core.ButtonListener;
 import org.hitogo.core.Hitogo;
 import org.hitogo.core.HitogoActivity;
 import org.hitogo.core.HitogoController;
-import org.hitogo.alert.core.VisibilityListener;
 import org.hitogo.alert.view.anim.LeftAnimation;
 import org.hitogo.alert.view.anim.TopAnimation;
 
@@ -59,20 +59,11 @@ public class MainActivity extends HitogoActivity {
                 .asLayoutChild(R.id.fake_id)
                 .addButton(button)
                 .dismissByLayoutClick()
-                .setVisibilityListener(new VisibilityListener() {
-                    @Override
-                    public void onCreate(Alert object) {
-                        Log.i(MainActivity.class.getName(), "Creating Alert");
-                    }
+                .setVisibilityListener(new VisibilityListener<ViewAlert>() {
 
                     @Override
-                    public void onShow(Alert object) {
+                    public void onShow(ViewAlert object) {
                         Log.i(MainActivity.class.getName(), "Showing Alert");
-                    }
-
-                    @Override
-                    public void onClose(Alert object) {
-                        Log.i(MainActivity.class.getName(), "Closing Alert");
                     }
                 })
                 .setState(AlertState.HINT)

@@ -26,7 +26,7 @@ import java.lang.ref.WeakReference;
  * @see AlertParams
  * @since 1.0.0
  */
-@SuppressWarnings({"WeakerAccess", "unused"})
+@SuppressWarnings({"WeakerAccess", "unused", "unchecked"})
 public abstract class AlertImpl<T extends AlertParams> extends AlertLifecycle<T> implements Alert<T> {
 
     /**

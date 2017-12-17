@@ -1,7 +1,17 @@
 package org.hitogo.alert.core;
 
-public interface VisibilityListener {
-    void onCreate(Alert object);
-    void onShow(Alert object);
-    void onClose(Alert object);
+@SuppressWarnings({"WeakerAccess", "unused"})
+public abstract class VisibilityListener<T extends Alert> {
+
+    public void onCreate(T object) {
+
+    }
+
+    public void onShow(T object) {
+
+    }
+
+    public void onClose(T object) {
+
+    }
 }
