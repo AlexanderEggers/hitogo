@@ -15,11 +15,11 @@ repositories {
 }
 
 dependencies {
-  compile 'org.hitogo:Hitogo:1.0.0-beta12.8'
+  compile 'org.hitogo:Hitogo:1.0.0-beta12.9'
 }
 ```
 
-How do I use Hitogo? (Step-by-step introduction for 1.0.0-beta12.8)
+How do I use Hitogo? (Step-by-step introduction for 1.0.0-beta12.9)
 -------------------
 
 1. Extend the HitogoController
@@ -141,19 +141,19 @@ public void someMethod() {
                 .asLayoutChild(R.id.container_layout)
                 .addButton(button)
                 .dismissByLayoutClick(false)
-                .setVisibilityListener(new VisibilityListener() {
+                .setVisibilityListener(new VisibilityListener<ViewAlert>() {
                     @Override
-                    public void onCreate(Alert object) {
+                    public void onCreate(ViewAlert object) {
                         Log.i(MainActivity.class.getName(), "Creating Alert");
                     }
                 
                     @Override
-                    public void onShow(Alert object) {
+                    public void onShow(ViewAlert object) {
                         Log.i(MainActivity.class.getName(), "Showing Alert");
                     }
 
                     @Override
-                    public void onClose(Alert object) {
+                    public void onClose(ViewAlert object) {
                         Log.i(MainActivity.class.getName(), "Closing Alert");
                     }
                 })
