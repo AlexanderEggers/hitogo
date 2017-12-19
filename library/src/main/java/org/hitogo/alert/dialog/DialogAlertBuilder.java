@@ -2,6 +2,7 @@ package org.hitogo.alert.dialog;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.annotation.StringRes;
 import android.support.annotation.StyleRes;
 
 import org.hitogo.button.core.Button;
@@ -68,6 +69,19 @@ public class DialogAlertBuilder extends AlertBuilder<DialogAlertBuilder, DialogA
                     .asActionButton()
                     .forClickOnlyAction()
                     .setText(buttonText)
+                    .build();
+            super.addButton(button);
+        }
+        return this;
+    }
+
+    @NonNull
+    public DialogAlertBuilder addButton(@StringRes int... buttonContent) {
+        for (int textRes : buttonContent) {
+            Button button = Hitogo.with(getContainer())
+                    .asActionButton()
+                    .forClickOnlyAction()
+                    .setText(textRes)
                     .build();
             super.addButton(button);
         }
