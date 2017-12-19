@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Hitogo Examples</string>
+    <string name="test_id">Close All Alerts</string>
 </resources>

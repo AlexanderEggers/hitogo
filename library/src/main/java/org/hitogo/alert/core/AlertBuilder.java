@@ -3,6 +3,7 @@ package org.hitogo.alert.core;
 import android.os.Bundle;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
+import android.support.annotation.StringRes;
 import android.util.Log;
 import android.util.SparseArray;
 
@@ -10,6 +11,7 @@ import org.hitogo.alert.view.ViewAlertBuilder;
 import org.hitogo.button.core.Button;
 import org.hitogo.core.HitogoContainer;
 import org.hitogo.core.HitogoController;
+import org.hitogo.core.HitogoUtils;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
@@ -102,6 +104,17 @@ public abstract class AlertBuilder<B extends AlertBuilder, A extends Alert> {
     }
 
     @NonNull
+    public final B setTitle(@StringRes int titleRes) {
+        return setTitle(getController().provideDefaultTitleViewId(builderType),
+                HitogoUtils.getStringRes(getContainer().getActivity(), titleRes));
+    }
+
+    @NonNull
+    public final B setTitle(Integer viewId, @StringRes int titleRes) {
+        return setTitle(viewId, HitogoUtils.getStringRes(getContainer().getActivity(), titleRes));
+    }
+
+    @NonNull
     public final B setTitle(Integer viewId, @NonNull String title) {
         this.titleViewId = viewId;
         this.title = title;
@@ -111,6 +124,17 @@ public abstract class AlertBuilder<B extends AlertBuilder, A extends Alert> {
     @NonNull
     public final B addText(@NonNull String text) {
         return addText(getController().provideDefaultTextViewId(builderType), text);
+    }
+
+    @NonNull
+    public final B addText(@StringRes int textRes) {
+        return addText(getController().provideDefaultTextViewId(builderType),
+                HitogoUtils.getStringRes(getContainer().getActivity(), textRes));
+    }
+
+    @NonNull
+    public final B addText(Integer viewId, @StringRes int textRes) {
+        return addText(viewId, HitogoUtils.getStringRes(getContainer().getActivity(), textRes));
     }
 
     @NonNull

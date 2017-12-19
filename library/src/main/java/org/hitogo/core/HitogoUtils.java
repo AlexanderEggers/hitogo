@@ -1,9 +1,11 @@
 package org.hitogo.core;
 
 import android.app.Activity;
+import android.content.Context;
 import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.annotation.StringRes;
 import android.text.Html;
 import android.text.SpannableString;
 import android.text.Spanned;
@@ -76,5 +78,9 @@ public final class HitogoUtils {
         } else {
             return text != null ? Html.fromHtml(text) : new SpannableString("");
         }
+    }
+
+    public static String getStringRes(Context context, @StringRes int stringRes) {
+        return context.getString(stringRes);
     }
 }

@@ -3,10 +3,12 @@ package org.hitogo.button.core;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.annotation.StringRes;
 import android.util.Log;
 
 import org.hitogo.core.HitogoContainer;
 import org.hitogo.core.HitogoController;
+import org.hitogo.core.HitogoUtils;
 
 import java.lang.ref.WeakReference;
 
@@ -38,6 +40,12 @@ public abstract class ButtonBuilder<C extends ButtonBuilder, B extends Button> {
     @NonNull
     public C setText(String text) {
         this.text = text;
+        return (C) this;
+    }
+
+    @NonNull
+    public C setText(@StringRes int textRes) {
+        this.text = HitogoUtils.getStringRes(getContainer().getActivity(), textRes);
         return (C) this;
     }
 

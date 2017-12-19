@@ -46,7 +46,7 @@ public class MainActivity extends HitogoActivity {
                         getController().closeAll(true);
                     }
                 }, false)
-                .setText("Close All Test")
+                .setText(R.string.test_id)
                 .forViewAction(R.id.close)
                 .build();
 
