@@ -21,7 +21,6 @@ public class AlertParamsHolder extends HitogoParamsHolder {
     private List<VisibilityListener> listener;
     private SparseArray<String> textMap;
     private List<Transition> transitions = new ArrayList<>();
-    private List<Object> customObjects = new ArrayList<>();
     private View.OnTouchListener onTouchListener;
 
     public final void provideAnimation(HitogoAnimation animation) {
@@ -38,10 +37,6 @@ public class AlertParamsHolder extends HitogoParamsHolder {
 
     public final void provideTransition(Transition transition) {
         this.transitions.add(transition);
-    }
-
-    public final void provideCustomObject(Object object) {
-        this.customObjects.add(object);
     }
 
     public final void provideButtons(List<Button> buttonList) {
@@ -83,10 +78,5 @@ public class AlertParamsHolder extends HitogoParamsHolder {
     @NonNull
     List<Transition> getTransitions() {
         return transitions;
-    }
-
-    @NonNull
-    List<Object> getCustomObjects() {
-        return customObjects;
     }
 }

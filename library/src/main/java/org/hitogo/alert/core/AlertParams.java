@@ -33,7 +33,6 @@ public abstract class AlertParams extends HitogoParams<AlertParamsHolder, AlertP
     private HitogoAnimation animation;
     private List<VisibilityListener> visibilityListener;
     private List<Transition> transitions;
-    private List<Object> customObjects;
     private View.OnTouchListener onTouchListener;
 
     @Override
@@ -54,7 +53,6 @@ public abstract class AlertParams extends HitogoParams<AlertParamsHolder, AlertP
         animation = holder.getAnimation();
         visibilityListener = holder.getVisibilityListener();
         transitions = holder.getTransitions();
-        customObjects = holder.getCustomObjects();
         onTouchListener = holder.getOnTouchListener();
 
         onCreateParams(holder, this);
@@ -121,11 +119,6 @@ public abstract class AlertParams extends HitogoParams<AlertParamsHolder, AlertP
 
     public final List<VisibilityListener> getVisibilityListener() {
         return visibilityListener;
-    }
-
-    @NonNull
-    public final List<Object> getCustomObjects() {
-        return customObjects;
     }
 
     @NonNull
