@@ -59,7 +59,7 @@ public class MainActivity extends HitogoActivity {
                 .asLayoutChild(R.id.fake_id)
                 .addButton(button)
                 .dismissByLayoutClick()
-                .setVisibilityListener(new VisibilityListener<ViewAlert>() {
+                .addVisibilityListener(new VisibilityListener<ViewAlert>() {
 
                     @Override
                     public void onShow(ViewAlert object) {

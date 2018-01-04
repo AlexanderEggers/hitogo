@@ -12,7 +12,7 @@ import android.widget.PopupWindow;
 import org.hitogo.core.HitogoController;
 
 @SuppressWarnings({"WeakerAccess", "unused"})
-abstract class AlertLifecycle<T extends AlertParams> {
+public abstract class AlertLifecycle<T extends AlertParams> {
 
     @CallSuper
     protected void onCheck(@NonNull T params) {

@@ -31,7 +31,7 @@ public abstract class AlertParams extends HitogoParams<AlertParamsHolder, AlertP
     private AlertType type;
     private Bundle arguments;
     private HitogoAnimation animation;
-    private VisibilityListener visibilityListener;
+    private List<VisibilityListener> visibilityListener;
     private List<Transition> transitions;
     private List<Object> customObjects;
     private View.OnTouchListener onTouchListener;
@@ -119,7 +119,7 @@ public abstract class AlertParams extends HitogoParams<AlertParamsHolder, AlertP
         return closeButton;
     }
 
-    public final VisibilityListener getVisibilityListener() {
+    public final List<VisibilityListener> getVisibilityListener() {
         return visibilityListener;
     }
 

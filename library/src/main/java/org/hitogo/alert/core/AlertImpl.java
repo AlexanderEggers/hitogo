@@ -15,6 +15,7 @@ import org.hitogo.core.HitogoController;
 import org.hitogo.core.HitogoUtils;
 
 import java.lang.ref.WeakReference;
+import java.util.List;
 
 /**
  * This class is used to abstract the lifecycle of an alert. The class is extending the
@@ -29,22 +30,7 @@ import java.lang.ref.WeakReference;
 @SuppressWarnings({"WeakerAccess", "unused", "unchecked"})
 public abstract class AlertImpl<T extends AlertParams> extends AlertLifecycle<T> implements Alert<T> {
 
-    /**
-     * This value is as an default value for the (display-)delay if the alerts is shown using the
-     * onCreate of one control. To prevent visual bugs while showing this alert (due to not
-     * finished layout rendering in this state), this value is used to force a delay.
-     */
-    public static final int DEFAULT_SHOW_DELAY_IN_MS = 1000;
-
-    /**
-     * This value is used if no animation is defined for this alert.
-     */
-    public static final int NO_ANIMATION_LENGTH = 0;
-
-    /**
-     * This value describes the minimum animation length.
-     */
-    public static final int MIN_ANIMATION_LENGTH = 100;
+    private static final int NO_ANIMATION_LENGTH = 0;
 
     private boolean attached;
     private boolean detached;
@@ -57,7 +43,7 @@ public abstract class AlertImpl<T extends AlertParams> extends AlertLifecycle<T>
     private int state;
 
     private AlertType type;
-    private VisibilityListener listener;
+    private List<VisibilityListener> visibilityListeners;
     private WeakReference<HitogoContainer> containerRef;
     private T params;
 
@@ -85,7 +71,7 @@ public abstract class AlertImpl<T extends AlertParams> extends AlertLifecycle<T>
         this.hasAnimation = params.hasAnimation();
         this.type = params.getType();
         this.tag = params.getTag();
-        this.listener = params.getVisibilityListener();
+        this.visibilityListeners = params.getVisibilityListener();
         this.state = params.getState() != null ? params.getState() : -1;
 
         if (getController().provideIsDebugState()) {
@@ -93,7 +79,7 @@ public abstract class AlertImpl<T extends AlertParams> extends AlertLifecycle<T>
             onCheck(getController(), params);
         }
 
-        if (listener != null) {
+        for(VisibilityListener listener : visibilityListeners) {
             listener.onCreate(this);
         }
 
@@ -189,7 +175,7 @@ public abstract class AlertImpl<T extends AlertParams> extends AlertLifecycle<T>
             attached = true;
             detached = false;
 
-            if (listener != null) {
+            for(VisibilityListener listener : visibilityListeners) {
                 listener.onShow(this);
             }
 
@@ -206,7 +192,7 @@ public abstract class AlertImpl<T extends AlertParams> extends AlertLifecycle<T>
             onDetach(getContext());
             attached = false;
 
-            if (listener != null) {
+            for(VisibilityListener listener : visibilityListeners) {
                 listener.onClose(this);
             }
 

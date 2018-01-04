@@ -18,7 +18,7 @@ public class AlertParamsHolder extends HitogoParamsHolder {
     private HitogoAnimation animation;
     private List<Button> callToActionButtons;
     private Button closeButton;
-    private VisibilityListener listener;
+    private List<VisibilityListener> listener;
     private SparseArray<String> textMap;
     private List<Transition> transitions = new ArrayList<>();
     private List<Object> customObjects = new ArrayList<>();
@@ -32,7 +32,7 @@ public class AlertParamsHolder extends HitogoParamsHolder {
         this.onTouchListener = onTouchListener;
     }
 
-    final void provideVisibilityListener(VisibilityListener listener) {
+    final void provideVisibilityListener(List<VisibilityListener> listener) {
         this.listener = listener;
     }
 
@@ -72,7 +72,7 @@ public class AlertParamsHolder extends HitogoParamsHolder {
         return closeButton;
     }
 
-    VisibilityListener getVisibilityListener() {
+    List<VisibilityListener> getVisibilityListener() {
         return listener;
     }
 

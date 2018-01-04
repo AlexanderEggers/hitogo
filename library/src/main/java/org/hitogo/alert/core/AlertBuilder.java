@@ -25,7 +25,7 @@ public abstract class AlertBuilder<B extends AlertBuilder, A extends Alert> {
     private Class<? extends AlertParams> paramClass;
     private WeakReference<HitogoContainer> containerRef;
     private HitogoController controller;
-    private VisibilityListener<A> visibilityListener;
+    private final List<VisibilityListener> visibilityListener = new ArrayList<>();
 
     private AlertParamsHolder holder = new AlertParamsHolder();
 
@@ -162,8 +162,8 @@ public abstract class AlertBuilder<B extends AlertBuilder, A extends Alert> {
     }
 
     @NonNull
-    public final B setVisibilityListener(@NonNull VisibilityListener<A> visibilityListener) {
-        this.visibilityListener = visibilityListener;
+    public final B addVisibilityListener(@NonNull VisibilityListener<A> listener) {
+        this.visibilityListener.add(listener);
         return (B) this;
     }
 
