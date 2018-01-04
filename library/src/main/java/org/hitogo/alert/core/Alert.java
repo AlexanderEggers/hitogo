@@ -65,6 +65,7 @@ public interface Alert<T extends AlertParams> {
      * DIALOG and POPUP.
      *
      * @return Type for this alert.
+     * @see AlertType
      */
     AlertType getType();
 

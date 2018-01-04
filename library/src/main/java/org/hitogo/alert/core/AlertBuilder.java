@@ -18,6 +18,14 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+/**
+ * Base alert builder which includes all basic method to assign the most important/common values to
+ * the alert. The builder includes also some alert visibility method to prevent breaking the fluent
+ * api design.
+ *
+ * @param <B> Type for the build class which is using this class implementation.
+ * @param <A> Type for the result alert which is usable to execute certain methods at the end.
+ */
 @SuppressWarnings({"unchecked"})
 public abstract class AlertBuilder<B extends AlertBuilder, A extends Alert> {
 
@@ -42,6 +50,19 @@ public abstract class AlertBuilder<B extends AlertBuilder, A extends Alert> {
     private AlertType builderType;
     private Integer layoutRes;
 
+    /**
+     * Default constructor for the AlertBuilder.
+     *
+     * @param targetClass Class object for the requested alert.
+     * @param paramClass  Class object for the params object which is used by the alert.
+     * @param container   Container which is used as a reference for this alert (context, view,
+     *                    controller).
+     * @param builderType AlertType which is needed for the build and visibility process of this
+     *                    alert.
+     * @see HitogoContainer
+     * @see HitogoController
+     * @see AlertType
+     */
     public AlertBuilder(@NonNull Class<? extends AlertImpl> targetClass,
                         @NonNull Class<? extends AlertParams> paramClass,
                         @NonNull HitogoContainer container, @NonNull AlertType builderType) {
@@ -52,6 +73,14 @@ public abstract class AlertBuilder<B extends AlertBuilder, A extends Alert> {
         this.builderType = builderType;
     }
 
+    /**
+     * Creates the requested alert using the provided values. This method is using java reflection
+     * to determine the class for the alert and it's alert params object.
+     *
+     * @return Requested alert object.
+     * @see Alert
+     * @see AlertParams
+     */
     @NonNull
     @SuppressWarnings("unchecked")
     public final A build() {
