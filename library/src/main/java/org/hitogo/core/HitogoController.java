@@ -170,15 +170,7 @@ public abstract class HitogoController implements LifecycleObserver {
 
     public final long closeByType(@NonNull AlertType type, boolean force) {
         synchronized (syncLock) {
-            if (type == AlertType.VIEW) {
-                return internalCloseByType(currentViews.iterator(), type, force);
-            } else if (type == AlertType.DIALOG) {
-                return internalCloseByType(currentDialogs.iterator(), type, force);
-            } else if (type == AlertType.POPUP) {
-                return internalCloseByType(currentPopups.iterator(), type, force);
-            } else {
-                return 0;
-            }
+            return internalCloseByType(getCurrentAlertList(type).iterator(), type, force);
         }
     }
 
