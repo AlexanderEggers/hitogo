@@ -18,7 +18,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-@SuppressWarnings({"WeakerAccess", "unused", "unchecked"})
+@SuppressWarnings({"unchecked"})
 public abstract class AlertBuilder<B extends AlertBuilder, A extends Alert> {
 
     private Class<? extends AlertImpl> targetClass;

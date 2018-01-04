@@ -50,17 +50,7 @@ public abstract class HitogoController implements LifecycleObserver {
 
     public final void show(AlertImpl alert, boolean force, boolean showLater) {
         synchronized (syncLock) {
-            switch (alert.getType()) {
-                case VIEW:
-                    internalShow(currentViews, alert, force, showLater);
-                    break;
-                case DIALOG:
-                    internalShow(currentDialogs, alert, force, showLater);
-                    break;
-                case POPUP:
-                    internalShow(currentPopups, alert, force, showLater);
-                    break;
-            }
+            internalShow(getCurrentAlertList(alert.getType()), alert, force, showLater);
         }
     }
 
