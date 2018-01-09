@@ -60,15 +60,15 @@ public abstract class AlertParams extends HitogoParams<AlertParamsHolder, AlertP
 
     protected abstract void onCreateParams(AlertParamsHolder holder, AlertParams alertParams);
 
-    public final String getTitle() {
+    public String getTitle() {
         return title;
     }
 
-    public final Integer getTitleViewId() {
+    public Integer getTitleViewId() {
         return titleViewId;
     }
 
-    public final boolean hasAnimation() {
+    public boolean hasAnimation() {
         return animation != null;
     }
 
@@ -77,56 +77,56 @@ public abstract class AlertParams extends HitogoParams<AlertParamsHolder, AlertP
     }
 
     @NonNull
-    public final AlertType getType() {
+    public AlertType getType() {
         return type;
     }
 
     @NonNull
-    public final String getTag() {
+    public String getTag() {
         return tag;
     }
 
-    public final Integer getState() {
+    public Integer getState() {
         return state;
     }
 
-    public final Integer getLayoutRes() {
+    public Integer getLayoutRes() {
         return layoutRes;
     }
 
     @Nullable
-    public final HitogoAnimation getAnimation() {
+    public HitogoAnimation getAnimation() {
         return animation;
     }
 
     @NonNull
-    public final List<Button> getButtons() {
+    public List<Button> getButtons() {
         return buttons != null ? buttons : new ArrayList<Button>();
     }
 
     @NonNull
-    public final SparseArray<String> getTextMap() {
+    public SparseArray<String> getTextMap() {
         return textMap != null ? textMap : new SparseArray<String>();
     }
 
-    public final Bundle getArguments() {
+    public Bundle getArguments() {
         return arguments;
     }
 
-    public final Button getCloseButton() {
+    public Button getCloseButton() {
         return closeButton;
     }
 
-    public final List<VisibilityListener> getVisibilityListener() {
+    public List<VisibilityListener> getVisibilityListener() {
         return visibilityListener;
     }
 
     @NonNull
-    public final List<Transition> getTransitions() {
+    public List<Transition> getTransitions() {
         return transitions;
     }
 
-    public final View.OnTouchListener getOnTouchListener() {
+    public View.OnTouchListener getOnTouchListener() {
         return onTouchListener;
     }
 

@@ -63,7 +63,7 @@ public abstract class AlertImpl<T extends AlertParams> extends AlertLifecycle<T>
      * @see ViewAlertParams
      * @since 1.0.0
      */
-    final AlertImpl<T> create(final @NonNull HitogoContainer container, final @NonNull T params) {
+    AlertImpl<T> create(final @NonNull HitogoContainer container, final @NonNull T params) {
         this.containerRef = new WeakReference<>(container);
         this.params = params;
         this.hashCode = HitogoUtils.generateAlertHashCode(params);
@@ -79,7 +79,7 @@ public abstract class AlertImpl<T extends AlertParams> extends AlertLifecycle<T>
             onCheck(getController(), params);
         }
 
-        for(VisibilityListener listener : visibilityListeners) {
+        for (VisibilityListener listener : visibilityListeners) {
             listener.onCreate(this);
         }
 
@@ -107,7 +107,7 @@ public abstract class AlertImpl<T extends AlertParams> extends AlertLifecycle<T>
      *
      * @since 1.0.0
      */
-    public final void show() {
+    public void show() {
         show(false);
     }
 
@@ -122,7 +122,7 @@ public abstract class AlertImpl<T extends AlertParams> extends AlertLifecycle<T>
      *              visual quality.</b>
      * @since 1.0.0
      */
-    public final void show(final boolean force) {
+    public void show(final boolean force) {
         getRootView().post(new Runnable() {
             @Override
             public void run() {
@@ -131,7 +131,7 @@ public abstract class AlertImpl<T extends AlertParams> extends AlertLifecycle<T>
         });
     }
 
-    public final void showLater(final boolean showLater) {
+    public void showLater(final boolean showLater) {
         getRootView().post(new Runnable() {
             @Override
             public void run() {
@@ -140,11 +140,11 @@ public abstract class AlertImpl<T extends AlertParams> extends AlertLifecycle<T>
         });
     }
 
-    public final void showDelayed(final long millis) {
+    public void showDelayed(final long millis) {
         showDelayed(millis, false);
     }
 
-    public final void showDelayed(final long millis, final boolean force) {
+    public void showDelayed(final long millis, final boolean force) {
         getRootView().post(new Runnable() {
             @Override
             public void run() {
@@ -169,13 +169,13 @@ public abstract class AlertImpl<T extends AlertParams> extends AlertLifecycle<T>
         }, millis);
     }
 
-    public final void makeVisible(final boolean force) {
+    public void makeVisible(final boolean force) {
         if (!isAttached()) {
             onAttach(getContainer().getActivity());
             attached = true;
             detached = false;
 
-            for(VisibilityListener listener : visibilityListeners) {
+            for (VisibilityListener listener : visibilityListeners) {
                 listener.onShow(this);
             }
 
@@ -187,12 +187,12 @@ public abstract class AlertImpl<T extends AlertParams> extends AlertLifecycle<T>
         }
     }
 
-    public final void makeInvisible(final boolean force) {
+    public void makeInvisible(final boolean force) {
         if (isAttached()) {
             onDetach(getContext());
             attached = false;
 
-            for(VisibilityListener listener : visibilityListeners) {
+            for (VisibilityListener listener : visibilityListeners) {
                 listener.onClose(this);
             }
 
@@ -213,11 +213,11 @@ public abstract class AlertImpl<T extends AlertParams> extends AlertLifecycle<T>
         }
     }
 
-    public final void close() {
+    public void close() {
         getController().closeByAlert(this);
     }
 
-    public final void close(final boolean force) {
+    public void close(final boolean force) {
         getController().closeByAlert(this, force);
     }
 
@@ -225,59 +225,59 @@ public abstract class AlertImpl<T extends AlertParams> extends AlertLifecycle<T>
         return NO_ANIMATION_LENGTH;
     }
 
-    public final boolean isDetached() {
+    public boolean isDetached() {
         return detached;
     }
 
-    public final boolean isAttached() {
+    public boolean isAttached() {
         return attached;
     }
 
-    public final boolean isClosing() {
+    public boolean isClosing() {
         return !attached && !detached;
     }
 
-    public final boolean hasAnimation() {
+    public boolean hasAnimation() {
         return hasAnimation && getAnimationDuration() > NO_ANIMATION_LENGTH;
     }
 
-    public final boolean isClosingOthers() {
+    public boolean isClosingOthers() {
         return closeOthers;
     }
 
-    public final Context getContext() {
+    public Context getContext() {
         return containerRef.get().getActivity();
     }
 
-    public final HitogoContainer getContainer() {
+    public HitogoContainer getContainer() {
         return containerRef.get();
     }
 
-    public final HitogoController getController() {
+    public HitogoController getController() {
         return containerRef.get().getController();
     }
 
-    public final AlertType getType() {
+    public AlertType getType() {
         return type;
     }
 
-    public final T getParams() {
+    public T getParams() {
         return params;
     }
 
-    public final String getTag() {
+    public String getTag() {
         return tag;
     }
 
-    public final View getRootView() {
+    public View getRootView() {
         return containerRef.get().getView();
     }
 
-    public final View getView() {
+    public View getView() {
         return view;
     }
 
-    public final Dialog getDialog() {
+    public Dialog getDialog() {
         return dialog;
     }
 
@@ -286,7 +286,7 @@ public abstract class AlertImpl<T extends AlertParams> extends AlertLifecycle<T>
     }
 
     @Override
-    public final int hashCode() {
+    public int hashCode() {
         return hashCode;
     }
 
@@ -295,7 +295,7 @@ public abstract class AlertImpl<T extends AlertParams> extends AlertLifecycle<T>
     }
 
     @Override
-    public final boolean equals(final Object obj) {
+    public boolean equals(final Object obj) {
         return obj != null && obj instanceof Alert && hashCode() == obj.hashCode();
     }
 }

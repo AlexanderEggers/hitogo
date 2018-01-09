@@ -23,7 +23,7 @@ public class AlertParamsHolder extends HitogoParamsHolder {
     private List<Transition> transitions = new ArrayList<>();
     private View.OnTouchListener onTouchListener;
 
-    public final void provideAnimation(HitogoAnimation animation) {
+    public void provideAnimation(HitogoAnimation animation) {
         this.animation = animation;
     }
 
@@ -35,11 +35,11 @@ public class AlertParamsHolder extends HitogoParamsHolder {
         this.listener = listener;
     }
 
-    public final void provideTransition(Transition transition) {
+    public void provideTransition(Transition transition) {
         this.transitions.add(transition);
     }
 
-    public final void provideButtons(List<Button> buttonList) {
+    public void provideButtons(List<Button> buttonList) {
         this.callToActionButtons = buttonList;
     }
 
@@ -47,36 +47,36 @@ public class AlertParamsHolder extends HitogoParamsHolder {
         this.textMap = textMap;
     }
 
-    public final void provideCloseButton(Button button) {
+    public void provideCloseButton(Button button) {
         this.closeButton = button;
     }
 
-    SparseArray<String> getTextMap() {
+    public SparseArray<String> getTextMap() {
         return textMap;
     }
 
-    HitogoAnimation getAnimation() {
+    public HitogoAnimation getAnimation() {
         return animation;
     }
 
-    List<Button> getButtons() {
+    public List<Button> getButtons() {
         return callToActionButtons;
     }
 
-    Button getCloseButton() {
+    public Button getCloseButton() {
         return closeButton;
     }
 
-    List<VisibilityListener> getVisibilityListener() {
+    public List<VisibilityListener> getVisibilityListener() {
         return listener;
     }
 
-    View.OnTouchListener getOnTouchListener() {
+    public View.OnTouchListener getOnTouchListener() {
         return onTouchListener;
     }
 
     @NonNull
-    List<Transition> getTransitions() {
+    public List<Transition> getTransitions() {
         return transitions;
     }
 }

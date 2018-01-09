@@ -160,15 +160,15 @@ public class PopupAlertBuilder extends AlertBuilder<PopupAlertBuilder, PopupAler
     }
 
     @Override
-    public final void show() {
+    public void show() {
         show(false);
     }
 
-    public final void show(boolean force) {
+    public void show(boolean force) {
         build().show(force);
     }
 
-    public final void showLater(boolean showLater) {
+    public void showLater(boolean showLater) {
         if (!showLater) {
             show(false);
         } else {
@@ -176,11 +176,11 @@ public class PopupAlertBuilder extends AlertBuilder<PopupAlertBuilder, PopupAler
         }
     }
 
-    public final void showDelayed(long millis) {
+    public void showDelayed(long millis) {
         showDelayed(millis, false);
     }
 
-    public final void showDelayed(long millis, boolean force) {
+    public void showDelayed(long millis, boolean force) {
         build().showDelayed(millis, force);
     }
 

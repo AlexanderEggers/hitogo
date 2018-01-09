@@ -44,17 +44,17 @@ public abstract class HitogoController implements LifecycleObserver {
         lifecycle.addObserver(this);
     }
 
-    public final void show(AlertImpl hitogo, boolean force) {
+    public void show(AlertImpl hitogo, boolean force) {
         show(hitogo, force, false);
     }
 
-    public final void show(AlertImpl alert, boolean force, boolean showLater) {
+    public void show(AlertImpl alert, boolean force, boolean showLater) {
         synchronized (syncLock) {
             internalShow(getCurrentAlertList(alert.getType()), alert, force, showLater);
         }
     }
 
-    public final void showNext(final boolean force, final AlertType type) {
+    public void showNext(final boolean force, final AlertType type) {
         synchronized (syncLock) {
             final LinkedList<AlertImpl> currentAlerts = getCurrentAlertList(type);
 
@@ -131,16 +131,16 @@ public abstract class HitogoController implements LifecycleObserver {
         }
     }
 
-    public final long closeAll() {
+    public long closeAll() {
         return closeAll(false);
     }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
-    protected final long closeAllOnDestroy() {
+    protected long closeAllOnDestroy() {
         return closeAll(true);
     }
 
-    public final long closeAll(boolean force) {
+    public long closeAll(boolean force) {
         synchronized (syncLock) {
             long longestClosingAnim = 0;
             internalCloseAll(currentViews.iterator(), force, longestClosingAnim);
@@ -164,11 +164,11 @@ public abstract class HitogoController implements LifecycleObserver {
         }
     }
 
-    public final long closeByType(@NonNull AlertType type) {
+    public long closeByType(@NonNull AlertType type) {
         return closeByType(type, false);
     }
 
-    public final long closeByType(@NonNull AlertType type, boolean force) {
+    public long closeByType(@NonNull AlertType type, boolean force) {
         synchronized (syncLock) {
             return internalCloseByType(getCurrentAlertList(type).iterator(), type, force);
         }
@@ -192,11 +192,11 @@ public abstract class HitogoController implements LifecycleObserver {
         return longestClosingAnim;
     }
 
-    public final long closeByTag(@NonNull String tag) {
+    public long closeByTag(@NonNull String tag) {
         return closeByTag(tag, false);
     }
 
-    public final long closeByTag(@NonNull String tag, boolean force) {
+    public long closeByTag(@NonNull String tag, boolean force) {
         synchronized (syncLock) {
             long longestClosingAnim = 0;
             internalCloseByTag(currentViews.iterator(), tag, force, longestClosingAnim);
@@ -220,19 +220,19 @@ public abstract class HitogoController implements LifecycleObserver {
         }
     }
 
-    public final long closeByState(Enum state) {
+    public long closeByState(Enum state) {
         return closeByState(state.ordinal(), false);
     }
 
-    public final long closeByState(Enum state, boolean force) {
+    public long closeByState(Enum state, boolean force) {
         return closeByState(state.ordinal(), force);
     }
 
-    public final long closeByState(int state) {
+    public long closeByState(int state) {
         return closeByState(state, false);
     }
 
-    public final long closeByState(int state, boolean force) {
+    public long closeByState(int state, boolean force) {
         synchronized (syncLock) {
             long longestClosingAnim = 0;
             internalCloseByState(currentViews.iterator(), state, force, longestClosingAnim);
@@ -256,11 +256,11 @@ public abstract class HitogoController implements LifecycleObserver {
         }
     }
 
-    public final long closeByAlert(@NonNull Alert alert) {
+    public long closeByAlert(@NonNull Alert alert) {
         return closeByAlert(alert, false);
     }
 
-    public final long closeByAlert(@NonNull Alert alert, boolean force) {
+    public long closeByAlert(@NonNull Alert alert, boolean force) {
         synchronized (syncLock) {
             long longestClosingAnim = 0;
             internalCloseByAlert(currentViews.iterator(), alert, force, longestClosingAnim);

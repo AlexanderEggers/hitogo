@@ -9,25 +9,25 @@ public class HitogoParamsHolder {
 
     private Bundle bundle = new Bundle();
 
-    public final void provideString(String key, String value) {
+    public void provideString(String key, String value) {
         if(!hasKey(key)) {
             bundle.putString(key, value);
         }
     }
 
-    public final void provideFloat(String key, Float value) {
+    public void provideFloat(String key, Float value) {
         if(!hasKey(key)) {
             bundle.putSerializable(key, value);
         }
     }
 
-    public final void provideInteger(String key, Integer value) {
+    public void provideInteger(String key, Integer value) {
         if(!hasKey(key)) {
             bundle.putSerializable(key, value);
         }
     }
 
-    public final void provideBoolean(String key, boolean value) {
+    public void provideBoolean(String key, boolean value) {
         if(!hasKey(key)) {
             bundle.putBoolean(key, value);
         }
@@ -43,19 +43,19 @@ public class HitogoParamsHolder {
         return false;
     }
 
-    public final String getString(String key) {
+    public String getString(String key) {
         return bundle.getString(key);
     }
 
-    public final Integer getInteger(String key) {
+    public Integer getInteger(String key) {
         return (Integer) bundle.getSerializable(key);
     }
 
-    public final Float getFloat(String key) {
+    public Float getFloat(String key) {
         return (Float) bundle.getSerializable(key);
     }
 
-    public final boolean getBoolean(String key) {
+    public boolean getBoolean(String key) {
         return bundle.getBoolean(key);
     }
 

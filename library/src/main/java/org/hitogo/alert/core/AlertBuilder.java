@@ -83,7 +83,7 @@ public abstract class AlertBuilder<B extends AlertBuilder, A extends Alert> {
      */
     @NonNull
     @SuppressWarnings("unchecked")
-    public final A build() {
+    public A build() {
         onProvideData(holder);
         onProvidePrivateData(holder);
 
@@ -116,100 +116,100 @@ public abstract class AlertBuilder<B extends AlertBuilder, A extends Alert> {
     protected abstract void onProvideData(AlertParamsHolder holder);
 
     @NonNull
-    public final B setController(HitogoController controller) {
+    public B setController(HitogoController controller) {
         this.controller = controller;
         return (B) this;
     }
 
     @NonNull
-    public final B setBundle(@NonNull Bundle arguments) {
+    public B setBundle(@NonNull Bundle arguments) {
         this.arguments = arguments;
         return (B) this;
     }
 
     @NonNull
-    public final B setTitle(@NonNull String title) {
+    public B setTitle(@NonNull String title) {
         return setTitle(getController().provideDefaultTitleViewId(builderType), title);
     }
 
     @NonNull
-    public final B setTitle(@StringRes int titleRes) {
+    public B setTitle(@StringRes int titleRes) {
         return setTitle(getController().provideDefaultTitleViewId(builderType),
                 HitogoUtils.getStringRes(getContainer().getActivity(), titleRes));
     }
 
     @NonNull
-    public final B setTitle(Integer viewId, @StringRes int titleRes) {
+    public B setTitle(Integer viewId, @StringRes int titleRes) {
         return setTitle(viewId, HitogoUtils.getStringRes(getContainer().getActivity(), titleRes));
     }
 
     @NonNull
-    public final B setTitle(Integer viewId, @NonNull String title) {
+    public B setTitle(Integer viewId, @NonNull String title) {
         this.titleViewId = viewId;
         this.title = title;
         return (B) this;
     }
 
     @NonNull
-    public final B addText(@NonNull String text) {
+    public B addText(@NonNull String text) {
         return addText(getController().provideDefaultTextViewId(builderType), text);
     }
 
     @NonNull
-    public final B addText(@StringRes int textRes) {
+    public B addText(@StringRes int textRes) {
         return addText(getController().provideDefaultTextViewId(builderType),
                 HitogoUtils.getStringRes(getContainer().getActivity(), textRes));
     }
 
     @NonNull
-    public final B addText(Integer viewId, @StringRes int textRes) {
+    public B addText(Integer viewId, @StringRes int textRes) {
         return addText(viewId, HitogoUtils.getStringRes(getContainer().getActivity(), textRes));
     }
 
     @NonNull
-    public final B addText(Integer viewId, @NonNull String text) {
+    public B addText(Integer viewId, @NonNull String text) {
         textMap.put(viewId, text);
         return (B) this;
     }
 
     @NonNull
-    public final B setTag(@NonNull String tag) {
+    public B setTag(@NonNull String tag) {
         this.tag = tag;
         return (B) this;
     }
 
     @NonNull
-    public final B setState(Integer state) {
+    public B setState(Integer state) {
         this.state = state;
         return (B) this;
     }
 
     @NonNull
-    public final B setState(Enum state) {
+    public B setState(Enum state) {
         this.state = state != null ? state.ordinal() : null;
         return (B) this;
     }
 
     @NonNull
-    public final B addVisibilityListener(@NonNull VisibilityListener<A> listener) {
+    public B addVisibilityListener(@NonNull VisibilityListener<A> listener) {
         this.visibilityListener.add(listener);
         return (B) this;
     }
 
     @NonNull
-    public final B addButton(@NonNull Button... buttons) {
+    public B addButton(@NonNull Button... buttons) {
         Collections.addAll(this.buttons, buttons);
         return (B) this;
     }
 
     @NonNull
-    protected final B setCloseButton(@NonNull Button closeButton) {
+    protected B setCloseButton(@NonNull Button closeButton) {
         this.closeButton = closeButton;
         return (B) this;
     }
 
     @NonNull
-    public final B setLayout(@LayoutRes Integer layoutRes) {
+    public B setLayout(@LayoutRes Integer layoutRes) {
         this.layoutRes = layoutRes;
         return (B) this;
     }
@@ -218,11 +218,11 @@ public abstract class AlertBuilder<B extends AlertBuilder, A extends Alert> {
         build().show();
     }
 
-    protected final HitogoContainer getContainer() {
+    protected HitogoContainer getContainer() {
         return containerRef.get();
     }
 
-    protected final HitogoController getController() {
+    protected HitogoController getController() {
         return controller;
     }
 }

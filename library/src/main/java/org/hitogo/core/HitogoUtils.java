@@ -19,7 +19,7 @@ import org.hitogo.button.core.Button;
 import java.util.List;
 
 @SuppressWarnings({"WeakerAccess", "unused"})
-public final class HitogoUtils {
+public class HitogoUtils {
 
     private HitogoUtils() {
 

@@ -65,7 +65,7 @@ public abstract class ButtonBuilder<C extends ButtonBuilder, B extends Button> {
 
     @NonNull
     @SuppressWarnings("unchecked")
-    public final B build() {
+    public B build() {
         onProvideData(holder);
         onProvidePrivateData(holder);
 

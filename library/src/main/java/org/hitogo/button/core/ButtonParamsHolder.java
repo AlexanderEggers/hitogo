@@ -9,22 +9,22 @@ public class ButtonParamsHolder extends HitogoParamsHolder {
     private ButtonListener listener;
 
     @Nullable
-    public final int[] getIntList(String key) {
+    public int[] getIntList(String key) {
         return getBundle().getIntArray(key);
     }
 
-    public final void provideIntArray(String key, int[] value) {
+    public void provideIntArray(String key, int[] value) {
         if(!hasKey(key)) {
             getBundle().putIntArray(key, value);
         }
     }
 
-    public final void provideButtonListener(@Nullable ButtonListener listener) {
+    public void provideButtonListener(@Nullable ButtonListener listener) {
         this.listener = listener;
     }
 
     @Nullable
-    ButtonListener getListener() {
+    public ButtonListener getListener() {
         return listener;
     }
 }

@@ -164,15 +164,15 @@ public class ViewAlertBuilder extends AlertBuilder<ViewAlertBuilder, ViewAlert> 
     }
 
     @Override
-    public final void show() {
+    public void show() {
         show(false);
     }
 
-    public final void show(boolean force) {
+    public void show(boolean force) {
         build().show(force);
     }
 
-    public final void showLater(boolean showLater) {
+    public void showLater(boolean showLater) {
         if (showLater) {
             build().showLater(true);
         } else {
@@ -180,11 +180,11 @@ public class ViewAlertBuilder extends AlertBuilder<ViewAlertBuilder, ViewAlert> 
         }
     }
 
-    public final void showDelayed(long millis) {
+    public void showDelayed(long millis) {
         showDelayed(millis, false);
     }
 
-    public final void showDelayed(long millis, boolean force) {
+    public void showDelayed(long millis, boolean force) {
         build().showDelayed(millis, force);
     }
 

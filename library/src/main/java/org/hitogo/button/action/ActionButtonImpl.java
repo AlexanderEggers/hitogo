@@ -27,7 +27,7 @@ public class ActionButtonImpl extends ButtonImpl<ActionButtonParams> implements 
     }
 
     @Override
-    public final boolean equals(final Object obj) {
+    public boolean equals(final Object obj) {
         return obj != null && obj instanceof ActionButtonImpl && hashCode() == obj.hashCode();
     }
 
