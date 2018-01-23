@@ -76,7 +76,7 @@ public abstract class HitogoController implements LifecycleObserver {
             @Override
             public void run() {
                 for (AlertImpl alert : currentAlerts) {
-                    if (!alert.isAttached()) {
+                    if (!isAlertAttached(alert)) {
                         if (alert.getContainer().getLifecycle()
                                 .getCurrentState().isAtLeast(Lifecycle.State.CREATED)) {
                             internalMakeVisible(alert, force);
@@ -136,8 +136,8 @@ public abstract class HitogoController implements LifecycleObserver {
     }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
-    protected long closeAllOnDestroy() {
-        return closeAll(true);
+    protected long closeOnDestroy() {
+        return closeByType(AlertType.DIALOG);
     }
 
     public long closeAll(boolean force) {
@@ -302,6 +302,10 @@ public abstract class HitogoController implements LifecycleObserver {
         } else {
             alertCountMap.put(object.hashCode(), count - 1);
         }
+    }
+
+    private boolean isAlertAttached(AlertImpl alert) {
+        return alertCountMap.get(alert.hashCode()) != 0;
     }
 
     @NonNull
