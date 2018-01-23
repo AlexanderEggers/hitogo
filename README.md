@@ -97,9 +97,7 @@ protected void someMethod() {
                 .asViewAlert()
                 .withAnimations()
                 .addText("Test")
-                .asLayoutChild(R.id.container_layout)
-                .setState(HitogoDefaultController.HINT)
-                .setTag("TestHint")
+                .asLayoutChild()
                 .show();
 }
 
