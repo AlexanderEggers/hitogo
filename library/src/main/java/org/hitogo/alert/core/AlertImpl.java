@@ -63,7 +63,7 @@ public abstract class AlertImpl<T extends AlertParams> extends AlertLifecycle<T>
      * @see ViewAlertParams
      * @since 1.0.0
      */
-    AlertImpl<T> create(final @NonNull HitogoContainer container, final @NonNull T params) {
+    protected AlertImpl<T> create(final @NonNull HitogoContainer container, final @NonNull T params) {
         this.containerRef = new WeakReference<>(container);
         this.params = params;
         this.hashCode = HitogoUtils.generateAlertHashCode(params);
