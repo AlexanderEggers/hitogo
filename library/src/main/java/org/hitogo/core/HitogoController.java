@@ -137,7 +137,7 @@ public abstract class HitogoController implements LifecycleObserver {
 
     @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
     protected long closeOnDestroy() {
-        return closeByType(AlertType.DIALOG);
+        return closeByType(AlertType.DIALOG, true);
     }
 
     public long closeAll(boolean force) {
