@@ -25,6 +25,7 @@ import java.util.List;
  *
  * @param <B> Type for the build class which is using this class implementation.
  * @param <A> Type for the result alert which is usable to execute certain methods at the end.
+ * @since 1.0
  */
 @SuppressWarnings({"unchecked"})
 public abstract class AlertBuilder<B extends AlertBuilder, A extends Alert> {
@@ -62,6 +63,7 @@ public abstract class AlertBuilder<B extends AlertBuilder, A extends Alert> {
      * @see HitogoContainer
      * @see HitogoController
      * @see AlertType
+     * @since 1.0
      */
     public AlertBuilder(@NonNull Class<? extends AlertImpl> targetClass,
                         @NonNull Class<? extends AlertParams> paramClass,
@@ -74,12 +76,13 @@ public abstract class AlertBuilder<B extends AlertBuilder, A extends Alert> {
     }
 
     /**
-     * Creates the requested alert using the provided values. This method is using java reflection
-     * to determine the class for the alert and it's alert params object.
+     * Creates the requested alert using the provided builder values. This method is using java
+     * reflection to determine the class for the alert and it's alert params object.
      *
      * @return Requested alert object.
      * @see Alert
      * @see AlertParams
+     * @since 1.0
      */
     @NonNull
     @SuppressWarnings("unchecked")
@@ -98,6 +101,17 @@ public abstract class AlertBuilder<B extends AlertBuilder, A extends Alert> {
         }
     }
 
+    /**
+     * Provides certain values of this builder to a private bundle object and the
+     * AlertParamsHolder. The private bundle and the AlertParamsHolder is used to initialised the
+     * AlertParams object, which is the data foundation for the alert object itself.
+     *
+     * @param holder Temporary object holder for certain alert objects, like the VisibilityListener.
+     * @see AlertParamsHolder
+     * @see AlertParams
+     * @see Bundle
+     * @since 1.0
+     */
     private void onProvidePrivateData(AlertParamsHolder holder) {
         privateBundle.putString(AlertParamsKeys.TITLE_KEY, title);
         privateBundle.putSerializable(AlertParamsKeys.TITLE_VIEW_ID_KEY, titleViewId);
@@ -113,8 +127,25 @@ public abstract class AlertBuilder<B extends AlertBuilder, A extends Alert> {
         holder.provideCloseButton(closeButton);
     }
 
+    /**
+     * Provides builder values which are used by the implemented builder class. The given
+     * AlertParamsHolder is used to initialised the data foundation for the alert object.
+     *
+     * @param holder Temporary object holder for certain alert values, like the title string.
+     * @see AlertParamsHolder
+     * @see AlertParams
+     * @since 1.0
+     */
     protected abstract void onProvideData(AlertParamsHolder holder);
 
+    /**
+     * Binds a different HitogoController object to this alert. This will result in using a
+     * different root-view.
+     *
+     * @param controller New HitogoController object which should replace the current.
+     * @return Builder object which has called this method.
+     * @since 1.0
+     */
     @NonNull
     public B setController(HitogoController controller) {
         this.controller = controller;
