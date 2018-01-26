@@ -159,6 +159,7 @@ public class PopupAlertImpl extends AlertImpl<PopupAlertParams> implements Popup
         }
     }
 
+    @SuppressWarnings("unchecked")
     private void buildActionButton(final Button button, View view, final boolean forceClose) {
         if(button != null) {
             final View icon = view.findViewById(button.getParams().getViewIds()[0]);
@@ -178,7 +179,7 @@ public class PopupAlertImpl extends AlertImpl<PopupAlertParams> implements Popup
                 click.setOnClickListener(new android.view.View.OnClickListener() {
                     @Override
                     public void onClick(android.view.View v) {
-                        button.getParams().getListener().onClick();
+                        button.getParams().getListener().onClick(button.getParams().getButtonParameter());
 
                         if(button.getParams().isClosingAfterClick() || forceClose) {
                             close();

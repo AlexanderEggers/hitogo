@@ -2,6 +2,7 @@ package org.hitogo.button.core;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import org.hitogo.button.action.DefaultActionButtonListener;
 import org.hitogo.core.HitogoParams;
@@ -14,6 +15,7 @@ public abstract class ButtonParams extends HitogoParams<ButtonParamsHolder, Butt
     private ButtonType type;
 
     private ButtonListener listener;
+    private Object buttonParameter;
 
     protected void provideData(ButtonParamsHolder holder, Bundle privateBundle) {
         this.text = privateBundle.getString(ButtonParamsKeys.TEXT_KEY);
@@ -21,6 +23,7 @@ public abstract class ButtonParams extends HitogoParams<ButtonParamsHolder, Butt
         this.type = (ButtonType) privateBundle.getSerializable(ButtonParamsKeys.TYPE_KEY);
 
         this.listener = holder.getListener();
+        this.buttonParameter = holder.getButtonParameter();
 
         onCreateParams(holder, this);
     }
@@ -42,6 +45,11 @@ public abstract class ButtonParams extends HitogoParams<ButtonParamsHolder, Butt
     @NonNull
     public ButtonListener getListener() {
         return listener != null ? listener : new DefaultActionButtonListener();
+    }
+
+    @Nullable
+    public Object getButtonParameter() {
+        return buttonParameter;
     }
 
     public boolean isClosingAfterClick() {

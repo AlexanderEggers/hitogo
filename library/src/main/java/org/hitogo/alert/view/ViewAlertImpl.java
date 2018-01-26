@@ -171,6 +171,7 @@ public class ViewAlertImpl extends AlertImpl<ViewAlertParams> implements ViewAle
         }
     }
 
+    @SuppressWarnings("unchecked")
     private void buildActionButton(final Button button, View view, final boolean forceClose) {
         if(button != null) {
             final View icon = view.findViewById(button.getParams().getViewIds()[0]);
@@ -190,7 +191,7 @@ public class ViewAlertImpl extends AlertImpl<ViewAlertParams> implements ViewAle
                 click.setOnClickListener(new android.view.View.OnClickListener() {
                     @Override
                     public void onClick(android.view.View v) {
-                        button.getParams().getListener().onClick();
+                        button.getParams().getListener().onClick(button.getParams().getButtonParameter());
 
                         if(button.getParams().isClosingAfterClick() || forceClose) {
                             close();

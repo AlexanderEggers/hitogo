@@ -30,7 +30,7 @@ public class MainActivity extends HitogoActivity {
                 .asActionButton()
                 .setButtonListener(new ButtonListener() {
                     @Override
-                    public void onClick() {
+                    public void onClick(Object parameter) {
                         testOnClick();
                     }
                 }, false)
@@ -42,7 +42,7 @@ public class MainActivity extends HitogoActivity {
                 .asActionButton()
                 .setButtonListener(new ButtonListener() {
                     @Override
-                    public void onClick() {
+                    public void onClick(Object parameter) {
                         getController().closeAll(true);
                     }
                 }, false)
@@ -76,7 +76,7 @@ public class MainActivity extends HitogoActivity {
                 .asActionButton()
                 .setButtonListener(new ButtonListener() {
                     @Override
-                    public void onClick() {
+                    public void onClick(Object parameter) {
                         showSecondView();
                     }
                 }, false)
@@ -100,7 +100,7 @@ public class MainActivity extends HitogoActivity {
                 .asActionButton()
                 .setButtonListener(new ButtonListener() {
                     @Override
-                    public void onClick() {
+                    public void onClick(Object parameter) {
                         showPopup();
                     }
                 }, false)
@@ -124,7 +124,7 @@ public class MainActivity extends HitogoActivity {
                 .asActionButton()
                 .setButtonListener(new ButtonListener() {
                     @Override
-                    public void onClick() {
+                    public void onClick(Object parameter) {
                         showTestView();
                     }
                 }, false)
@@ -149,7 +149,7 @@ public class MainActivity extends HitogoActivity {
                 .asActionButton()
                 .setButtonListener(new ButtonListener() {
                     @Override
-                    public void onClick() {
+                    public void onClick(Object parameter) {
                         getController().showNext(false, AlertType.VIEW);
                     }
                 }, true)
@@ -161,7 +161,7 @@ public class MainActivity extends HitogoActivity {
                 .asActionButton()
                 .setButtonListener(new ButtonListener() {
                     @Override
-                    public void onClick() {
+                    public void onClick(Object parameter) {
                         showThirdView();
                     }
                 }, false)
@@ -187,7 +187,7 @@ public class MainActivity extends HitogoActivity {
                 .asActionButton()
                 .setButtonListener(new ButtonListener() {
                     @Override
-                    public void onClick() {
+                    public void onClick(Object parameter) {
                         dialogTest2();
                     }
                 }, false)

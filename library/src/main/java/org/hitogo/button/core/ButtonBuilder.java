@@ -27,6 +27,7 @@ public abstract class ButtonBuilder<C extends ButtonBuilder, B extends Button> {
     private String text;
     private boolean closeAfterClick = true;
     private ButtonListener listener;
+    private Object buttonParameter;
 
     public ButtonBuilder(@NonNull Class<? extends ButtonImpl> targetClass,
                          @NonNull Class<? extends ButtonParams> paramClass,
@@ -50,16 +51,25 @@ public abstract class ButtonBuilder<C extends ButtonBuilder, B extends Button> {
     }
 
     @NonNull
-    public C setButtonListener(@Nullable ButtonListener listener) {
-        this.listener = listener;
-        this.closeAfterClick = true;
-        return (C) this;
+    public <T> C setButtonListener(@Nullable ButtonListener<T> listener) {
+        return setButtonListener(listener, true, null);
     }
 
     @NonNull
-    public C setButtonListener(@Nullable ButtonListener listener, boolean closeAfterClick) {
+    public <T> C setButtonListener(@Nullable ButtonListener<T> listener, T buttonParameter) {
+        return setButtonListener(listener, true, buttonParameter);
+    }
+
+    @NonNull
+    public <T> C setButtonListener(@Nullable ButtonListener<T> listener, boolean closeAfterClick) {
+        return setButtonListener(listener, closeAfterClick, null);
+    }
+
+    @NonNull
+    public <T> C setButtonListener(@Nullable ButtonListener<T> listener, boolean closeAfterClick, T buttonParameter) {
         this.listener = listener;
         this.closeAfterClick = closeAfterClick;
+        this.buttonParameter = buttonParameter;
         return (C) this;
     }
 
@@ -86,6 +96,7 @@ public abstract class ButtonBuilder<C extends ButtonBuilder, B extends Button> {
         privateBundle.putBoolean(ButtonParamsKeys.CLOSE_AFTER_CLICK_KEY, closeAfterClick);
 
         holder.provideButtonListener(listener);
+        holder.provideButtonParameter(buttonParameter);
     }
 
     protected abstract void onProvideData(ButtonParamsHolder holder);
