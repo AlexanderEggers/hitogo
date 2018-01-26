@@ -6,7 +6,7 @@ import android.content.Context;
  * Public api interface for the basic alert object. This interface includes the most basic alert
  * methods which is provided by the builder classes.
  *
- * @param <T> Type of the AlertParams object that has been used for the related alert object.
+ * @param <T> Type of the AlertParams object that the alert is using.
  * @see AlertParams
  * @see AlertImpl
  * @since 1.0
