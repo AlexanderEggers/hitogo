@@ -157,7 +157,7 @@ public abstract class AlertImpl<T extends AlertParams> extends AlertLifecycle<T>
         });
     }
 
-    private void internalShowDelayed(final long millis, final boolean force) {
+    protected void internalShowDelayed(final long millis, final boolean force) {
         Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
             @Override

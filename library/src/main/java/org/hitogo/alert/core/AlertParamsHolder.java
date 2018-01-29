@@ -31,7 +31,7 @@ public class AlertParamsHolder extends HitogoParamsHolder {
         this.onTouchListener = onTouchListener;
     }
 
-    final void provideVisibilityListener(List<VisibilityListener> listener) {
+    public void provideVisibilityListener(List<VisibilityListener> listener) {
         this.listener = listener;
     }
 

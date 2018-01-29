@@ -34,12 +34,12 @@ import java.util.List;
 @SuppressWarnings({"WeakerAccess", "unused"})
 public abstract class HitogoController implements LifecycleObserver {
 
-    private final Object syncLock = new Object();
+    protected final Object syncLock = new Object();
 
-    private final LinkedList<AlertImpl> currentViews = new LinkedList<>();
-    private final LinkedList<AlertImpl> currentDialogs = new LinkedList<>();
-    private final LinkedList<AlertImpl> currentPopups = new LinkedList<>();
-    private final SparseIntArray alertCountMap = new SparseIntArray();
+    protected final LinkedList<AlertImpl> currentViews = new LinkedList<>();
+    protected final LinkedList<AlertImpl> currentDialogs = new LinkedList<>();
+    protected final LinkedList<AlertImpl> currentPopups = new LinkedList<>();
+    protected final SparseIntArray alertCountMap = new SparseIntArray();
 
     public HitogoController(@NonNull Lifecycle lifecycle) {
         lifecycle.addObserver(this);
