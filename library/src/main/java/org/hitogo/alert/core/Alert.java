@@ -88,6 +88,20 @@ public interface Alert<T extends AlertParams> {
     T getParams();
 
     /**
+     * Determines if the alert has a priority or not.
+     *
+     * @return True if the alert has a priority, false otherwise.
+     */
+    boolean hasPriority();
+
+    /**
+     * Returns the current priority.
+     *
+     * @return Priority for the alert. If not priority is set, null will be returned.
+     */
+    Integer getPriority();
+
+    /**
      * Returns the alert tag.
      *
      * @return Tag for this alert.

@@ -5,6 +5,7 @@ import android.arch.lifecycle.Lifecycle;
 import android.content.Context;
 import android.os.Handler;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.PopupWindow;
@@ -101,27 +102,10 @@ public abstract class AlertImpl<T extends AlertParams> extends AlertLifecycle<T>
         return this;
     }
 
-    /**
-     * Attaches this alert to the user interface. This method won't force the display process
-     * and will wait for running animations of other alerts.
-     *
-     * @since 1.0.0
-     */
     public void show() {
         show(false);
     }
 
-    /**
-     * Method which is managing the process to attach an alert to the display. This
-     * process is depending on the given parameter which will decide if the method should wait for
-     * other running animations.
-     *
-     * @param force determines if the attach-process should be forced (therefore not waiting for
-     *              running animations of other alerts and will not play the own animation) or not.
-     *              <b>Keep in mind that forcing this process could reduce performance and/or the
-     *              visual quality.</b>
-     * @since 1.0.0
-     */
     public void show(final boolean force) {
         getRootView().post(new Runnable() {
             @Override
@@ -169,6 +153,11 @@ public abstract class AlertImpl<T extends AlertParams> extends AlertLifecycle<T>
         }, millis);
     }
 
+    /**
+     * Starts the process to display this alert. <b>Internal use only.</b>
+     *
+     * @param force Determines if the animation for the show-process should displayed or not.
+     */
     public void makeVisible(final boolean force) {
         if (!isAttached()) {
             onAttach(getContainer().getActivity());
@@ -187,6 +176,11 @@ public abstract class AlertImpl<T extends AlertParams> extends AlertLifecycle<T>
         }
     }
 
+    /**
+     * Starts the process to hide this alert. <b>Internal use only.</b>
+     *
+     * @param force Determines if the animation for the hide-process should displayed or not.
+     */
     public void makeInvisible(final boolean force) {
         if (isAttached()) {
             onDetach(getContext());

@@ -26,6 +26,7 @@ import java.util.List;
  *
  * @param <B> Type for the build class which is using this class implementation.
  * @param <A> Type for the result alert which is usable to execute certain methods at the end.
+ * @see Alert
  * @since 1.0
  */
 @SuppressWarnings({"unchecked"})
@@ -147,8 +148,8 @@ public abstract class AlertBuilder<B extends AlertBuilder, A extends Alert> {
      *
      * @param controller New HitogoController object which should replace the current.
      * @return Builder object which has called this method.
-     * @since 1.0
      * @see HitogoController
+     * @since 1.0
      */
     @NonNull
     public B setController(HitogoController controller) {
@@ -162,8 +163,8 @@ public abstract class AlertBuilder<B extends AlertBuilder, A extends Alert> {
      *
      * @param arguments Bundle object for the alert
      * @return Builder object which has called this method.
-     * @since 1.0
      * @see Bundle
+     * @since 1.0
      */
     @NonNull
     public B setBundle(@NonNull Bundle arguments) {
@@ -178,8 +179,8 @@ public abstract class AlertBuilder<B extends AlertBuilder, A extends Alert> {
      *
      * @param title Title for the alert.
      * @return Builder object which has called this method.
-     * @since 1.0
      * @see HitogoController
+     * @since 1.0
      */
     @NonNull
     public B setTitle(@NonNull String title) {
@@ -194,9 +195,9 @@ public abstract class AlertBuilder<B extends AlertBuilder, A extends Alert> {
      *
      * @param titleRes String resource which is used for the title.
      * @return Builder object which has called this method.
-     * @since 1.0
      * @see HitogoUtils
      * @see HitogoController
+     * @since 1.0
      */
     @NonNull
     public B setTitle(@StringRes int titleRes) {
@@ -209,11 +210,11 @@ public abstract class AlertBuilder<B extends AlertBuilder, A extends Alert> {
      * alert implementation. The string resource will be translated by the builder using the
      * HitogoUtils.getStringRes(int).
      *
-     * @param viewId View id which is going to use the title (optional).
+     * @param viewId   View id which is going to use the title (optional).
      * @param titleRes String resource which is used for the title.
      * @return Builder object which has called this method.
-     * @since 1.0
      * @see HitogoUtils
+     * @since 1.0
      */
     @NonNull
     public B setTitle(@Nullable Integer viewId, @StringRes int titleRes) {
@@ -224,7 +225,7 @@ public abstract class AlertBuilder<B extends AlertBuilder, A extends Alert> {
      * Adds a title to this alert which can be used inside the alert implementation.
      *
      * @param viewId View id which is going to use the title (optional).
-     * @param title Title for the alert.
+     * @param title  Title for the alert.
      * @return Builder object which has called this method.
      * @since 1.0
      */
@@ -245,8 +246,8 @@ public abstract class AlertBuilder<B extends AlertBuilder, A extends Alert> {
      *
      * @param text Text element for the alert object.
      * @return Builder object which has called this method.
-     * @since 1.0
      * @see HitogoController
+     * @since 1.0
      */
     @NonNull
     public B addText(@NonNull String text) {
@@ -264,9 +265,9 @@ public abstract class AlertBuilder<B extends AlertBuilder, A extends Alert> {
      *
      * @param textRes Text element for the alert object.
      * @return Builder object which has called this method.
-     * @since 1.0
      * @see HitogoController
      * @see HitogoUtils
+     * @since 1.0
      */
     @NonNull
     public B addText(@StringRes int textRes) {
@@ -280,11 +281,11 @@ public abstract class AlertBuilder<B extends AlertBuilder, A extends Alert> {
      * text element will need it's own view (id). The string resource will be translated by the
      * builder using the HitogoUtils.getStringRes(int).
      *
-     * @param viewId View id which is going to use the text element (optional).
+     * @param viewId  View id which is going to use the text element (optional).
      * @param textRes Text element for the alert object.
      * @return Builder object which has called this method.
-     * @since 1.0
      * @see HitogoUtils
+     * @since 1.0
      */
     @NonNull
     public B addText(Integer viewId, @StringRes int textRes) {
@@ -297,7 +298,7 @@ public abstract class AlertBuilder<B extends AlertBuilder, A extends Alert> {
      * element will need it's own view (id).
      *
      * @param viewId View id which is going to use the text element (optional).
-     * @param text Text element for the alert object.
+     * @param text   Text element for the alert object.
      * @return Builder object which has called this method.
      * @since 1.0
      */
@@ -313,8 +314,8 @@ public abstract class AlertBuilder<B extends AlertBuilder, A extends Alert> {
      *
      * @param tag Tag for the alert object.
      * @return Builder object which has called this method.
-     * @since 1.0
      * @see HitogoController
+     * @since 1.0
      */
     @NonNull
     public B setTag(@NonNull String tag) {
@@ -329,8 +330,8 @@ public abstract class AlertBuilder<B extends AlertBuilder, A extends Alert> {
      *
      * @param state State for the alert object.
      * @return Builder object which has called this method.
-     * @since 1.0
      * @see HitogoController
+     * @since 1.0
      */
     @NonNull
     public B setState(Integer state) {
@@ -345,8 +346,8 @@ public abstract class AlertBuilder<B extends AlertBuilder, A extends Alert> {
      *
      * @param state State for the alert object.
      * @return Builder object which has called this method.
-     * @since 1.0
      * @see HitogoController
+     * @since 1.0
      */
     @NonNull
     public B setState(Enum state) {
@@ -361,8 +362,8 @@ public abstract class AlertBuilder<B extends AlertBuilder, A extends Alert> {
      *
      * @param listener VisibilityListener for the alert.
      * @return Builder object which has called this method.
-     * @since 1.0
      * @see VisibilityListener
+     * @since 1.0
      */
     @NonNull
     public B addVisibilityListener(@NonNull VisibilityListener<A> listener) {
@@ -376,8 +377,8 @@ public abstract class AlertBuilder<B extends AlertBuilder, A extends Alert> {
      *
      * @param buttons One or more button/s for the alert.
      * @return Builder object which has called this method.
-     * @since 1.0
      * @see Button
+     * @since 1.0
      */
     @NonNull
     public B addButton(@NonNull Button... buttons) {
@@ -392,8 +393,8 @@ public abstract class AlertBuilder<B extends AlertBuilder, A extends Alert> {
      *
      * @param closeButton The close button for the alert.
      * @return Builder object which has called this method.
-     * @since 1.0
      * @see Button
+     * @since 1.0
      */
     @NonNull
     protected B setCloseButton(@NonNull Button closeButton) {
@@ -407,10 +408,10 @@ public abstract class AlertBuilder<B extends AlertBuilder, A extends Alert> {
      * provide(...)Layout offered by the HitogoController should be used to define the common cases
      * using alert states.
      *
-     * @param layoutRes
+     * @param layoutRes Layout res id for the alert.
      * @return Builder object which has called this method.
-     * @since 1.0
      * @see HitogoController
+     * @since 1.0
      */
     @NonNull
     public B setLayout(@LayoutRes Integer layoutRes) {
@@ -418,6 +419,19 @@ public abstract class AlertBuilder<B extends AlertBuilder, A extends Alert> {
         return (B) this;
     }
 
+    /**
+     * Sets the priority for the alert. The lower the value, the higher the priority. This value is
+     * used to determine the "importance" of a certain alert. Alerts with a lower priority will
+     * always be closed if a new higher priority is about to get visible.<br>
+     * <br>
+     * <b>IMPORTANT: If no priority is set, the non-priority alert will <u>always</u> be shown even
+     * if the current alert has one (unless it's suppressed in another way, like same same
+     * content).</b>
+     *
+     * @param priority Priority for the alert.
+     * @return Builder object which has called this method.
+     * * @since 1.0
+     */
     public B setPriority(int priority) {
         this.priority = priority;
         return (B) this;
@@ -434,8 +448,8 @@ public abstract class AlertBuilder<B extends AlertBuilder, A extends Alert> {
      * Returns the used HitogoContainer object for the alert.
      *
      * @return HitogoContainer of the alert.
-     * @since 1.0
      * @see HitogoContainer
+     * @since 1.0
      */
     protected HitogoContainer getContainer() {
         return containerRef.get();
@@ -445,8 +459,8 @@ public abstract class AlertBuilder<B extends AlertBuilder, A extends Alert> {
      * Returns the used HitogoController object for the alert.
      *
      * @return HitogoController of the alert.
-     * @since 1.0
      * @see HitogoController
+     * @since 1.0
      */
     protected HitogoController getController() {
         return controller;

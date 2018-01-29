@@ -71,7 +71,7 @@ public abstract class HitogoController implements LifecycleObserver {
     }
 
     protected void showNextInvisibleAlert(final LinkedList<AlertImpl> currentAlerts,
-                                        final boolean force, final long wait) {
+                                          final boolean force, final long wait) {
         Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
             @Override
@@ -104,7 +104,7 @@ public abstract class HitogoController implements LifecycleObserver {
     }
 
     protected void internalShow(final LinkedList<AlertImpl> currentObjects, final AlertImpl newAlert,
-                              final boolean force, final boolean showLater) {
+                                final boolean force, final boolean showLater) {
         currentObjects.addFirst(newAlert);
 
         if (showLater) {
