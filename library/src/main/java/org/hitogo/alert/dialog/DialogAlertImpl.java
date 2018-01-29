@@ -172,7 +172,7 @@ public class DialogAlertImpl extends AlertImpl<DialogAlertParams> implements Dia
                 click.setOnClickListener(new android.view.View.OnClickListener() {
                     @Override
                     public void onClick(android.view.View v) {
-                        button.getParams().getListener().onClick(button.getParams().getButtonParameter());
+                        button.getParams().getListener().onClick(DialogAlertImpl.this, button.getParams().getButtonParameter());
                         close();
                     }
                 });
@@ -189,7 +189,7 @@ public class DialogAlertImpl extends AlertImpl<DialogAlertParams> implements Dia
                     builder.setPositiveButton(button.getParams().getText(), new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int id) {
-                            button.getParams().getListener().onClick(button.getParams().getButtonParameter());
+                            button.getParams().getListener().onClick(DialogAlertImpl.this, button.getParams().getButtonParameter());
                             close();
                         }
                     });
@@ -198,7 +198,7 @@ public class DialogAlertImpl extends AlertImpl<DialogAlertParams> implements Dia
                     builder.setNegativeButton(button.getParams().getText(), new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int id) {
-                            button.getParams().getListener().onClick(button.getParams().getButtonParameter());
+                            button.getParams().getListener().onClick(DialogAlertImpl.this, button.getParams().getButtonParameter());
                             close();
                         }
                     });
@@ -207,7 +207,7 @@ public class DialogAlertImpl extends AlertImpl<DialogAlertParams> implements Dia
                     builder.setNeutralButton(button.getParams().getText(), new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int id) {
-                            button.getParams().getListener().onClick(button.getParams().getButtonParameter());
+                            button.getParams().getListener().onClick(DialogAlertImpl.this, button.getParams().getButtonParameter());
                             close();
                         }
                     });

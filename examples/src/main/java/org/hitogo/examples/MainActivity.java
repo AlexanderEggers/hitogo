@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 import android.os.Bundle;
 import android.util.Log;
 
+import org.hitogo.alert.core.Alert;
 import org.hitogo.alert.core.AlertType;
 import org.hitogo.alert.core.VisibilityListener;
 import org.hitogo.alert.view.ViewAlert;
@@ -31,8 +32,8 @@ public class MainActivity extends HitogoActivity {
                 .asActionButton()
                 .setButtonListener(new ButtonListener<String>() {
                     @Override
-                    public void onClick(String parameter) {
-                        System.out.println(parameter);
+                    public void onClick(Alert alert, String parameter) {
+                        getController().showNext(alert, false);
                     }
                 }, false, "Test parameter")
                 .setText(R.string.test_id)
@@ -61,7 +62,54 @@ public class MainActivity extends HitogoActivity {
                 .dismissByLayoutClick()
                 .setState(AlertState.HINT)
                 .setPriority(2)
+                .addVisibilityListener(new VisibilityListener<ViewAlert>() {
+                    @Override
+                    public void onShow(ViewAlert object) {
+                        thirdPrioTest();
+                    }
+                })
                 .show();
+    }
+
+    private void thirdPrioTest() {
+        ActionButton closeButton = Hitogo.with(this)
+                .asActionButton()
+                .setButtonListener(new ButtonListener<String>() {
+                    @Override
+                    public void onClick(Alert alert, String parameter) {
+                        if(alert.getParams().getTitle().equals("Test Prio 3")) {
+                            getController().showNext(alert, false);
+                        }
+                        System.out.println(parameter);
+                    }
+                }, false, "Test parameter")
+                .setText(R.string.test_id)
+                .forViewAction(R.id.close)
+                .build();
+
+        Hitogo.with(this)
+                .asViewAlert()
+                .withAnimations(R.id.content)
+                .asDismissible(closeButton)
+                .addText("Test")
+                .setTitle("Test Prio 3")
+                .asLayoutChild(R.id.container_layout)
+                .dismissByLayoutClick()
+                .setState(AlertState.HINT)
+                .setPriority(1)
+                .showLater(true);
+
+        Hitogo.with(this)
+                .asViewAlert()
+                .withAnimations(R.id.content)
+                .asDismissible(closeButton)
+                .addText("Test")
+                .setTitle("Test Prio 4")
+                .asLayoutChild(R.id.container_layout)
+                .dismissByLayoutClick()
+                .setState(AlertState.HINT)
+                .setPriority(2)
+                .showLater(true);
     }
 
     private void showFirstView() {
@@ -69,7 +117,7 @@ public class MainActivity extends HitogoActivity {
                 .asActionButton()
                 .setButtonListener(new ButtonListener() {
                     @Override
-                    public void onClick(Object parameter) {
+                    public void onClick(Alert alert, Object parameter) {
                         testOnClick();
                     }
                 }, false)
@@ -81,7 +129,7 @@ public class MainActivity extends HitogoActivity {
                 .asActionButton()
                 .setButtonListener(new ButtonListener() {
                     @Override
-                    public void onClick(Object parameter) {
+                    public void onClick(Alert alert, Object parameter) {
                         getController().closeAll(true);
                     }
                 }, false)
@@ -115,7 +163,7 @@ public class MainActivity extends HitogoActivity {
                 .asActionButton()
                 .setButtonListener(new ButtonListener() {
                     @Override
-                    public void onClick(Object parameter) {
+                    public void onClick(Alert alert, Object parameter) {
                         showSecondView();
                     }
                 }, false)
@@ -139,7 +187,7 @@ public class MainActivity extends HitogoActivity {
                 .asActionButton()
                 .setButtonListener(new ButtonListener() {
                     @Override
-                    public void onClick(Object parameter) {
+                    public void onClick(Alert alert, Object parameter) {
                         showPopup();
                     }
                 }, false)
@@ -163,7 +211,7 @@ public class MainActivity extends HitogoActivity {
                 .asActionButton()
                 .setButtonListener(new ButtonListener() {
                     @Override
-                    public void onClick(Object parameter) {
+                    public void onClick(Alert alert, Object parameter) {
                         showTestView();
                     }
                 }, false)
@@ -188,8 +236,8 @@ public class MainActivity extends HitogoActivity {
                 .asActionButton()
                 .setButtonListener(new ButtonListener() {
                     @Override
-                    public void onClick(Object parameter) {
-                        getController().showNext(false, AlertType.VIEW);
+                    public void onClick(Alert alert, Object parameter) {
+                        getController().showNext(alert, false);
                     }
                 }, true)
                 .forViewAction(R.id.button)
@@ -200,7 +248,7 @@ public class MainActivity extends HitogoActivity {
                 .asActionButton()
                 .setButtonListener(new ButtonListener() {
                     @Override
-                    public void onClick(Object parameter) {
+                    public void onClick(Alert alert, Object parameter) {
                         showThirdView();
                     }
                 }, false)
@@ -226,7 +274,7 @@ public class MainActivity extends HitogoActivity {
                 .asActionButton()
                 .setButtonListener(new ButtonListener() {
                     @Override
-                    public void onClick(Object parameter) {
+                    public void onClick(Alert alert, Object parameter) {
                         dialogTest2();
                     }
                 }, false)

@@ -102,10 +102,21 @@ public abstract class AlertImpl<T extends AlertParams> extends AlertLifecycle<T>
         return this;
     }
 
+    /**
+     * Displays this alert object on the user screen if the alert is not visible yet.
+     *
+     * @since 1.0.0
+     */
     public void show() {
         show(false);
     }
 
+    /**
+     * Displays this alert object on the user screen if the alert is not visible yet.
+     *
+     * @param force Determines if the animation for the show-process should displayed or not.
+     * @since 1.0.0
+     */
     public void show(final boolean force) {
         getRootView().post(new Runnable() {
             @Override
@@ -115,6 +126,13 @@ public abstract class AlertImpl<T extends AlertParams> extends AlertLifecycle<T>
         });
     }
 
+    /**
+     * Prepares the show-process for this alert. Depending on the input, the alert will be made
+     * visible or stay invisible for later.
+     *
+     * @param showLater Determines if the alert should be displayed later.
+     * @since 1.0.0
+     */
     public void showLater(final boolean showLater) {
         getRootView().post(new Runnable() {
             @Override
@@ -124,10 +142,23 @@ public abstract class AlertImpl<T extends AlertParams> extends AlertLifecycle<T>
         });
     }
 
+    /**
+     * Delays the show-process for this alert. The delay is depending the input.
+     *
+     * @param millis Delay in milliseconds.
+     * @since 1.0.0
+     */
     public void showDelayed(final long millis) {
         showDelayed(millis, false);
     }
 
+    /**
+     * Delays the show-process for this alert. The delay is depending the input.
+     *
+     * @param millis Delay in milliseconds.
+     * @param force  Determines if the animation for the show-process should displayed or not.
+     * @since 1.0.0
+     */
     public void showDelayed(final long millis, final boolean force) {
         getRootView().post(new Runnable() {
             @Override
@@ -141,6 +172,13 @@ public abstract class AlertImpl<T extends AlertParams> extends AlertLifecycle<T>
         });
     }
 
+    /**
+     * Starts the delay process to display this alert. <b>Internal use only.</b>
+     *
+     * @param millis Delay in milliseconds.
+     * @param force  Determines if the animation for the show-process should displayed or not.
+     * @since 1.0.0
+     */
     protected void internalShowDelayed(final long millis, final boolean force) {
         Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
@@ -157,6 +195,7 @@ public abstract class AlertImpl<T extends AlertParams> extends AlertLifecycle<T>
      * Starts the process to display this alert. <b>Internal use only.</b>
      *
      * @param force Determines if the animation for the show-process should displayed or not.
+     * @since 1.0.0
      */
     public void makeVisible(final boolean force) {
         if (!isAttached()) {
@@ -180,6 +219,7 @@ public abstract class AlertImpl<T extends AlertParams> extends AlertLifecycle<T>
      * Starts the process to hide this alert. <b>Internal use only.</b>
      *
      * @param force Determines if the animation for the hide-process should displayed or not.
+     * @since 1.0.0
      */
     public void makeInvisible(final boolean force) {
         if (isAttached()) {
@@ -207,95 +247,241 @@ public abstract class AlertImpl<T extends AlertParams> extends AlertLifecycle<T>
         }
     }
 
+    /**
+     * Closes this alert object on the user screen if it's still visible.
+     *
+     * @since 1.0.0
+     */
     public void close() {
         getController().closeByAlert(this);
     }
 
+    /**
+     * Closes this alert object on the user screen if it's still visible.
+     *
+     * @param force Determines if the animation for the hide-process should displayed or not.
+     * @since 1.0.0
+     */
     public void close(final boolean force) {
         getController().closeByAlert(this, force);
     }
 
+    /**
+     * Return the animation duration length for the show-/hide-process.
+     *
+     * @since 1.0.0
+     */
     public long getAnimationDuration() {
         return NO_ANIMATION_LENGTH;
     }
 
+    /**
+     * Determines if the alert is detached (invisible) from the user screen.
+     *
+     * @return True if the alert is detached, otherwise false.
+     * @since 1.0.0
+     */
     public boolean isDetached() {
         return detached;
     }
 
+    /**
+     * Determines if the alert is attached (visible) at the user screen.
+     *
+     * @return True if the alert is attached, otherwise false.
+     * @since 1.0.0
+     */
     public boolean isAttached() {
         return attached;
     }
 
+    /**
+     * Determines the moment when the alert is being detached from the user screen. That means that
+     * isAttached equals false and isDetached is still false. This caused by the animation that is
+     * execute between showing and hiding.
+     *
+     * @return True if the alert is in the process of being closed, otherwise false.
+     * @since 1.0.0
+     */
     public boolean isClosing() {
         return !attached && !detached;
     }
 
+    /**
+     * Returns if the alert includes animations.
+     *
+     * @return True if the alert has animations, otherwise false.
+     * @since 1.0.0
+     */
     public boolean hasAnimation() {
         return hasAnimation && getAnimationDuration() > NO_ANIMATION_LENGTH;
     }
 
+    /**
+     * Returns if the alert is closing others (of the same alert type) if it's made visible.
+     *
+     * @return True if the alert is closing others, otherwise false.
+     * @see AlertType
+     * @since 1.0.0
+     */
     public boolean isClosingOthers() {
         return closeOthers;
     }
 
+    /**
+     * Returns the alert context.
+     *
+     * @return Context for this alert.
+     * @since 1.0.0
+     */
     public Context getContext() {
         return containerRef.get().getActivity();
     }
 
+    /**
+     * Returns the used HitogoContainer object for the alert.
+     *
+     * @return HitogoContainer of the alert.
+     * @see HitogoContainer
+     * @since 1.0.0
+     */
     public HitogoContainer getContainer() {
         return containerRef.get();
     }
 
+    /**
+     * Returns the used HitogoController object for the alert.
+     *
+     * @return HitogoController of the alert.
+     * @see HitogoController
+     * @since 1.0.0
+     */
     public HitogoController getController() {
         return containerRef.get().getController();
     }
 
+    /**
+     * Returns the alert type. The types are based on the enum AlertType which includes VIEW,
+     * DIALOG and POPUP.
+     *
+     * @return Type for this alert.
+     * @see AlertType
+     * @since 1.0.0
+     */
     public AlertType getType() {
         return type;
     }
 
+    /**
+     * Returns the alert params object. The params object is storing all values for the alert.
+     *
+     * @return Params object for this alert.
+     * @since 1.0.0
+     */
     public T getParams() {
         return params;
     }
 
+    /**
+     * Determines if the alert has a priority or not.
+     *
+     * @return True if the alert has a priority, false otherwise.
+     * @since 1.0.0
+     */
     public boolean hasPriority() {
         return getPriority() != null;
     }
 
+    /**
+     * Returns the current priority.
+     *
+     * @return Priority for the alert. If not priority is set, null will be returned.
+     * @since 1.0.0
+     */
     public Integer getPriority() {
         return params.getPriority();
     }
 
+    /**
+     * Returns the alert tag.
+     *
+     * @return Tag for this alert.
+     * @since 1.0.0
+     */
     public String getTag() {
         return tag;
     }
 
+    /**
+     * Returns the root view of the alert. This value is usually non-null if the alert is attached
+     * to the view hierarchy (activity or fragment).
+     *
+     * @return Root view which has been used to attach the alert to the current visible layout.
+     * Null if no root view was used.
+     * @since 1.0.0
+     */
     public View getRootView() {
         return containerRef.get().getView();
     }
 
+    /**
+     * Returns the view of the alert. This value is usually non-null if the alert is attached
+     * to the view hierarchy (activity or fragment).
+     *
+     * @return View of the alert. Null if the alert is not using the view object.
+     * @since 1.0.0
+     */
     public View getView() {
         return view;
     }
 
+    /**
+     * Returns the dialog of the alert.
+     *
+     * @return Dialog of the alert. Null if the alert is not using the dialog object.
+     * @since 1.0.0
+     */
     public Dialog getDialog() {
         return dialog;
     }
 
+    /**
+     * Returns the popup of the alert.
+     *
+     * @return Popup of the alert. Null if the alert is not using the popup object.
+     * @since 1.0.0
+     */
     public PopupWindow getPopup() {
         return popup;
     }
 
+    /**
+     * Returns the alert hashcode.
+     *
+     * @return Hashcode for this alert.
+     * @since 1.0.0
+     */
     @Override
     public int hashCode() {
         return hashCode;
     }
 
+    /**
+     * Returns the alert custom state.
+     *
+     * @return State for this alert.
+     * @since 1.0.0
+     */
     public int getState() {
         return state;
     }
 
+    /**
+     * Compares this alert to the given alert.
+     *
+     * @return True if this alert and the given are equal.
+     * @since 1.0.0
+     */
     @Override
     public boolean equals(final Object obj) {
         return obj != null && obj instanceof Alert && hashCode() == obj.hashCode();

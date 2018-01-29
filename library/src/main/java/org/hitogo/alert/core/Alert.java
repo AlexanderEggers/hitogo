@@ -9,19 +9,21 @@ import android.content.Context;
  * @param <T> Type of the AlertParams object that the alert is using.
  * @see AlertParams
  * @see AlertImpl
- * @since 1.0
+ * @since 1.0.0
  */
 public interface Alert<T extends AlertParams> {
 
     /**
      * Displays this alert object on the user screen if the alert is not visible yet.
-     * @since 1.0
+     *
+     * @since 1.0.0
      */
     void show();
 
     /**
      * Closes this alert object on the user screen if it's still visible.
-     * @since 1.0
+     *
+     * @since 1.0.0
      */
     void close();
 
@@ -29,7 +31,7 @@ public interface Alert<T extends AlertParams> {
      * Determines if the alert is attached (visible) at the user screen.
      *
      * @return True if the alert is attached, otherwise false.
-     * @since 1.0
+     * @since 1.0.0
      */
     boolean isAttached();
 
@@ -37,7 +39,7 @@ public interface Alert<T extends AlertParams> {
      * Determines if the alert is detached (invisible) from the user screen.
      *
      * @return True if the alert is detached, otherwise false.
-     * @since 1.0
+     * @since 1.0.0
      */
     boolean isDetached();
 
@@ -47,7 +49,7 @@ public interface Alert<T extends AlertParams> {
      * execute between showing and hiding.
      *
      * @return True if the alert is in the process of being closed, otherwise false.
-     * @since 1.0
+     * @since 1.0.0
      */
     boolean isClosing();
 
@@ -55,7 +57,7 @@ public interface Alert<T extends AlertParams> {
      * Returns the alert hashcode.
      *
      * @return Hashcode for this alert.
-     * @since 1.0
+     * @since 1.0.0
      */
     int hashCode();
 
@@ -63,10 +65,16 @@ public interface Alert<T extends AlertParams> {
      * Returns the alert custom state.
      *
      * @return State for this alert.
-     * @since 1.0
+     * @since 1.0.0
      */
     int getState();
 
+    /**
+     * Compares this alert to the given alert.
+     *
+     * @return True if this alert and the given are equal.
+     * @since 1.0.0
+     */
     boolean equals(final Object obj);
 
     /**
@@ -75,7 +83,7 @@ public interface Alert<T extends AlertParams> {
      *
      * @return Type for this alert.
      * @see AlertType
-     * @since 1.0
+     * @since 1.0.0
      */
     AlertType getType();
 
@@ -83,7 +91,7 @@ public interface Alert<T extends AlertParams> {
      * Returns the alert params object. The params object is storing all values for the alert.
      *
      * @return Params object for this alert.
-     * @since 1.0
+     * @since 1.0.0
      */
     T getParams();
 
@@ -91,13 +99,22 @@ public interface Alert<T extends AlertParams> {
      * Determines if the alert has a priority or not.
      *
      * @return True if the alert has a priority, false otherwise.
+     * @since 1.0.0
      */
     boolean hasPriority();
+
+    /**
+     * Return the animation duration length for the show-/hide-process.
+     *
+     * @since 1.0.0
+     */
+    long getAnimationDuration();
 
     /**
      * Returns the current priority.
      *
      * @return Priority for the alert. If not priority is set, null will be returned.
+     * @since 1.0.0
      */
     Integer getPriority();
 
@@ -105,7 +122,7 @@ public interface Alert<T extends AlertParams> {
      * Returns the alert tag.
      *
      * @return Tag for this alert.
-     * @since 1.0
+     * @since 1.0.0
      */
     String getTag();
 
@@ -113,7 +130,7 @@ public interface Alert<T extends AlertParams> {
      * Returns the alert context.
      *
      * @return Context for this alert.
-     * @since 1.0
+     * @since 1.0.0
      */
     Context getContext();
 }

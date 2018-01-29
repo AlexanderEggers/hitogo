@@ -191,7 +191,7 @@ public class ViewAlertImpl extends AlertImpl<ViewAlertParams> implements ViewAle
                 click.setOnClickListener(new android.view.View.OnClickListener() {
                     @Override
                     public void onClick(android.view.View v) {
-                        button.getParams().getListener().onClick(button.getParams().getButtonParameter());
+                        button.getParams().getListener().onClick(ViewAlertImpl.this, button.getParams().getButtonParameter());
 
                         if(button.getParams().isClosingAfterClick() || forceClose) {
                             close();
