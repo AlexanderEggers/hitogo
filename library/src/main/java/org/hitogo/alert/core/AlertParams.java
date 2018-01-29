@@ -24,6 +24,7 @@ public abstract class AlertParams extends HitogoParams<AlertParamsHolder, AlertP
     private Integer layoutRes;
     private Integer titleViewId;
     private Integer state;
+    private Integer priority;
 
     private List<Button> buttons;
     private Button closeButton;
@@ -44,6 +45,7 @@ public abstract class AlertParams extends HitogoParams<AlertParamsHolder, AlertP
         layoutRes = (Integer) privateBundle.getSerializable(AlertParamsKeys.LAYOUT_RES_KEY);
         titleViewId = (Integer) privateBundle.getSerializable(AlertParamsKeys.TITLE_VIEW_ID_KEY);
         state = (Integer) privateBundle.getSerializable(AlertParamsKeys.STATE_KEY);
+        priority = (Integer) privateBundle.getSerializable(AlertParamsKeys.PRIORITY_KEY);
 
         buttons = holder.getButtons();
         closeButton = holder.getCloseButton();
@@ -132,5 +134,9 @@ public abstract class AlertParams extends HitogoParams<AlertParamsHolder, AlertP
 
     public boolean dismissByLayoutClick() {
         return false;
+    }
+
+    public Integer getPriority() {
+        return priority;
     }
 }

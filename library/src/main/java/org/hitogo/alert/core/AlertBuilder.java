@@ -51,6 +51,7 @@ public abstract class AlertBuilder<B extends AlertBuilder, A extends Alert> {
     private String tag;
     private AlertType builderType;
     private Integer layoutRes;
+    private Integer priority;
 
     /**
      * Default constructor for the AlertBuilder.
@@ -121,6 +122,7 @@ public abstract class AlertBuilder<B extends AlertBuilder, A extends Alert> {
         privateBundle.putSerializable(AlertParamsKeys.TYPE_KEY, builderType);
         privateBundle.putSerializable(AlertParamsKeys.STATE_KEY, state);
         privateBundle.putSerializable(AlertParamsKeys.LAYOUT_RES_KEY, layoutRes);
+        privateBundle.putSerializable(AlertParamsKeys.PRIORITY_KEY, priority);
 
         holder.provideVisibilityListener(visibilityListener);
         holder.provideTextMap(textMap);
@@ -413,6 +415,11 @@ public abstract class AlertBuilder<B extends AlertBuilder, A extends Alert> {
     @NonNull
     public B setLayout(@LayoutRes Integer layoutRes) {
         this.layoutRes = layoutRes;
+        return (B) this;
+    }
+
+    public B setPriority(int priority) {
+        this.priority = priority;
         return (B) this;
     }
 

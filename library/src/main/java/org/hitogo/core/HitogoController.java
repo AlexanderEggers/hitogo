@@ -29,6 +29,7 @@ import org.hitogo.button.core.ButtonParams;
 
 import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.List;
 
 @SuppressWarnings({"WeakerAccess", "unused"})
 public abstract class HitogoController implements LifecycleObserver {
@@ -69,7 +70,7 @@ public abstract class HitogoController implements LifecycleObserver {
         }
     }
 
-    private void showNextInvisibleAlert(final LinkedList<AlertImpl> currentAlerts,
+    protected void showNextInvisibleAlert(final LinkedList<AlertImpl> currentAlerts,
                                         final boolean force, final long wait) {
         Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
@@ -89,7 +90,7 @@ public abstract class HitogoController implements LifecycleObserver {
     }
 
     @NonNull
-    private LinkedList<AlertImpl> getCurrentAlertList(AlertType type) {
+    protected LinkedList<AlertImpl> getCurrentAlertList(AlertType type) {
         switch (type) {
             case VIEW:
                 return currentViews;
@@ -102,7 +103,7 @@ public abstract class HitogoController implements LifecycleObserver {
         }
     }
 
-    private void internalShow(final LinkedList<AlertImpl> currentObjects, final AlertImpl newAlert,
+    protected void internalShow(final LinkedList<AlertImpl> currentObjects, final AlertImpl newAlert,
                               final boolean force, final boolean showLater) {
         currentObjects.addFirst(newAlert);
 
@@ -111,8 +112,20 @@ public abstract class HitogoController implements LifecycleObserver {
         }
 
         long waitForClosing = 0;
-        if (!currentObjects.isEmpty() && newAlert.isClosingOthers()) {
-            waitForClosing = closeByType(newAlert.getType());
+        if (newAlert.hasPriority()) {
+            int currentHighestPriority = getCurrentHighestPriority(newAlert);
+            if (currentHighestPriority <= newAlert.getPriority()) {
+                return;
+            } else {
+                waitForClosing = closeByType(newAlert.getType(), force);
+            }
+        }
+
+        if (newAlert.isClosingOthers() && !currentObjects.isEmpty()) {
+            long waitByType = closeByType(newAlert.getType(), force);
+            if (waitByType > waitForClosing) {
+                waitForClosing = waitByType;
+            }
         }
 
         if (!force) {
@@ -129,6 +142,19 @@ public abstract class HitogoController implements LifecycleObserver {
         } else {
             internalMakeVisible(newAlert, true);
         }
+    }
+
+    protected int getCurrentHighestPriority(AlertImpl newAlert) {
+        int currentHighestPriority = Integer.MAX_VALUE;
+        List<AlertImpl> alertList = getCurrentAlertList(newAlert.getType());
+
+        for (AlertImpl alert : alertList) {
+            if (!alert.equals(newAlert) && alert.hasPriority() && alert.getPriority() < currentHighestPriority) {
+                currentHighestPriority = alert.getPriority();
+            }
+        }
+
+        return currentHighestPriority;
     }
 
     public long closeAll() {
@@ -150,7 +176,7 @@ public abstract class HitogoController implements LifecycleObserver {
         }
     }
 
-    private void internalCloseAll(Iterator<AlertImpl> it, boolean force, long currentLongest) {
+    protected void internalCloseAll(Iterator<AlertImpl> it, boolean force, long currentLongest) {
         while (it.hasNext()) {
             AlertImpl object = it.next();
             if (object != null && object.isAttached()) {
@@ -174,7 +200,7 @@ public abstract class HitogoController implements LifecycleObserver {
         }
     }
 
-    private long internalCloseByType(Iterator<AlertImpl> it, @NonNull AlertType type, boolean force) {
+    protected long internalCloseByType(Iterator<AlertImpl> it, @NonNull AlertType type, boolean force) {
         long longestClosingAnim = 0;
 
         while (it.hasNext()) {
@@ -206,7 +232,7 @@ public abstract class HitogoController implements LifecycleObserver {
         }
     }
 
-    private void internalCloseByTag(Iterator<AlertImpl> it, @NonNull String tag, boolean force, long currentLongest) {
+    protected void internalCloseByTag(Iterator<AlertImpl> it, @NonNull String tag, boolean force, long currentLongest) {
         while (it.hasNext()) {
             AlertImpl object = it.next();
             if (object != null && object.isAttached() && tag.equals(object.getTag())) {
@@ -242,7 +268,7 @@ public abstract class HitogoController implements LifecycleObserver {
         }
     }
 
-    private void internalCloseByState(Iterator<AlertImpl> it, int state, boolean force, long currentLongest) {
+    protected void internalCloseByState(Iterator<AlertImpl> it, int state, boolean force, long currentLongest) {
         while (it.hasNext()) {
             AlertImpl object = it.next();
             if (object != null && object.isAttached() && object.getState() == state) {
@@ -270,7 +296,7 @@ public abstract class HitogoController implements LifecycleObserver {
         }
     }
 
-    private void internalCloseByAlert(Iterator<AlertImpl> it, @NonNull Alert alert, boolean force, long currentLongest) {
+    protected void internalCloseByAlert(Iterator<AlertImpl> it, @NonNull Alert alert, boolean force, long currentLongest) {
         while (it.hasNext()) {
             AlertImpl object = it.next();
             if (object.equals(alert)) {
@@ -284,7 +310,7 @@ public abstract class HitogoController implements LifecycleObserver {
         }
     }
 
-    private void internalMakeVisible(AlertImpl object, boolean force) {
+    protected void internalMakeVisible(AlertImpl object, boolean force) {
         int count = alertCountMap.get(object.hashCode());
         if (count == 0) {
             alertCountMap.put(object.hashCode(), 1);
@@ -294,7 +320,7 @@ public abstract class HitogoController implements LifecycleObserver {
         }
     }
 
-    private void internalMakeInvisible(AlertImpl object, boolean force) {
+    protected void internalMakeInvisible(AlertImpl object, boolean force) {
         int count = alertCountMap.get(object.hashCode());
         if (count == 1) {
             alertCountMap.delete(object.hashCode());

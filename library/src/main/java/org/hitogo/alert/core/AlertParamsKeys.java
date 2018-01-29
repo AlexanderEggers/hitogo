@@ -11,4 +11,5 @@ public abstract class AlertParamsKeys extends HitogoParamsKeys {
     public static final String STATE_KEY = "state";
     public static final String LAYOUT_RES_KEY = "layoutRes";
     public static final String IS_DISMISSIBLE_KEY = "isDismissible";
+    public static final String PRIORITY_KEY = "priority";
 }

@@ -22,7 +22,46 @@ public class MainActivity extends HitogoActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        showFirstView();
+        //showFirstView();
+        showPrioAlerts();
+    }
+
+    private void showPrioAlerts() {
+        ActionButton closeButton = Hitogo.with(this)
+                .asActionButton()
+                .setButtonListener(new ButtonListener<String>() {
+                    @Override
+                    public void onClick(String parameter) {
+                        System.out.println(parameter);
+                    }
+                }, false, "Test parameter")
+                .setText(R.string.test_id)
+                .forViewAction(R.id.close)
+                .build();
+
+        Hitogo.with(this)
+                .asViewAlert()
+                .withAnimations(R.id.content)
+                .asDismissible(closeButton)
+                .addText("Test")
+                .setTitle("Test Prio 1")
+                .asLayoutChild(R.id.container_layout)
+                .dismissByLayoutClick()
+                .setState(AlertState.HINT)
+                .setPriority(1)
+                .show();
+
+        Hitogo.with(this)
+                .asViewAlert()
+                .withAnimations(R.id.content)
+                .asDismissible(closeButton)
+                .addText("Test")
+                .setTitle("Test Prio 2")
+                .asLayoutChild(R.id.container_layout)
+                .dismissByLayoutClick()
+                .setState(AlertState.HINT)
+                .setPriority(2)
+                .show();
     }
 
     private void showFirstView() {

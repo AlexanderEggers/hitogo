@@ -265,6 +265,14 @@ public abstract class AlertImpl<T extends AlertParams> extends AlertLifecycle<T>
         return params;
     }
 
+    public boolean hasPriority() {
+        return getPriority() != null;
+    }
+
+    public Integer getPriority() {
+        return params.getPriority();
+    }
+
     public String getTag() {
         return tag;
     }
