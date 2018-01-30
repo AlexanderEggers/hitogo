@@ -5,7 +5,6 @@ import android.arch.lifecycle.Lifecycle;
 import android.content.Context;
 import android.os.Handler;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.PopupWindow;
@@ -77,7 +76,6 @@ public abstract class AlertImpl<T extends AlertParams> extends AlertLifecycle<T>
 
         if (getController().provideIsDebugState()) {
             onCheck(params);
-            onCheck(getController(), params);
         }
 
         for (VisibilityListener listener : visibilityListeners) {

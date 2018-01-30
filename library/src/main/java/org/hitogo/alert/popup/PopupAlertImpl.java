@@ -13,7 +13,6 @@ import android.widget.TextView;
 
 import org.hitogo.alert.core.AlertImpl;
 import org.hitogo.button.core.Button;
-import org.hitogo.core.HitogoController;
 import org.hitogo.core.HitogoUtils;
 
 import java.security.InvalidParameterException;
@@ -24,8 +23,8 @@ public class PopupAlertImpl extends AlertImpl<PopupAlertParams> implements Popup
     private View anchorView;
 
     @Override
-    protected void onCheck(@NonNull HitogoController controller, @NonNull PopupAlertParams params) {
-        super.onCheck(controller, params);
+    protected void onCheck(@NonNull PopupAlertParams params) {
+        super.onCheck(params);
 
         if (params.getTextMap().size() == 0) {
             throw new InvalidParameterException("You need to add a text to this alert.");
