@@ -420,9 +420,12 @@ public abstract class AlertBuilder<B extends AlertBuilder, A extends Alert> {
     }
 
     /**
-     * Sets the priority for the alert. The lower the value, the higher the priority. This value is
-     * used to determine the "importance" of a certain alert. Alerts with a lower priority will
-     * always be closed if a new higher priority is about to get visible.<br>
+     * Sets the priority for the alert. The lower the priority value, the higher it's importance to
+     * the system. This value is used to determine the "importance" of a certain alert. Alerts with
+     * a lower importance will always be closed if a new higher priority is about to get visible.
+     * The new alert will only be displayed if no other alert with the same or lower priority have
+     * been found. If closing a prioritized alert, you can use showNext() (HitogoController) to
+     * display the next "important" alert.<br>
      * <br>
      * <b>IMPORTANT: If no priority is set, the non-priority alert will <u>always</u> be shown even
      * if the current alert has one (unless it's suppressed in another way, like same same
@@ -430,7 +433,8 @@ public abstract class AlertBuilder<B extends AlertBuilder, A extends Alert> {
      *
      * @param priority Priority for the alert.
      * @return Builder object which has called this method.
-     * * @since 1.0.0
+     * @see HitogoController
+     * @since 1.0.0
      */
     public B setPriority(int priority) {
         this.priority = priority;
