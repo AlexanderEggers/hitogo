@@ -91,20 +91,18 @@ If you have finished step 1 and 2, you are ready to go! Using Hitogo you can cre
 
 ```java
 // To create a simple alert that displays a short message, you could do that:
-protected void someMethod() {
-    ...
-    Hitogo.with(this)
+    protected void someMethod() {
+        Hitogo.with(this)
                 .asViewAlert()
                 .withAnimations()
                 .addText("Test")
                 .asLayoutChild()
                 .show();
-}
+    }
 
-//Here is a more complex alert, that has one button:
-public void someMethod() {
-  ...
-       ActionButton button = Hitogo.with(this)
+    //Here is a more complex alert, that has one button:
+    public void someMethod() {
+        ActionButton button = Hitogo.with(this)
                 .asActionButton()
                 .setButtonListener(new ButtonListener() {
                     @Override
@@ -122,28 +120,26 @@ public void someMethod() {
                 .asLayoutChild()
                 .addButton(button)
                 .show();
-}
+    }
 
-//Here an example to create a dialog:
-public void someMethod() {
-  ...
+    //Here an example to create a dialog:
+    public void someMethod() {
         Hitogo.with(this)
                 .asDialogAlert()
                 .setTitle("Test Dialog")
                 .addText("Long message...")
                 .addButton("Ok")
                 .show();
-}
-                
-//Last example for creating a popup:
-public void someMethod() {
-  ...
-       Hitogo.with(this)
+    }
+
+    //Last example for creating a popup:
+    public void someMethod() {
+        Hitogo.with(this)
                 .asPopupAlert()
                 .addText("Test Popup")
                 .setAnchor(R.id.button_test)
                 .show();
-}
+    }
 ```
 
 Status
