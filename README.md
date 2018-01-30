@@ -15,11 +15,11 @@ repositories {
 }
 
 dependencies {
-  implementation 'org.hitogo:Hitogo:1.0.0-beta14'
+  implementation 'org.hitogo:Hitogo:1.0.0-beta15.1'
 }
 ```
 
-How do I use Hitogo? (Step-by-step introduction for 1.0.0-beta14)
+How do I use Hitogo? (Step-by-step introduction for 1.0.0-beta15.1)
 -------------------
 
 1. Extend the HitogoController
@@ -108,7 +108,7 @@ public void someMethod() {
                 .asActionButton()
                 .setButtonListener(new ButtonListener() {
                     @Override
-                    public void onClick() {
+                    public void onClick(Alert alert, Object parameter) {
                         testOnClick();
                     }
                 }, false)
