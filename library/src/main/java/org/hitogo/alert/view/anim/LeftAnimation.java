@@ -20,31 +20,31 @@ public class LeftAnimation extends HitogoAnimation {
     }
 
     @Override
-    public void showAnimation(@NonNull final ViewAlertParams params, @NonNull final View hitogoView,
+    public void showAnimation(@NonNull final ViewAlertParams params, @NonNull final View alertView,
                               @NonNull final AlertImpl alert) {
-        ValueAnimator anim = ValueAnimator.ofInt(0, hitogoView.getMeasuredWidth());
+        ValueAnimator anim = ValueAnimator.ofInt(0, alertView.getMeasuredWidth());
         anim.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
             public void onAnimationUpdate(ValueAnimator valueAnimator) {
                 int animatedValue = (int) valueAnimator.getAnimatedValue();
-                ViewGroup.LayoutParams layoutParams = hitogoView.getLayoutParams();
+                ViewGroup.LayoutParams layoutParams = alertView.getLayoutParams();
                 layoutParams.width = animatedValue;
-                layoutParams.height = hitogoView.getMeasuredHeight();
-                hitogoView.setLayoutParams(layoutParams);
+                layoutParams.height = alertView.getMeasuredHeight();
+                alertView.setLayoutParams(layoutParams);
             }
         });
         anim.addListener(new AnimatorListenerAdapter() {
             @Override
             public void onAnimationEnd(Animator animation) {
                 if (params.getInnerLayoutViewId() != null) {
-                    hitogoView.findViewById(params.getInnerLayoutViewId()).setVisibility(View.VISIBLE);
+                    alertView.findViewById(params.getInnerLayoutViewId()).setVisibility(View.VISIBLE);
                 }
             }
 
             @Override
             public void onAnimationStart(Animator animation) {
                 if (params.getInnerLayoutViewId() != null) {
-                    hitogoView.findViewById(params.getInnerLayoutViewId()).setVisibility(View.INVISIBLE);
+                    alertView.findViewById(params.getInnerLayoutViewId()).setVisibility(View.INVISIBLE);
                 }
             }
         });
@@ -53,29 +53,29 @@ public class LeftAnimation extends HitogoAnimation {
     }
 
     @Override
-    public void hideAnimation(@NonNull final ViewAlertParams params, @NonNull final View hitogoView,
+    public void hideAnimation(@NonNull final ViewAlertParams params, @NonNull final View alertView,
                               @NonNull final AlertImpl alert) {
-        ValueAnimator anim = ValueAnimator.ofInt(hitogoView.getMeasuredWidth(), 0);
+        ValueAnimator anim = ValueAnimator.ofInt(alertView.getMeasuredWidth(), 0);
         anim.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
             public void onAnimationUpdate(ValueAnimator valueAnimator) {
                 int animatedValue = (int) valueAnimator.getAnimatedValue();
-                ViewGroup.LayoutParams layoutParams = hitogoView.getLayoutParams();
+                ViewGroup.LayoutParams layoutParams = alertView.getLayoutParams();
                 layoutParams.width = animatedValue;
-                layoutParams.height = hitogoView.getMeasuredHeight();
-                hitogoView.setLayoutParams(layoutParams);
+                layoutParams.height = alertView.getMeasuredHeight();
+                alertView.setLayoutParams(layoutParams);
             }
         });
         anim.addListener(new AnimatorListenerAdapter() {
             @Override
             public void onAnimationEnd(Animator animation) {
-                ((ViewManager) hitogoView.getParent()).removeView(hitogoView);
+                ((ViewManager) alertView.getParent()).removeView(alertView);
             }
 
             @Override
             public void onAnimationStart(Animator animation) {
                 if (params.getInnerLayoutViewId() != null) {
-                    hitogoView.findViewById(params.getInnerLayoutViewId()).setVisibility(View.INVISIBLE);
+                    alertView.findViewById(params.getInnerLayoutViewId()).setVisibility(View.INVISIBLE);
                 }
             }
         });

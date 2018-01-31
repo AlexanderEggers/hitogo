@@ -47,7 +47,7 @@ public class PopupAlertImpl extends AlertImpl<PopupAlertParams> implements Popup
     protected void onCreate(@NonNull PopupAlertParams params) {
         super.onCreate(params);
 
-        if(params.getAnchorViewTag() != null) {
+        if (params.getAnchorViewTag() != null) {
             anchorView = getRootView().findViewWithTag(params.getAnchorViewTag());
         } else {
             anchorView = getRootView().findViewById(params.getAnchorViewId());
@@ -68,11 +68,11 @@ public class PopupAlertImpl extends AlertImpl<PopupAlertParams> implements Popup
         if (view != null) {
             buildLayoutContent(view);
 
-            for(Button button : params.getButtons()) {
+            for (Button button : params.getButtons()) {
                 determineButtonCreation(button, view, false);
             }
 
-            if(params.getCloseButton() != null) {
+            if (params.getCloseButton() != null) {
                 determineButtonCreation(params.getCloseButton(), view, true);
             }
 
@@ -87,7 +87,7 @@ public class PopupAlertImpl extends AlertImpl<PopupAlertParams> implements Popup
     }
 
     private void determineButtonCreation(Button button, View dialogView, boolean forceClose) {
-        if(button.getParams().hasButtonView()) {
+        if (button.getParams().hasButtonView()) {
             buildActionButton(button, dialogView, forceClose);
         } else if (getController().provideIsDebugState()) {
             throw new IllegalStateException("Popup can only process buttons that have a view (use forViewAction)");
@@ -95,30 +95,30 @@ public class PopupAlertImpl extends AlertImpl<PopupAlertParams> implements Popup
     }
 
     private PopupWindow buildPopupWindow(PopupWindow window) {
-        if(getParams().getAnimationStyle() != null) {
+        if (getParams().getAnimationStyle() != null) {
             window.setAnimationStyle(getParams().getAnimationStyle());
         }
 
-        if(getParams().getOnTouchListener() != null) {
+        if (getParams().getOnTouchListener() != null) {
             window.setTouchInterceptor(getParams().getOnTouchListener());
         }
 
-        if(getParams().getEnterTransition() != null && Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+        if (getParams().getEnterTransition() != null && Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             window.setEnterTransition(getParams().getEnterTransition());
         }
 
-        if(getParams().getExitTransition() != null && Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+        if (getParams().getExitTransition() != null && Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             window.setExitTransition(getParams().getExitTransition());
         }
 
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && getParams().getElevation() != null) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && getParams().getElevation() != null) {
             window.setElevation(getParams().getElevation());
         }
 
         if (getParams().isDismissible()) {
             window.setBackgroundDrawable(null);
             window.setOutsideTouchable(true);
-        } else if(getParams().getDrawableRes() != null) {
+        } else if (getParams().getDrawableRes() != null) {
             window.setBackgroundDrawable(ContextCompat.getDrawable(getContext(), getParams().getDrawableRes()));
         }
 
@@ -160,11 +160,11 @@ public class PopupAlertImpl extends AlertImpl<PopupAlertParams> implements Popup
 
     @SuppressWarnings("unchecked")
     private void buildActionButton(final Button button, View view, final boolean forceClose) {
-        if(button != null) {
+        if (button != null) {
             final View icon = view.findViewById(button.getParams().getViewIds()[0]);
             View click = view.findViewById(button.getParams().getViewIds()[1]);
 
-            if(click == null) {
+            if (click == null) {
                 click = icon;
             }
 
@@ -180,12 +180,12 @@ public class PopupAlertImpl extends AlertImpl<PopupAlertParams> implements Popup
                     public void onClick(android.view.View v) {
                         button.getParams().getListener().onClick(PopupAlertImpl.this, button.getParams().getButtonParameter());
 
-                        if(button.getParams().isClosingAfterClick() || forceClose) {
+                        if (button.getParams().isClosingAfterClick() || forceClose) {
                             close();
                         }
                     }
                 });
-            } else if(getController().provideIsDebugState()) {
+            } else if (getController().provideIsDebugState()) {
                 throw new InvalidParameterException("Did you forget to add the button to your layout?");
             }
         }
@@ -198,7 +198,7 @@ public class PopupAlertImpl extends AlertImpl<PopupAlertParams> implements Popup
         int xoff = getParams().getXoff();
         int yoff = getParams().getYoff();
 
-        if(anchorView != null && getParams().getGravity() != null &&
+        if (anchorView != null && getParams().getGravity() != null &&
                 Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             getPopup().showAsDropDown(anchorView, xoff, yoff, getParams().getGravity());
         } else if (anchorView != null && xoff != 0 && yoff != 0) {

@@ -67,7 +67,7 @@ public class ViewAlertImpl extends AlertImpl<ViewAlertParams> implements ViewAle
             }
         }
     }
-    
+
     private View determineViewGroup() {
         View containerView = getRootView().findViewById(getParams().getContainerId());
 
@@ -103,11 +103,11 @@ public class ViewAlertImpl extends AlertImpl<ViewAlertParams> implements ViewAle
             buildLayoutInteractions(view);
             buildLayoutContent(view);
 
-            for(Button button : params.getButtons()) {
+            for (Button button : params.getButtons()) {
                 determineButtonCreation(button, view, false);
             }
 
-            if(params.getCloseButton() != null) {
+            if (params.getCloseButton() != null) {
                 determineButtonCreation(params.getCloseButton(), view, true);
             }
 
@@ -120,7 +120,7 @@ public class ViewAlertImpl extends AlertImpl<ViewAlertParams> implements ViewAle
     }
 
     private void determineButtonCreation(Button button, View dialogView, boolean forceClose) {
-        if(button.getParams().hasButtonView()) {
+        if (button.getParams().hasButtonView()) {
             buildActionButton(button, dialogView, forceClose);
         } else if (getController().provideIsDebugState()) {
             throw new IllegalStateException("Popup can only process buttons that have a view (use forViewAction)");
@@ -173,11 +173,11 @@ public class ViewAlertImpl extends AlertImpl<ViewAlertParams> implements ViewAle
 
     @SuppressWarnings("unchecked")
     private void buildActionButton(final Button button, View view, final boolean forceClose) {
-        if(button != null) {
+        if (button != null) {
             final View icon = view.findViewById(button.getParams().getViewIds()[0]);
             View click = view.findViewById(button.getParams().getViewIds()[1]);
 
-            if(click == null) {
+            if (click == null) {
                 click = icon;
             }
 
@@ -193,12 +193,12 @@ public class ViewAlertImpl extends AlertImpl<ViewAlertParams> implements ViewAle
                     public void onClick(android.view.View v) {
                         button.getParams().getListener().onClick(ViewAlertImpl.this, button.getParams().getButtonParameter());
 
-                        if(button.getParams().isClosingAfterClick() || forceClose) {
+                        if (button.getParams().isClosingAfterClick() || forceClose) {
                             close();
                         }
                     }
                 });
-            } else if(getController().provideIsDebugState()) {
+            } else if (getController().provideIsDebugState()) {
                 throw new InvalidParameterException("Did you forget to add the button to your layout?");
             }
         }
@@ -217,10 +217,9 @@ public class ViewAlertImpl extends AlertImpl<ViewAlertParams> implements ViewAle
                         ViewGroup.LayoutParams.WRAP_CONTENT);
             }
 
-            if (((Activity) context).isFinishing()) {
-                return;
+            if (!((Activity) context).isFinishing()) {
+                ((Activity) context).addContentView(getView(), layoutParams);
             }
-            ((Activity) context).addContentView(getView(), layoutParams);
         }
     }
 
