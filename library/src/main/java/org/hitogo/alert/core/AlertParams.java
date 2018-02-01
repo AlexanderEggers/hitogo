@@ -14,6 +14,13 @@ import org.hitogo.core.HitogoParams;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * This class is implemented to provide values to the different alert types. Due to the abstract
+ * implementation, each alert type will have it's own AlertParams sub-class. This class provides
+ * general values which all alert types are sharing.
+ *
+ * @since 1.0.0
+ */
 @SuppressWarnings({"WeakerAccess", "unused"})
 public abstract class AlertParams extends HitogoParams<AlertParamsHolder, AlertParams> {
 
@@ -37,21 +44,21 @@ public abstract class AlertParams extends HitogoParams<AlertParamsHolder, AlertP
     private View.OnTouchListener onTouchListener;
 
     @Override
-    protected void provideData(AlertParamsHolder holder, Bundle privateBundle) {
-        title = privateBundle.getString(AlertParamsKeys.TITLE_KEY);
-        tag = privateBundle.getString(AlertParamsKeys.TAG_KEY);
+    protected void provideData(AlertParamsHolder holder) {
+        title = holder.getString(AlertParamsKeys.TITLE_KEY);
+        tag = holder.getString(AlertParamsKeys.TAG_KEY);
         textMap = holder.getTextMap();
 
-        layoutRes = (Integer) privateBundle.getSerializable(AlertParamsKeys.LAYOUT_RES_KEY);
-        titleViewId = (Integer) privateBundle.getSerializable(AlertParamsKeys.TITLE_VIEW_ID_KEY);
-        state = (Integer) privateBundle.getSerializable(AlertParamsKeys.STATE_KEY);
-        priority = (Integer) privateBundle.getSerializable(AlertParamsKeys.PRIORITY_KEY);
+        layoutRes = (Integer) holder.getSerializable(AlertParamsKeys.LAYOUT_RES_KEY);
+        titleViewId = (Integer) holder.getSerializable(AlertParamsKeys.TITLE_VIEW_ID_KEY);
+        state = (Integer) holder.getSerializable(AlertParamsKeys.STATE_KEY);
+        priority = (Integer) holder.getSerializable(AlertParamsKeys.PRIORITY_KEY);
 
         buttons = holder.getButtons();
         closeButton = holder.getCloseButton();
 
-        type = (AlertType) privateBundle.getSerializable(AlertParamsKeys.TYPE_KEY);
-        arguments = privateBundle.getBundle(AlertParamsKeys.ARGUMENTS_KEY);
+        type = (AlertType) holder.getSerializable(AlertParamsKeys.TYPE_KEY);
+        arguments = holder.getBundle(AlertParamsKeys.ARGUMENTS_KEY);
         animation = holder.getAnimation();
         visibilityListener = holder.getVisibilityListener();
         transitions = holder.getTransitions();
@@ -59,8 +66,6 @@ public abstract class AlertParams extends HitogoParams<AlertParamsHolder, AlertP
 
         onCreateParams(holder, this);
     }
-
-    protected abstract void onCreateParams(AlertParamsHolder holder, AlertParams alertParams);
 
     public String getTitle() {
         return title;

@@ -12,6 +12,13 @@ import org.hitogo.core.HitogoParamsHolder;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * This class is implemented to provide values to the AlertParams object via the builder system.
+ *
+ * @since 1.0.0
+ * @see AlertParams
+ * @see AlertBuilder
+ */
 @SuppressWarnings("WeakerAccess")
 public class AlertParamsHolder extends HitogoParamsHolder {
 

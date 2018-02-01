@@ -30,7 +30,7 @@ public abstract class AlertLifecycle<T extends AlertParams> {
      * more suitable error messages. The onCheck is the first method in this lifecycle which
      * will be called.
      *
-     * @param params AlertParams object which is used to check the values for the alert.
+     * @param params an object which is extending AlertParams
      * @see Alert
      * @see AlertParams
      * @see HitogoController
@@ -45,7 +45,7 @@ public abstract class AlertLifecycle<T extends AlertParams> {
      * This method is executed right after onCheck and should only be used to prepare the alert's
      * data and do some pre-calculations.
      *
-     * @param params AlertParams object which is used to check the values for the alert.
+     * @param params an object which is extending AlertParams
      * @see Alert
      * @see AlertParams
      * @since 1.0.0
@@ -59,8 +59,8 @@ public abstract class AlertLifecycle<T extends AlertParams> {
      * This method is executed right after onCheck and should only be used to prepare the alert's
      * data and do some pre-calculations.
      *
-     * @param params     AlertParams object which is used to check the values for the alert.
-     * @param controller Reference to the used HitogoController for the alert.
+     * @param params     an object which is extending AlertParams
+     * @param controller a HitogoController object
      * @see Alert
      * @see AlertParams
      * @see HitogoController
@@ -76,9 +76,9 @@ public abstract class AlertLifecycle<T extends AlertParams> {
      * (not to confuse with a popup- or dialog-view). At the end of this method the view for this
      * alert should be fully initialised.
      *
-     * @param params   AlertParams object which is used to check the values for the alert.
-     * @param inflater LayoutInflater which can be used to retrieve the needed view object.
-     * @param context  Context reference to access resources, context-related values or similar.
+     * @param params   an object which is extending AlertParams
+     * @param inflater a LayoutInflater object
+     * @param context  a Context object
      * @see Alert
      * @see AlertParams
      * @see LayoutInflater
@@ -94,9 +94,9 @@ public abstract class AlertLifecycle<T extends AlertParams> {
      * This method is executed after the onCreate and if the underlying alert is based on a dialog.
      * At the end of this method the dialog object for this alert should be fully initialised.
      *
-     * @param params   AlertParams object which is used to check the values for the alert.
-     * @param inflater LayoutInflater which can be used to retrieve the dialog view object.
-     * @param context  Context reference to access resources, context-related values or similar.
+     * @param params   an object which is extending AlertParams
+     * @param inflater a LayoutInflater object
+     * @param context  a Context object
      * @see Alert
      * @see AlertParams
      * @see LayoutInflater
@@ -112,9 +112,9 @@ public abstract class AlertLifecycle<T extends AlertParams> {
      * This method is executed after the onCreate and if the underlying alert is based on a popup.
      * At the end of this method the popup object for this alert should be fully initialised.
      *
-     * @param params   AlertParams object which is used to check the values for the alert.
-     * @param inflater LayoutInflater which can be used to retrieve the popup view object.
-     * @param context  Context reference to access resources, context-related values or similar.
+     * @param params   an object which is extending AlertParams
+     * @param inflater a LayoutInflater object
+     * @param context  a Context object
      * @see Alert
      * @see AlertParams
      * @see LayoutInflater
@@ -130,7 +130,7 @@ public abstract class AlertLifecycle<T extends AlertParams> {
      * This method is executed when the makeVisible method (AlertImpl) is called and should be used
      * to prepare the displaying of the alert to the user screen.
      *
-     * @param context Context reference to access resources, context-related values or similar.
+     * @param context a Context object
      * @see Alert
      * @since 1.0.0
      */
@@ -144,7 +144,7 @@ public abstract class AlertLifecycle<T extends AlertParams> {
      * called and can be used to execute post-display calculations. This method is only called if
      * the underlying alert has no animations.
      *
-     * @param context Context reference to access resources, context-related values or similar.
+     * @param context a Context object
      * @see Alert
      * @since 1.0.0
      */
@@ -158,7 +158,7 @@ public abstract class AlertLifecycle<T extends AlertParams> {
      * called and can be used to show animations for the showing of the alert. This method
      * is only called if the underlying alert has animations.
      *
-     * @param context Context reference to access resources, context-related values or similar.
+     * @param context a Context object
      * @see Alert
      * @since 1.0.0
      */
@@ -171,7 +171,7 @@ public abstract class AlertLifecycle<T extends AlertParams> {
      * This method is executed when the makeInvisible method (AlertImpl) is called and should be
      * used to prepare the hiding of the alert.
      *
-     * @param context Context reference to access resources, context-related values or similar.
+     * @param context a Context object
      * @see Alert
      * @since 1.0.0
      */
@@ -184,7 +184,7 @@ public abstract class AlertLifecycle<T extends AlertParams> {
      * This method is executed after the onDetach when the makeInvisible method (AlertImpl) is
      * called. This method is only called if the underlying alert has no animations.
      *
-     * @param context Context reference to access resources, context-related values or similar.
+     * @param context a Context object
      * @see Alert
      * @since 1.0.0
      */
@@ -197,7 +197,7 @@ public abstract class AlertLifecycle<T extends AlertParams> {
      * This method is executed after the onDetach when the makeInvisible method (AlertImpl) is
      * called. This method is only called if the underlying alert has animations.
      *
-     * @param context Context reference to access resources, context-related values or similar.
+     * @param context a Context object
      * @see Alert
      * @since 1.0.0
      */

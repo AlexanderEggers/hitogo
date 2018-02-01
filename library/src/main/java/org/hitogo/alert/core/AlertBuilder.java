@@ -1,6 +1,7 @@
 package org.hitogo.alert.core;
 
 import android.os.Bundle;
+import android.support.annotation.CallSuper;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -46,7 +47,6 @@ public abstract class AlertBuilder<B extends AlertBuilder, A extends Alert> {
     private String title;
     private Integer titleViewId;
 
-    private Bundle privateBundle = new Bundle();
     private Bundle arguments;
     private Integer state;
     private String tag;
@@ -96,7 +96,7 @@ public abstract class AlertBuilder<B extends AlertBuilder, A extends Alert> {
         try {
             AlertImpl object = targetClass.getConstructor().newInstance();
             AlertParams params = paramClass.getConstructor().newInstance();
-            params.provideData(holder, privateBundle);
+            params.provideData(holder);
             return (A) object.create(getContainer(), params);
         } catch (Exception e) {
             Log.wtf(ViewAlertBuilder.class.getName(), "Build process failed.");
@@ -106,24 +106,24 @@ public abstract class AlertBuilder<B extends AlertBuilder, A extends Alert> {
 
     /**
      * Provides certain values of this builder to a private bundle object and the
-     * AlertParamsHolder. The private bundle and the AlertParamsHolder is used to initialised the
+     * AlertParamsHolder. The AlertParamsHolder is used to initialised the
      * AlertParams object, which is the data foundation for the alert object itself.
      *
-     * @param holder Temporary object holder for certain alert objects, like the VisibilityListener.
+     * @param holder Temporary object holder for all alert values, like title or text.
      * @see AlertParamsHolder
      * @see AlertParams
      * @see Bundle
      * @since 1.0.0
      */
     private void onProvidePrivateData(AlertParamsHolder holder) {
-        privateBundle.putString(AlertParamsKeys.TITLE_KEY, title);
-        privateBundle.putSerializable(AlertParamsKeys.TITLE_VIEW_ID_KEY, titleViewId);
-        privateBundle.putString(AlertParamsKeys.TAG_KEY, tag);
-        privateBundle.putBundle(AlertParamsKeys.ARGUMENTS_KEY, arguments);
-        privateBundle.putSerializable(AlertParamsKeys.TYPE_KEY, builderType);
-        privateBundle.putSerializable(AlertParamsKeys.STATE_KEY, state);
-        privateBundle.putSerializable(AlertParamsKeys.LAYOUT_RES_KEY, layoutRes);
-        privateBundle.putSerializable(AlertParamsKeys.PRIORITY_KEY, priority);
+        holder.provideString(AlertParamsKeys.TITLE_KEY, title);
+        holder.provideSerializable(AlertParamsKeys.TITLE_VIEW_ID_KEY, titleViewId);
+        holder.provideString(AlertParamsKeys.TAG_KEY, tag);
+        holder.provideBundle(AlertParamsKeys.ARGUMENTS_KEY, arguments);
+        holder.provideSerializable(AlertParamsKeys.TYPE_KEY, builderType);
+        holder.provideSerializable(AlertParamsKeys.STATE_KEY, state);
+        holder.provideSerializable(AlertParamsKeys.LAYOUT_RES_KEY, layoutRes);
+        holder.provideSerializable(AlertParamsKeys.PRIORITY_KEY, priority);
 
         holder.provideVisibilityListener(visibilityListener);
         holder.provideTextMap(textMap);
@@ -135,11 +135,12 @@ public abstract class AlertBuilder<B extends AlertBuilder, A extends Alert> {
      * Provides builder values which are used by the implemented builder class. The given
      * AlertParamsHolder is used to initialised the data foundation for the alert object.
      *
-     * @param holder Temporary object holder for certain alert values, like the title string.
+     * @param holder Temporary object holder for all alert values, like title or text.
      * @see AlertParamsHolder
      * @see AlertParams
      * @since 1.0.0
      */
+    @CallSuper
     protected abstract void onProvideData(AlertParamsHolder holder);
 
     /**

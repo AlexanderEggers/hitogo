@@ -12,12 +12,12 @@ public class ButtonParamsHolder extends HitogoParamsHolder {
 
     @Nullable
     public int[] getIntList(String key) {
-        return getBundle().getIntArray(key);
+        return getHolderBundle().getIntArray(key);
     }
 
     public void provideIntArray(String key, int[] value) {
         if(!hasKey(key)) {
-            getBundle().putIntArray(key, value);
+            getHolderBundle().putIntArray(key, value);
         }
     }
 
