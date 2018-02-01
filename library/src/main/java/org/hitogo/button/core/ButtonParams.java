@@ -1,6 +1,5 @@
 package org.hitogo.button.core;
 
-import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
@@ -17,18 +16,17 @@ public abstract class ButtonParams extends HitogoParams<ButtonParamsHolder, Butt
     private ButtonListener listener;
     private Object buttonParameter;
 
-    protected void provideData(ButtonParamsHolder holder, Bundle privateBundle) {
-        this.text = privateBundle.getString(ButtonParamsKeys.TEXT_KEY);
-        this.closeAfterClick = privateBundle.getBoolean(ButtonParamsKeys.CLOSE_AFTER_CLICK_KEY);
-        this.type = (ButtonType) privateBundle.getSerializable(ButtonParamsKeys.TYPE_KEY);
+    @Override
+    protected void provideData(ButtonParamsHolder holder) {
+        this.text = holder.getString(ButtonParamsKeys.TEXT_KEY);
+        this.closeAfterClick = holder.getBoolean(ButtonParamsKeys.CLOSE_AFTER_CLICK_KEY);
+        this.type = (ButtonType) holder.getSerializable(ButtonParamsKeys.TYPE_KEY);
 
         this.listener = holder.getListener();
         this.buttonParameter = holder.getButtonParameter();
 
         onCreateParams(holder, this);
     }
-
-    protected abstract void onCreateParams(ButtonParamsHolder holder, ButtonParams buttonParams);
 
     public abstract int[] getViewIds();
 
