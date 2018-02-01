@@ -82,7 +82,7 @@ public abstract class ButtonBuilder<C extends ButtonBuilder, B extends Button> {
         try {
             ButtonImpl object = targetClass.getConstructor().newInstance();
             ButtonParams params = paramClass.getConstructor().newInstance();
-            params.provideData(holder, privateBundle);
+            params.provideData(holder);
             return (B) object.create(getContainer(), params);
         } catch (Exception e) {
             Log.wtf(ButtonBuilder.class.getName(), "Build process failed.");
@@ -91,9 +91,9 @@ public abstract class ButtonBuilder<C extends ButtonBuilder, B extends Button> {
     }
 
     private void onProvidePrivateData(ButtonParamsHolder holder) {
-        privateBundle.putSerializable(ButtonParamsKeys.TYPE_KEY, builderType);
-        privateBundle.putString(ButtonParamsKeys.TEXT_KEY, text);
-        privateBundle.putBoolean(ButtonParamsKeys.CLOSE_AFTER_CLICK_KEY, closeAfterClick);
+        holder.provideSerializable(ButtonParamsKeys.TYPE_KEY, builderType);
+        holder.provideString(ButtonParamsKeys.TEXT_KEY, text);
+        holder.provideBoolean(ButtonParamsKeys.CLOSE_AFTER_CLICK_KEY, closeAfterClick);
 
         holder.provideButtonListener(listener);
         holder.provideButtonParameter(buttonParameter);
