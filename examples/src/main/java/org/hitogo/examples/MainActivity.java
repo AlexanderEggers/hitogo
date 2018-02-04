@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.util.Log;
 
 import org.hitogo.alert.core.Alert;
-import org.hitogo.alert.core.AlertType;
 import org.hitogo.alert.core.VisibilityListener;
 import org.hitogo.alert.view.ViewAlert;
 import org.hitogo.button.action.ActionButton;
@@ -14,8 +13,6 @@ import org.hitogo.button.core.ButtonListener;
 import org.hitogo.core.Hitogo;
 import org.hitogo.core.HitogoActivity;
 import org.hitogo.core.HitogoController;
-import org.hitogo.alert.view.anim.LeftAnimation;
-import org.hitogo.alert.view.anim.TopAnimation;
 
 public class MainActivity extends HitogoActivity {
 
@@ -47,7 +44,6 @@ public class MainActivity extends HitogoActivity {
                 .addText("Test")
                 .setTitle("Test Prio 1")
                 .asLayoutChild(R.id.container_layout)
-                .dismissByLayoutClick()
                 .setState(AlertState.HINT)
                 .setPriority(1)
                 .show();
@@ -59,7 +55,6 @@ public class MainActivity extends HitogoActivity {
                 .addText("Test")
                 .setTitle("Test Prio 2")
                 .asLayoutChild(R.id.container_layout)
-                .dismissByLayoutClick()
                 .setState(AlertState.HINT)
                 .setPriority(2)
                 .addVisibilityListener(new VisibilityListener<ViewAlert>() {
@@ -92,7 +87,6 @@ public class MainActivity extends HitogoActivity {
                 .addText("Test")
                 .setTitle("Test Prio 3")
                 .asLayoutChild(R.id.container_layout)
-                .dismissByLayoutClick()
                 .setState(AlertState.HINT)
                 .setPriority(1)
                 .showLater(true);
@@ -104,7 +98,6 @@ public class MainActivity extends HitogoActivity {
                 .addText("Test")
                 .setTitle("Test Prio 4")
                 .asLayoutChild(R.id.container_layout)
-                .dismissByLayoutClick()
                 .setState(AlertState.HINT)
                 .setPriority(2)
                 .showLater(true);
@@ -116,7 +109,6 @@ public class MainActivity extends HitogoActivity {
                 .addText("Test")
                 .setTitle("Test Prio 5")
                 .asLayoutChild(R.id.container_layout)
-                .dismissByLayoutClick()
                 .setState(AlertState.HINT)
                 .setPriority(2)
                 .showLater(true);
@@ -155,7 +147,7 @@ public class MainActivity extends HitogoActivity {
                 .setTitle("Test Title")
                 .asLayoutChild(R.id.fake_id)
                 .addButton(button)
-                .dismissByLayoutClick()
+                .dismissByLayoutClick(true)
                 .addVisibilityListener(new VisibilityListener<ViewAlert>() {
 
                     @Override
@@ -231,7 +223,7 @@ public class MainActivity extends HitogoActivity {
 
         Hitogo.with(this)
                 .asViewAlert()
-                .withAnimations(LeftAnimation.build(), R.id.content)
+                .withAnimations(R.id.content)
                 .addText("Test 2")
                 .closeOthers(false)
                 .asLayoutChild(R.id.container_layout)
@@ -268,11 +260,11 @@ public class MainActivity extends HitogoActivity {
 
         Hitogo.with(this)
                 .asViewAlert()
-                .withAnimations(LeftAnimation.build(), R.id.content)
+                .withAnimations(R.id.content)
                 .addText("Test for 'Show Later'")
                 .asLayoutChild(R.id.container_layout)
                 .addButton(next)
-                .closeOthers()
+                .closeOthers(true)
                 .addButton(save)
                 .setState(AlertState.HINT)
                 .setTag("TestHint 2")
@@ -294,7 +286,7 @@ public class MainActivity extends HitogoActivity {
 
         Hitogo.with(this)
                 .asViewAlert()
-                .withAnimations(TopAnimation.build(), R.id.content)
+                .withAnimations(R.id.content)
                 .addText("Test 3")
                 .asLayoutChild(R.id.container_layout)
                 .addButton(button)

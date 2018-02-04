@@ -141,19 +141,9 @@ public class ViewAlertBuilder extends AlertBuilder<ViewAlertBuilder, ViewAlert> 
     }
 
     @NonNull
-    public ViewAlertBuilder closeOthers() {
-        return closeOthers(true);
-    }
-
-    @NonNull
     public ViewAlertBuilder closeOthers(boolean closeOthers) {
         this.closeOthers = closeOthers;
         return this;
-    }
-
-    @NonNull
-    public ViewAlertBuilder dismissByLayoutClick() {
-        return dismissByLayoutClick(true);
     }
 
     @NonNull
