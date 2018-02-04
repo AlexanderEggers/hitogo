@@ -14,17 +14,7 @@ public abstract class ButtonLifecycle<T extends ButtonParams> {
     }
 
     @CallSuper
-    protected void onCheck(@NonNull HitogoController controller, @NonNull T params) {
-
-    }
-
-    @CallSuper
     protected void onCreate(@NonNull T params) {
-
-    }
-
-    @CallSuper
-    protected void onCreate(@NonNull HitogoController controller, @NonNull T params) {
 
     }
 }
