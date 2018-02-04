@@ -25,8 +25,8 @@ public abstract class AlertLifecycle<T extends AlertParams> {
 
     /**
      * Checks the given parameters for the alert using the AlertParams object. This method is
-     * only executed by the system if the app is operating within a debug state (HitogoController
-     * >> provideIsDebugState). The check should prevent errors made by the developer and given him
+     * only executed by the system if the app is operating within a debug state (HitogoController:
+     * provideIsDebugState). The check should prevent errors made by the developer and given him
      * more suitable error messages. The onCheck is the first method in this lifecycle which
      * will be called.
      *
