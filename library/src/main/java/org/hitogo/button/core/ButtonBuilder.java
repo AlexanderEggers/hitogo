@@ -1,6 +1,6 @@
 package org.hitogo.button.core;
 
-import android.os.Bundle;
+import android.support.annotation.CallSuper;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
@@ -15,14 +15,11 @@ import java.lang.ref.WeakReference;
 @SuppressWarnings({"WeakerAccess", "unused", "unchecked"})
 public abstract class ButtonBuilder<C extends ButtonBuilder, B extends Button> {
 
-    private Class<? extends ButtonImpl> targetClass;
-    private Class<? extends ButtonParams> paramClass;
-    private WeakReference<HitogoContainer> containerRef;
+    private final Class<? extends ButtonImpl> targetClass;
+    private final Class<? extends ButtonParams> paramClass;
+    private final WeakReference<HitogoContainer> containerRef;
 
-    private ButtonParamsHolder holder = new ButtonParamsHolder();
-
-    private Bundle privateBundle = new Bundle();
-    private ButtonType builderType;
+    private final ButtonParamsHolder holder;
 
     private String text;
     private boolean closeAfterClick = true;
@@ -31,11 +28,12 @@ public abstract class ButtonBuilder<C extends ButtonBuilder, B extends Button> {
 
     public ButtonBuilder(@NonNull Class<? extends ButtonImpl> targetClass,
                          @NonNull Class<? extends ButtonParams> paramClass,
-                         @NonNull HitogoContainer container, ButtonType builderType) {
+                         @NonNull ButtonParamsHolder holder,
+                         @NonNull HitogoContainer container) {
         this.targetClass = targetClass;
         this.paramClass = paramClass;
+        this.holder = holder;
         this.containerRef = new WeakReference<>(container);
-        this.builderType = builderType;
     }
 
     @NonNull
@@ -77,7 +75,6 @@ public abstract class ButtonBuilder<C extends ButtonBuilder, B extends Button> {
     @SuppressWarnings("unchecked")
     public B build() {
         onProvideData(holder);
-        onProvidePrivateData(holder);
 
         try {
             ButtonImpl object = targetClass.getConstructor().newInstance();
@@ -90,16 +87,14 @@ public abstract class ButtonBuilder<C extends ButtonBuilder, B extends Button> {
         }
     }
 
-    private void onProvidePrivateData(ButtonParamsHolder holder) {
-        holder.provideSerializable(ButtonParamsKeys.TYPE_KEY, builderType);
+    @CallSuper
+    protected void onProvideData(ButtonParamsHolder holder) {
         holder.provideString(ButtonParamsKeys.TEXT_KEY, text);
         holder.provideBoolean(ButtonParamsKeys.CLOSE_AFTER_CLICK_KEY, closeAfterClick);
 
         holder.provideButtonListener(listener);
         holder.provideButtonParameter(buttonParameter);
     }
-
-    protected abstract void onProvideData(ButtonParamsHolder holder);
 
     protected final HitogoContainer getContainer() {
         return containerRef.get();

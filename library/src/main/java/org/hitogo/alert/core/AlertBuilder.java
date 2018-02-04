@@ -33,16 +33,17 @@ import java.util.List;
 @SuppressWarnings({"unchecked"})
 public abstract class AlertBuilder<B extends AlertBuilder, A extends Alert> {
 
-    private Class<? extends AlertImpl> targetClass;
-    private Class<? extends AlertParams> paramClass;
-    private WeakReference<HitogoContainer> containerRef;
+    private final Class<? extends AlertImpl> targetClass;
+    private final Class<? extends AlertParams> paramClass;
+    private final WeakReference<HitogoContainer> containerRef;
+    private final AlertParamsHolder holder;
+
     private HitogoController controller;
+
     private final List<VisibilityListener> visibilityListener = new ArrayList<>();
+    private final SparseArray<String> textMap = new SparseArray<>();
+    private final List<Button> buttons = new ArrayList<>();
 
-    private AlertParamsHolder holder = new AlertParamsHolder();
-
-    private SparseArray<String> textMap = new SparseArray<>();
-    private List<Button> buttons = new ArrayList<>();
     private Button closeButton;
     private String title;
     private Integer titleViewId;
@@ -70,9 +71,12 @@ public abstract class AlertBuilder<B extends AlertBuilder, A extends Alert> {
      */
     public AlertBuilder(@NonNull Class<? extends AlertImpl> targetClass,
                         @NonNull Class<? extends AlertParams> paramClass,
-                        @NonNull HitogoContainer container, @NonNull AlertType builderType) {
+                        @NonNull AlertParamsHolder holder,
+                        @NonNull HitogoContainer container,
+                        @NonNull AlertType builderType) {
         this.targetClass = targetClass;
         this.paramClass = paramClass;
+        this.holder = holder;
         this.containerRef = new WeakReference<>(container);
         this.controller = container.getController();
         this.builderType = builderType;
@@ -91,7 +95,6 @@ public abstract class AlertBuilder<B extends AlertBuilder, A extends Alert> {
     @SuppressWarnings("unchecked")
     public A build() {
         onProvideData(holder);
-        onProvidePrivateData(holder);
 
         try {
             AlertImpl object = targetClass.getConstructor().newInstance();
@@ -105,17 +108,16 @@ public abstract class AlertBuilder<B extends AlertBuilder, A extends Alert> {
     }
 
     /**
-     * Provides certain values of this builder to a private bundle object and the
-     * AlertParamsHolder. The AlertParamsHolder is used to initialised the
-     * AlertParams object, which is the data foundation for the alert object itself.
+     * Provides builder values which are used by the implemented builder class. The given
+     * AlertParamsHolder is used to initialised the data foundation for the alert object.
      *
      * @param holder Temporary object holder for all alert values, like title or text.
      * @see AlertParamsHolder
      * @see AlertParams
-     * @see Bundle
      * @since 1.0.0
      */
-    private void onProvidePrivateData(AlertParamsHolder holder) {
+    @CallSuper
+    protected void onProvideData(AlertParamsHolder holder) {
         holder.provideString(AlertParamsKeys.TITLE_KEY, title);
         holder.provideSerializable(AlertParamsKeys.TITLE_VIEW_ID_KEY, titleViewId);
         holder.provideString(AlertParamsKeys.TAG_KEY, tag);
@@ -130,18 +132,6 @@ public abstract class AlertBuilder<B extends AlertBuilder, A extends Alert> {
         holder.provideButtons(buttons);
         holder.provideCloseButton(closeButton);
     }
-
-    /**
-     * Provides builder values which are used by the implemented builder class. The given
-     * AlertParamsHolder is used to initialised the data foundation for the alert object.
-     *
-     * @param holder Temporary object holder for all alert values, like title or text.
-     * @see AlertParamsHolder
-     * @see AlertParams
-     * @since 1.0.0
-     */
-    @CallSuper
-    protected abstract void onProvideData(AlertParamsHolder holder);
 
     /**
      * Binds a different HitogoController object to this alert. This will result in using a

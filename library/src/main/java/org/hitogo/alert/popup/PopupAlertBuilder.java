@@ -23,8 +23,6 @@ import static android.os.Build.VERSION_CODES.M;
 @SuppressWarnings({"WeakerAccess", "unused"})
 public class PopupAlertBuilder extends AlertBuilder<PopupAlertBuilder, PopupAlert> {
 
-    private static final AlertType type = AlertType.POPUP;
-
     private Integer drawableRes;
     private Integer anchorViewId;
     private Integer animationStyle;
@@ -45,8 +43,9 @@ public class PopupAlertBuilder extends AlertBuilder<PopupAlertBuilder, PopupAler
 
     public PopupAlertBuilder(@NonNull Class<? extends AlertImpl> targetClass,
                              @NonNull Class<? extends AlertParams> paramClass,
+                             @NonNull AlertParamsHolder holder,
                              @NonNull HitogoContainer container) {
-        super(targetClass, paramClass, container, type);
+        super(targetClass, paramClass, holder, container, AlertType.POPUP);
     }
 
     @NonNull
@@ -102,7 +101,8 @@ public class PopupAlertBuilder extends AlertBuilder<PopupAlertBuilder, PopupAler
         if (customBuilder != null) {
             return customBuilder;
         } else {
-            return asDismissible(true);
+            return asDismissible(true)
+                    .setState(getController().provideDefaultState(AlertType.POPUP));
         }
     }
 
@@ -186,6 +186,8 @@ public class PopupAlertBuilder extends AlertBuilder<PopupAlertBuilder, PopupAler
 
     @Override
     protected void onProvideData(AlertParamsHolder holder) {
+        super.onProvideData(holder);
+
         holder.provideInteger(PopupAlertParamsKeys.DRAWABLE_RES_KEY, drawableRes);
         holder.provideInteger(PopupAlertParamsKeys.ANIMATION_STYLE_KEY, animationStyle);
         holder.provideInteger(PopupAlertParamsKeys.ANCHOR_VIEW_ID_KEY, anchorViewId);

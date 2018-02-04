@@ -10,6 +10,7 @@ import android.support.annotation.Nullable;
 import android.util.SparseIntArray;
 
 import org.hitogo.alert.core.Alert;
+import org.hitogo.alert.core.AlertParamsHolder;
 import org.hitogo.alert.dialog.DialogAlertImpl;
 import org.hitogo.alert.popup.PopupAlertImpl;
 import org.hitogo.alert.popup.PopupAlertBuilder;
@@ -26,6 +27,7 @@ import org.hitogo.alert.dialog.DialogAlertParams;
 import org.hitogo.alert.view.ViewAlertBuilder;
 import org.hitogo.alert.view.ViewAlertParams;
 import org.hitogo.button.core.ButtonParams;
+import org.hitogo.button.core.ButtonParamsHolder;
 
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -56,43 +58,31 @@ public abstract class HitogoController implements LifecycleObserver {
 
     public void showNext(final Alert alert, final boolean force) {
         synchronized (syncLock) {
-            if(!alert.isClosing()) {
+            if (!alert.isClosing()) {
                 closeByAlert(alert);
             }
 
             final LinkedList<AlertImpl> currentAlerts = getCurrentAlertList(alert.getType());
             if (!currentAlerts.isEmpty()) {
-                showNextInvisibleAlert(currentAlerts, force, alert.getAnimationDuration());
+                searchForNextInvisibleAlert(currentAlerts, force, alert.getAnimationDuration());
             }
         }
     }
 
-    protected void showNextInvisibleAlert(final LinkedList<AlertImpl> currentAlerts,
-                                          final boolean force, final long wait) {
-        Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                for (AlertImpl alert : currentAlerts) {
-                    if(alert.hasPriority()) {
-                        int currentHighestPriority = getCurrentHighestPriority(currentAlerts, alert);
-                        if (currentHighestPriority > alert.getPriority() && !isAlertAttached(alert)) {
-                            showNextAlert(alert);
-                            break;
-                        }
-                    } else if(!isAlertAttached(alert)) {
-                        showNextAlert(alert);
-                        break;
-                    }
+    protected void searchForNextInvisibleAlert(final LinkedList<AlertImpl> currentAlerts,
+                                               final boolean force, final long wait) {
+        HitogoPrioritySubClass priorityObject = getCurrentHighestPriority(currentAlerts);
+        for (AlertImpl alert : currentAlerts) {
+            if (alert.hasPriority() && !isAlertAttached(alert)) {
+                if (priorityObject.isAlertVisibilityAllowed(alert.hashCode())) {
+                    makeAlertVisible(alert, force, wait);
+                    break;
                 }
+            } else if (!isAlertAttached(alert)) {
+                makeAlertVisible(alert, force, wait);
+                break;
             }
-
-            private void showNextAlert(AlertImpl alert) {
-                if (alert.getContainer().getLifecycle().getCurrentState().isAtLeast(Lifecycle.State.CREATED)) {
-                    internalMakeVisible(alert, force);
-                }
-            }
-        }, wait);
+        }
     }
 
     @NonNull
@@ -111,7 +101,7 @@ public abstract class HitogoController implements LifecycleObserver {
 
     protected void internalShow(final LinkedList<AlertImpl> currentObjects, final AlertImpl newAlert,
                                 final boolean force, final boolean showLater) {
-        currentObjects.addFirst(newAlert);
+        currentObjects.addLast(newAlert);
 
         if (showLater) {
             return;
@@ -119,11 +109,11 @@ public abstract class HitogoController implements LifecycleObserver {
 
         long waitForClosing = 0;
         if (newAlert.hasPriority() && !currentObjects.isEmpty()) {
-            int currentHighestPriority = getCurrentHighestPriority(currentObjects, newAlert);
-            if (currentHighestPriority <= newAlert.getPriority()) {
-                return;
-            } else {
+            HitogoPrioritySubClass priorityObject = getCurrentHighestPriority(currentObjects);
+            if (priorityObject.isAlertVisibilityAllowed(newAlert.hashCode())) {
                 waitForClosing = closeByType(newAlert.getType(), force);
+            } else {
+                return;
             }
         }
 
@@ -134,31 +124,41 @@ public abstract class HitogoController implements LifecycleObserver {
             }
         }
 
-        if (!force) {
+        makeAlertVisible(newAlert, force, waitForClosing);
+    }
+
+    protected void makeAlertVisible(final AlertImpl alert, final boolean force, final long wait) {
+        if(!force) {
             Handler handler = new Handler();
             handler.postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    if (newAlert.getContainer().getLifecycle().getCurrentState().isAtLeast(Lifecycle.State.CREATED)) {
-                        internalMakeVisible(newAlert, false);
+                    if (alert.getContainer().getLifecycle().getCurrentState().isAtLeast(Lifecycle.State.CREATED)) {
+                        internalMakeVisible(alert, false);
                     }
                 }
-            }, waitForClosing);
+            }, wait);
         } else {
-            internalMakeVisible(newAlert, true);
+            internalMakeVisible(alert, true);
         }
     }
 
-    protected int getCurrentHighestPriority(LinkedList<AlertImpl> currentObjects, AlertImpl newAlert) {
-        int currentHighestPriority = Integer.MAX_VALUE;
+    protected HitogoPrioritySubClass getCurrentHighestPriority(LinkedList<AlertImpl> currentObjects) {
+        HitogoPrioritySubClass priorityObject = new HitogoPrioritySubClass();
 
         for (AlertImpl alert : currentObjects) {
-            if (!alert.equals(newAlert) && alert.hasPriority() && alert.getPriority() < currentHighestPriority) {
-                currentHighestPriority = alert.getPriority();
+            if (alert.hasPriority() && alert.getPriority() < priorityObject.getSubClassPriority()) {
+                priorityObject = new HitogoPrioritySubClass();
+                priorityObject.setSubClassPriority(alert.getPriority());
+                priorityObject.addSubClassAlertHashCode(alert.hashCode());
+                priorityObject.setSubClassVisible(isAlertAttached(alert));
+            } else if(alert.hasPriority() && alert.getPriority() == priorityObject.getSubClassPriority()) {
+                priorityObject.addSubClassAlertHashCode(alert.hashCode());
+                priorityObject.setSubClassVisible(isAlertAttached(alert));
             }
         }
 
-        return currentHighestPriority;
+        return priorityObject;
     }
 
     public long closeAll() {
@@ -376,6 +376,16 @@ public abstract class HitogoController implements LifecycleObserver {
     @NonNull
     public Class<? extends ButtonParams> provideDefaultButtonParamsClass() {
         return ActionButtonParams.class;
+    }
+
+    @NonNull
+    public AlertParamsHolder provideAlertParamsHolder() {
+        return new AlertParamsHolder();
+    }
+
+    @NonNull
+    public ButtonParamsHolder provideButtonParamsHolder() {
+        return new ButtonParamsHolder();
     }
 
     @LayoutRes

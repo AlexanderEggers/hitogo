@@ -17,15 +17,14 @@ import org.hitogo.alert.core.AlertType;
 @SuppressWarnings({"WeakerAccess", "unused"})
 public class DialogAlertBuilder extends AlertBuilder<DialogAlertBuilder, DialogAlert> {
 
-    private static final AlertType type = AlertType.DIALOG;
-
     private Integer dialogThemeResId;
     private boolean isDismissible;
 
     public DialogAlertBuilder(@NonNull Class<? extends AlertImpl> targetClass,
                               @NonNull Class<? extends AlertParams> paramClass,
+                              @NonNull AlertParamsHolder holder,
                               @NonNull HitogoContainer container) {
-        super(targetClass, paramClass, container, type);
+        super(targetClass, paramClass, holder, container, AlertType.DIALOG);
     }
 
     @NonNull
@@ -96,6 +95,8 @@ public class DialogAlertBuilder extends AlertBuilder<DialogAlertBuilder, DialogA
 
     @Override
     protected void onProvideData(AlertParamsHolder holder) {
+        super.onProvideData(holder);
+
         holder.provideInteger(DialogAlertParamsKeys.DIALOG_THEME_RES_ID, dialogThemeResId);
         holder.provideBoolean(DialogAlertParamsKeys.IS_DISMISSIBLE_KEY, isDismissible);
     }

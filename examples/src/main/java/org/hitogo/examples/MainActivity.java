@@ -23,8 +23,8 @@ public class MainActivity extends HitogoActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        //showFirstView();
-        showPrioAlerts();
+        showFirstView();
+        //showPrioAlerts();
     }
 
     private void showPrioAlerts() {
@@ -77,9 +77,7 @@ public class MainActivity extends HitogoActivity {
                 .setButtonListener(new ButtonListener<String>() {
                     @Override
                     public void onClick(Alert alert, String parameter) {
-                        if(alert.getParams().getTitle().equals("Test Prio 3")) {
-                            getController().showNext(alert, false);
-                        }
+                        getController().showNext(alert, false);
                         System.out.println(parameter);
                     }
                 }, false, "Test parameter")
@@ -105,6 +103,18 @@ public class MainActivity extends HitogoActivity {
                 .asDismissible(closeButton)
                 .addText("Test")
                 .setTitle("Test Prio 4")
+                .asLayoutChild(R.id.container_layout)
+                .dismissByLayoutClick()
+                .setState(AlertState.HINT)
+                .setPriority(2)
+                .showLater(true);
+
+        Hitogo.with(this)
+                .asViewAlert()
+                .withAnimations(R.id.content)
+                .asDismissible(closeButton)
+                .addText("Test")
+                .setTitle("Test Prio 5")
                 .asLayoutChild(R.id.container_layout)
                 .dismissByLayoutClick()
                 .setState(AlertState.HINT)

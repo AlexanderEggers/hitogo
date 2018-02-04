@@ -11,7 +11,6 @@ public abstract class ButtonParams extends HitogoParams<ButtonParamsHolder, Butt
 
     private String text;
     private boolean closeAfterClick;
-    private ButtonType type;
 
     private ButtonListener listener;
     private Object buttonParameter;
@@ -20,7 +19,6 @@ public abstract class ButtonParams extends HitogoParams<ButtonParamsHolder, Butt
     protected void provideData(ButtonParamsHolder holder) {
         this.text = holder.getString(ButtonParamsKeys.TEXT_KEY);
         this.closeAfterClick = holder.getBoolean(ButtonParamsKeys.CLOSE_AFTER_CLICK_KEY);
-        this.type = (ButtonType) holder.getSerializable(ButtonParamsKeys.TYPE_KEY);
 
         this.listener = holder.getListener();
         this.buttonParameter = holder.getButtonParameter();
@@ -31,10 +29,6 @@ public abstract class ButtonParams extends HitogoParams<ButtonParamsHolder, Butt
     public abstract int[] getViewIds();
 
     public abstract boolean hasButtonView();
-
-    public ButtonType getType() {
-        return type;
-    }
 
     public String getText() {
         return text;

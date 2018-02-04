@@ -19,8 +19,6 @@ import org.hitogo.alert.core.AlertType;
 @SuppressWarnings({"WeakerAccess", "unused"})
 public class ViewAlertBuilder extends AlertBuilder<ViewAlertBuilder, ViewAlert> {
 
-    private static final AlertType type = AlertType.VIEW;
-
     private Integer containerId;
     private Integer innerLayoutViewId;
 
@@ -31,8 +29,9 @@ public class ViewAlertBuilder extends AlertBuilder<ViewAlertBuilder, ViewAlert> 
 
     public ViewAlertBuilder(@NonNull Class<? extends AlertImpl> targetClass,
                             @NonNull Class<? extends AlertParams> paramClass,
+                            @NonNull AlertParamsHolder holder,
                             @NonNull HitogoContainer container) {
-        super(targetClass, paramClass, container, type);
+        super(targetClass, paramClass, holder, container, AlertType.VIEW);
     }
 
     @NonNull
@@ -126,7 +125,7 @@ public class ViewAlertBuilder extends AlertBuilder<ViewAlertBuilder, ViewAlert> 
             return asLayoutChild()
                     .addText(text)
                     .asDismissible(true)
-                    .setState(getController().provideDefaultState(type));
+                    .setState(getController().provideDefaultState(AlertType.VIEW));
         }
     }
 
@@ -190,6 +189,8 @@ public class ViewAlertBuilder extends AlertBuilder<ViewAlertBuilder, ViewAlert> 
 
     @Override
     protected void onProvideData(AlertParamsHolder holder) {
+        super.onProvideData(holder);
+
         holder.provideInteger(ViewAlertParamsKeys.CONTAINER_ID_KEY, containerId);
         holder.provideInteger(ViewAlertParamsKeys.INNER_LAYOUT_VIEW_ID_KEY, innerLayoutViewId);
         holder.provideBoolean(ViewAlertParamsKeys.CLOSE_OTHERS_KEY, closeOthers);

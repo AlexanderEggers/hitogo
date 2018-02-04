@@ -7,21 +7,19 @@ import org.hitogo.button.core.ButtonBuilder;
 import org.hitogo.button.core.ButtonImpl;
 import org.hitogo.button.core.ButtonParams;
 import org.hitogo.button.core.ButtonParamsHolder;
-import org.hitogo.button.core.ButtonType;
 import org.hitogo.core.HitogoContainer;
 
 @SuppressWarnings({"WeakerAccess", "unused"})
 public class ActionButtonBuilder extends ButtonBuilder<ActionButtonBuilder, ActionButton> {
-
-    private static final ButtonType type = ButtonType.ACTION;
 
     private int[] viewIds;
     private boolean hasButtonView;
 
     public ActionButtonBuilder(@NonNull Class<? extends ButtonImpl> targetClass,
                                @NonNull Class<? extends ButtonParams> paramClass,
+                               @NonNull ButtonParamsHolder holder,
                                @NonNull HitogoContainer container) {
-        super(targetClass, paramClass, container, type);
+        super(targetClass, paramClass, holder, container);
     }
 
     @NonNull
@@ -63,6 +61,8 @@ public class ActionButtonBuilder extends ButtonBuilder<ActionButtonBuilder, Acti
 
     @Override
     protected void onProvideData(ButtonParamsHolder holder) {
+        super.onProvideData(holder);
+
         holder.provideIntArray(ActionButtonParamsKeys.VIEW_IDS_KEY, viewIds);
         holder.provideBoolean(ActionButtonParamsKeys.HAS_BUTTON_VIEW_KEY, hasButtonView);
     }
