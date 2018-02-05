@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.view.View;
 
 @SuppressWarnings({"WeakerAccess", "unused"})
 public abstract class HitogoFragment extends Fragment implements HitogoContainer {
@@ -21,6 +22,12 @@ public abstract class HitogoFragment extends Fragment implements HitogoContainer
     @Override
     public HitogoController getController() {
         return hitogoController;
+    }
+
+    @Nullable
+    @Override
+    public View getActivityView() {
+        return getActivity().getWindow().getDecorView().getRootView();
     }
 
     @NonNull

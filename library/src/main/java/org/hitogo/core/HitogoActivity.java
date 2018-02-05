@@ -37,6 +37,12 @@ public abstract class HitogoActivity extends AppCompatActivity implements Hitogo
         return this;
     }
 
+    @Nullable
+    @Override
+    public View getActivityView() {
+        return getView();
+    }
+
     @NonNull
     public abstract HitogoController initialiseHitogo(@NonNull Lifecycle lifecycle);
 }

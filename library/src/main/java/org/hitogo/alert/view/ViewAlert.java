@@ -19,6 +19,9 @@ public interface ViewAlert extends Alert<ViewAlertParams> {
     View getRootView();
 
     @Nullable
+    View getActivityRootView();
+
+    @Nullable
     View getView();
 
     boolean hasAnimation();

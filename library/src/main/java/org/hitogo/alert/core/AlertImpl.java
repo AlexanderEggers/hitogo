@@ -1,5 +1,6 @@
 package org.hitogo.alert.core;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.arch.lifecycle.Lifecycle;
 import android.content.Context;
@@ -330,15 +331,29 @@ public abstract class AlertImpl<T extends AlertParams> extends AlertLifecycle<T>
     }
 
     /**
-     * Returns the root view of the alert. This value is usually non-null if the alert is attached
-     * to the view hierarchy (activity or fragment).
+     * Returns the root view of the alert. This result can be identical to the method
+     * getActivityRootView() if the used container is implemented by an Activity.
      *
-     * @return Root view which has been used to attach the alert to the current visible layout.
-     * Null if no root view was used.
+     * @return a View object or null
      * @since 1.0.0
      */
     public View getRootView() {
         return containerRef.get().getView();
+    }
+
+    /**
+     * Returns the activity root view of the alert.
+     *
+     * @return a View object or null
+     * @since 1.0.0
+     */
+    public View getActivityRootView() {
+        return containerRef.get().getActivityView();
+    }
+
+    @Override
+    public boolean isExecutedByActivity() {
+        return getContainer() instanceof Activity;
     }
 
     /**

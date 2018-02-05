@@ -61,7 +61,7 @@ public class ViewAlertImpl extends AlertImpl<ViewAlertParams> implements ViewAle
             if (containerView != null && containerView instanceof ViewGroup) {
                 viewGroup = (ViewGroup) containerView;
             } else {
-                Log.e(ViewAlertBuilderImpl.class.getName(), "Cannot find overlay container view. " +
+                Log.e(ViewAlertBuilderImpl.class.getName(), "Cannot find any container view. " +
                         "Using activity content view (layer) fallback.");
                 viewGroup = null;
             }
@@ -71,7 +71,7 @@ public class ViewAlertImpl extends AlertImpl<ViewAlertParams> implements ViewAle
     private View determineViewGroup() {
         View containerView = getRootView().findViewById(getParams().getContainerId());
 
-        Integer layoutContainerId = getController().provideDefaultOverlayContainerId();
+        Integer layoutContainerId = getController().provideDefaultLayoutContainerId();
         if (containerView == null && layoutContainerId != null) {
             Log.e(ViewAlertBuilderImpl.class.getName(), "Cannot find container view. " +
                     "Using default layout container view as fallback.");
@@ -83,6 +83,18 @@ public class ViewAlertImpl extends AlertImpl<ViewAlertParams> implements ViewAle
             Log.e(ViewAlertBuilderImpl.class.getName(), "Cannot find container view. " +
                     "Using default overlay container view as fallback.");
             containerView = getRootView().findViewById(overlayContainerId);
+        }
+
+        if (!isExecutedByActivity() && containerView == null && layoutContainerId != null) {
+            Log.e(ViewAlertBuilderImpl.class.getName(), "Cannot find fragment " +
+                    "container/overlay view. Using default activity container view as fallback.");
+            containerView = getActivityRootView().findViewById(layoutContainerId);
+        }
+
+        if (!isExecutedByActivity() && containerView == null && overlayContainerId != null) {
+            Log.e(ViewAlertBuilderImpl.class.getName(), "Cannot find activity " +
+                    "container view. Using default activity overlay view as fallback.");
+            containerView = getActivityRootView().findViewById(overlayContainerId);
         }
 
         return containerView;

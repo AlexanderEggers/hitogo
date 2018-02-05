@@ -104,6 +104,15 @@ public interface Alert<T extends AlertParams> {
     boolean hasPriority();
 
     /**
+     * Determines if the alert has been execute by a HitogoContainer that is an instance of
+     * Activity.
+     *
+     * @return a boolean
+     * @since 1.0.0
+     */
+    boolean isExecutedByActivity();
+
+    /**
      * Return the animation duration length for the show-/hide-process.
      *
      * @since 1.0.0
