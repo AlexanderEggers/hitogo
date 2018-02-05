@@ -19,11 +19,9 @@ public abstract class ButtonImpl<T extends ButtonParams> extends ButtonLifecycle
 
         if(getController().provideIsDebugState()) {
             onCheck(params);
-            onCheck(getController(), params);
         }
 
         onCreate(params);
-        onCreate(getController(), params);
         return this;
     }
 
