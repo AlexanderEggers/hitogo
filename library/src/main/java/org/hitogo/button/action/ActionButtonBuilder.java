@@ -4,66 +4,24 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import org.hitogo.button.core.ButtonBuilder;
-import org.hitogo.button.core.ButtonImpl;
-import org.hitogo.button.core.ButtonParams;
-import org.hitogo.button.core.ButtonParamsHolder;
-import org.hitogo.core.HitogoContainer;
 
-@SuppressWarnings({"WeakerAccess", "unused"})
-public class ActionButtonBuilder extends ButtonBuilder<ActionButtonBuilder, ActionButton> {
-
-    private int[] viewIds;
-    private boolean hasButtonView;
-
-    public ActionButtonBuilder(@NonNull Class<? extends ButtonImpl> targetClass,
-                               @NonNull Class<? extends ButtonParams> paramClass,
-                               @NonNull ButtonParamsHolder holder,
-                               @NonNull HitogoContainer container) {
-        super(targetClass, paramClass, holder, container);
-    }
+public interface ActionButtonBuilder extends ButtonBuilder<ActionButtonBuilder, ActionButton> {
 
     @NonNull
-    public ActionButtonBuilder forCloseAction() {
-        return forCloseAction(getController().provideDefaultCloseIconId(),
-                getController().provideDefaultCloseClickId());
-    }
+    ActionButtonBuilder forCloseAction();
 
     @NonNull
-    public ActionButtonBuilder forCloseAction(Integer closeIconId) {
-        return forCloseAction(closeIconId, getController().provideDefaultCloseClickId());
-    }
+    ActionButtonBuilder forCloseAction(Integer closeIconId);
 
     @NonNull
-    public ActionButtonBuilder forCloseAction(Integer closeIconId, @Nullable Integer optionalCloseViewId) {
-        return forViewAction(closeIconId, optionalCloseViewId);
-    }
+    ActionButtonBuilder forCloseAction(Integer closeIconId, @Nullable Integer optionalCloseViewId);
 
     @NonNull
-    public ActionButtonBuilder forViewAction(Integer closeIconId) {
-        return forViewAction(closeIconId, null);
-    }
+    ActionButtonBuilder forViewAction(Integer closeIconId);
 
     @NonNull
-    public ActionButtonBuilder forViewAction(Integer iconId, @Nullable Integer clickId) {
-        this.hasButtonView = true;
-        this.viewIds = new int[2];
-        this.viewIds[0] = iconId;
-        this.viewIds[1] = clickId != null ? clickId : iconId;
-        return this;
-    }
+    ActionButtonBuilder forViewAction(Integer iconId, @Nullable Integer clickId);
 
     @NonNull
-    public ActionButtonBuilder forClickOnlyAction() {
-        this.hasButtonView = false;
-        this.viewIds = new int[0];
-        return this;
-    }
-
-    @Override
-    protected void onProvideData(ButtonParamsHolder holder) {
-        super.onProvideData(holder);
-
-        holder.provideIntArray(ActionButtonParamsKeys.VIEW_IDS_KEY, viewIds);
-        holder.provideBoolean(ActionButtonParamsKeys.HAS_BUTTON_VIEW_KEY, hasButtonView);
-    }
+    ActionButtonBuilder forClickOnlyAction();
 }

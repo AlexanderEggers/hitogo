@@ -16,7 +16,7 @@ public class ActionButtonImpl extends ButtonImpl<ActionButtonParams> implements 
         super.onCheck(params);
 
         if (HitogoUtils.isEmpty(params.getText())) {
-            Log.w(ActionButtonBuilder.class.getName(), "Button has no text. If you want to " +
+            Log.w(ActionButtonBuilderImpl.class.getName(), "Button has no text. If you want to " +
                     "display a button with only one icon, you can ignore this warning.");
         }
 

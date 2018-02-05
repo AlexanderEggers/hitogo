@@ -17,7 +17,7 @@ import java.util.List;
  *
  * @since 1.0.0
  * @see AlertParams
- * @see AlertBuilder
+ * @see AlertBuilderImpl
  */
 @SuppressWarnings("WeakerAccess")
 public class AlertParamsHolder extends HitogoParamsHolder {

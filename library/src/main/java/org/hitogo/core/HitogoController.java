@@ -11,10 +11,13 @@ import android.util.SparseIntArray;
 
 import org.hitogo.alert.core.Alert;
 import org.hitogo.alert.core.AlertParamsHolder;
+import org.hitogo.alert.dialog.DialogAlertBuilder;
 import org.hitogo.alert.dialog.DialogAlertImpl;
-import org.hitogo.alert.popup.PopupAlertImpl;
 import org.hitogo.alert.popup.PopupAlertBuilder;
+import org.hitogo.alert.popup.PopupAlertImpl;
+import org.hitogo.alert.popup.PopupAlertBuilderImpl;
 import org.hitogo.alert.popup.PopupAlertParams;
+import org.hitogo.alert.view.ViewAlertBuilder;
 import org.hitogo.alert.view.ViewAlertImpl;
 import org.hitogo.alert.core.AlertImpl;
 import org.hitogo.alert.core.AlertParams;
@@ -22,9 +25,9 @@ import org.hitogo.alert.core.AlertType;
 import org.hitogo.button.action.ActionButtonImpl;
 import org.hitogo.button.core.ButtonImpl;
 import org.hitogo.button.action.ActionButtonParams;
-import org.hitogo.alert.dialog.DialogAlertBuilder;
+import org.hitogo.alert.dialog.DialogAlertBuilderImpl;
 import org.hitogo.alert.dialog.DialogAlertParams;
-import org.hitogo.alert.view.ViewAlertBuilder;
+import org.hitogo.alert.view.ViewAlertBuilderImpl;
 import org.hitogo.alert.view.ViewAlertParams;
 import org.hitogo.button.core.ButtonParams;
 import org.hitogo.button.core.ButtonParamsHolder;
@@ -128,7 +131,7 @@ public abstract class HitogoController implements LifecycleObserver {
     }
 
     protected void makeAlertVisible(final AlertImpl alert, final boolean force, final long wait) {
-        if(!force) {
+        if (!force) {
             Handler handler = new Handler();
             handler.postDelayed(new Runnable() {
                 @Override
@@ -152,7 +155,7 @@ public abstract class HitogoController implements LifecycleObserver {
                 priorityObject.setSubClassPriority(alert.getPriority());
                 priorityObject.addSubClassAlertHashCode(alert.hashCode());
                 priorityObject.setSubClassVisible(isAlertAttached(alert));
-            } else if(alert.hasPriority() && alert.getPriority() == priorityObject.getSubClassPriority()) {
+            } else if (alert.hasPriority() && alert.getPriority() == priorityObject.getSubClassPriority()) {
                 priorityObject.addSubClassAlertHashCode(alert.hashCode());
                 priorityObject.setSubClassVisible(isAlertAttached(alert));
             }
@@ -452,17 +455,17 @@ public abstract class HitogoController implements LifecycleObserver {
     }
 
     @Nullable
-    public ViewAlertBuilder provideSimpleView(@NonNull ViewAlertBuilder builder) {
+    public ViewAlertBuilder provideSimpleView(@NonNull ViewAlertBuilderImpl builder) {
         return null;
     }
 
     @Nullable
-    public DialogAlertBuilder provideSimpleDialog(@NonNull DialogAlertBuilder builder) {
+    public DialogAlertBuilder provideSimpleDialog(@NonNull DialogAlertBuilderImpl builder) {
         return null;
     }
 
     @Nullable
-    public PopupAlertBuilder provideSimplePopup(@NonNull PopupAlertBuilder builder) {
+    public PopupAlertBuilder provideSimplePopup(@NonNull PopupAlertBuilderImpl builder) {
         return null;
     }
 

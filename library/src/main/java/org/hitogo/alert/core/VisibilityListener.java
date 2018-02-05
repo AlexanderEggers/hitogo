@@ -6,7 +6,7 @@ package org.hitogo.alert.core;
  *
  * @param <T> Class type which is using this VisibilityListener.
  * @see Alert
- * @see AlertBuilder
+ * @see AlertBuilderImpl
  * @since 1.0.0
  */
 @SuppressWarnings({"WeakerAccess", "unused"})
@@ -18,7 +18,7 @@ public abstract class VisibilityListener<T extends Alert> {
      *
      * @param object a object which is extending Alert
      * @see Alert
-     * @see AlertBuilder
+     * @see AlertBuilderImpl
      * @since 1.0.0
      */
     public void onCreate(T object) {
@@ -30,7 +30,7 @@ public abstract class VisibilityListener<T extends Alert> {
      *
      * @param object a object which is extending Alert
      * @see Alert
-     * @see AlertBuilder
+     * @see AlertBuilderImpl
      * @since 1.0.0
      */
     public void onShow(T object) {
@@ -42,7 +42,7 @@ public abstract class VisibilityListener<T extends Alert> {
      *
      * @param object a object which is extending Alert
      * @see Alert
-     * @see AlertBuilder
+     * @see AlertBuilderImpl
      * @since 1.0.0
      */
     public void onClose(T object) {

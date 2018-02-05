@@ -2,190 +2,67 @@ package org.hitogo.alert.view;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.util.Log;
 
-import java.security.InvalidParameterException;
-
-import org.hitogo.core.HitogoAnimation;
-import org.hitogo.button.core.Button;
-import org.hitogo.core.Hitogo;
 import org.hitogo.alert.core.AlertBuilder;
-import org.hitogo.core.HitogoContainer;
-import org.hitogo.alert.core.AlertImpl;
-import org.hitogo.alert.core.AlertParams;
-import org.hitogo.alert.core.AlertParamsHolder;
-import org.hitogo.alert.core.AlertType;
+import org.hitogo.button.core.Button;
+import org.hitogo.core.HitogoAnimation;
 
-@SuppressWarnings({"WeakerAccess", "unused"})
-public class ViewAlertBuilder extends AlertBuilder<ViewAlertBuilder, ViewAlert> {
-
-    private Integer containerId;
-    private Integer innerLayoutViewId;
-
-    private boolean closeOthers;
-    private boolean dismissByClick;
-
-    private HitogoAnimation animation;
-
-    public ViewAlertBuilder(@NonNull Class<? extends AlertImpl> targetClass,
-                            @NonNull Class<? extends AlertParams> paramClass,
-                            @NonNull AlertParamsHolder holder,
-                            @NonNull HitogoContainer container) {
-        super(targetClass, paramClass, holder, container, AlertType.VIEW);
-    }
+public interface ViewAlertBuilder extends AlertBuilder<ViewAlertBuilder, ViewAlert> {
 
     @NonNull
-    public ViewAlertBuilder withAnimations() {
-        return withAnimations(true);
-    }
+    ViewAlertBuilder withAnimations();
 
     @NonNull
-    public ViewAlertBuilder withAnimations(boolean withAnimation) {
-        if(withAnimation) {
-            return withAnimations(getController().provideDefaultAnimation(),
-                    getController().provideDefaultLayoutViewId());
-        }
-        this.animation = null;
-        return this;
-    }
+    ViewAlertBuilder withAnimations(boolean withAnimation);
 
     @NonNull
-    public ViewAlertBuilder withAnimations(@Nullable Integer innerLayoutViewId) {
-        return withAnimations(getController().provideDefaultAnimation(), innerLayoutViewId);
-    }
+    ViewAlertBuilder withAnimations(@Nullable Integer innerLayoutViewId);
 
     @NonNull
-    public ViewAlertBuilder withAnimations(@Nullable HitogoAnimation animation) {
-        return withAnimations(animation, getController().provideDefaultLayoutViewId());
-    }
+    ViewAlertBuilder withAnimations(@Nullable HitogoAnimation animation);
 
     @NonNull
-    public ViewAlertBuilder withAnimations(@Nullable HitogoAnimation animation,
-                                           @Nullable Integer innerLayoutViewId) {
-        this.animation = animation;
-        this.innerLayoutViewId = innerLayoutViewId == null ?
-                getController().provideDefaultLayoutViewId() : innerLayoutViewId;
-        return this;
-    }
+    ViewAlertBuilder withAnimations(@Nullable HitogoAnimation animation,
+                                               @Nullable Integer innerLayoutViewId);
 
     @NonNull
-    public ViewAlertBuilder asDismissible() {
-        return asDismissible(true);
-    }
+    ViewAlertBuilder asDismissible();
 
     @NonNull
-    public ViewAlertBuilder asDismissible(boolean isDismissible) {
-        if(isDismissible) {
-            try {
-                return asDismissible(Hitogo.with(getContainer())
-                        .asActionButton()
-                        .forCloseAction()
-                        .build());
-            } catch (InvalidParameterException ex) {
-                Log.e(ViewAlertBuilder.class.getName(), "Cannot add default close button.");
-                Log.e(ViewAlertBuilder.class.getName(), "Reason: " + ex.getMessage());
-            }
-        }
-
-        return this;
-    }
+    ViewAlertBuilder asDismissible(boolean isDismissible);
 
     @NonNull
-    public ViewAlertBuilder asDismissible(@Nullable Button closeButton) {
-        if (closeButton != null) {
-            return super.setCloseButton(closeButton);
-        }
-        return this;
-    }
+    ViewAlertBuilder asDismissible(@Nullable Button closeButton);
 
     @NonNull
-    public ViewAlertBuilder asIgnoreLayout() {
-        this.containerId = null;
-        return this;
-    }
+    ViewAlertBuilder asIgnoreLayout();
 
     @NonNull
-    public ViewAlertBuilder asOverlay() {
-        return asOverlay(getController().provideDefaultOverlayContainerId());
-    }
+    ViewAlertBuilder asOverlay();
 
     @NonNull
-    public ViewAlertBuilder asOverlay(@Nullable Integer overlayId) {
-        this.containerId = overlayId == null ?
-                getController().provideDefaultOverlayContainerId() : overlayId;
-        return this;
-    }
+    ViewAlertBuilder asOverlay(@Nullable Integer overlayId);
 
     @NonNull
-    public ViewAlertBuilder asSimpleView(@NonNull String text) {
-        ViewAlertBuilder customBuilder = getController().provideSimpleView(this);
-        if (customBuilder != null) {
-            return customBuilder;
-        } else {
-            return asLayoutChild()
-                    .addText(text)
-                    .asDismissible(true)
-                    .setState(getController().provideDefaultState(AlertType.VIEW));
-        }
-    }
+    ViewAlertBuilder asSimpleView(@NonNull String text);
 
     @NonNull
-    public ViewAlertBuilder asLayoutChild() {
-        return asLayoutChild(getController().provideDefaultLayoutContainerId());
-    }
+    ViewAlertBuilder asLayoutChild();
 
     @NonNull
-    public ViewAlertBuilder asLayoutChild(Integer containerId) {
-        this.containerId = containerId;
-        return this;
-    }
+    ViewAlertBuilder asLayoutChild(Integer containerId);
 
     @NonNull
-    public ViewAlertBuilder closeOthers(boolean closeOthers) {
-        this.closeOthers = closeOthers;
-        return this;
-    }
+    ViewAlertBuilder closeOthers(boolean closeOthers);
 
     @NonNull
-    public ViewAlertBuilder dismissByLayoutClick(boolean dismissByClick) {
-        this.dismissByClick = dismissByClick;
-        return this;
-    }
+    ViewAlertBuilder dismissByLayoutClick(boolean dismissByClick);
 
-    @Override
-    public void show() {
-        show(false);
-    }
+    void show(boolean force);
 
-    public void show(boolean force) {
-        build().show(force);
-    }
+    void showLater(boolean showLater);
 
-    public void showLater(boolean showLater) {
-        if (showLater) {
-            build().showLater(true);
-        } else {
-            show(false);
-        }
-    }
+    void showDelayed(long millis);
 
-    public void showDelayed(long millis) {
-        showDelayed(millis, false);
-    }
-
-    public void showDelayed(long millis, boolean force) {
-        build().showDelayed(millis, force);
-    }
-
-    @Override
-    protected void onProvideData(AlertParamsHolder holder) {
-        super.onProvideData(holder);
-
-        holder.provideInteger(ViewAlertParamsKeys.CONTAINER_ID_KEY, containerId);
-        holder.provideInteger(ViewAlertParamsKeys.INNER_LAYOUT_VIEW_ID_KEY, innerLayoutViewId);
-        holder.provideBoolean(ViewAlertParamsKeys.CLOSE_OTHERS_KEY, closeOthers);
-        holder.provideBoolean(ViewAlertParamsKeys.DISMISS_BY_LAYOUT_CLICK_KEY, dismissByClick);
-
-        holder.provideAnimation(animation);
-    }
+    void showDelayed(long millis, boolean force);
 }

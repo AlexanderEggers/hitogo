@@ -1,5 +1,5 @@
 package org.hitogo.alert.core;
 
 public enum AlertType {
-    VIEW, DIALOG, POPUP
+    VIEW, DIALOG, POPUP, OTHER
 }

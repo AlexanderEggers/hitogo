@@ -15,7 +15,7 @@ import android.widget.TextView;
 import org.hitogo.button.core.Button;
 import org.hitogo.alert.core.AlertImpl;
 import org.hitogo.core.HitogoUtils;
-import org.hitogo.alert.view.ViewAlertBuilder;
+import org.hitogo.alert.view.ViewAlertBuilderImpl;
 
 import java.security.InvalidParameterException;
 import java.util.List;
@@ -43,7 +43,7 @@ public class DialogAlertImpl extends AlertImpl<DialogAlertParams> implements Dia
         }
 
         if (params.getState() == null && params.getLayoutRes() == null) {
-            Log.i(ViewAlertBuilder.class.getName(), "State and custom layout is null. This " +
+            Log.i(ViewAlertBuilderImpl.class.getName(), "State and custom layout is null. This " +
                     "dialog will use the default alert dialog implementation instead.");
         }
     }

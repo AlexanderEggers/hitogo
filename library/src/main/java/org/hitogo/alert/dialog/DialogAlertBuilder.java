@@ -5,99 +5,29 @@ import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
 import android.support.annotation.StyleRes;
 
-import org.hitogo.button.core.Button;
-import org.hitogo.core.Hitogo;
 import org.hitogo.alert.core.AlertBuilder;
-import org.hitogo.core.HitogoContainer;
-import org.hitogo.alert.core.AlertImpl;
-import org.hitogo.alert.core.AlertParams;
-import org.hitogo.alert.core.AlertParamsHolder;
-import org.hitogo.alert.core.AlertType;
+import org.hitogo.button.core.Button;
 
-@SuppressWarnings({"WeakerAccess", "unused"})
-public class DialogAlertBuilder extends AlertBuilder<DialogAlertBuilder, DialogAlert> {
-
-    private Integer dialogThemeResId;
-    private boolean isDismissible;
-
-    public DialogAlertBuilder(@NonNull Class<? extends AlertImpl> targetClass,
-                              @NonNull Class<? extends AlertParams> paramClass,
-                              @NonNull AlertParamsHolder holder,
-                              @NonNull HitogoContainer container) {
-        super(targetClass, paramClass, holder, container, AlertType.DIALOG);
-    }
+public interface DialogAlertBuilder extends AlertBuilder<DialogAlertBuilder, DialogAlert> {
 
     @NonNull
-    public DialogAlertBuilder asDismissible() {
-        return asDismissible(true);
-    }
+    DialogAlertBuilder asDismissible();
 
     @NonNull
-    public DialogAlertBuilder asDismissible(boolean isDismissible) {
-        this.isDismissible = isDismissible;
-        return this;
-    }
+    DialogAlertBuilder asDismissible(boolean isDismissible);
 
     @NonNull
-    public DialogAlertBuilder asDismissible(@Nullable Button closeButton) {
-        this.isDismissible = true;
-
-        if (closeButton != null) {
-            return super.setCloseButton(closeButton);
-        }
-        return this;
-    }
+    DialogAlertBuilder asDismissible(@Nullable Button closeButton);
 
     @NonNull
-    public DialogAlertBuilder asSimpleDialog(@NonNull String title, @NonNull String text) {
-        super.setTitle(title);
-        super.addText(text);
-
-        DialogAlertBuilder customBuilder = getController().provideSimpleDialog(this);
-        if (customBuilder != null) {
-            return customBuilder;
-        } else {
-            return asDismissible(true);
-        }
-    }
+    DialogAlertBuilder asSimpleDialog(@NonNull String title, @NonNull String text);
 
     @NonNull
-    public DialogAlertBuilder addButton(@NonNull String... buttonContent) {
-        for (String buttonText : buttonContent) {
-            Button button = Hitogo.with(getContainer())
-                    .asActionButton()
-                    .forClickOnlyAction()
-                    .setText(buttonText)
-                    .build();
-            super.addButton(button);
-        }
-        return this;
-    }
+    DialogAlertBuilder addButton(@NonNull String... buttonContent);
 
     @NonNull
-    public DialogAlertBuilder addButton(@StringRes int... buttonContent) {
-        for (int textRes : buttonContent) {
-            Button button = Hitogo.with(getContainer())
-                    .asActionButton()
-                    .forClickOnlyAction()
-                    .setText(textRes)
-                    .build();
-            super.addButton(button);
-        }
-        return this;
-    }
+    DialogAlertBuilder addButton(@StringRes int... buttonContent);
 
     @NonNull
-    public DialogAlertBuilder setStyle(@Nullable @StyleRes Integer dialogThemeResId) {
-        this.dialogThemeResId = dialogThemeResId;
-        return this;
-    }
-
-    @Override
-    protected void onProvideData(AlertParamsHolder holder) {
-        super.onProvideData(holder);
-
-        holder.provideInteger(DialogAlertParamsKeys.DIALOG_THEME_RES_ID, dialogThemeResId);
-        holder.provideBoolean(DialogAlertParamsKeys.IS_DISMISSIBLE_KEY, isDismissible);
-    }
+    DialogAlertBuilder setStyle(@Nullable @StyleRes Integer dialogThemeResId);
 }

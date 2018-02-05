@@ -61,7 +61,7 @@ public class ViewAlertImpl extends AlertImpl<ViewAlertParams> implements ViewAle
             if (containerView != null && containerView instanceof ViewGroup) {
                 viewGroup = (ViewGroup) containerView;
             } else {
-                Log.e(ViewAlertBuilder.class.getName(), "Cannot find overlay container view. " +
+                Log.e(ViewAlertBuilderImpl.class.getName(), "Cannot find overlay container view. " +
                         "Using activity content view (layer) fallback.");
                 viewGroup = null;
             }
@@ -73,14 +73,14 @@ public class ViewAlertImpl extends AlertImpl<ViewAlertParams> implements ViewAle
 
         Integer layoutContainerId = getController().provideDefaultOverlayContainerId();
         if (containerView == null && layoutContainerId != null) {
-            Log.e(ViewAlertBuilder.class.getName(), "Cannot find container view. " +
+            Log.e(ViewAlertBuilderImpl.class.getName(), "Cannot find container view. " +
                     "Using default layout container view as fallback.");
             containerView = getRootView().findViewById(layoutContainerId);
         }
 
         Integer overlayContainerId = getController().provideDefaultOverlayContainerId();
         if (containerView == null && overlayContainerId != null) {
-            Log.e(ViewAlertBuilder.class.getName(), "Cannot find container view. " +
+            Log.e(ViewAlertBuilderImpl.class.getName(), "Cannot find container view. " +
                     "Using default overlay container view as fallback.");
             containerView = getRootView().findViewById(overlayContainerId);
         }
