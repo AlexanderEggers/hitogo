@@ -125,7 +125,7 @@ public class ViewAlertImpl extends AlertImpl<ViewAlertParams> implements ViewAle
 
             return view;
         } else if (getController().provideIsDebugState()) {
-            throw new InvalidParameterException("Hitogo view is null. Is the layout existing for " +
+            throw new InvalidParameterException("Alert view is null. Is the layout existing for " +
                     "the state: '" + params.getState() + "'?");
         }
         return null;
@@ -135,7 +135,7 @@ public class ViewAlertImpl extends AlertImpl<ViewAlertParams> implements ViewAle
         if (button.getParams().hasButtonView()) {
             buildActionButton(button, dialogView, forceClose);
         } else if (getController().provideIsDebugState()) {
-            throw new IllegalStateException("Popup can only process buttons that have a view (use forViewAction)");
+            throw new IllegalStateException("View can only process buttons that have a view (use forViewAction)");
         }
     }
 
