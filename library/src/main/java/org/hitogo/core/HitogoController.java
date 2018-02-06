@@ -32,8 +32,10 @@ import org.hitogo.alert.view.ViewAlertParams;
 import org.hitogo.button.core.ButtonParams;
 import org.hitogo.button.core.ButtonParamsHolder;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.List;
 
 @SuppressWarnings({"WeakerAccess", "unused"})
 public abstract class HitogoController implements LifecycleObserver {
@@ -44,6 +46,7 @@ public abstract class HitogoController implements LifecycleObserver {
     private final LinkedList<AlertImpl> currentDialogs = new LinkedList<>();
     private final LinkedList<AlertImpl> currentPopups = new LinkedList<>();
     private final SparseIntArray alertCountMap = new SparseIntArray();
+    private final List<AlertImpl> currentActiveAlerts = new ArrayList<>();
 
     public HitogoController(@NonNull Lifecycle lifecycle) {
         lifecycle.addObserver(this);
@@ -303,7 +306,7 @@ public abstract class HitogoController implements LifecycleObserver {
         }
     }
 
-    protected void internalCloseByAlert(Iterator<AlertImpl> it, @NonNull Alert alert, boolean force, long currentLongest) {
+    protected void internalCloseByAlert(Iterator<AlertImpl> it, final @NonNull Alert alert, boolean force, long currentLongest) {
         while (it.hasNext()) {
             AlertImpl object = it.next();
             if (object.equals(alert)) {
@@ -311,7 +314,7 @@ public abstract class HitogoController implements LifecycleObserver {
                     currentLongest = object.getAnimationDuration();
                 }
 
-                internalMakeInvisible(object, force);
+                internalMakeInvisible((AlertImpl) alert, force);
                 it.remove();
             }
         }
@@ -322,6 +325,7 @@ public abstract class HitogoController implements LifecycleObserver {
         if (count == 0) {
             alertCountMap.put(object.hashCode(), 1);
             object.makeVisible(force);
+            currentActiveAlerts.add(object);
         } else {
             alertCountMap.put(object.hashCode(), count + 1);
         }
@@ -332,8 +336,23 @@ public abstract class HitogoController implements LifecycleObserver {
         if (count == 1) {
             alertCountMap.delete(object.hashCode());
             object.makeInvisible(force);
+            internalMakeActiveAlertInvisible(object, force);
         } else {
             alertCountMap.put(object.hashCode(), count - 1);
+        }
+    }
+
+    protected void internalMakeActiveAlertInvisible(AlertImpl toBeClosedAlert, final boolean force) {
+        Iterator<AlertImpl> iterator = currentActiveAlerts.iterator();
+
+        while (iterator.hasNext()){
+            AlertImpl alert = iterator.next();
+
+            if(toBeClosedAlert.equals(alert)) {
+                alert.makeInvisible(force);
+                iterator.remove();
+                break;
+            }
         }
     }
 
