@@ -335,7 +335,6 @@ public abstract class HitogoController implements LifecycleObserver {
         int count = alertCountMap.get(object.hashCode());
         if (count == 1) {
             alertCountMap.delete(object.hashCode());
-            object.makeInvisible(force);
             internalMakeActiveAlertInvisible(object, force);
         } else {
             alertCountMap.put(object.hashCode(), count - 1);
