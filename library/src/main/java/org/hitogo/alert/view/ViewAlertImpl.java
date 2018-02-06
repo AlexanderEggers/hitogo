@@ -69,14 +69,8 @@ public class ViewAlertImpl extends AlertImpl<ViewAlertParams> implements ViewAle
     }
 
     private View determineViewGroup() {
-        View containerView = getRootView().findViewById(getParams().getContainerId());
-
-        Integer layoutContainerId = getController().provideDefaultLayoutContainerId();
-        if (containerView == null && layoutContainerId != null) {
-            Log.e(ViewAlertBuilderImpl.class.getName(), "Cannot find container view. " +
-                    "Using default layout container view as fallback.");
-            containerView = getRootView().findViewById(layoutContainerId);
-        }
+        int layoutContainerId = getParams().getContainerId();
+        View containerView = getRootView().findViewById(layoutContainerId);
 
         Integer overlayContainerId = getController().provideDefaultOverlayContainerId();
         if (containerView == null && overlayContainerId != null) {
@@ -85,7 +79,7 @@ public class ViewAlertImpl extends AlertImpl<ViewAlertParams> implements ViewAle
             containerView = getRootView().findViewById(overlayContainerId);
         }
 
-        if (!isExecutedByActivity() && containerView == null && layoutContainerId != null) {
+        if (!isExecutedByActivity() && containerView == null) {
             Log.e(ViewAlertBuilderImpl.class.getName(), "Cannot find fragment " +
                     "container/overlay view. Using default activity container view as fallback.");
             containerView = getActivityRootView().findViewById(layoutContainerId);
