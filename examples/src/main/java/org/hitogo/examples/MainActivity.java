@@ -20,8 +20,50 @@ public class MainActivity extends HitogoActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        showFirstView();
+        sourceTest();
+        //showFirstView();
         //showPrioAlerts();
+    }
+
+    public void sourceTest() {
+        ActionButton closeButton = Hitogo.with(this)
+                .asActionButton()
+                .setText(R.string.test_id)
+                .forViewAction(R.id.close)
+                .build();
+
+        Hitogo.with(this)
+                .asViewAlert()
+                .withAnimations(R.id.content)
+                .asDismissible(closeButton)
+                .addText("Test")
+                .setTitle("Test Prio 1")
+                .asLayoutChild(R.id.container_layout)
+                .setState(AlertState.HINT)
+                .setPriority(1)
+                .show();
+
+        Hitogo.with(this)
+                .asViewAlert()
+                .withAnimations(R.id.content)
+                .asDismissible(closeButton)
+                .addText("Test")
+                .setTitle("Test Prio 1")
+                .asLayoutChild(R.id.container_layout)
+                .setState(AlertState.HINT)
+                .setPriority(1)
+                .show();
+
+        Hitogo.with(this)
+                .asViewAlert()
+                .withAnimations(R.id.content)
+                .asDismissible(closeButton)
+                .addText("Test")
+                .setTitle("Test Prio 1")
+                .asLayoutChild(R.id.container_layout)
+                .setState(AlertState.HINT)
+                .setPriority(1)
+                .show();
     }
 
     private void showPrioAlerts() {

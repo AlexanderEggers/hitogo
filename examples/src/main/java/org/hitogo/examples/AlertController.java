@@ -1,8 +1,10 @@
 package org.hitogo.examples;
 
 import android.arch.lifecycle.Lifecycle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
+import org.hitogo.alert.core.Alert;
 import org.hitogo.core.HitogoAnimation;
 import org.hitogo.core.HitogoController;
 import org.hitogo.alert.core.AlertType;
@@ -51,6 +53,11 @@ public class AlertController extends HitogoController {
             default:
                 return R.layout.hitogo_popup;
         }
+    }
+
+    @Override
+    public long closeByAlert(@NonNull Alert alert) {
+        return super.closeByAlert(alert);
     }
 
     @Nullable
