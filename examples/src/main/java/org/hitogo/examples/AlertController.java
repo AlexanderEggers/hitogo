@@ -55,11 +55,6 @@ public class AlertController extends HitogoController {
         }
     }
 
-    @Override
-    public long closeByAlert(@NonNull Alert alert) {
-        return super.closeByAlert(alert);
-    }
-
     @Nullable
     @Override
     public Integer provideDefaultOverlayContainerId() {

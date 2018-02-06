@@ -179,7 +179,7 @@ public class ViewAlertImpl extends AlertImpl<ViewAlertParams> implements ViewAle
 
     @SuppressWarnings("unchecked")
     private void buildActionButton(final Button button, View view, final boolean forceClose) {
-        if (button != null) {
+        if (button != null && button.getParams().getViewIds().length >= 2) {
             final View icon = view.findViewById(button.getParams().getViewIds()[0]);
             View click = view.findViewById(button.getParams().getViewIds()[1]);
 
@@ -207,6 +207,10 @@ public class ViewAlertImpl extends AlertImpl<ViewAlertParams> implements ViewAle
             } else if (getController().provideIsDebugState()) {
                 throw new InvalidParameterException("Did you forget to add the button to your layout?");
             }
+        } else if (getController().provideIsDebugState()) {
+            throw new InvalidParameterException("Are you using the correct button type? You can use " +
+                    "ActionButton which will define your button view. Reason: View ids for the button " +
+                    "view is less than two.");
         }
     }
 

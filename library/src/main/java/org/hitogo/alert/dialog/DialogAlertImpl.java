@@ -154,7 +154,7 @@ public class DialogAlertImpl extends AlertImpl<DialogAlertParams> implements Dia
     }
 
     private void buildActionButton(final Button button, View view) {
-        if (button != null) {
+        if (button != null && button.getParams().getViewIds().length >= 2) {
             final View icon = view.findViewById(button.getParams().getViewIds()[0]);
             View click = view.findViewById(button.getParams().getViewIds()[1]);
 
@@ -179,6 +179,10 @@ public class DialogAlertImpl extends AlertImpl<DialogAlertParams> implements Dia
             } else if (getController().provideIsDebugState()) {
                 throw new InvalidParameterException("Did you forget to add the button to your layout?");
             }
+        } else if (getController().provideIsDebugState()) {
+            throw new InvalidParameterException("Are you using the correct button type? You can use " +
+                    "ActionButton which will define your button view. Reason: View ids for the button " +
+                    "view is less than two.");
         }
     }
 
@@ -218,8 +222,8 @@ public class DialogAlertImpl extends AlertImpl<DialogAlertParams> implements Dia
             dialogButtonCount++;
 
             if (dialogButtonCount >= MAX_BUILDER_BUTTON_AMOUNT && getController().provideIsDebugState()) {
-                throw new InvalidParameterException("Dialog only supports up to three " +
-                        "different builder buttons (primary, secondary and neutral)!");
+                throw new InvalidParameterException("Dialog only supports up to three different " +
+                        "builder buttons (primary, secondary and neutral)!");
             }
         } else if (getController().provideIsDebugState()) {
             throw new InvalidParameterException("Empty button text cannot be added to the dialog.");

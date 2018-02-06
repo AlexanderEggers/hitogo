@@ -3,7 +3,6 @@ package org.hitogo.button.core;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-import org.hitogo.button.action.DefaultActionButtonListener;
 import org.hitogo.core.HitogoParams;
 
 @SuppressWarnings({"WeakerAccess", "unused"})
@@ -36,7 +35,7 @@ public abstract class ButtonParams extends HitogoParams<ButtonParamsHolder, Butt
 
     @NonNull
     public ButtonListener getListener() {
-        return listener != null ? listener : new DefaultActionButtonListener();
+        return listener != null ? listener : new DefaultButtonListener();
     }
 
     @Nullable
