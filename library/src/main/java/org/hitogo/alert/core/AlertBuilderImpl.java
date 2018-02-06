@@ -2,6 +2,8 @@ package org.hitogo.alert.core;
 
 import android.os.Bundle;
 import android.support.annotation.CallSuper;
+import android.support.annotation.IdRes;
+import android.support.annotation.IntRange;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -145,7 +147,7 @@ public abstract class AlertBuilderImpl<B extends AlertBuilderBase, A extends Ale
      */
     @Override
     @NonNull
-    public B setController(HitogoController controller) {
+    public B setController(@NonNull HitogoController controller) {
         this.controller = controller;
         return (B) this;
     }
@@ -214,7 +216,7 @@ public abstract class AlertBuilderImpl<B extends AlertBuilderBase, A extends Ale
      */
     @Override
     @NonNull
-    public B setTitle(@Nullable Integer viewId, @StringRes int titleRes) {
+    public B setTitle(@IdRes @Nullable Integer viewId, @StringRes int titleRes) {
         return setTitle(viewId, HitogoUtils.getStringRes(getContainer().getActivity(), titleRes));
     }
 
@@ -228,7 +230,7 @@ public abstract class AlertBuilderImpl<B extends AlertBuilderBase, A extends Ale
      */
     @Override
     @NonNull
-    public B setTitle(@Nullable Integer viewId, @NonNull String title) {
+    public B setTitle(@IdRes @Nullable Integer viewId, @NonNull String title) {
         this.titleViewId = viewId;
         this.title = title;
         return (B) this;
@@ -289,7 +291,7 @@ public abstract class AlertBuilderImpl<B extends AlertBuilderBase, A extends Ale
      */
     @Override
     @NonNull
-    public B addText(Integer viewId, @StringRes int textRes) {
+    public B addText(@IdRes @Nullable Integer viewId, @StringRes int textRes) {
         return addText(viewId, HitogoUtils.getStringRes(getContainer().getActivity(), textRes));
     }
 
@@ -305,8 +307,8 @@ public abstract class AlertBuilderImpl<B extends AlertBuilderBase, A extends Ale
      */
     @Override
     @NonNull
-    public B addText(Integer viewId, @NonNull String text) {
-        textMap.put(viewId, text);
+    public B addText(@IdRes @Nullable Integer viewId, @NonNull String text) {
+        textMap.put(viewId != null ? viewId : 0, text);
         return (B) this;
     }
 
@@ -338,7 +340,7 @@ public abstract class AlertBuilderImpl<B extends AlertBuilderBase, A extends Ale
      */
     @Override
     @NonNull
-    public B setState(Integer state) {
+    public B setState(@NonNull Integer state) {
         this.state = state;
         return (B) this;
     }
@@ -355,7 +357,7 @@ public abstract class AlertBuilderImpl<B extends AlertBuilderBase, A extends Ale
      */
     @Override
     @NonNull
-    public B setState(Enum state) {
+    public B setState(@NonNull Enum state) {
         this.state = state != null ? state.ordinal() : null;
         return (B) this;
     }
@@ -422,7 +424,7 @@ public abstract class AlertBuilderImpl<B extends AlertBuilderBase, A extends Ale
      */
     @Override
     @NonNull
-    public B setLayout(@LayoutRes Integer layoutRes) {
+    public B setLayout(@NonNull @LayoutRes int layoutRes) {
         this.layoutRes = layoutRes;
         return (B) this;
     }
@@ -446,7 +448,7 @@ public abstract class AlertBuilderImpl<B extends AlertBuilderBase, A extends Ale
      */
     @Override
     @NonNull
-    public B setPriority(int priority) {
+    public B setPriority(@IntRange(from = 0) int priority) {
         this.priority = priority;
         return (B) this;
     }

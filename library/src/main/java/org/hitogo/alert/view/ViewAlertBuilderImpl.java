@@ -1,5 +1,6 @@
 package org.hitogo.alert.view;
 
+import android.support.annotation.IdRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Log;
@@ -44,7 +45,7 @@ public class ViewAlertBuilderImpl extends AlertBuilderImpl<ViewAlertBuilder, Vie
     @Override
     @NonNull
     public ViewAlertBuilder withAnimations(boolean withAnimation) {
-        if(withAnimation) {
+        if (withAnimation) {
             return withAnimations(getController().provideDefaultAnimation(),
                     getController().provideDefaultLayoutViewId());
         }
@@ -54,7 +55,7 @@ public class ViewAlertBuilderImpl extends AlertBuilderImpl<ViewAlertBuilder, Vie
 
     @Override
     @NonNull
-    public ViewAlertBuilder withAnimations(@Nullable Integer innerLayoutViewId) {
+    public ViewAlertBuilder withAnimations(@IdRes @Nullable Integer innerLayoutViewId) {
         return withAnimations(getController().provideDefaultAnimation(), innerLayoutViewId);
     }
 
@@ -67,7 +68,7 @@ public class ViewAlertBuilderImpl extends AlertBuilderImpl<ViewAlertBuilder, Vie
     @Override
     @NonNull
     public ViewAlertBuilder withAnimations(@Nullable HitogoAnimation animation,
-                                               @Nullable Integer innerLayoutViewId) {
+                                           @IdRes @Nullable Integer innerLayoutViewId) {
         this.animation = animation;
         this.innerLayoutViewId = innerLayoutViewId == null ?
                 getController().provideDefaultLayoutViewId() : innerLayoutViewId;
@@ -83,7 +84,7 @@ public class ViewAlertBuilderImpl extends AlertBuilderImpl<ViewAlertBuilder, Vie
     @Override
     @NonNull
     public ViewAlertBuilder asDismissible(boolean isDismissible) {
-        if(isDismissible) {
+        if (isDismissible) {
             try {
                 return asDismissible(Hitogo.with(getContainer())
                         .asActionButton()
@@ -122,7 +123,7 @@ public class ViewAlertBuilderImpl extends AlertBuilderImpl<ViewAlertBuilder, Vie
 
     @Override
     @NonNull
-    public ViewAlertBuilder asOverlay(@Nullable Integer overlayId) {
+    public ViewAlertBuilder asOverlay(@IdRes @Nullable Integer overlayId) {
         this.containerId = overlayId == null ?
                 getController().provideDefaultOverlayContainerId() : overlayId;
         return this;
@@ -150,7 +151,7 @@ public class ViewAlertBuilderImpl extends AlertBuilderImpl<ViewAlertBuilder, Vie
 
     @Override
     @NonNull
-    public ViewAlertBuilder asLayoutChild(Integer containerId) {
+    public ViewAlertBuilder asLayoutChild(@IdRes @Nullable Integer containerId) {
         this.containerId = containerId;
         return this;
     }

@@ -1,5 +1,6 @@
 package org.hitogo.alert.view;
 
+import android.support.annotation.IdRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
@@ -16,14 +17,14 @@ public interface ViewAlertBuilder extends AlertBuilder<ViewAlertBuilder, ViewAle
     ViewAlertBuilder withAnimations(boolean withAnimation);
 
     @NonNull
-    ViewAlertBuilder withAnimations(@Nullable Integer innerLayoutViewId);
+    ViewAlertBuilder withAnimations(@IdRes @Nullable Integer innerLayoutViewId);
 
     @NonNull
     ViewAlertBuilder withAnimations(@Nullable HitogoAnimation animation);
 
     @NonNull
     ViewAlertBuilder withAnimations(@Nullable HitogoAnimation animation,
-                                               @Nullable Integer innerLayoutViewId);
+                                    @IdRes @Nullable Integer innerLayoutViewId);
 
     @NonNull
     ViewAlertBuilder asDismissible();
@@ -41,7 +42,7 @@ public interface ViewAlertBuilder extends AlertBuilder<ViewAlertBuilder, ViewAle
     ViewAlertBuilder asOverlay();
 
     @NonNull
-    ViewAlertBuilder asOverlay(@Nullable Integer overlayId);
+    ViewAlertBuilder asOverlay(@IdRes @Nullable Integer overlayId);
 
     @NonNull
     ViewAlertBuilder asSimpleView(@NonNull String text);
@@ -50,7 +51,7 @@ public interface ViewAlertBuilder extends AlertBuilder<ViewAlertBuilder, ViewAle
     ViewAlertBuilder asLayoutChild();
 
     @NonNull
-    ViewAlertBuilder asLayoutChild(Integer containerId);
+    ViewAlertBuilder asLayoutChild(@IdRes @Nullable Integer containerId);
 
     @NonNull
     ViewAlertBuilder closeOthers(boolean closeOthers);

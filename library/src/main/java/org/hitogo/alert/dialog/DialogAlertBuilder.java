@@ -23,11 +23,14 @@ public interface DialogAlertBuilder extends AlertBuilder<DialogAlertBuilder, Dia
     DialogAlertBuilder asSimpleDialog(@NonNull String title, @NonNull String text);
 
     @NonNull
+    DialogAlertBuilder asSimpleDialog(@NonNull String title, @StringRes int textRes);
+
+    @NonNull
     DialogAlertBuilder addButton(@NonNull String... buttonContent);
 
     @NonNull
     DialogAlertBuilder addButton(@StringRes int... buttonContent);
 
     @NonNull
-    DialogAlertBuilder setStyle(@Nullable @StyleRes Integer dialogThemeResId);
+    DialogAlertBuilder setStyle(@StyleRes int dialogThemeResId);
 }

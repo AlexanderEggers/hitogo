@@ -13,6 +13,7 @@ import org.hitogo.alert.core.AlertImpl;
 import org.hitogo.alert.core.AlertParams;
 import org.hitogo.alert.core.AlertParamsHolder;
 import org.hitogo.alert.core.AlertType;
+import org.hitogo.core.HitogoUtils;
 
 @SuppressWarnings({"WeakerAccess", "unused"})
 public class DialogAlertBuilderImpl extends AlertBuilderImpl<DialogAlertBuilder, DialogAlert> implements DialogAlertBuilder {
@@ -49,6 +50,12 @@ public class DialogAlertBuilderImpl extends AlertBuilderImpl<DialogAlertBuilder,
             return super.setCloseButton(closeButton);
         }
         return this;
+    }
+
+    @Override
+    @NonNull
+    public DialogAlertBuilder asSimpleDialog(@NonNull String title, @StringRes int textRes) {
+        return asSimpleDialog(title, HitogoUtils.getStringRes(getContainer().getActivity(), textRes));
     }
 
     @Override
@@ -95,7 +102,7 @@ public class DialogAlertBuilderImpl extends AlertBuilderImpl<DialogAlertBuilder,
 
     @Override
     @NonNull
-    public DialogAlertBuilder setStyle(@Nullable @StyleRes Integer dialogThemeResId) {
+    public DialogAlertBuilder setStyle(@StyleRes int dialogThemeResId) {
         this.dialogThemeResId = dialogThemeResId;
         return this;
     }

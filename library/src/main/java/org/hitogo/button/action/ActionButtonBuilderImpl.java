@@ -1,5 +1,6 @@
 package org.hitogo.button.action;
 
+import android.support.annotation.IdRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
@@ -31,13 +32,13 @@ public class ActionButtonBuilderImpl extends ButtonBuilderImpl<ActionButtonBuild
 
     @Override
     @NonNull
-    public ActionButtonBuilderImpl forCloseAction(Integer closeIconId) {
+    public ActionButtonBuilderImpl forCloseAction(@IdRes Integer closeIconId) {
         return forCloseAction(closeIconId, getController().provideDefaultCloseClickId());
     }
 
     @Override
     @NonNull
-    public ActionButtonBuilderImpl forCloseAction(Integer closeIconId, @Nullable Integer optionalCloseViewId) {
+    public ActionButtonBuilderImpl forCloseAction(@IdRes Integer closeIconId, @Nullable Integer optionalCloseViewId) {
         return forViewAction(closeIconId, optionalCloseViewId);
     }
 
@@ -49,7 +50,7 @@ public class ActionButtonBuilderImpl extends ButtonBuilderImpl<ActionButtonBuild
 
     @Override
     @NonNull
-    public ActionButtonBuilderImpl forViewAction(Integer iconId, @Nullable Integer clickId) {
+    public ActionButtonBuilderImpl forViewAction(@IdRes Integer iconId, @IdRes @Nullable Integer clickId) {
         this.hasButtonView = true;
         this.viewIds = new int[2];
         this.viewIds[0] = iconId;

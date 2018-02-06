@@ -1,7 +1,9 @@
 package org.hitogo.alert.core;
 
 import android.os.Bundle;
+import android.support.annotation.IntRange;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import org.hitogo.button.core.Button;
 import org.hitogo.core.HitogoController;
@@ -30,7 +32,7 @@ public interface AlertBuilderBase<B extends AlertBuilderBase, A extends Alert> {
      * @since 1.0.0
      */
     @NonNull
-    B setController(HitogoController controller);
+    B setController(@Nullable HitogoController controller);
 
     /**
      * Adds a bundle object to this alert which can be used inside the alert implementation. This
@@ -67,7 +69,7 @@ public interface AlertBuilderBase<B extends AlertBuilderBase, A extends Alert> {
      * @since 1.0.0
      */
     @NonNull
-    B setState(Integer state);
+    B setState(@Nullable Integer state);
 
     /**
      * Sets the state for this alert. The state can define different areas of the alert, like
@@ -80,7 +82,7 @@ public interface AlertBuilderBase<B extends AlertBuilderBase, A extends Alert> {
      * @since 1.0.0
      */
     @NonNull
-    B setState(Enum state);
+    B setState(@NonNull Enum state);
 
     /**
      * Adds a VisibilityListener to the alert. The VisibilityListener can be used to keep track
@@ -124,7 +126,7 @@ public interface AlertBuilderBase<B extends AlertBuilderBase, A extends Alert> {
      * @see HitogoController
      * @since 1.0.0
      */
-    B setPriority(int priority);
+    B setPriority(@IntRange(from = 0) int priority);
 
     /**
      * Builds and displays the alert object.

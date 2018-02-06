@@ -20,8 +20,8 @@ public class MainActivity extends HitogoActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        sourceTest();
-        //showFirstView();
+        //sourceTest();
+        showFirstView();
         //showPrioAlerts();
     }
 

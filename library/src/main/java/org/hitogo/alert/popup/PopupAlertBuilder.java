@@ -1,9 +1,11 @@
 package org.hitogo.alert.popup;
 
 import android.support.annotation.DrawableRes;
+import android.support.annotation.IdRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
+import android.support.annotation.StyleRes;
 import android.transition.Transition;
 import android.view.View;
 
@@ -26,13 +28,13 @@ public interface PopupAlertBuilder extends AlertBuilder<PopupAlertBuilder, Popup
     public PopupAlertBuilder asDismissible(@Nullable Button closeButton);
 
     @NonNull
-    public PopupAlertBuilder setAnchor(int anchorViewId);
+    public PopupAlertBuilder setAnchor(@IdRes int anchorViewId);
 
     @NonNull
     public PopupAlertBuilder setAnchor(String anchorViewTag);
 
     @NonNull
-    public PopupAlertBuilder asSimplePopup(int anchorViewId, String text);
+    public PopupAlertBuilder asSimplePopup(@IdRes int anchorViewId, String text);
 
     @NonNull
     public PopupAlertBuilder asSimplePopup(String anchorViewTag, String text);
@@ -55,13 +57,13 @@ public interface PopupAlertBuilder extends AlertBuilder<PopupAlertBuilder, Popup
     public PopupAlertBuilder setSize(int width, int height);
 
     @NonNull
-    public PopupAlertBuilder setAnimationStyle(int animationStyle);
+    public PopupAlertBuilder setAnimationStyle(@StyleRes int animationStyle);
 
-    public PopupAlertBuilder setTouchListener(View.OnTouchListener onTouchListener);
+    public PopupAlertBuilder setTouchListener(@NonNull View.OnTouchListener onTouchListener);
 
     @NonNull
     @RequiresApi(M)
-    public PopupAlertBuilder setTransition(Transition enterTransition, Transition exitTransition);
+    public PopupAlertBuilder setTransition(@Nullable Transition enterTransition, @Nullable Transition exitTransition);
 
     void show(boolean force);
 

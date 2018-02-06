@@ -1,5 +1,6 @@
 package org.hitogo.alert.core;
 
+import android.support.annotation.IdRes;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -50,7 +51,7 @@ public interface AlertBuilder<B extends AlertBuilderBase, A extends Alert> exten
      * @since 1.0.0
      */
     @NonNull
-    B setTitle(@Nullable Integer viewId, @StringRes int titleRes);
+    B setTitle(@IdRes @Nullable Integer viewId, @StringRes int titleRes);
 
     /**
      * Adds a title to this alert which can be used inside the alert implementation.
@@ -61,7 +62,7 @@ public interface AlertBuilder<B extends AlertBuilderBase, A extends Alert> exten
      * @since 1.0.0
      */
     @NonNull
-    B setTitle(@Nullable Integer viewId, @NonNull String title);
+    B setTitle(@IdRes @Nullable Integer viewId, @NonNull String title);
 
     /**
      * Adds a text element to this alert which can be used inside the alert implementation. This
@@ -110,7 +111,7 @@ public interface AlertBuilder<B extends AlertBuilderBase, A extends Alert> exten
      * @since 1.0.0
      */
     @NonNull
-    B addText(Integer viewId, @StringRes int textRes);
+    B addText(@IdRes @Nullable Integer viewId, @StringRes int textRes);
 
     /**
      * Adds a text element to this alert which can be used inside the alert implementation. Alerts
@@ -123,7 +124,7 @@ public interface AlertBuilder<B extends AlertBuilderBase, A extends Alert> exten
      * @since 1.0.0
      */
     @NonNull
-    B addText(Integer viewId, @NonNull String text);
+    B addText(@IdRes @Nullable Integer viewId, @NonNull String text);
 
     /**
      * Sets a custom layout resource id for the alert. Usually this method should only be when
@@ -137,5 +138,5 @@ public interface AlertBuilder<B extends AlertBuilderBase, A extends Alert> exten
      * @since 1.0.0
      */
     @NonNull
-    B setLayout(@LayoutRes Integer layoutRes);
+    B setLayout(@NonNull @LayoutRes int layoutRes);
 }

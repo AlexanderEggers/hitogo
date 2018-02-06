@@ -1,9 +1,11 @@
 package org.hitogo.alert.popup;
 
 import android.support.annotation.DrawableRes;
+import android.support.annotation.IdRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
+import android.support.annotation.StyleRes;
 import android.transition.Transition;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -75,7 +77,7 @@ public class PopupAlertBuilderImpl extends AlertBuilderImpl<PopupAlertBuilder, P
 
     @Override
     @NonNull
-    public PopupAlertBuilder setAnchor(int anchorViewId) {
+    public PopupAlertBuilder setAnchor(@IdRes int anchorViewId) {
         this.anchorViewId = anchorViewId;
         return this;
     }
@@ -89,7 +91,7 @@ public class PopupAlertBuilderImpl extends AlertBuilderImpl<PopupAlertBuilder, P
 
     @Override
     @NonNull
-    public PopupAlertBuilder asSimplePopup(int anchorViewId, String text) {
+    public PopupAlertBuilder asSimplePopup(@IdRes int anchorViewId, String text) {
         setAnchor(anchorViewId);
         return setInternalAsSimplePopup(text);
     }
@@ -155,13 +157,13 @@ public class PopupAlertBuilderImpl extends AlertBuilderImpl<PopupAlertBuilder, P
 
     @Override
     @NonNull
-    public PopupAlertBuilder setAnimationStyle(int animationStyle) {
+    public PopupAlertBuilder setAnimationStyle(@StyleRes int animationStyle) {
         this.animationStyle = animationStyle;
         return this;
     }
 
     @Override
-    public PopupAlertBuilder setTouchListener(View.OnTouchListener onTouchListener) {
+    public PopupAlertBuilder setTouchListener(@NonNull View.OnTouchListener onTouchListener) {
         this.onTouchListener = onTouchListener;
         return this;
     }
@@ -169,7 +171,7 @@ public class PopupAlertBuilderImpl extends AlertBuilderImpl<PopupAlertBuilder, P
     @Override
     @NonNull
     @RequiresApi(M)
-    public PopupAlertBuilder setTransition(Transition enterTransition, Transition exitTransition) {
+    public PopupAlertBuilder setTransition(@Nullable Transition enterTransition, @Nullable Transition exitTransition) {
         this.enterTransition = enterTransition;
         this.exitTransition = exitTransition;
         return this;

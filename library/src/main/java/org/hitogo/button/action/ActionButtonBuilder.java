@@ -1,5 +1,6 @@
 package org.hitogo.button.action;
 
+import android.support.annotation.IdRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
@@ -11,16 +12,16 @@ public interface ActionButtonBuilder extends ButtonBuilder<ActionButtonBuilder, 
     ActionButtonBuilder forCloseAction();
 
     @NonNull
-    ActionButtonBuilder forCloseAction(Integer closeIconId);
+    ActionButtonBuilder forCloseAction(@IdRes Integer closeIconId);
 
     @NonNull
-    ActionButtonBuilder forCloseAction(Integer closeIconId, @Nullable Integer optionalCloseViewId);
+    ActionButtonBuilder forCloseAction(@IdRes Integer closeIconId, @IdRes @Nullable Integer optionalCloseViewId);
 
     @NonNull
-    ActionButtonBuilder forViewAction(Integer closeIconId);
+    ActionButtonBuilder forViewAction(@IdRes Integer closeIconId);
 
     @NonNull
-    ActionButtonBuilder forViewAction(Integer iconId, @Nullable Integer clickId);
+    ActionButtonBuilder forViewAction(@IdRes Integer iconId, @IdRes @Nullable Integer clickId);
 
     @NonNull
     ActionButtonBuilder forClickOnlyAction();
