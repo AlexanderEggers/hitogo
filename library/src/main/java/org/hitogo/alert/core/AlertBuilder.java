@@ -6,6 +6,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
 
+import org.hitogo.button.core.Button;
 import org.hitogo.core.HitogoController;
 import org.hitogo.core.HitogoUtils;
 
@@ -91,6 +92,18 @@ public interface AlertBuilder<B extends AlertBuilderBase, A extends Alert> exten
      */
     @NonNull
     B addText(@IdRes @Nullable Integer viewId, @NonNull String text);
+
+    /**
+     * Adds a button to the alert. Buttons are a abstract container for all needed information
+     * that one button could have (title, listener, view id, ...).
+     *
+     * @param buttons One or more button/s for the alert.
+     * @return Builder object which has called this method.
+     * @see Button
+     * @since 1.0.0
+     */
+    @NonNull
+    B addButton(@NonNull Button... buttons);
 
     /**
      * Sets a custom layout resource id for the alert. Usually this method should only be when

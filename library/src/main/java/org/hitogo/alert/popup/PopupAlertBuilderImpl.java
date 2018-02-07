@@ -111,7 +111,7 @@ public class PopupAlertBuilderImpl extends AlertBuilderImpl<PopupAlertBuilder, P
         if (customBuilder != null) {
             return customBuilder;
         } else {
-            return asDismissible(true)
+            return asDismissible(false)
                     .setState(getController().provideDefaultState(AlertType.POPUP));
         }
     }

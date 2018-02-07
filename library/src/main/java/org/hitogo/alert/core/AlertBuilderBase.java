@@ -6,7 +6,6 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
 
-import org.hitogo.button.core.Button;
 import org.hitogo.core.HitogoController;
 import org.hitogo.core.HitogoUtils;
 
@@ -132,18 +131,6 @@ public interface AlertBuilderBase<B extends AlertBuilderBase, A extends Alert> {
      */
     @NonNull
     B addVisibilityListener(@NonNull VisibilityListener<A> listener);
-
-    /**
-     * Adds a button to the alert. Buttons are a abstract container for all needed information
-     * that one button could have (title, listener, view id, ...).
-     *
-     * @param buttons One or more button/s for the alert.
-     * @return Builder object which has called this method.
-     * @see Button
-     * @since 1.0.0
-     */
-    @NonNull
-    B addButton(@NonNull Button... buttons);
 
     /**
      * Sets the priority for the alert. The lower the priority value, the higher it's importance to

@@ -11,8 +11,9 @@ import org.hitogo.alert.popup.PopupAlertFactory;
 import org.hitogo.alert.snackbar.SnackbarAlertBuilder;
 import org.hitogo.alert.snackbar.SnackbarAlertBuilderImpl;
 import org.hitogo.alert.snackbar.SnackbarAlertFactory;
-import org.hitogo.alert.snackbar.SnackbarAlertImpl;
-import org.hitogo.alert.snackbar.SnackbarAlertParams;
+import org.hitogo.alert.toast.ToastAlertBuilder;
+import org.hitogo.alert.toast.ToastAlertBuilderImpl;
+import org.hitogo.alert.toast.ToastAlertFactory;
 import org.hitogo.alert.view.ViewAlertBuilder;
 import org.hitogo.button.action.ActionButtonBuilder;
 import org.hitogo.button.action.ActionButtonBuilderImpl;
@@ -26,12 +27,12 @@ import org.hitogo.button.core.ButtonParams;
 import org.hitogo.button.simple.SimpleButtonBuilder;
 import org.hitogo.button.simple.SimpleButtonBuilderImpl;
 import org.hitogo.button.simple.SimpleButtonFactory;
-import org.hitogo.button.simple.SimpleButtonImpl;
 
 @SuppressWarnings({"WeakerAccess", "unused"})
 public class Hitogo implements ViewAlertFactory<ViewAlertBuilder>, DialogAlertFactory<DialogAlertBuilder>,
         ActionButtonFactory<ActionButtonBuilder>, PopupAlertFactory<PopupAlertBuilder>,
-        SnackbarAlertFactory<SnackbarAlertBuilder>, SimpleButtonFactory<SimpleButtonBuilder> {
+        SnackbarAlertFactory<SnackbarAlertBuilder>, SimpleButtonFactory<SimpleButtonBuilder>,
+        ToastAlertFactory<ToastAlertBuilder>{
 
     private final HitogoContainer container;
     private final HitogoController controller;
@@ -154,7 +155,7 @@ public class Hitogo implements ViewAlertFactory<ViewAlertBuilder>, DialogAlertFa
     }
 
     @Override
-    public SnackbarAlertBuilder asSnackbarAlert(@NonNull Class<? extends SnackbarAlertImpl> targetClass) {
+    public SnackbarAlertBuilder asSnackbarAlert(@NonNull Class<? extends AlertImpl> targetClass) {
         return new SnackbarAlertBuilderImpl(targetClass,
                 controller.provideDefaultSnackbarParamsClass(),
                 controller.provideAlertParamsHolder(),
@@ -162,7 +163,8 @@ public class Hitogo implements ViewAlertFactory<ViewAlertBuilder>, DialogAlertFa
     }
 
     @Override
-    public SnackbarAlertBuilder asSnackbarAlert(@NonNull Class<? extends SnackbarAlertImpl> targetClass, @NonNull Class<? extends SnackbarAlertParams> paramClass) {
+    public SnackbarAlertBuilder asSnackbarAlert(@NonNull Class<? extends AlertImpl> targetClass,
+                                                @NonNull Class<? extends AlertParams> paramClass) {
         return new SnackbarAlertBuilderImpl(targetClass,
                 paramClass,
                 controller.provideAlertParamsHolder(),
@@ -178,7 +180,7 @@ public class Hitogo implements ViewAlertFactory<ViewAlertBuilder>, DialogAlertFa
     }
 
     @Override
-    public SimpleButtonBuilder asSimpleButton(@NonNull Class<? extends SimpleButtonImpl> targetClass) {
+    public SimpleButtonBuilder asSimpleButton(@NonNull Class<? extends ButtonImpl> targetClass) {
         return new SimpleButtonBuilderImpl(targetClass,
                 controller.provideDefaultSimpleButtonParamsClass(),
                 controller.provideAlertParamsHolder(),
@@ -186,8 +188,34 @@ public class Hitogo implements ViewAlertFactory<ViewAlertBuilder>, DialogAlertFa
     }
 
     @Override
-    public SimpleButtonBuilder asSimpleButton(@NonNull Class<? extends SimpleButtonImpl> targetClass, @NonNull Class<? extends ButtonParams> paramClass) {
+    public SimpleButtonBuilder asSimpleButton(@NonNull Class<? extends ButtonImpl> targetClass,
+                                              @NonNull Class<? extends ButtonParams> paramClass) {
         return new SimpleButtonBuilderImpl(targetClass,
+                paramClass,
+                controller.provideAlertParamsHolder(),
+                container);
+    }
+
+    @Override
+    public ToastAlertBuilder asToastAlert() {
+        return new ToastAlertBuilderImpl(controller.provideDefaultToastClass(),
+                controller.provideDefaultToastParamsClass(),
+                controller.provideAlertParamsHolder(),
+                container);
+    }
+
+    @Override
+    public ToastAlertBuilder asToastAlert(@NonNull Class<? extends AlertImpl> targetClass) {
+        return new ToastAlertBuilderImpl(targetClass,
+                controller.provideDefaultToastParamsClass(),
+                controller.provideAlertParamsHolder(),
+                container);
+    }
+
+    @Override
+    public ToastAlertBuilder asToastAlert(@NonNull Class<? extends AlertImpl> targetClass,
+                                          @NonNull Class<? extends AlertParams> paramClass) {
+        return new ToastAlertBuilderImpl(targetClass,
                 paramClass,
                 controller.provideAlertParamsHolder(),
                 container);

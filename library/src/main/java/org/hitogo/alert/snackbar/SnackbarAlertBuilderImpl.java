@@ -34,8 +34,8 @@ public class SnackbarAlertBuilderImpl extends AlertBuilderImpl<SnackbarAlertBuil
 
     @NonNull
     @Override
-    public SnackbarAlertBuilder addAction(@NonNull Button button) {
-        return addButton(button);
+    public SnackbarAlertBuilder setAction(@NonNull Button button) {
+        return super.addButton(button);
     }
 
     @NonNull

@@ -44,7 +44,7 @@ public class DialogAlertImpl extends AlertImpl<DialogAlertParams> implements Dia
 
         if (params.getState() == null && params.getLayoutRes() == null) {
             Log.i(ViewAlertBuilderImpl.class.getName(), "State and custom layout is null. This " +
-                    "dialog will use the default alert dialog implementation instead.");
+                    "dialog will use the default implementation instead.");
         }
     }
 
@@ -112,7 +112,7 @@ public class DialogAlertImpl extends AlertImpl<DialogAlertParams> implements Dia
         return builder;
     }
 
-    private void setDialogTitle(View containerView, AlertDialog.Builder builder) {
+    protected void setDialogTitle(View containerView, AlertDialog.Builder builder) {
         if (containerView != null && getParams().getTitleViewId() != null) {
             ((TextView) containerView.findViewById(getParams().getTitleViewId()))
                     .setText(HitogoUtils.getHtmlText(getParams().getTitle()));
@@ -121,7 +121,7 @@ public class DialogAlertImpl extends AlertImpl<DialogAlertParams> implements Dia
         }
     }
 
-    private void setViewString(@NonNull View containerView, @Nullable Integer viewId,
+    protected void setViewString(@NonNull View containerView, @Nullable Integer viewId,
                                @Nullable String chars) {
         if (viewId != null) {
             TextView textView = containerView.findViewById(viewId);
@@ -140,7 +140,7 @@ public class DialogAlertImpl extends AlertImpl<DialogAlertParams> implements Dia
         }
     }
 
-    private void determineButtonCreation(Button button, @Nullable View dialogView, AlertDialog.Builder builder) {
+    protected void determineButtonCreation(Button button, @Nullable View dialogView, AlertDialog.Builder builder) {
         if (button.getParams().hasButtonView()) {
             if (dialogView != null) {
                 buildActionButton(button, dialogView);
@@ -153,7 +153,7 @@ public class DialogAlertImpl extends AlertImpl<DialogAlertParams> implements Dia
         }
     }
 
-    private void buildActionButton(final Button button, View view) {
+    protected void buildActionButton(final Button button, View view) {
         if (button != null && button.getParams().getViewIds().length >= 2) {
             final View icon = view.findViewById(button.getParams().getViewIds()[0]);
             View click = view.findViewById(button.getParams().getViewIds()[1]);
@@ -186,7 +186,7 @@ public class DialogAlertImpl extends AlertImpl<DialogAlertParams> implements Dia
         }
     }
 
-    private void buildDialogButton(final Button button, AlertDialog.Builder builder) {
+    protected void buildDialogButton(final Button button, AlertDialog.Builder builder) {
         if (HitogoUtils.isNotEmpty(button.getParams().getText())) {
             switch (dialogButtonCount) {
                 case PRIMARY_BUTTON:
@@ -231,8 +231,8 @@ public class DialogAlertImpl extends AlertImpl<DialogAlertParams> implements Dia
     }
 
     @Override
-    protected void onAttach(@NonNull Context context) {
-        super.onAttach(context);
+    protected void onShowDefault(@NonNull Context context) {
+        super.onShowDefault(context);
 
         if (getDialog() != null && !getDialog().isShowing()) {
             getDialog().show();

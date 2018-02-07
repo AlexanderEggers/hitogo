@@ -86,7 +86,7 @@ public class PopupAlertImpl extends AlertImpl<PopupAlertParams> implements Popup
         return null;
     }
 
-    private void determineButtonCreation(Button button, View dialogView, boolean forceClose) {
+    protected void determineButtonCreation(Button button, View dialogView, boolean forceClose) {
         if (button.getParams().hasButtonView()) {
             buildActionButton(button, dialogView, forceClose);
         } else if (getController().provideIsDebugState()) {
@@ -94,7 +94,8 @@ public class PopupAlertImpl extends AlertImpl<PopupAlertParams> implements Popup
         }
     }
 
-    private PopupWindow buildPopupWindow(PopupWindow window) {
+    @SuppressWarnings("unchecked")
+    protected PopupWindow buildPopupWindow(PopupWindow window) {
         if (getParams().getAnimationStyle() != null) {
             window.setAnimationStyle(getParams().getAnimationStyle());
         }
@@ -115,6 +116,22 @@ public class PopupAlertImpl extends AlertImpl<PopupAlertParams> implements Popup
             window.setElevation(getParams().getElevation());
         }
 
+        window.setOnDismissListener(new PopupWindow.OnDismissListener() {
+            @Override
+            public void onDismiss() {
+                // possible that closing was execute by button click and not via default controls
+                if (isAttached()) {
+                    Button button = getParams().getCloseButton();
+                    if (button != null) {
+                        button.getParams().getListener().onClick(PopupAlertImpl.this,
+                                button.getParams().getButtonParameter());
+                    }
+
+                    close();
+                }
+            }
+        });
+
         if (getParams().isDismissible()) {
             window.setBackgroundDrawable(null);
             window.setOutsideTouchable(true);
@@ -125,7 +142,7 @@ public class PopupAlertImpl extends AlertImpl<PopupAlertParams> implements Popup
         return window;
     }
 
-    private void buildLayoutContent(@NonNull View containerView) {
+    protected void buildLayoutContent(@NonNull View containerView) {
         if (getParams().getTitleViewId() != null) {
             setViewString(containerView, getParams().getTitleViewId(), getParams().getTitle());
         }
@@ -138,7 +155,7 @@ public class PopupAlertImpl extends AlertImpl<PopupAlertParams> implements Popup
         }
     }
 
-    private void setViewString(@NonNull View containerView, @Nullable Integer viewId,
+    protected void setViewString(@NonNull View containerView, @Nullable Integer viewId,
                                @Nullable String chars) {
         if (viewId != null) {
             TextView textView = containerView.findViewById(viewId);
@@ -159,7 +176,7 @@ public class PopupAlertImpl extends AlertImpl<PopupAlertParams> implements Popup
     }
 
     @SuppressWarnings("unchecked")
-    private void buildActionButton(final Button button, View view, final boolean forceClose) {
+    protected void buildActionButton(final Button button, View view, final boolean forceClose) {
         if (button != null && button.getParams().getViewIds().length >= 2) {
             final View icon = view.findViewById(button.getParams().getViewIds()[0]);
             View click = view.findViewById(button.getParams().getViewIds()[1]);
@@ -196,8 +213,8 @@ public class PopupAlertImpl extends AlertImpl<PopupAlertParams> implements Popup
     }
 
     @Override
-    protected void onAttach(@NonNull Context context) {
-        super.onAttach(context);
+    protected void onShowDefault(@NonNull Context context) {
+        super.onShowDefault(context);
 
         int xoff = getParams().getXoff();
         int yoff = getParams().getYoff();

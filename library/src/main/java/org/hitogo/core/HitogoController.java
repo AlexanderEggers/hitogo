@@ -18,6 +18,8 @@ import org.hitogo.alert.popup.PopupAlertBuilderImpl;
 import org.hitogo.alert.popup.PopupAlertParams;
 import org.hitogo.alert.snackbar.SnackbarAlertImpl;
 import org.hitogo.alert.snackbar.SnackbarAlertParams;
+import org.hitogo.alert.toast.ToastAlertImpl;
+import org.hitogo.alert.toast.ToastAlertParams;
 import org.hitogo.alert.view.ViewAlertBuilder;
 import org.hitogo.alert.view.ViewAlertImpl;
 import org.hitogo.alert.core.AlertImpl;
@@ -422,6 +424,16 @@ public abstract class HitogoController implements LifecycleObserver {
     }
 
     @NonNull
+    public Class<? extends AlertImpl> provideDefaultToastClass() {
+        return ToastAlertImpl.class;
+    }
+
+    @NonNull
+    public Class<? extends AlertParams> provideDefaultToastParamsClass() {
+        return ToastAlertParams.class;
+    }
+
+    @NonNull
     public HitogoParamsHolder provideAlertParamsHolder() {
         return new HitogoParamsHolder();
     }
@@ -446,6 +458,12 @@ public abstract class HitogoController implements LifecycleObserver {
     @LayoutRes
     @Nullable
     public Integer provideDialogLayout(int state) {
+        return null;
+    }
+
+    @LayoutRes
+    @Nullable
+    public Integer provideOtherLayout(int state) {
         return null;
     }
 

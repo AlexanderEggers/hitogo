@@ -2,9 +2,12 @@ package org.hitogo.alert.snackbar;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.support.design.widget.BaseTransientBottomBar;
 import android.support.design.widget.Snackbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Toast;
 
 import org.hitogo.alert.core.AlertImpl;
 import org.hitogo.button.core.Button;
@@ -20,6 +23,11 @@ public class SnackbarAlertImpl extends AlertImpl<SnackbarAlertParams> implements
 
         if (params.getTextMap().size() == 0) {
             throw new InvalidParameterException("You need to add a text to this snackbar.");
+        }
+
+        if (params.getTextMap().size() > 1) {
+            Log.i(SnackbarAlertImpl.class.getName(),
+                    "The snackbar alert only supports one text element.");
         }
     }
 
@@ -38,6 +46,10 @@ public class SnackbarAlertImpl extends AlertImpl<SnackbarAlertParams> implements
                     public void onClick(View v) {
                         button.getParams().getListener().onClick(SnackbarAlertImpl.this,
                                 button.getParams().getButtonParameter());
+
+                        if(button.getParams().isClosingAfterClick()) {
+                            close();
+                        }
                     }
                 });
             }
@@ -51,6 +63,31 @@ public class SnackbarAlertImpl extends AlertImpl<SnackbarAlertParams> implements
             snackbar.setActionTextColor(params.getActionTextColor());
         }
 
+        snackbar.addCallback(new BaseTransientBottomBar.BaseCallback<Snackbar>() {
+
+            @Override
+            public void onDismissed(Snackbar transientBottomBar, int event) {
+                close();
+            }
+        });
+
+        Snackbar.Callback callback = getParams().getSnackbarCallback();
+        if(callback != null) {
+            snackbar.addCallback(callback);
+        }
+
         return snackbar;
+    }
+
+    @Override
+    protected void onShowDefault(@NonNull Context context) {
+        super.onShowDefault(context);
+        ((Snackbar) getOther()).show();
+    }
+
+    @Override
+    protected void onCloseDefault(@NonNull Context context) {
+        super.onCloseDefault(context);
+        ((Snackbar) getOther()).dismiss();
     }
 }

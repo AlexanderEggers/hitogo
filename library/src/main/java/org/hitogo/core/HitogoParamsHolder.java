@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Log;
-import android.view.View;
 
 import java.io.Serializable;
 import java.util.HashMap;
@@ -32,12 +31,6 @@ public class HitogoParamsHolder {
     public void provideCustomObject(@NonNull String key, @Nullable Object value) {
         if (!hasKey(key)) {
             customObjects.put(key, value);
-        }
-    }
-
-    public void provideIntArray(String key, int[] value) {
-        if(!hasKey(key)) {
-            getHolderBundle().putIntArray(key, value);
         }
     }
 

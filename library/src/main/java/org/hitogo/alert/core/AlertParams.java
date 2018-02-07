@@ -43,15 +43,15 @@ public abstract class AlertParams extends HitogoParams<HitogoParamsHolder, Alert
         tag = holder.getString(AlertParamsKeys.TAG_KEY);
         textMap = holder.getCustomObject(AlertParamsKeys.TEXT_KEY);
 
-        layoutRes = (Integer) holder.getSerializable(AlertParamsKeys.LAYOUT_RES_KEY);
-        titleViewId = (Integer) holder.getSerializable(AlertParamsKeys.TITLE_VIEW_ID_KEY);
-        state = (Integer) holder.getSerializable(AlertParamsKeys.STATE_KEY);
-        priority = (Integer) holder.getSerializable(AlertParamsKeys.PRIORITY_KEY);
+        layoutRes = holder.getSerializable(AlertParamsKeys.LAYOUT_RES_KEY);
+        titleViewId = holder.getSerializable(AlertParamsKeys.TITLE_VIEW_ID_KEY);
+        state = holder.getSerializable(AlertParamsKeys.STATE_KEY);
+        priority = holder.getSerializable(AlertParamsKeys.PRIORITY_KEY);
 
         buttons = holder.getCustomObject(AlertParamsKeys.BUTTONS_KEY);
         closeButton = holder.getCustomObject(AlertParamsKeys.CLOSE_BUTTON_KEY);
 
-        type = (AlertType) holder.getSerializable(AlertParamsKeys.TYPE_KEY);
+        type = holder.getSerializable(AlertParamsKeys.TYPE_KEY);
         arguments = holder.getBundle(AlertParamsKeys.ARGUMENTS_KEY);
 
         visibilityListener = holder.getCustomObject(AlertParamsKeys.VISIBILITY_LISTENER_KEY);
@@ -109,10 +109,6 @@ public abstract class AlertParams extends HitogoParams<HitogoParamsHolder, Alert
 
     public List<VisibilityListener> getVisibilityListener() {
         return visibilityListener;
-    }
-
-    public boolean dismissByLayoutClick() {
-        return false;
     }
 
     public Integer getPriority() {

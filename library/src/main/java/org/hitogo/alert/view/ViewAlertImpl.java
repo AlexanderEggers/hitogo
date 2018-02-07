@@ -68,7 +68,7 @@ public class ViewAlertImpl extends AlertImpl<ViewAlertParams> implements ViewAle
         }
     }
 
-    private View determineViewGroup() {
+    protected View determineViewGroup() {
         int layoutContainerId = getParams().getContainerId();
         View containerView = getRootView().findViewById(layoutContainerId);
 
@@ -125,7 +125,7 @@ public class ViewAlertImpl extends AlertImpl<ViewAlertParams> implements ViewAle
         return null;
     }
 
-    private void determineButtonCreation(Button button, View dialogView, boolean forceClose) {
+    protected void determineButtonCreation(Button button, View dialogView, boolean forceClose) {
         if (button.getParams().hasButtonView()) {
             buildActionButton(button, dialogView, forceClose);
         } else if (getController().provideIsDebugState()) {
@@ -133,7 +133,7 @@ public class ViewAlertImpl extends AlertImpl<ViewAlertParams> implements ViewAle
         }
     }
 
-    private void buildLayoutInteractions(@NonNull View containerView) {
+    protected void buildLayoutInteractions(@NonNull View containerView) {
         if (getParams().dismissByLayoutClick()) {
             containerView.setOnClickListener(new android.view.View.OnClickListener() {
                 @Override
@@ -145,7 +145,7 @@ public class ViewAlertImpl extends AlertImpl<ViewAlertParams> implements ViewAle
         }
     }
 
-    private void buildLayoutContent(@NonNull View containerView) {
+    protected void buildLayoutContent(@NonNull View containerView) {
         if (getParams().getTitleViewId() != null) {
             setViewString(containerView, getParams().getTitleViewId(), getParams().getTitle());
         }
@@ -158,7 +158,7 @@ public class ViewAlertImpl extends AlertImpl<ViewAlertParams> implements ViewAle
         }
     }
 
-    private void setViewString(@NonNull View containerView, @Nullable Integer viewId,
+    protected void setViewString(@NonNull View containerView, @Nullable Integer viewId,
                                @Nullable String chars) {
         if (viewId != null) {
             TextView textView = containerView.findViewById(viewId);
@@ -178,7 +178,7 @@ public class ViewAlertImpl extends AlertImpl<ViewAlertParams> implements ViewAle
     }
 
     @SuppressWarnings("unchecked")
-    private void buildActionButton(final Button button, View view, final boolean forceClose) {
+    protected void buildActionButton(final Button button, View view, final boolean forceClose) {
         if (button != null && button.getParams().getViewIds().length >= 2) {
             final View icon = view.findViewById(button.getParams().getViewIds()[0]);
             View click = view.findViewById(button.getParams().getViewIds()[1]);
