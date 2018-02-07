@@ -1,6 +1,7 @@
 package org.hitogo.alert.toast;
 
 import android.content.Context;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Log;
@@ -71,6 +72,26 @@ public class ToastAlertImpl extends AlertImpl<ToastAlertParams> implements Toast
         }
 
         return toast;
+    }
+
+    protected void injectOnDismissCallback(ToastAlertParams params) {
+        int realDurationInMs;
+
+        if(params.getDuration() == Toast.LENGTH_SHORT) {
+            realDurationInMs = 2000;
+        } else {
+            realDurationInMs = 3500;
+        }
+
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if(isAttached()) {
+                    close();
+                }
+            }
+        }, realDurationInMs);
     }
 
     protected void determineButtonCreation(Button button, View toastView, boolean forceClose) {
@@ -153,10 +174,13 @@ public class ToastAlertImpl extends AlertImpl<ToastAlertParams> implements Toast
     @Override
     protected void onShowDefault(@NonNull Context context) {
         super.onShowDefault(context);
+        injectOnDismissCallback(getParams());
+        ((Toast) getOther()).show();
     }
 
     @Override
     protected void onCloseDefault(@NonNull Context context) {
         super.onCloseDefault(context);
+        ((Toast) getOther()).cancel();
     }
 }
