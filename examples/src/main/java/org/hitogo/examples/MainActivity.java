@@ -3,7 +3,10 @@ package org.hitogo.examples;
 import android.arch.lifecycle.Lifecycle;
 import android.support.annotation.NonNull;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.util.Log;
+import android.view.View;
+import android.widget.Toast;
 
 import org.hitogo.alert.core.Alert;
 import org.hitogo.alert.core.VisibilityListener;
@@ -21,8 +24,37 @@ public class MainActivity extends HitogoActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         //sourceTest();
-        showFirstView(); //KNOWN ISSUE: Popup displayed only once.
+        showFirstView();
         //showPrioAlerts();
+
+        //testToast();
+        //testSnackbar();
+    }
+
+    public void testToast() {
+        findViewById(R.id.button_test).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Hitogo.with(MainActivity.this)
+                        .asToastAlert()
+                        .addText("Test Toast")
+                        .setDuration(Toast.LENGTH_SHORT)
+                        .show();
+            }
+        });
+    }
+
+    public void testSnackbar() {
+        findViewById(R.id.button_test).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Hitogo.with(MainActivity.this)
+                        .asSnackbarAlert()
+                        .addText("Test Snackbar")
+                        .setDuration(Snackbar.LENGTH_SHORT)
+                        .show();
+            }
+        });
     }
 
     public void sourceTest() {

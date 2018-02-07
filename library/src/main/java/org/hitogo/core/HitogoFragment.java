@@ -27,7 +27,7 @@ public abstract class HitogoFragment extends Fragment implements HitogoContainer
     @Nullable
     @Override
     public View getActivityView() {
-        return getActivity().getWindow().getDecorView().getRootView();
+        return getActivity().getWindow().getDecorView().findViewById(android.R.id.content);
     }
 
     @NonNull

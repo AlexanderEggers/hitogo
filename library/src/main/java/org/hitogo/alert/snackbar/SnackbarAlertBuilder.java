@@ -24,5 +24,5 @@ public interface SnackbarAlertBuilder extends AlertBuilderBase<SnackbarAlertBuil
     SnackbarAlertBuilder addCallback(@NonNull Snackbar.Callback callback);
 
     @NonNull
-    SnackbarAlertBuilder setDuration(@IntRange(from = 0) int duration);
+    SnackbarAlertBuilder setDuration(@IntRange(from = -2) int duration);
 }

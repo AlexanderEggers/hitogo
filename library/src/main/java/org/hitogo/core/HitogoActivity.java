@@ -28,7 +28,7 @@ public abstract class HitogoActivity extends AppCompatActivity implements Hitogo
     @Nullable
     @Override
     public View getView() {
-        return getWindow().getDecorView().getRootView();
+        return getWindow().getDecorView().findViewById(android.R.id.content);
     }
 
     @NonNull

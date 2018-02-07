@@ -49,6 +49,8 @@ public abstract class HitogoController implements LifecycleObserver {
     private final LinkedList<AlertImpl> currentViews = new LinkedList<>();
     private final LinkedList<AlertImpl> currentDialogs = new LinkedList<>();
     private final LinkedList<AlertImpl> currentPopups = new LinkedList<>();
+    private final LinkedList<AlertImpl> currentOthers = new LinkedList<>();
+
     private final SparseIntArray alertCountMap = new SparseIntArray();
     private final List<AlertImpl> currentActiveAlerts = new ArrayList<>();
 
@@ -104,6 +106,8 @@ public abstract class HitogoController implements LifecycleObserver {
                 return currentDialogs;
             case POPUP:
                 return currentPopups;
+            case OTHER:
+                return currentOthers;
             default:
                 return new LinkedList<>();
         }
@@ -186,6 +190,7 @@ public abstract class HitogoController implements LifecycleObserver {
             internalCloseAll(currentViews.iterator(), force, longestClosingAnim);
             internalCloseAll(currentDialogs.iterator(), force, longestClosingAnim);
             internalCloseAll(currentPopups.iterator(), force, longestClosingAnim);
+            internalCloseAll(currentOthers.iterator(), force, longestClosingAnim);
             return longestClosingAnim;
         }
     }
@@ -242,6 +247,7 @@ public abstract class HitogoController implements LifecycleObserver {
             internalCloseByTag(currentViews.iterator(), tag, force, longestClosingAnim);
             internalCloseByTag(currentDialogs.iterator(), tag, force, longestClosingAnim);
             internalCloseByTag(currentPopups.iterator(), tag, force, longestClosingAnim);
+            internalCloseByTag(currentOthers.iterator(), tag, force, longestClosingAnim);
             return longestClosingAnim;
         }
     }
@@ -278,6 +284,7 @@ public abstract class HitogoController implements LifecycleObserver {
             internalCloseByState(currentViews.iterator(), state, force, longestClosingAnim);
             internalCloseByState(currentDialogs.iterator(), state, force, longestClosingAnim);
             internalCloseByState(currentPopups.iterator(), state, force, longestClosingAnim);
+            internalCloseByState(currentOthers.iterator(), state, force, longestClosingAnim);
             return longestClosingAnim;
         }
     }
@@ -302,26 +309,26 @@ public abstract class HitogoController implements LifecycleObserver {
 
     public long closeByAlert(@NonNull Alert alert, boolean force) {
         synchronized (syncLock) {
-            long longestClosingAnim = 0;
-            internalCloseByAlert(currentViews.iterator(), alert, force, longestClosingAnim);
-            internalCloseByAlert(currentDialogs.iterator(), alert, force, longestClosingAnim);
-            internalCloseByAlert(currentPopups.iterator(), alert, force, longestClosingAnim);
-            return longestClosingAnim;
+            return internalCloseByAlert(getCurrentAlertList(alert.getType()).iterator(), alert, force);
         }
     }
 
-    protected void internalCloseByAlert(Iterator<AlertImpl> it, final @NonNull Alert alert, boolean force, long currentLongest) {
+    protected long internalCloseByAlert(Iterator<AlertImpl> it, final @NonNull Alert alert, boolean force) {
+        long longestClosingAnim = 0;
+
         while (it.hasNext()) {
             AlertImpl object = it.next();
             if (object.equals(alert)) {
-                if (object.getAnimationDuration() > currentLongest) {
-                    currentLongest = object.getAnimationDuration();
+                if (object.getAnimationDuration() > longestClosingAnim) {
+                    longestClosingAnim = object.getAnimationDuration();
                 }
 
                 internalMakeInvisible((AlertImpl) alert, force);
                 it.remove();
             }
         }
+
+        return longestClosingAnim;
     }
 
     protected void internalMakeVisible(AlertImpl object, boolean force) {

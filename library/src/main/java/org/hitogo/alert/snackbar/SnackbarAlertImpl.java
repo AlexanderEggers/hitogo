@@ -7,7 +7,6 @@ import android.support.design.widget.Snackbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.Toast;
 
 import org.hitogo.alert.core.AlertImpl;
 import org.hitogo.button.core.Button;
@@ -63,7 +62,7 @@ public class SnackbarAlertImpl extends AlertImpl<SnackbarAlertParams> implements
             snackbar.setActionTextColor(params.getActionTextColor());
         }
 
-        snackbar.addCallback(new BaseTransientBottomBar.BaseCallback<Snackbar>() {
+        snackbar.addCallback(new Snackbar.Callback() {
 
             @Override
             public void onDismissed(Snackbar transientBottomBar, int event) {

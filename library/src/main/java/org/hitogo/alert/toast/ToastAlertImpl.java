@@ -35,18 +35,9 @@ public class ToastAlertImpl extends AlertImpl<ToastAlertParams> implements Toast
 
     @Override
     protected Object onCreateOther(@NonNull LayoutInflater inflater, @NonNull Context context, @NonNull ToastAlertParams params) {
-        Toast toast = new Toast(getContext());
-        toast.setDuration(params.getDuration());
-
-        if(params.getGravity() != null) {
-            toast.setGravity(params.getGravity(), params.getxOffset(), params.getyOffset());
-        }
-
-        if(params.getHorizontalMargin() != null) {
-            toast.setMargin(params.getHorizontalMargin(), params.getVerticalMargin());
-        }
-
+        Toast toast;
         View view = null;
+
         if (getParams().getLayoutRes() != null && getParams().getLayoutRes() != 0) {
             view = inflater.inflate(getParams().getLayoutRes(), null);
         } else if (getParams().getState() != null && getController().provideOtherLayout(getParams().getState()) != null) {
@@ -56,6 +47,7 @@ public class ToastAlertImpl extends AlertImpl<ToastAlertParams> implements Toast
         }
 
         if(view != null) {
+            toast = new Toast(getContext());
             buildLayoutContent(view);
 
             for (Button button : params.getButtons()) {
@@ -68,7 +60,16 @@ public class ToastAlertImpl extends AlertImpl<ToastAlertParams> implements Toast
 
             toast.setView(view);
         } else {
+            toast = Toast.makeText(getContext(), "", params.getDuration());
             toast.setText(params.getTextMap().valueAt(0));
+        }
+
+        if(params.getGravity() != null) {
+            toast.setGravity(params.getGravity(), params.getxOffset(), params.getyOffset());
+        }
+
+        if(params.getHorizontalMargin() != null) {
+            toast.setMargin(params.getHorizontalMargin(), params.getVerticalMargin());
         }
 
         return toast;
