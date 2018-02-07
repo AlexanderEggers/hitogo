@@ -15,11 +15,11 @@ repositories {
 }
 
 dependencies {
-  implementation 'org.hitogo:Hitogo:1.0.0-beta17.3'
+  implementation 'org.hitogo:Hitogo:1.0.0-beta18'
 }
 ```
 
-How do I use Hitogo? (Step-by-step introduction for 1.0.0-beta17.3)
+How do I use Hitogo? (Step-by-step introduction for 1.0.0-beta18)
 -------------------
 
 1. Extend the HitogoController
@@ -87,7 +87,7 @@ public class MainActivity extends HitogoActivity {
 
 3. Start using Hitogo!
 
-If you have finished step 1 and 2, you are ready to go! Using Hitogo you can create views, popups and dialogs. Each builder system will be covered in full length inside the wiki (coming very soon!).
+If you have finished step 1 and 2, you are ready to go! Using Hitogo you can create views, popups, dialogs, toasts and snackbars. Each builder system will be covered in full length inside the wiki (coming very soon!).
 
 ```java
 // To create a simple alert that displays a short message, you could do that:
