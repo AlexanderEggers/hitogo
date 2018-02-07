@@ -8,6 +8,7 @@ import android.util.Log;
 
 import org.hitogo.core.HitogoContainer;
 import org.hitogo.core.HitogoController;
+import org.hitogo.core.HitogoParamsHolder;
 import org.hitogo.core.HitogoUtils;
 
 import java.lang.ref.WeakReference;
@@ -19,7 +20,7 @@ public abstract class ButtonBuilderImpl<C extends ButtonBuilder, B extends Butto
     private final Class<? extends ButtonParams> paramClass;
     private final WeakReference<HitogoContainer> containerRef;
 
-    private final ButtonParamsHolder holder;
+    private final HitogoParamsHolder holder;
 
     private String text;
     private boolean closeAfterClick = true;
@@ -28,7 +29,7 @@ public abstract class ButtonBuilderImpl<C extends ButtonBuilder, B extends Butto
 
     public ButtonBuilderImpl(@NonNull Class<? extends ButtonImpl> targetClass,
                              @NonNull Class<? extends ButtonParams> paramClass,
-                             @NonNull ButtonParamsHolder holder,
+                             @NonNull HitogoParamsHolder holder,
                              @NonNull HitogoContainer container) {
         this.targetClass = targetClass;
         this.paramClass = paramClass;
@@ -95,12 +96,12 @@ public abstract class ButtonBuilderImpl<C extends ButtonBuilder, B extends Butto
     }
 
     @CallSuper
-    protected void onProvideData(ButtonParamsHolder holder) {
+    protected void onProvideData(HitogoParamsHolder holder) {
         holder.provideString(ButtonParamsKeys.TEXT_KEY, text);
         holder.provideBoolean(ButtonParamsKeys.CLOSE_AFTER_CLICK_KEY, closeAfterClick);
 
-        holder.provideButtonListener(listener);
-        holder.provideButtonParameter(buttonParameter);
+        holder.provideCustomObject(ButtonParamsKeys.BUTTON_LISTENER_KEY, listener);
+        holder.provideCustomObject(ButtonParamsKeys.BUTTON_PARAMETER_KEY, buttonParameter);
     }
 
     @NonNull

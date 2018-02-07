@@ -13,10 +13,10 @@ import android.widget.LinearLayout;
 import org.hitogo.alert.core.AlertBuilderImpl;
 import org.hitogo.alert.core.AlertImpl;
 import org.hitogo.alert.core.AlertParams;
-import org.hitogo.alert.core.AlertParamsHolder;
 import org.hitogo.alert.core.AlertType;
 import org.hitogo.button.core.Button;
 import org.hitogo.core.HitogoContainer;
+import org.hitogo.core.HitogoParamsHolder;
 
 import static android.os.Build.VERSION_CODES.KITKAT;
 import static android.os.Build.VERSION_CODES.LOLLIPOP;
@@ -46,7 +46,7 @@ public class PopupAlertBuilderImpl extends AlertBuilderImpl<PopupAlertBuilder, P
 
     public PopupAlertBuilderImpl(@NonNull Class<? extends AlertImpl> targetClass,
                                  @NonNull Class<? extends AlertParams> paramClass,
-                                 @NonNull AlertParamsHolder holder,
+                                 @NonNull HitogoParamsHolder holder,
                                  @NonNull HitogoContainer container) {
         super(targetClass, paramClass, holder, container, AlertType.POPUP);
     }
@@ -207,7 +207,7 @@ public class PopupAlertBuilderImpl extends AlertBuilderImpl<PopupAlertBuilder, P
     }
 
     @Override
-    protected void onProvideData(AlertParamsHolder holder) {
+    protected void onProvideData(HitogoParamsHolder holder) {
         super.onProvideData(holder);
 
         holder.provideInteger(PopupAlertParamsKeys.DRAWABLE_RES_KEY, drawableRes);
@@ -224,8 +224,8 @@ public class PopupAlertBuilderImpl extends AlertBuilderImpl<PopupAlertBuilder, P
         holder.provideString(PopupAlertParamsKeys.ANCHOR_VIEW_TAG_KEY, anchorViewTag);
         holder.provideBoolean(PopupAlertParamsKeys.IS_DISMISSIBLE_KEY, isDismissible);
 
-        holder.provideTransition(enterTransition);
-        holder.provideTransition(exitTransition);
-        holder.provideOnTouchListener(onTouchListener);
+        holder.provideCustomObject(PopupAlertParamsKeys.ENTER_TRANSITION_KEY, enterTransition);
+        holder.provideCustomObject(PopupAlertParamsKeys.EXIT_TRANSITION_KEY, exitTransition);
+        holder.provideCustomObject(PopupAlertParamsKeys.TOUCH_LISTENER_KEY, onTouchListener);
     }
 }

@@ -14,8 +14,8 @@ import org.hitogo.core.Hitogo;
 import org.hitogo.core.HitogoContainer;
 import org.hitogo.alert.core.AlertImpl;
 import org.hitogo.alert.core.AlertParams;
-import org.hitogo.alert.core.AlertParamsHolder;
 import org.hitogo.alert.core.AlertType;
+import org.hitogo.core.HitogoParamsHolder;
 
 @SuppressWarnings({"WeakerAccess", "unused"})
 public class ViewAlertBuilderImpl extends AlertBuilderImpl<ViewAlertBuilder, ViewAlert>
@@ -31,7 +31,7 @@ public class ViewAlertBuilderImpl extends AlertBuilderImpl<ViewAlertBuilder, Vie
 
     public ViewAlertBuilderImpl(@NonNull Class<? extends AlertImpl> targetClass,
                                 @NonNull Class<? extends AlertParams> paramClass,
-                                @NonNull AlertParamsHolder holder,
+                                @NonNull HitogoParamsHolder holder,
                                 @NonNull HitogoContainer container) {
         super(targetClass, paramClass, holder, container, AlertType.VIEW);
     }
@@ -200,7 +200,7 @@ public class ViewAlertBuilderImpl extends AlertBuilderImpl<ViewAlertBuilder, Vie
     }
 
     @Override
-    protected void onProvideData(AlertParamsHolder holder) {
+    protected void onProvideData(HitogoParamsHolder holder) {
         super.onProvideData(holder);
 
         holder.provideInteger(ViewAlertParamsKeys.CONTAINER_ID_KEY, containerId);
@@ -208,6 +208,6 @@ public class ViewAlertBuilderImpl extends AlertBuilderImpl<ViewAlertBuilder, Vie
         holder.provideBoolean(ViewAlertParamsKeys.CLOSE_OTHERS_KEY, closeOthers);
         holder.provideBoolean(ViewAlertParamsKeys.DISMISS_BY_LAYOUT_CLICK_KEY, dismissByClick);
 
-        holder.provideAnimation(animation);
+        holder.provideCustomObject(ViewAlertParamsKeys.ANIMATION_KEY, animation);
     }
 }

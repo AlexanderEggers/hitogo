@@ -4,9 +4,11 @@ import android.os.Bundle;
 import android.support.annotation.IntRange;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.annotation.StringRes;
 
 import org.hitogo.button.core.Button;
 import org.hitogo.core.HitogoController;
+import org.hitogo.core.HitogoUtils;
 
 public interface AlertBuilderBase<B extends AlertBuilderBase, A extends Alert> {
 
@@ -32,7 +34,7 @@ public interface AlertBuilderBase<B extends AlertBuilderBase, A extends Alert> {
      * @since 1.0.0
      */
     @NonNull
-    B setController(@Nullable HitogoController controller);
+    B setController(@NonNull HitogoController controller);
 
     /**
      * Adds a bundle object to this alert which can be used inside the alert implementation. This
@@ -45,6 +47,40 @@ public interface AlertBuilderBase<B extends AlertBuilderBase, A extends Alert> {
      */
     @NonNull
     B setBundle(@NonNull Bundle arguments);
+
+    /**
+     * Adds a text element to this alert which can be used inside the alert implementation. This
+     * method implementation will use the provideDefaultTextViewId(Integer) method offered by the
+     * HitogoController. This method will define the default view id for this text element. Alerts
+     * can have more than one text element. If more than one text element is defined, the method
+     * addText(Integer, String) should rather be used to include a view id that can differ between
+     * the text elements.
+     *
+     * @param text Text element for the alert object.
+     * @return Builder object which has called this method.
+     * @see HitogoController
+     * @since 1.0.0
+     */
+    @NonNull
+    B addText(@NonNull String text);
+
+    /**
+     * Adds a text string resource to this alert which can be used inside the alert implementation.
+     * This method implementation will use the provideDefaultTextViewId(Integer) method offered by
+     * the HitogoController. This method will define the default view id for this text element.
+     * Alerts can have more than one text element. If more than one text element is defined, the
+     * method addText(Integer, int) should rather be used to include a view id that can differ
+     * between the text elements. The string resource will be translated by the builder using the
+     * HitogoUtils.getStringRes(int).
+     *
+     * @param textRes Text element for the alert object.
+     * @return Builder object which has called this method.
+     * @see HitogoController
+     * @see HitogoUtils
+     * @since 1.0.0
+     */
+    @NonNull
+    B addText(@StringRes int textRes);
 
     /**
      * Adds a tag to this alert, which makes it closable by using the closeByTag from the

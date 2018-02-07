@@ -2,9 +2,12 @@ package org.hitogo.core;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.util.Log;
+import android.view.View;
 
 import java.io.Serializable;
+import java.util.HashMap;
 
 /**
  * This class is used to save and provide alert-related data. The builder classes are using this
@@ -16,16 +19,36 @@ import java.io.Serializable;
 @SuppressWarnings("WeakerAccess")
 public class HitogoParamsHolder {
 
-    private Bundle bundle = new Bundle();
+    private final Bundle bundle = new Bundle();
+    private final HashMap<String, Object> customObjects = new HashMap<>();
 
     /**
      * Inserts a value into the holder object, if no value is existing for the given key.
      *
-     * @param key   a String, or null
+     * @param key   a String
+     * @param value an object, or null
+     * @since 1.0.0
+     */
+    public void provideCustomObject(@NonNull String key, @Nullable Object value) {
+        if (!hasKey(key)) {
+            customObjects.put(key, value);
+        }
+    }
+
+    public void provideIntArray(String key, int[] value) {
+        if(!hasKey(key)) {
+            getHolderBundle().putIntArray(key, value);
+        }
+    }
+
+    /**
+     * Inserts a value into the holder object, if no value is existing for the given key.
+     *
+     * @param key a String
      * @param value a String object, or null
      * @since 1.0.0
      */
-    public void provideString(String key, String value) {
+    public void provideString(@NonNull String key, @Nullable String value) {
         if (!hasKey(key)) {
             bundle.putString(key, value);
         }
@@ -34,11 +57,11 @@ public class HitogoParamsHolder {
     /**
      * Inserts a value into the holder object, if no value is existing for the given key.
      *
-     * @param key   a String, or null
+     * @param key a String
      * @param value a Float object, or null
      * @since 1.0.0
      */
-    public void provideFloat(String key, Float value) {
+    public void provideFloat(@NonNull String key, @Nullable Float value) {
         if (!hasKey(key)) {
             bundle.putSerializable(key, value);
         }
@@ -47,11 +70,11 @@ public class HitogoParamsHolder {
     /**
      * Inserts a value into the holder object, if no value is existing for the given key.
      *
-     * @param key   a String, or null
+     * @param key a String
      * @param value a Double object, or null
      * @since 1.0.0
      */
-    public void provideDouble(String key, Double value) {
+    public void provideDouble(@NonNull String key, @Nullable Double value) {
         if (!hasKey(key)) {
             bundle.putSerializable(key, value);
         }
@@ -60,11 +83,11 @@ public class HitogoParamsHolder {
     /**
      * Inserts a value into the holder object, if no value is existing for the given key.
      *
-     * @param key   a String, or null
+     * @param key a String
      * @param value a Integer object, or null
      * @since 1.0.0
      */
-    public void provideInteger(String key, Integer value) {
+    public void provideInteger(@NonNull String key, @Nullable Integer value) {
         if (!hasKey(key)) {
             bundle.putSerializable(key, value);
         }
@@ -73,11 +96,11 @@ public class HitogoParamsHolder {
     /**
      * Inserts a value into the holder object, if no value is existing for the given key.
      *
-     * @param key   a String, or null
+     * @param key a String
      * @param value a boolean value
      * @since 1.0.0
      */
-    public void provideBoolean(String key, boolean value) {
+    public void provideBoolean(@NonNull String key, boolean value) {
         if (!hasKey(key)) {
             bundle.putBoolean(key, value);
         }
@@ -86,11 +109,11 @@ public class HitogoParamsHolder {
     /**
      * Inserts a value into the holder object, if no value is existing for the given key.
      *
-     * @param key   a String, or null
+     * @param key a String
      * @param value a Long object, or null
      * @since 1.0.0
      */
-    public void provideLong(String key, Long value) {
+    public void provideLong(@NonNull String key, @Nullable Long value) {
         if (!hasKey(key)) {
             bundle.putSerializable(key, value);
         }
@@ -99,11 +122,11 @@ public class HitogoParamsHolder {
     /**
      * Inserts a value into the holder object, if no value is existing for the given key.
      *
-     * @param key   a String, or null
+     * @param key a String
      * @param value a Serializable object, or null
      * @since 1.0.0
      */
-    public void provideSerializable(String key, Serializable value) {
+    public void provideSerializable(@NonNull String key, @Nullable Serializable value) {
         if (!hasKey(key)) {
             bundle.putSerializable(key, value);
         }
@@ -112,11 +135,11 @@ public class HitogoParamsHolder {
     /**
      * Inserts a value into the holder object, if no value is existing for the given key.
      *
-     * @param key   a String, or null
+     * @param key a String
      * @param value a Bundle object, or null
      * @since 1.0.0
      */
-    public void provideBundle(String key, Bundle value) {
+    public void provideBundle(@NonNull String key, @Nullable Bundle value) {
         if (!hasKey(key)) {
             bundle.putBundle(key, value);
         }
@@ -125,11 +148,11 @@ public class HitogoParamsHolder {
     /**
      * Checks if the given key is already taken within this HitogoParamsHolder instance.
      *
-     * @param key Key which needs to be checked.
+     * @param key a String
      * @return True if the key has been found, false otherwise.
      * @since 1.0.0
      */
-    public boolean hasKey(String key) {
+    public boolean hasKey(@NonNull String key) {
         if (bundle.containsKey(key)) {
             Log.e(HitogoParams.class.getName(), "Cannot save value. Reason: Your builder value " +
                     "is trying to override a private value. Make sure that you don't clash with " +
@@ -144,11 +167,11 @@ public class HitogoParamsHolder {
      * no mapping of the desired type exists for the given key or a null
      * value is explicitly associated with the key.
      *
-     * @param key a String, or null
+     * @param key a String
      * @return a String object, or null
      * @since 1.0.0
      */
-    public String getString(String key) {
+    public String getString(@NonNull String key) {
         return bundle.getString(key);
     }
 
@@ -157,11 +180,11 @@ public class HitogoParamsHolder {
      * no mapping of the desired type exists for the given key or a null
      * value is explicitly associated with the key.
      *
-     * @param key a String, or null
+     * @param key a String
      * @return a Integer object, or null
      * @since 1.0.0
      */
-    public Integer getInteger(String key) {
+    public Integer getInteger(@NonNull String key) {
         return (Integer) bundle.getSerializable(key);
     }
 
@@ -170,11 +193,11 @@ public class HitogoParamsHolder {
      * no mapping of the desired type exists for the given key or a null
      * value is explicitly associated with the key.
      *
-     * @param key a String, or null
+     * @param key a String
      * @return a Float object, or null
      * @since 1.0.0
      */
-    public Float getFloat(String key) {
+    public Float getFloat(@NonNull String key) {
         return (Float) bundle.getSerializable(key);
     }
 
@@ -183,11 +206,11 @@ public class HitogoParamsHolder {
      * no mapping of the desired type exists for the given key or a null
      * value is explicitly associated with the key.
      *
-     * @param key a String, or null
+     * @param key a String
      * @return a Double object, or null
      * @since 1.0.0
      */
-    public Double getDouble(String key) {
+    public Double getDouble(@NonNull String key) {
         return (Double) bundle.getSerializable(key);
     }
 
@@ -199,7 +222,7 @@ public class HitogoParamsHolder {
      * @return a boolean value
      * @since 1.0.0
      */
-    public Boolean getBoolean(String key) {
+    public Boolean getBoolean(@NonNull String key) {
         return bundle.getBoolean(key);
     }
 
@@ -208,11 +231,11 @@ public class HitogoParamsHolder {
      * no mapping of the desired type exists for the given key or a null
      * value is explicitly associated with the key.
      *
-     * @param key a String, or null
+     * @param key a String
      * @return a Long object, or null
      * @since 1.0.0
      */
-    public Long getLong(String key) {
+    public Long getLong(@NonNull String key) {
         return (Long) bundle.getSerializable(key);
     }
 
@@ -221,12 +244,13 @@ public class HitogoParamsHolder {
      * no mapping of the desired type exists for the given key or a null
      * value is explicitly associated with the key.
      *
-     * @param key a String, or null
+     * @param key a String
      * @return a Serializable object, or null
      * @since 1.0.0
      */
-    public Serializable getSerializable(String key) {
-        return bundle.getSerializable(key);
+    @SuppressWarnings("unchecked")
+    public <T extends Serializable> T getSerializable(@NonNull String key) {
+        return (T) bundle.getSerializable(key);
     }
 
     /**
@@ -234,12 +258,26 @@ public class HitogoParamsHolder {
      * no mapping of the desired type exists for the given key or a null
      * value is explicitly associated with the key.
      *
-     * @param key a String, or null
+     * @param key a String
      * @return a Bundle object, or null
      * @since 1.0.0
      */
-    public Bundle getBundle(String key) {
+    public Bundle getBundle(@NonNull String key) {
         return bundle.getBundle(key);
+    }
+
+    /**
+     * Returns the value associated with the given key, or null if
+     * no mapping of the desired type exists for the given key or a null
+     * value is explicitly associated with the key.
+     *
+     * @param key a String
+     * @return an object, or null
+     * @since 1.0.0
+     */
+    @SuppressWarnings("unchecked")
+    public <T> T getCustomObject(@NonNull String key) {
+        return (T) customObjects.get(key);
     }
 
     /**

@@ -10,13 +10,14 @@ import android.support.annotation.Nullable;
 import android.util.SparseIntArray;
 
 import org.hitogo.alert.core.Alert;
-import org.hitogo.alert.core.AlertParamsHolder;
 import org.hitogo.alert.dialog.DialogAlertBuilder;
 import org.hitogo.alert.dialog.DialogAlertImpl;
 import org.hitogo.alert.popup.PopupAlertBuilder;
 import org.hitogo.alert.popup.PopupAlertImpl;
 import org.hitogo.alert.popup.PopupAlertBuilderImpl;
 import org.hitogo.alert.popup.PopupAlertParams;
+import org.hitogo.alert.snackbar.SnackbarAlertImpl;
+import org.hitogo.alert.snackbar.SnackbarAlertParams;
 import org.hitogo.alert.view.ViewAlertBuilder;
 import org.hitogo.alert.view.ViewAlertImpl;
 import org.hitogo.alert.core.AlertImpl;
@@ -30,7 +31,8 @@ import org.hitogo.alert.dialog.DialogAlertParams;
 import org.hitogo.alert.view.ViewAlertBuilderImpl;
 import org.hitogo.alert.view.ViewAlertParams;
 import org.hitogo.button.core.ButtonParams;
-import org.hitogo.button.core.ButtonParamsHolder;
+import org.hitogo.button.simple.SimpleButtonImpl;
+import org.hitogo.button.simple.SimpleButtonParams;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -390,23 +392,43 @@ public abstract class HitogoController implements LifecycleObserver {
     }
 
     @NonNull
-    public Class<? extends ButtonImpl> provideDefaultButtonClass() {
+    public Class<? extends ButtonImpl> provideDefaultActionButtonClass() {
         return ActionButtonImpl.class;
     }
 
     @NonNull
-    public Class<? extends ButtonParams> provideDefaultButtonParamsClass() {
+    public Class<? extends ButtonParams> provideDefaultActionButtonParamsClass() {
         return ActionButtonParams.class;
     }
 
     @NonNull
-    public AlertParamsHolder provideAlertParamsHolder() {
-        return new AlertParamsHolder();
+    public Class<? extends ButtonImpl> provideDefaultSimpleButtonClass() {
+        return SimpleButtonImpl.class;
     }
 
     @NonNull
-    public ButtonParamsHolder provideButtonParamsHolder() {
-        return new ButtonParamsHolder();
+    public Class<? extends ButtonParams> provideDefaultSimpleButtonParamsClass() {
+        return SimpleButtonParams.class;
+    }
+
+    @NonNull
+    public Class<? extends AlertImpl> provideDefaultSnackbarClass() {
+        return SnackbarAlertImpl.class;
+    }
+
+    @NonNull
+    public Class<? extends AlertParams> provideDefaultSnackbarParamsClass() {
+        return SnackbarAlertParams.class;
+    }
+
+    @NonNull
+    public HitogoParamsHolder provideAlertParamsHolder() {
+        return new HitogoParamsHolder();
+    }
+
+    @NonNull
+    public HitogoParamsHolder provideButtonParamsHolder() {
+        return new HitogoParamsHolder();
     }
 
     @LayoutRes

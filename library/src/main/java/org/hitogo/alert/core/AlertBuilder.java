@@ -65,40 +65,6 @@ public interface AlertBuilder<B extends AlertBuilderBase, A extends Alert> exten
     B setTitle(@IdRes @Nullable Integer viewId, @NonNull String title);
 
     /**
-     * Adds a text element to this alert which can be used inside the alert implementation. This
-     * method implementation will use the provideDefaultTextViewId(Integer) method offered by the
-     * HitogoController. This method will define the default view id for this text element. Alerts
-     * can have more than one text element. If more than one text element is defined, the method
-     * addText(Integer, String) should rather be used to include a view id that can differ between
-     * the text elements.
-     *
-     * @param text Text element for the alert object.
-     * @return Builder object which has called this method.
-     * @see HitogoController
-     * @since 1.0.0
-     */
-    @NonNull
-    B addText(@NonNull String text);
-
-    /**
-     * Adds a text string resource to this alert which can be used inside the alert implementation.
-     * This method implementation will use the provideDefaultTextViewId(Integer) method offered by
-     * the HitogoController. This method will define the default view id for this text element.
-     * Alerts can have more than one text element. If more than one text element is defined, the
-     * method addText(Integer, int) should rather be used to include a view id that can differ
-     * between the text elements. The string resource will be translated by the builder using the
-     * HitogoUtils.getStringRes(int).
-     *
-     * @param textRes Text element for the alert object.
-     * @return Builder object which has called this method.
-     * @see HitogoController
-     * @see HitogoUtils
-     * @since 1.0.0
-     */
-    @NonNull
-    B addText(@StringRes int textRes);
-
-    /**
      * Adds a text string resource to this alert which can be used inside the alert implementation.
      * Alerts can have more than one text element. If more than one text element is defined, each
      * text element will need it's own view (id). The string resource will be translated by the
@@ -138,5 +104,5 @@ public interface AlertBuilder<B extends AlertBuilderBase, A extends Alert> exten
      * @since 1.0.0
      */
     @NonNull
-    B setLayout(@NonNull @LayoutRes int layoutRes);
+    B setLayout(@LayoutRes int layoutRes);
 }

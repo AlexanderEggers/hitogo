@@ -79,6 +79,7 @@ public abstract class AlertLifecycle<T extends AlertParams> {
      * @param params   an object which is extending AlertParams
      * @param inflater a LayoutInflater object
      * @param context  a Context object
+     * @return a View object or null
      * @see Alert
      * @see AlertParams
      * @see LayoutInflater
@@ -97,6 +98,7 @@ public abstract class AlertLifecycle<T extends AlertParams> {
      * @param params   an object which is extending AlertParams
      * @param inflater a LayoutInflater object
      * @param context  a Context object
+     * @return a Dialog object or null
      * @see Alert
      * @see AlertParams
      * @see LayoutInflater
@@ -115,6 +117,7 @@ public abstract class AlertLifecycle<T extends AlertParams> {
      * @param params   an object which is extending AlertParams
      * @param inflater a LayoutInflater object
      * @param context  a Context object
+     * @return a PopupWindow object or null
      * @see Alert
      * @see AlertParams
      * @see LayoutInflater
@@ -122,6 +125,24 @@ public abstract class AlertLifecycle<T extends AlertParams> {
      */
     @Nullable
     protected PopupWindow onCreatePopup(@NonNull LayoutInflater inflater, @NonNull Context context,
+                                        @NonNull T params) {
+        return null;
+    }
+
+    /**
+     * This method is executed after the onCreate and if the underlying alert is from AlertType
+     * other.
+     *
+     * @param params   an object which is extending AlertParams
+     * @param inflater a LayoutInflater object
+     * @param context  a Context object
+     * @return an object or null
+     * @see Alert
+     * @see AlertParams
+     * @see LayoutInflater
+     * @since 1.0.0
+     */
+    protected Object onCreateOther(@NonNull LayoutInflater inflater, @NonNull Context context,
                                         @NonNull T params) {
         return null;
     }

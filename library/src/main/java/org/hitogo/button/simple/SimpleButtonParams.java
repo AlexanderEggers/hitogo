@@ -1,12 +1,12 @@
 package org.hitogo.button.simple;
 
 import org.hitogo.button.core.ButtonParams;
-import org.hitogo.button.core.ButtonParamsHolder;
+import org.hitogo.core.HitogoParamsHolder;
 
 public class SimpleButtonParams extends ButtonParams {
 
     @Override
-    protected void onCreateParams(ButtonParamsHolder holder, ButtonParams alertParams) {
+    protected void onCreateParams(HitogoParamsHolder holder, ButtonParams alertParams) {
         //do nothing
     }
 

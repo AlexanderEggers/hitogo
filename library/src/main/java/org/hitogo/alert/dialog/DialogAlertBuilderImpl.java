@@ -11,8 +11,8 @@ import org.hitogo.alert.core.AlertBuilderImpl;
 import org.hitogo.core.HitogoContainer;
 import org.hitogo.alert.core.AlertImpl;
 import org.hitogo.alert.core.AlertParams;
-import org.hitogo.alert.core.AlertParamsHolder;
 import org.hitogo.alert.core.AlertType;
+import org.hitogo.core.HitogoParamsHolder;
 import org.hitogo.core.HitogoUtils;
 
 @SuppressWarnings({"WeakerAccess", "unused"})
@@ -23,7 +23,7 @@ public class DialogAlertBuilderImpl extends AlertBuilderImpl<DialogAlertBuilder,
 
     public DialogAlertBuilderImpl(@NonNull Class<? extends AlertImpl> targetClass,
                                   @NonNull Class<? extends AlertParams> paramClass,
-                                  @NonNull AlertParamsHolder holder,
+                                  @NonNull HitogoParamsHolder holder,
                                   @NonNull HitogoContainer container) {
         super(targetClass, paramClass, holder, container, AlertType.DIALOG);
     }
@@ -108,7 +108,7 @@ public class DialogAlertBuilderImpl extends AlertBuilderImpl<DialogAlertBuilder,
     }
 
     @Override
-    protected void onProvideData(AlertParamsHolder holder) {
+    protected void onProvideData(HitogoParamsHolder holder) {
         super.onProvideData(holder);
 
         holder.provideInteger(DialogAlertParamsKeys.DIALOG_THEME_RES_ID, dialogThemeResId);

@@ -2,16 +2,13 @@ package org.hitogo.alert.core;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.transition.Transition;
 import android.util.SparseArray;
-import android.view.View;
 
-import org.hitogo.core.HitogoAnimation;
 import org.hitogo.button.core.Button;
 import org.hitogo.core.HitogoParams;
+import org.hitogo.core.HitogoParamsHolder;
 
-import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -22,7 +19,7 @@ import java.util.List;
  * @since 1.0.0
  */
 @SuppressWarnings({"WeakerAccess", "unused"})
-public abstract class AlertParams extends HitogoParams<AlertParamsHolder, AlertParams> {
+public abstract class AlertParams extends HitogoParams<HitogoParamsHolder, AlertParams> {
 
     private String title;
     private String tag;
@@ -38,34 +35,33 @@ public abstract class AlertParams extends HitogoParams<AlertParamsHolder, AlertP
 
     private AlertType type;
     private Bundle arguments;
-    private HitogoAnimation animation;
     private List<VisibilityListener> visibilityListener;
-    private List<Transition> transitions;
-    private View.OnTouchListener onTouchListener;
 
     @Override
-    protected void provideData(AlertParamsHolder holder) {
+    protected void provideData(HitogoParamsHolder holder) {
         title = holder.getString(AlertParamsKeys.TITLE_KEY);
         tag = holder.getString(AlertParamsKeys.TAG_KEY);
-        textMap = holder.getTextMap();
+        textMap = holder.getCustomObject(AlertParamsKeys.TEXT_KEY);
 
         layoutRes = (Integer) holder.getSerializable(AlertParamsKeys.LAYOUT_RES_KEY);
         titleViewId = (Integer) holder.getSerializable(AlertParamsKeys.TITLE_VIEW_ID_KEY);
         state = (Integer) holder.getSerializable(AlertParamsKeys.STATE_KEY);
         priority = (Integer) holder.getSerializable(AlertParamsKeys.PRIORITY_KEY);
 
-        buttons = holder.getButtons();
-        closeButton = holder.getCloseButton();
+        buttons = holder.getCustomObject(AlertParamsKeys.BUTTONS_KEY);
+        closeButton = holder.getCustomObject(AlertParamsKeys.CLOSE_BUTTON_KEY);
 
         type = (AlertType) holder.getSerializable(AlertParamsKeys.TYPE_KEY);
         arguments = holder.getBundle(AlertParamsKeys.ARGUMENTS_KEY);
-        animation = holder.getAnimation();
-        visibilityListener = holder.getVisibilityListener();
-        transitions = holder.getTransitions();
-        onTouchListener = holder.getOnTouchListener();
+
+        visibilityListener = holder.getCustomObject(AlertParamsKeys.VISIBILITY_LISTENER_KEY);
 
         onCreateParams(holder, this);
     }
+
+    public abstract boolean hasAnimation();
+
+    public abstract boolean isClosingOthers();
 
     public String getTitle() {
         return title;
@@ -73,14 +69,6 @@ public abstract class AlertParams extends HitogoParams<AlertParamsHolder, AlertP
 
     public Integer getTitleViewId() {
         return titleViewId;
-    }
-
-    public boolean hasAnimation() {
-        return animation != null;
-    }
-
-    public boolean isClosingOthers() {
-        return true;
     }
 
     @NonNull
@@ -101,14 +89,9 @@ public abstract class AlertParams extends HitogoParams<AlertParamsHolder, AlertP
         return layoutRes;
     }
 
-    @Nullable
-    public HitogoAnimation getAnimation() {
-        return animation;
-    }
-
     @NonNull
     public List<Button> getButtons() {
-        return buttons != null ? buttons : new ArrayList<Button>();
+        return buttons != null ? buttons : Collections.<Button>emptyList();
     }
 
     @NonNull
@@ -126,15 +109,6 @@ public abstract class AlertParams extends HitogoParams<AlertParamsHolder, AlertP
 
     public List<VisibilityListener> getVisibilityListener() {
         return visibilityListener;
-    }
-
-    @NonNull
-    public List<Transition> getTransitions() {
-        return transitions;
-    }
-
-    public View.OnTouchListener getOnTouchListener() {
-        return onTouchListener;
     }
 
     public boolean dismissByLayoutClick() {

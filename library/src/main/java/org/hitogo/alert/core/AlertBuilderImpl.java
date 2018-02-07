@@ -15,6 +15,7 @@ import org.hitogo.alert.view.ViewAlertBuilderImpl;
 import org.hitogo.button.core.Button;
 import org.hitogo.core.HitogoContainer;
 import org.hitogo.core.HitogoController;
+import org.hitogo.core.HitogoParamsHolder;
 import org.hitogo.core.HitogoUtils;
 
 import java.lang.ref.WeakReference;
@@ -38,7 +39,7 @@ public abstract class AlertBuilderImpl<B extends AlertBuilderBase, A extends Ale
     private final Class<? extends AlertImpl> targetClass;
     private final Class<? extends AlertParams> paramClass;
     private final WeakReference<HitogoContainer> containerRef;
-    private final AlertParamsHolder holder;
+    private final HitogoParamsHolder holder;
 
     private HitogoController controller;
 
@@ -73,7 +74,7 @@ public abstract class AlertBuilderImpl<B extends AlertBuilderBase, A extends Ale
      */
     public AlertBuilderImpl(@NonNull Class<? extends AlertImpl> targetClass,
                             @NonNull Class<? extends AlertParams> paramClass,
-                            @NonNull AlertParamsHolder holder,
+                            @NonNull HitogoParamsHolder holder,
                             @NonNull HitogoContainer container,
                             @NonNull AlertType builderType) {
         this.targetClass = targetClass;
@@ -112,28 +113,28 @@ public abstract class AlertBuilderImpl<B extends AlertBuilderBase, A extends Ale
 
     /**
      * Provides builder values which are used by the implemented builder class. The given
-     * AlertParamsHolder is used to initialised the data foundation for the alert object.
+     * HitogoParamsHolder is used to initialised the data foundation for the alert object.
      *
      * @param holder Temporary object holder for all alert values, like title or text.
-     * @see AlertParamsHolder
+     * @see HitogoParamsHolder
      * @see AlertParams
      * @since 1.0.0
      */
     @CallSuper
-    protected void onProvideData(AlertParamsHolder holder) {
+    protected void onProvideData(HitogoParamsHolder holder) {
         holder.provideString(AlertParamsKeys.TITLE_KEY, title);
-        holder.provideSerializable(AlertParamsKeys.TITLE_VIEW_ID_KEY, titleViewId);
         holder.provideString(AlertParamsKeys.TAG_KEY, tag);
         holder.provideBundle(AlertParamsKeys.ARGUMENTS_KEY, arguments);
+        holder.provideSerializable(AlertParamsKeys.TITLE_VIEW_ID_KEY, titleViewId);
         holder.provideSerializable(AlertParamsKeys.TYPE_KEY, builderType);
         holder.provideSerializable(AlertParamsKeys.STATE_KEY, state);
         holder.provideSerializable(AlertParamsKeys.LAYOUT_RES_KEY, layoutRes);
         holder.provideSerializable(AlertParamsKeys.PRIORITY_KEY, priority);
 
-        holder.provideVisibilityListener(visibilityListener);
-        holder.provideTextMap(textMap);
-        holder.provideButtons(buttons);
-        holder.provideCloseButton(closeButton);
+        holder.provideCustomObject(AlertParamsKeys.VISIBILITY_LISTENER_KEY, visibilityListener);
+        holder.provideCustomObject(AlertParamsKeys.TEXT_KEY, textMap);
+        holder.provideCustomObject(AlertParamsKeys.BUTTONS_KEY, buttons);
+        holder.provideCustomObject(AlertParamsKeys.CLOSE_BUTTON_KEY, closeButton);
     }
 
     /**
@@ -340,7 +341,7 @@ public abstract class AlertBuilderImpl<B extends AlertBuilderBase, A extends Ale
      */
     @Override
     @NonNull
-    public B setState(@NonNull Integer state) {
+    public B setState(@Nullable Integer state) {
         this.state = state;
         return (B) this;
     }
@@ -357,7 +358,7 @@ public abstract class AlertBuilderImpl<B extends AlertBuilderBase, A extends Ale
      */
     @Override
     @NonNull
-    public B setState(@NonNull Enum state) {
+    public B setState(@Nullable Enum state) {
         this.state = state != null ? state.ordinal() : null;
         return (B) this;
     }
@@ -424,7 +425,7 @@ public abstract class AlertBuilderImpl<B extends AlertBuilderBase, A extends Ale
      */
     @Override
     @NonNull
-    public B setLayout(@NonNull @LayoutRes int layoutRes) {
+    public B setLayout(@LayoutRes int layoutRes) {
         this.layoutRes = layoutRes;
         return (B) this;
     }

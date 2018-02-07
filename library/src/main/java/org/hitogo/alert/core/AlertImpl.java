@@ -51,6 +51,7 @@ public abstract class AlertImpl<T extends AlertParams> extends AlertLifecycle<T>
     private View view;
     private Dialog dialog;
     private PopupWindow popup;
+    private Object other;
 
     /**
      * Creates the alert and starts the internal lifecycle process. This method is only used by
@@ -97,6 +98,8 @@ public abstract class AlertImpl<T extends AlertParams> extends AlertLifecycle<T>
             case POPUP:
                 popup = onCreatePopup(inflater, getContext(), params);
                 break;
+            case OTHER:
+                other = onCreateOther(inflater, getContext(), params);
         }
         return this;
     }
@@ -385,6 +388,16 @@ public abstract class AlertImpl<T extends AlertParams> extends AlertLifecycle<T>
      */
     public PopupWindow getPopup() {
         return popup;
+    }
+
+    /**
+     * Returns the underlying object of the alert.
+     *
+     * @return Base object of the alert. Null if the alert is not from type OTHER (AlertType).
+     * @since 1.0.0
+     */
+    public Object getOther() {
+        return other;
     }
 
     /**

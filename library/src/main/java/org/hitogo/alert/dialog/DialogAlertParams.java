@@ -1,7 +1,7 @@
 package org.hitogo.alert.dialog;
 
 import org.hitogo.alert.core.AlertParams;
-import org.hitogo.alert.core.AlertParamsHolder;
+import org.hitogo.core.HitogoParamsHolder;
 
 @SuppressWarnings({"WeakerAccess", "unused"})
 public class DialogAlertParams extends AlertParams {
@@ -10,7 +10,7 @@ public class DialogAlertParams extends AlertParams {
     private boolean isDismissible;
 
     @Override
-    protected void onCreateParams(AlertParamsHolder holder, AlertParams alertParams) {
+    protected void onCreateParams(HitogoParamsHolder holder, AlertParams alertParams) {
         dialogThemeResId = holder.getInteger("dialogThemeResId");
         isDismissible = holder.getBoolean("containerId");
     }
@@ -21,5 +21,15 @@ public class DialogAlertParams extends AlertParams {
 
     public boolean isDismissible() {
         return isDismissible;
+    }
+
+    @Override
+    public boolean hasAnimation() {
+        return false;
+    }
+
+    @Override
+    public boolean isClosingOthers() {
+        return false;
     }
 }

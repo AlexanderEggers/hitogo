@@ -7,8 +7,8 @@ import android.support.annotation.Nullable;
 import org.hitogo.button.core.ButtonBuilderImpl;
 import org.hitogo.button.core.ButtonImpl;
 import org.hitogo.button.core.ButtonParams;
-import org.hitogo.button.core.ButtonParamsHolder;
 import org.hitogo.core.HitogoContainer;
+import org.hitogo.core.HitogoParamsHolder;
 
 @SuppressWarnings({"WeakerAccess", "unused"})
 public class ActionButtonBuilderImpl extends ButtonBuilderImpl<ActionButtonBuilder, ActionButton> implements ActionButtonBuilder {
@@ -18,7 +18,7 @@ public class ActionButtonBuilderImpl extends ButtonBuilderImpl<ActionButtonBuild
 
     public ActionButtonBuilderImpl(@NonNull Class<? extends ButtonImpl> targetClass,
                                    @NonNull Class<? extends ButtonParams> paramClass,
-                                   @NonNull ButtonParamsHolder holder,
+                                   @NonNull HitogoParamsHolder holder,
                                    @NonNull HitogoContainer container) {
         super(targetClass, paramClass, holder, container);
     }
@@ -67,10 +67,10 @@ public class ActionButtonBuilderImpl extends ButtonBuilderImpl<ActionButtonBuild
     }
 
     @Override
-    protected void onProvideData(ButtonParamsHolder holder) {
+    protected void onProvideData(HitogoParamsHolder holder) {
         super.onProvideData(holder);
 
-        holder.provideIntArray(ActionButtonParamsKeys.VIEW_IDS_KEY, viewIds);
+        holder.provideSerializable(ActionButtonParamsKeys.VIEW_IDS_KEY, viewIds);
         holder.provideBoolean(ActionButtonParamsKeys.HAS_BUTTON_VIEW_KEY, hasButtonView);
     }
 }

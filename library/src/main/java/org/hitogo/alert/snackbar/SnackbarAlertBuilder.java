@@ -1,6 +1,7 @@
 package org.hitogo.alert.snackbar;
 
 import android.content.res.ColorStateList;
+import android.support.annotation.ColorRes;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 
@@ -10,22 +11,16 @@ import org.hitogo.button.core.Button;
 public interface SnackbarAlertBuilder extends AlertBuilderBase<SnackbarAlertBuilder, SnackbarAlert> {
 
     @NonNull
-    SnackbarAlertBuilder setText(CharSequence text);
+    SnackbarAlertBuilder addAction(@NonNull Button button);
 
     @NonNull
-    SnackbarAlertBuilder setText(int resId);
+    SnackbarAlertBuilder setActionTextColor(@ColorRes int color);
 
     @NonNull
-    SnackbarAlertBuilder addAction(Button button);
+    SnackbarAlertBuilder setActionTextColor(@NonNull ColorStateList colors);
 
     @NonNull
-    SnackbarAlertBuilder setActionTextColor(int color);
-
-    @NonNull
-    SnackbarAlertBuilder setActionTextColor(ColorStateList colors);
-
-    @NonNull
-    SnackbarAlertBuilder addCallback(Snackbar.Callback callback);
+    SnackbarAlertBuilder addCallback(@NonNull Snackbar.Callback callback);
 
     @NonNull
     SnackbarAlertBuilder setDuration(int duration);

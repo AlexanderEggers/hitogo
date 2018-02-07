@@ -1,11 +1,10 @@
 package org.hitogo.alert.popup;
 
 import android.transition.Transition;
+import android.view.View;
 
 import org.hitogo.alert.core.AlertParams;
-import org.hitogo.alert.core.AlertParamsHolder;
-
-import java.util.List;
+import org.hitogo.core.HitogoParamsHolder;
 
 @SuppressWarnings({"WeakerAccess", "unused"})
 public class PopupAlertParams extends AlertParams {
@@ -26,9 +25,10 @@ public class PopupAlertParams extends AlertParams {
 
     private Transition enterTransition;
     private Transition exitTransition;
+    private View.OnTouchListener onTouchListener;
 
     @Override
-    protected void onCreateParams(AlertParamsHolder holder, AlertParams alertParams) {
+    protected void onCreateParams(HitogoParamsHolder holder, AlertParams alertParams) {
         drawableRes = holder.getInteger(PopupAlertParamsKeys.DRAWABLE_RES_KEY);
         anchorViewId = holder.getInteger(PopupAlertParamsKeys.ANCHOR_VIEW_ID_KEY);
         animationStyle = holder.getInteger(PopupAlertParamsKeys.ANIMATION_STYLE_KEY);
@@ -43,9 +43,9 @@ public class PopupAlertParams extends AlertParams {
         anchorViewTag = holder.getString(PopupAlertParamsKeys.ANCHOR_VIEW_TAG_KEY);
         isDismissible = holder.getBoolean(PopupAlertParamsKeys.IS_DISMISSIBLE_KEY);
 
-        List<Transition> transitions = alertParams.getTransitions();
-        enterTransition = !transitions.isEmpty() ? getTransitions().get(0) : null;
-        exitTransition = transitions.size() >= 2 ? getTransitions().get(1) : null;
+        enterTransition = holder.getCustomObject(PopupAlertParamsKeys.ENTER_TRANSITION_KEY);
+        exitTransition = holder.getCustomObject(PopupAlertParamsKeys.EXIT_TRANSITION_KEY);
+        onTouchListener = holder.getCustomObject(PopupAlertParamsKeys.TOUCH_LISTENER_KEY);
     }
 
     public Integer getAnchorViewId() {
@@ -98,5 +98,19 @@ public class PopupAlertParams extends AlertParams {
 
     public Transition getExitTransition() {
         return exitTransition;
+    }
+
+    public View.OnTouchListener getOnTouchListener() {
+        return onTouchListener;
+    }
+
+    @Override
+    public boolean hasAnimation() {
+        return false;
+    }
+
+    @Override
+    public boolean isClosingOthers() {
+        return false;
     }
 }
