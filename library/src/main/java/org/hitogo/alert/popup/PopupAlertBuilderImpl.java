@@ -46,9 +46,8 @@ public class PopupAlertBuilderImpl extends AlertBuilderImpl<PopupAlertBuilder, P
 
     public PopupAlertBuilderImpl(@NonNull Class<? extends AlertImpl> targetClass,
                                  @NonNull Class<? extends AlertParams> paramClass,
-                                 @NonNull HitogoParamsHolder holder,
                                  @NonNull HitogoContainer container) {
-        super(targetClass, paramClass, holder, container, AlertType.POPUP);
+        super(targetClass, paramClass, container, AlertType.POPUP);
     }
 
     @Override

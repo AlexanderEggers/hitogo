@@ -50,7 +50,6 @@ public class Hitogo implements ViewAlertFactory<ViewAlertBuilder>, DialogAlertFa
     public ViewAlertBuilder asViewAlert() {
         return new ViewAlertBuilderImpl(controller.provideDefaultViewClass(),
                 controller.provideDefaultViewParamsClass(),
-                controller.provideAlertParamsHolder(),
                 container);
     }
 
@@ -58,7 +57,6 @@ public class Hitogo implements ViewAlertFactory<ViewAlertBuilder>, DialogAlertFa
     public ViewAlertBuilder asViewAlert(@NonNull Class<? extends AlertImpl> targetClass) {
         return new ViewAlertBuilderImpl(targetClass,
                 controller.provideDefaultViewParamsClass(),
-                controller.provideAlertParamsHolder(),
                 container);
     }
 
@@ -67,7 +65,6 @@ public class Hitogo implements ViewAlertFactory<ViewAlertBuilder>, DialogAlertFa
                                         @NonNull Class<? extends AlertParams> paramClass) {
         return new ViewAlertBuilderImpl(targetClass,
                 paramClass,
-                controller.provideAlertParamsHolder(),
                 container);
     }
 
@@ -75,7 +72,6 @@ public class Hitogo implements ViewAlertFactory<ViewAlertBuilder>, DialogAlertFa
     public DialogAlertBuilder asDialogAlert() {
         return new DialogAlertBuilderImpl(controller.provideDefaultDialogClass(),
                 controller.provideDefaultDialogParamsClass(),
-                controller.provideAlertParamsHolder(),
                 container);
     }
 
@@ -83,7 +79,6 @@ public class Hitogo implements ViewAlertFactory<ViewAlertBuilder>, DialogAlertFa
     public DialogAlertBuilder asDialogAlert(@NonNull Class<? extends AlertImpl> targetClass) {
         return new DialogAlertBuilderImpl(targetClass,
                 controller.provideDefaultDialogParamsClass(),
-                controller.provideAlertParamsHolder(),
                 container);
     }
 
@@ -92,7 +87,6 @@ public class Hitogo implements ViewAlertFactory<ViewAlertBuilder>, DialogAlertFa
                                             @NonNull Class<? extends AlertParams> paramClass) {
         return new DialogAlertBuilderImpl(targetClass,
                 paramClass,
-                controller.provideAlertParamsHolder(),
                 container);
     }
 
@@ -100,7 +94,6 @@ public class Hitogo implements ViewAlertFactory<ViewAlertBuilder>, DialogAlertFa
     public ActionButtonBuilder asActionButton() {
         return new ActionButtonBuilderImpl(controller.provideDefaultActionButtonClass(),
                 controller.provideDefaultActionButtonParamsClass(),
-                controller.provideButtonParamsHolder(),
                 container);
     }
 
@@ -108,7 +101,6 @@ public class Hitogo implements ViewAlertFactory<ViewAlertBuilder>, DialogAlertFa
     public ActionButtonBuilder asActionButton(@NonNull Class<? extends ButtonImpl> targetClass) {
         return new ActionButtonBuilderImpl(targetClass,
                 controller.provideDefaultActionButtonParamsClass(),
-                controller.provideButtonParamsHolder(),
                 container);
     }
 
@@ -117,7 +109,6 @@ public class Hitogo implements ViewAlertFactory<ViewAlertBuilder>, DialogAlertFa
                                               @NonNull Class<? extends ButtonParams> paramClass) {
         return new ActionButtonBuilderImpl(targetClass,
                 paramClass,
-                controller.provideButtonParamsHolder(),
                 container);
     }
 
@@ -125,7 +116,6 @@ public class Hitogo implements ViewAlertFactory<ViewAlertBuilder>, DialogAlertFa
     public PopupAlertBuilder asPopupAlert() {
         return new PopupAlertBuilderImpl(controller.provideDefaultPopupClass(),
                 controller.provideDefaultPopupParamsClass(),
-                controller.provideAlertParamsHolder(),
                 container);
     }
 
@@ -133,7 +123,6 @@ public class Hitogo implements ViewAlertFactory<ViewAlertBuilder>, DialogAlertFa
     public PopupAlertBuilder asPopupAlert(@NonNull Class<? extends AlertImpl> targetClass) {
         return new PopupAlertBuilderImpl(targetClass,
                 controller.provideDefaultPopupParamsClass(),
-                controller.provideAlertParamsHolder(),
                 container);
     }
 
@@ -142,7 +131,6 @@ public class Hitogo implements ViewAlertFactory<ViewAlertBuilder>, DialogAlertFa
                                           @NonNull Class<? extends AlertParams> paramClass) {
         return new PopupAlertBuilderImpl(targetClass,
                 paramClass,
-                controller.provideAlertParamsHolder(),
                 container);
     }
 
@@ -150,7 +138,6 @@ public class Hitogo implements ViewAlertFactory<ViewAlertBuilder>, DialogAlertFa
     public SnackbarAlertBuilder asSnackbarAlert() {
         return new SnackbarAlertBuilderImpl(controller.provideDefaultSnackbarClass(),
                 controller.provideDefaultSnackbarParamsClass(),
-                controller.provideAlertParamsHolder(),
                 container);
     }
 
@@ -158,7 +145,6 @@ public class Hitogo implements ViewAlertFactory<ViewAlertBuilder>, DialogAlertFa
     public SnackbarAlertBuilder asSnackbarAlert(@NonNull Class<? extends AlertImpl> targetClass) {
         return new SnackbarAlertBuilderImpl(targetClass,
                 controller.provideDefaultSnackbarParamsClass(),
-                controller.provideAlertParamsHolder(),
                 container);
     }
 
@@ -167,7 +153,6 @@ public class Hitogo implements ViewAlertFactory<ViewAlertBuilder>, DialogAlertFa
                                                 @NonNull Class<? extends AlertParams> paramClass) {
         return new SnackbarAlertBuilderImpl(targetClass,
                 paramClass,
-                controller.provideAlertParamsHolder(),
                 container);
     }
 
@@ -175,7 +160,6 @@ public class Hitogo implements ViewAlertFactory<ViewAlertBuilder>, DialogAlertFa
     public SimpleButtonBuilder asSimpleButton() {
         return new SimpleButtonBuilderImpl(controller.provideDefaultSimpleButtonClass(),
                 controller.provideDefaultSimpleButtonParamsClass(),
-                controller.provideAlertParamsHolder(),
                 container);
     }
 
@@ -183,7 +167,6 @@ public class Hitogo implements ViewAlertFactory<ViewAlertBuilder>, DialogAlertFa
     public SimpleButtonBuilder asSimpleButton(@NonNull Class<? extends ButtonImpl> targetClass) {
         return new SimpleButtonBuilderImpl(targetClass,
                 controller.provideDefaultSimpleButtonParamsClass(),
-                controller.provideAlertParamsHolder(),
                 container);
     }
 
@@ -192,7 +175,6 @@ public class Hitogo implements ViewAlertFactory<ViewAlertBuilder>, DialogAlertFa
                                               @NonNull Class<? extends ButtonParams> paramClass) {
         return new SimpleButtonBuilderImpl(targetClass,
                 paramClass,
-                controller.provideAlertParamsHolder(),
                 container);
     }
 
@@ -200,7 +182,6 @@ public class Hitogo implements ViewAlertFactory<ViewAlertBuilder>, DialogAlertFa
     public ToastAlertBuilder asToastAlert() {
         return new ToastAlertBuilderImpl(controller.provideDefaultToastClass(),
                 controller.provideDefaultToastParamsClass(),
-                controller.provideAlertParamsHolder(),
                 container);
     }
 
@@ -208,7 +189,6 @@ public class Hitogo implements ViewAlertFactory<ViewAlertBuilder>, DialogAlertFa
     public ToastAlertBuilder asToastAlert(@NonNull Class<? extends AlertImpl> targetClass) {
         return new ToastAlertBuilderImpl(targetClass,
                 controller.provideDefaultToastParamsClass(),
-                controller.provideAlertParamsHolder(),
                 container);
     }
 
@@ -217,7 +197,6 @@ public class Hitogo implements ViewAlertFactory<ViewAlertBuilder>, DialogAlertFa
                                           @NonNull Class<? extends AlertParams> paramClass) {
         return new ToastAlertBuilderImpl(targetClass,
                 paramClass,
-                controller.provideAlertParamsHolder(),
                 container);
     }
 

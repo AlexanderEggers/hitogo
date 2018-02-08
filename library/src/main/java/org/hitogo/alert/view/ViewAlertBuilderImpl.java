@@ -31,9 +31,8 @@ public class ViewAlertBuilderImpl extends AlertBuilderImpl<ViewAlertBuilder, Vie
 
     public ViewAlertBuilderImpl(@NonNull Class<? extends AlertImpl> targetClass,
                                 @NonNull Class<? extends AlertParams> paramClass,
-                                @NonNull HitogoParamsHolder holder,
                                 @NonNull HitogoContainer container) {
-        super(targetClass, paramClass, holder, container, AlertType.VIEW);
+        super(targetClass, paramClass, container, AlertType.VIEW);
     }
 
     @Override

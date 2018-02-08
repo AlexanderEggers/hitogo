@@ -23,9 +23,8 @@ public class DialogAlertBuilderImpl extends AlertBuilderImpl<DialogAlertBuilder,
 
     public DialogAlertBuilderImpl(@NonNull Class<? extends AlertImpl> targetClass,
                                   @NonNull Class<? extends AlertParams> paramClass,
-                                  @NonNull HitogoParamsHolder holder,
                                   @NonNull HitogoContainer container) {
-        super(targetClass, paramClass, holder, container, AlertType.DIALOG);
+        super(targetClass, paramClass, container, AlertType.DIALOG);
     }
 
     @Override

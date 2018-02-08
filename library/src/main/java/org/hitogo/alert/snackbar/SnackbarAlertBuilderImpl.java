@@ -27,9 +27,8 @@ public class SnackbarAlertBuilderImpl extends AlertBuilderImpl<SnackbarAlertBuil
 
     public SnackbarAlertBuilderImpl(@NonNull Class<? extends AlertImpl> targetClass,
                                     @NonNull Class<? extends AlertParams> paramClass,
-                                    @NonNull HitogoParamsHolder holder,
                                     @NonNull HitogoContainer container) {
-        super(targetClass, paramClass, holder, container, AlertType.OTHER);
+        super(targetClass, paramClass, container, AlertType.OTHER);
     }
 
     @NonNull

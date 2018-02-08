@@ -18,9 +18,8 @@ public class ActionButtonBuilderImpl extends ButtonBuilderImpl<ActionButtonBuild
 
     public ActionButtonBuilderImpl(@NonNull Class<? extends ButtonImpl> targetClass,
                                    @NonNull Class<? extends ButtonParams> paramClass,
-                                   @NonNull HitogoParamsHolder holder,
                                    @NonNull HitogoContainer container) {
-        super(targetClass, paramClass, holder, container);
+        super(targetClass, paramClass, container);
     }
 
     @Override

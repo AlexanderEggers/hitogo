@@ -30,7 +30,6 @@ public class ToastAlertBuilderImpl extends AlertBuilderImpl<ToastAlertBuilder, T
      *
      * @param targetClass Class object for the requested alert.
      * @param paramClass  Class object for the params object which is used by the alert.
-     * @param holder      Holder object which will stores and structure builder values.
      * @param container   Container which is used as a reference for this alert (context, view,
      *                    controller).
      * @see HitogoContainer
@@ -40,9 +39,8 @@ public class ToastAlertBuilderImpl extends AlertBuilderImpl<ToastAlertBuilder, T
      */
     public ToastAlertBuilderImpl(@NonNull Class<? extends AlertImpl> targetClass,
                                  @NonNull Class<? extends AlertParams> paramClass,
-                                 @NonNull HitogoParamsHolder holder,
                                  @NonNull HitogoContainer container) {
-        super(targetClass, paramClass, holder, container, AlertType.OTHER);
+        super(targetClass, paramClass, container, AlertType.OTHER);
     }
 
     @Override

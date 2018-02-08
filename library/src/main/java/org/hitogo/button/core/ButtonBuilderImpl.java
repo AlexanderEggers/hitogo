@@ -20,8 +20,6 @@ public abstract class ButtonBuilderImpl<C extends ButtonBuilder, B extends Butto
     private final Class<? extends ButtonParams> paramClass;
     private final WeakReference<HitogoContainer> containerRef;
 
-    private final HitogoParamsHolder holder;
-
     private String text;
     private boolean closeAfterClick = true;
     private ButtonListener listener;
@@ -29,11 +27,9 @@ public abstract class ButtonBuilderImpl<C extends ButtonBuilder, B extends Butto
 
     public ButtonBuilderImpl(@NonNull Class<? extends ButtonImpl> targetClass,
                              @NonNull Class<? extends ButtonParams> paramClass,
-                             @NonNull HitogoParamsHolder holder,
                              @NonNull HitogoContainer container) {
         this.targetClass = targetClass;
         this.paramClass = paramClass;
-        this.holder = holder;
         this.containerRef = new WeakReference<>(container);
     }
 
@@ -82,6 +78,7 @@ public abstract class ButtonBuilderImpl<C extends ButtonBuilder, B extends Butto
     @NonNull
     @SuppressWarnings("unchecked")
     public B build() {
+        HitogoParamsHolder holder = getController().provideButtonParamsHolder();
         onProvideData(holder);
 
         try {

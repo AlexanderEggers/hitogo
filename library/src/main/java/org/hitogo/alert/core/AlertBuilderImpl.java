@@ -39,7 +39,6 @@ public abstract class AlertBuilderImpl<B extends AlertBuilderBase, A extends Ale
     private final Class<? extends AlertImpl> targetClass;
     private final Class<? extends AlertParams> paramClass;
     private final WeakReference<HitogoContainer> containerRef;
-    private final HitogoParamsHolder holder;
 
     private HitogoController controller;
 
@@ -65,7 +64,6 @@ public abstract class AlertBuilderImpl<B extends AlertBuilderBase, A extends Ale
      * @param paramClass  Class object for the params object which is used by the alert.
      * @param container   Container which is used as a reference for this alert (context, view,
      *                    controller).
-     * @param holder      Holder object which will stores and structure builder values.
      * @param builderType AlertType which is needed for the build and visibility process of this
      *                    alert.
      * @see HitogoContainer
@@ -75,12 +73,10 @@ public abstract class AlertBuilderImpl<B extends AlertBuilderBase, A extends Ale
      */
     public AlertBuilderImpl(@NonNull Class<? extends AlertImpl> targetClass,
                             @NonNull Class<? extends AlertParams> paramClass,
-                            @NonNull HitogoParamsHolder holder,
                             @NonNull HitogoContainer container,
                             @NonNull AlertType builderType) {
         this.targetClass = targetClass;
         this.paramClass = paramClass;
-        this.holder = holder;
         this.containerRef = new WeakReference<>(container);
         this.controller = container.getController();
         this.builderType = builderType;
@@ -99,6 +95,7 @@ public abstract class AlertBuilderImpl<B extends AlertBuilderBase, A extends Ale
     @NonNull
     @SuppressWarnings("unchecked")
     public A build() {
+        HitogoParamsHolder holder = getController().provideAlertParamsHolder();
         onProvideData(holder);
 
         try {
