@@ -50,7 +50,7 @@ public class DialogAlertImpl extends AlertImpl<DialogAlertParams> implements Dia
 
     @Nullable
     @Override
-    protected Dialog onCreateDialog(@NonNull LayoutInflater inflater, @NonNull Context context,
+    protected Dialog onCreateDialog(LayoutInflater inflater, @NonNull Context context,
                                     @NonNull DialogAlertParams params) {
         List<Button> buttonList = params.getButtons();
         Integer themeResId = params.getDialogThemeResId();

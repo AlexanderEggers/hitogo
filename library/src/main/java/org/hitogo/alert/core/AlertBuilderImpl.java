@@ -40,11 +40,11 @@ public abstract class AlertBuilderImpl<B extends AlertBuilderBase, A extends Ale
     private final Class<? extends AlertParams> paramClass;
     private final WeakReference<HitogoContainer> containerRef;
 
-    private HitogoController controller;
-
     private final List<VisibilityListener> visibilityListener = new ArrayList<>();
     private final SparseArray<String> textMap = new SparseArray<>();
     private final List<Button> buttons = new ArrayList<>();
+
+    private HitogoController controller;
 
     private Button closeButton;
     private String title;
@@ -82,20 +82,11 @@ public abstract class AlertBuilderImpl<B extends AlertBuilderBase, A extends Ale
         this.alertType = alertType;
     }
 
-    /**
-     * Creates the requested alert using the provided builder values. This method is using java
-     * reflection to determine the class for the alert and it's alert params object.
-     *
-     * @return Requested alert object.
-     * @see Alert
-     * @see AlertParams
-     * @since 1.0.0
-     */
     @Override
     @NonNull
     @SuppressWarnings("unchecked")
     public A build() {
-        HitogoParamsHolder holder = getController().provideAlertParamsHolder(alertType);
+        HitogoParamsHolder holder = controller.provideAlertParamsHolder(alertType);
         onProvideData(holder);
 
         try {
@@ -135,15 +126,6 @@ public abstract class AlertBuilderImpl<B extends AlertBuilderBase, A extends Ale
         holder.provideCustomObject(AlertParamsKeys.CLOSE_BUTTON_KEY, closeButton);
     }
 
-    /**
-     * Binds a different HitogoController object to this alert. This will result in using a
-     * different root-view.
-     *
-     * @param controller New HitogoController object which should replace the current.
-     * @return Builder object which has called this method.
-     * @see HitogoController
-     * @since 1.0.0
-     */
     @Override
     @NonNull
     public B setController(@NonNull HitogoController controller) {
@@ -151,15 +133,6 @@ public abstract class AlertBuilderImpl<B extends AlertBuilderBase, A extends Ale
         return (B) this;
     }
 
-    /**
-     * Adds a bundle object to this alert which can be used inside the alert implementation. This
-     * method makes only sense for custom alert implementation which are certain bundle objects.
-     *
-     * @param arguments Bundle object for the alert
-     * @return Builder object which has called this method.
-     * @see Bundle
-     * @since 1.0.0
-     */
     @Override
     @NonNull
     public B setBundle(@NonNull Bundle arguments) {
@@ -167,66 +140,25 @@ public abstract class AlertBuilderImpl<B extends AlertBuilderBase, A extends Ale
         return (B) this;
     }
 
-    /**
-     * Adds a title to this alert which can be used inside the alert implementation. This method
-     * implementation will use the provideDefaultTitleViewId(Integer) method offered by the
-     * HitogoController. This method will define the default view id for this title.
-     *
-     * @param title Title for the alert.
-     * @return Builder object which has called this method.
-     * @see HitogoController
-     * @since 1.0.0
-     */
     @Override
     @NonNull
     public B setTitle(@NonNull String title) {
-        return setTitle(getController().provideDefaultTitleViewId(alertType), title);
+        return setTitle(controller.provideDefaultTitleViewId(alertType), title);
     }
 
-    /**
-     * Adds a title resource to this alert which can be used inside the alert implementation. This
-     * method implementation will use the provideDefaultTitleViewId(Integer) method offered by the
-     * HitogoController. This method will define the default view id for this title. The string
-     * resource will be translated by the builder using the HitogoUtils.getStringRes(int).
-     *
-     * @param titleRes String resource which is used for the title.
-     * @return Builder object which has called this method.
-     * @see HitogoUtils
-     * @see HitogoController
-     * @since 1.0.0
-     */
     @Override
     @NonNull
     public B setTitle(@StringRes int titleRes) {
-        return setTitle(getController().provideDefaultTitleViewId(alertType),
+        return setTitle(controller.provideDefaultTitleViewId(alertType),
                 HitogoUtils.getStringRes(getContainer().getActivity(), titleRes));
     }
 
-    /**
-     * Adds a title resource and it's related view id to this alert which can be used inside the
-     * alert implementation. The string resource will be translated by the builder using the
-     * HitogoUtils.getStringRes(int).
-     *
-     * @param viewId   View id which is going to use the title (optional).
-     * @param titleRes String resource which is used for the title.
-     * @return Builder object which has called this method.
-     * @see HitogoUtils
-     * @since 1.0.0
-     */
     @Override
     @NonNull
     public B setTitle(@IdRes @Nullable Integer viewId, @StringRes int titleRes) {
         return setTitle(viewId, HitogoUtils.getStringRes(getContainer().getActivity(), titleRes));
     }
 
-    /**
-     * Adds a title to this alert which can be used inside the alert implementation.
-     *
-     * @param viewId View id which is going to use the title (optional).
-     * @param title  Title for the alert.
-     * @return Builder object which has called this method.
-     * @since 1.0.0
-     */
     @Override
     @NonNull
     public B setTitle(@IdRes @Nullable Integer viewId, @NonNull String title) {
@@ -235,75 +167,25 @@ public abstract class AlertBuilderImpl<B extends AlertBuilderBase, A extends Ale
         return (B) this;
     }
 
-    /**
-     * Adds a text element to this alert which can be used inside the alert implementation. This
-     * method implementation will use the provideDefaultTextViewId(Integer) method offered by the
-     * HitogoController. This method will define the default view id for this text element. Alerts
-     * can have more than one text element. If more than one text element is defined, the method
-     * addText(Integer, String) should rather be used to include a view id that can differ between
-     * the text elements.
-     *
-     * @param text Text element for the alert object.
-     * @return Builder object which has called this method.
-     * @see HitogoController
-     * @since 1.0.0
-     */
     @Override
     @NonNull
     public B addText(@NonNull String text) {
-        return addText(getController().provideDefaultTextViewId(alertType), text);
+        return addText(controller.provideDefaultTextViewId(alertType), text);
     }
 
-    /**
-     * Adds a text string resource to this alert which can be used inside the alert implementation.
-     * This method implementation will use the provideDefaultTextViewId(Integer) method offered by
-     * the HitogoController. This method will define the default view id for this text element.
-     * Alerts can have more than one text element. If more than one text element is defined, the
-     * method addText(Integer, int) should rather be used to include a view id that can differ
-     * between the text elements. The string resource will be translated by the builder using the
-     * HitogoUtils.getStringRes(int).
-     *
-     * @param textRes Text element for the alert object.
-     * @return Builder object which has called this method.
-     * @see HitogoController
-     * @see HitogoUtils
-     * @since 1.0.0
-     */
     @Override
     @NonNull
     public B addText(@StringRes int textRes) {
-        return addText(getController().provideDefaultTextViewId(alertType),
+        return addText(controller.provideDefaultTextViewId(alertType),
                 HitogoUtils.getStringRes(getContainer().getActivity(), textRes));
     }
 
-    /**
-     * Adds a text string resource to this alert which can be used inside the alert implementation.
-     * Alerts can have more than one text element. If more than one text element is defined, each
-     * text element will need it's own view (id). The string resource will be translated by the
-     * builder using the HitogoUtils.getStringRes(int).
-     *
-     * @param viewId  View id which is going to use the text element (optional).
-     * @param textRes Text element for the alert object.
-     * @return Builder object which has called this method.
-     * @see HitogoUtils
-     * @since 1.0.0
-     */
     @Override
     @NonNull
     public B addText(@IdRes @Nullable Integer viewId, @StringRes int textRes) {
         return addText(viewId, HitogoUtils.getStringRes(getContainer().getActivity(), textRes));
     }
 
-    /**
-     * Adds a text element to this alert which can be used inside the alert implementation. Alerts
-     * can have more than one text element. If more than one text element is defined, each text
-     * element will need it's own view (id).
-     *
-     * @param viewId View id which is going to use the text element (optional).
-     * @param text   Text element for the alert object.
-     * @return Builder object which has called this method.
-     * @since 1.0.0
-     */
     @Override
     @NonNull
     public B addText(@IdRes @Nullable Integer viewId, @NonNull String text) {
@@ -311,15 +193,6 @@ public abstract class AlertBuilderImpl<B extends AlertBuilderBase, A extends Ale
         return (B) this;
     }
 
-    /**
-     * Adds a tag to this alert, which makes it closable by using the closeByTag from the
-     * HitogoController. This tag is one way to make the alert unique.
-     *
-     * @param tag Tag for the alert object.
-     * @return Builder object which has called this method.
-     * @see HitogoController
-     * @since 1.0.0
-     */
     @Override
     @NonNull
     public B setTag(@NonNull String tag) {
@@ -327,33 +200,13 @@ public abstract class AlertBuilderImpl<B extends AlertBuilderBase, A extends Ale
         return (B) this;
     }
 
-    /**
-     * Sets the state for this alert. The state can define different areas of the alert, like
-     * closeByState or provide(...)Layout using the HitogoController. Usually this method should be
-     * called if the alert can use more than one layout or visual state.
-     *
-     * @param state State for the alert object.
-     * @return Builder object which has called this method.
-     * @see HitogoController
-     * @since 1.0.0
-     */
     @Override
     @NonNull
-    public B setState(@Nullable Integer state) {
+    public B setState(@IntRange(from = 0) int state) {
         this.state = state;
         return (B) this;
     }
 
-    /**
-     * Sets the state for this alert. The state can define different areas of the alert, like
-     * closeByState or provide(...)Layout using the HitogoController. Usually this method should be
-     * called if the alert can use more than one layout or visual state.
-     *
-     * @param state State for the alert object.
-     * @return Builder object which has called this method.
-     * @see HitogoController
-     * @since 1.0.0
-     */
     @Override
     @NonNull
     public B setState(@Nullable Enum state) {
@@ -361,16 +214,6 @@ public abstract class AlertBuilderImpl<B extends AlertBuilderBase, A extends Ale
         return (B) this;
     }
 
-    /**
-     * Adds a VisibilityListener to the alert. The VisibilityListener can be used to keep track
-     * of the different alert states (onCreate, onShow, onClose). Each alerts has the ability to
-     * accept more than one VisibilityListener.
-     *
-     * @param listener VisibilityListener for the alert.
-     * @return Builder object which has called this method.
-     * @see VisibilityListener
-     * @since 1.0.0
-     */
     @Override
     @NonNull
     public B addVisibilityListener(@NonNull VisibilityListener<A> listener) {
@@ -378,15 +221,6 @@ public abstract class AlertBuilderImpl<B extends AlertBuilderBase, A extends Ale
         return (B) this;
     }
 
-    /**
-     * Adds a button to the alert. Buttons are a abstract container for all needed information
-     * that one button could have (title, listener, view id, ...).
-     *
-     * @param buttons One or more button/s for the alert.
-     * @return Builder object which has called this method.
-     * @see Button
-     * @since 1.0.0
-     */
     @Override
     @NonNull
     public B addButton(@NonNull Button... buttons) {
@@ -394,33 +228,12 @@ public abstract class AlertBuilderImpl<B extends AlertBuilderBase, A extends Ale
         return (B) this;
     }
 
-    /**
-     * Sets the close button for the alert. Buttons are a abstract container for all needed
-     * information that one button could have (title, listener, view id, ...). The close button is
-     * a special button which is used to define the visual closing area/icon for the alert.
-     *
-     * @param closeButton The close button for the alert.
-     * @return Builder object which has called this method.
-     * @see Button
-     * @since 1.0.0
-     */
     @NonNull
     protected B setCloseButton(@NonNull Button closeButton) {
         this.closeButton = closeButton;
         return (B) this;
     }
 
-    /**
-     * Sets a custom layout resource id for the alert. Usually this method should only be when
-     * using an unique layout for this certain alert. Otherwise the more general method
-     * provide(...)Layout offered by the HitogoController should be used to define the common cases
-     * using alert states.
-     *
-     * @param layoutRes Layout res id for the alert.
-     * @return Builder object which has called this method.
-     * @see HitogoController
-     * @since 1.0.0
-     */
     @Override
     @NonNull
     public B setLayout(@LayoutRes int layoutRes) {
@@ -428,23 +241,6 @@ public abstract class AlertBuilderImpl<B extends AlertBuilderBase, A extends Ale
         return (B) this;
     }
 
-    /**
-     * Sets the priority for the alert. The lower the priority value, the higher it's importance to
-     * the system. This value is used to determine the "importance" of a certain alert. Alerts with
-     * a lower importance will always be closed if a new higher priority is about to get visible.
-     * The new alert will only be displayed if no other alert with the same or lower priority have
-     * been found. If closing a prioritized alert, you can use showNext() (HitogoController) to
-     * display the next "important" alert.<br>
-     * <br>
-     * <b>IMPORTANT: If no priority is set, the non-priority alert will <u>always</u> be shown even
-     * if the current alert has one (unless it's suppressed in another way, like same same
-     * content).</b>
-     *
-     * @param priority Priority for the alert.
-     * @return Builder object which has called this method.
-     * @see HitogoController
-     * @since 1.0.0
-     */
     @Override
     @NonNull
     public B setPriority(@IntRange(from = 0) int priority) {
@@ -452,9 +248,6 @@ public abstract class AlertBuilderImpl<B extends AlertBuilderBase, A extends Ale
         return (B) this;
     }
 
-    /**
-     * Builds and displays the alert object.
-     */
     @Override
     public void show() {
         build().show();

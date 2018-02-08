@@ -56,7 +56,7 @@ public interface Alert<T extends AlertParams> {
     /**
      * Returns the alert hashcode.
      *
-     * @return Hashcode for this alert.
+     * @return an Int
      * @since 1.0.0
      */
     int hashCode();
@@ -64,7 +64,7 @@ public interface Alert<T extends AlertParams> {
     /**
      * Returns the alert custom state.
      *
-     * @return State for this alert.
+     * @return a positive Int or -1 if non is set
      * @since 1.0.0
      */
     int getState();
@@ -72,16 +72,16 @@ public interface Alert<T extends AlertParams> {
     /**
      * Compares this alert to the given alert.
      *
-     * @return True if this alert and the given are equal.
+     * @return True if the two compared alerts are equals, false otherwise
      * @since 1.0.0
      */
     boolean equals(final Object obj);
 
     /**
      * Returns the alert type. The types are based on the enum AlertType which includes VIEW,
-     * DIALOG and POPUP.
+     * DIALOG, POPUP and OTHER.
      *
-     * @return Type for this alert.
+     * @return Type for this alert
      * @see AlertType
      * @since 1.0.0
      */
@@ -90,7 +90,7 @@ public interface Alert<T extends AlertParams> {
     /**
      * Returns the alert params object. The params object is storing all values for the alert.
      *
-     * @return Params object for this alert.
+     * @return an object which is extending AlertParams
      * @since 1.0.0
      */
     T getParams();
@@ -115,6 +115,7 @@ public interface Alert<T extends AlertParams> {
     /**
      * Return the animation duration length for the show-/hide-process.
      *
+     * @return a long
      * @since 1.0.0
      */
     long getAnimationDuration();
@@ -122,7 +123,7 @@ public interface Alert<T extends AlertParams> {
     /**
      * Returns the current priority.
      *
-     * @return Priority for the alert. If not priority is set, null will be returned.
+     * @return an Integer object or null
      * @since 1.0.0
      */
     Integer getPriority();
@@ -130,7 +131,7 @@ public interface Alert<T extends AlertParams> {
     /**
      * Returns the alert tag.
      *
-     * @return Tag for this alert.
+     * @return a String or null
      * @since 1.0.0
      */
     String getTag();
@@ -138,7 +139,7 @@ public interface Alert<T extends AlertParams> {
     /**
      * Returns the alert context.
      *
-     * @return Context for this alert.
+     * @return a Context
      * @since 1.0.0
      */
     Context getContext();

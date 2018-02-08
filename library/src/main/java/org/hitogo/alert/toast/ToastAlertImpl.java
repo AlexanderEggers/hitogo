@@ -34,7 +34,7 @@ public class ToastAlertImpl extends AlertImpl<ToastAlertParams> implements Toast
     }
 
     @Override
-    protected Object onCreateOther(@NonNull LayoutInflater inflater, @NonNull Context context, @NonNull ToastAlertParams params) {
+    protected Object onCreateOther(LayoutInflater inflater, @NonNull Context context, @NonNull ToastAlertParams params) {
         Toast toast;
         View view = null;
 

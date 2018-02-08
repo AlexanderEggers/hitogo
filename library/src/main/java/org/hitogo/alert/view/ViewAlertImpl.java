@@ -95,7 +95,7 @@ public class ViewAlertImpl extends AlertImpl<ViewAlertParams> implements ViewAle
     }
 
     @Override
-    protected View onCreateView(@NonNull LayoutInflater inflater, @NonNull Context context,
+    protected View onCreateView(LayoutInflater inflater, @NonNull Context context,
                                 @NonNull ViewAlertParams params) {
 
         View view = null;

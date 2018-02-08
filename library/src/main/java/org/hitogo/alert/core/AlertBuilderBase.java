@@ -3,7 +3,6 @@ package org.hitogo.alert.core;
 import android.os.Bundle;
 import android.support.annotation.IntRange;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
 
 import org.hitogo.core.HitogoController;
@@ -104,7 +103,7 @@ public interface AlertBuilderBase<B extends AlertBuilderBase, A extends Alert> {
      * @since 1.0.0
      */
     @NonNull
-    B setState(@Nullable Integer state);
+    B setState(@IntRange(from = 0) int state);
 
     /**
      * Sets the state for this alert. The state can define different areas of the alert, like
@@ -141,8 +140,7 @@ public interface AlertBuilderBase<B extends AlertBuilderBase, A extends Alert> {
      * display the next "important" alert.<br>
      * <br>
      * <b>IMPORTANT: If no priority is set, the non-priority alert will <u>always</u> be shown even
-     * if the current alert has one (unless it's suppressed in another way, like same same
-     * content).</b>
+     * if the current alert has one (unless it's suppressed in another way, like same content).</b>
      *
      * @param priority Priority for the alert.
      * @return Builder object which has called this method.

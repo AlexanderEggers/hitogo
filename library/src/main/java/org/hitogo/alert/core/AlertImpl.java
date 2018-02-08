@@ -104,6 +104,11 @@ public abstract class AlertImpl<T extends AlertParams> extends AlertLifecycle<T>
         return this;
     }
 
+    /**
+     * Displays this alert object on the user screen if the alert is not visible yet.
+     *
+     * @since 1.0.0
+     */
     @Override
     public void show() {
         show(false);
@@ -245,6 +250,11 @@ public abstract class AlertImpl<T extends AlertParams> extends AlertLifecycle<T>
         }
     }
 
+    /**
+     * Closes this alert object on the user screen if it's still visible.
+     *
+     * @since 1.0.0
+     */
     @Override
     public void close() {
         getController().closeByAlert(this);
@@ -260,26 +270,60 @@ public abstract class AlertImpl<T extends AlertParams> extends AlertLifecycle<T>
         getController().closeByAlert(this, force);
     }
 
+    /**
+     * Return the animation duration length for the show-/hide-process.
+     *
+     * @return a long
+     * @since 1.0.0
+     */
     @Override
     public long getAnimationDuration() {
         return NO_ANIMATION_LENGTH;
     }
 
+    /**
+     * Determines if the alert is detached (invisible) from the user screen.
+     *
+     * @return True if the alert is detached, otherwise false.
+     * @since 1.0.0
+     */
     @Override
     public boolean isDetached() {
         return detached;
     }
 
+    /**
+     * Determines if the alert is attached (visible) at the user screen.
+     *
+     * @return True if the alert is attached, otherwise false.
+     * @since 1.0.0
+     */
     @Override
     public boolean isAttached() {
         return attached;
     }
 
+    /**
+     * Determines the moment when the alert is being detached from the user screen. That means that
+     * isAttached equals false and isDetached is still false. This caused by the animation that is
+     * execute between showing and hiding.
+     *
+     * @return True if the alert is in the process of being closed, otherwise false.
+     * @since 1.0.0
+     */
     @Override
     public boolean isClosing() {
         return !attached && !detached;
     }
 
+    /**
+     * Returns if the alert can execute animations. This is determined by the HitogoAnimation object
+     * if it is attached to the alert.
+     *
+     * @return True if the alert can execute animations, false otherwise.
+     * @see org.hitogo.core.HitogoAnimation
+     * @since 1.0.0
+     */
     public boolean hasAnimation() {
         return hasAnimation && getAnimationDuration() > NO_ANIMATION_LENGTH;
     }
@@ -295,39 +339,91 @@ public abstract class AlertImpl<T extends AlertParams> extends AlertLifecycle<T>
         return closeOthers;
     }
 
+    /**
+     * Returns the alert context.
+     *
+     * @return a Context
+     * @since 1.0.0
+     */
     @Override
     public Context getContext() {
         return containerRef.get().getActivity();
     }
 
+    /**
+     * Returns the used HitogoContainer object for the alert.
+     *
+     * @return HitogoContainer of the alert.
+     * @see HitogoContainer
+     * @since 1.0.0
+     */
     public HitogoContainer getContainer() {
         return containerRef.get();
     }
 
+    /**
+     * Returns the used HitogoController object for the alert.
+     *
+     * @return HitogoController of the alert.
+     * @see HitogoController
+     * @since 1.0.0
+     */
     public HitogoController getController() {
         return containerRef.get().getController();
     }
 
+    /**
+     * Returns the alert type. The types are based on the enum AlertType which includes VIEW,
+     * DIALOG, POPUP and OTHER.
+     *
+     * @return Type for this alert
+     * @see AlertType
+     * @since 1.0.0
+     */
     @Override
     public AlertType getType() {
         return type;
     }
 
+    /**
+     * Returns the alert params object. The params object is storing all values for the alert.
+     *
+     * @return an object which is extending AlertParams
+     * @since 1.0.0
+     */
     @Override
     public T getParams() {
         return params;
     }
 
+    /**
+     * Determines if the alert has a priority or not.
+     *
+     * @return True if the alert has a priority, false otherwise.
+     * @since 1.0.0
+     */
     @Override
     public boolean hasPriority() {
         return getPriority() != null;
     }
 
+    /**
+     * Returns the current priority.
+     *
+     * @return an Integer object or null
+     * @since 1.0.0
+     */
     @Override
     public Integer getPriority() {
         return params.getPriority();
     }
 
+    /**
+     * Returns the alert tag.
+     *
+     * @return a String or null
+     * @since 1.0.0
+     */
     @Override
     public String getTag() {
         return tag;
@@ -354,6 +450,13 @@ public abstract class AlertImpl<T extends AlertParams> extends AlertLifecycle<T>
         return containerRef.get().getActivityView();
     }
 
+    /**
+     * Determines if the alert has been execute by a HitogoContainer that is an instance of
+     * Activity.
+     *
+     * @return a boolean
+     * @since 1.0.0
+     */
     @Override
     public boolean isExecutedByActivity() {
         return getContainer() instanceof Activity;
@@ -411,11 +514,23 @@ public abstract class AlertImpl<T extends AlertParams> extends AlertLifecycle<T>
         return hashCode;
     }
 
+    /**
+     * Returns the alert custom state.
+     *
+     * @return a positive Int or -1 if non is set
+     * @since 1.0.0
+     */
     @Override
     public int getState() {
         return state;
     }
 
+    /**
+     * Compares this alert to the given alert.
+     *
+     * @return True if the two compared alerts are equals, false otherwise
+     * @since 1.0.0
+     */
     @Override
     public boolean equals(final Object obj) {
         return obj != null && obj instanceof Alert && hashCode() == obj.hashCode();

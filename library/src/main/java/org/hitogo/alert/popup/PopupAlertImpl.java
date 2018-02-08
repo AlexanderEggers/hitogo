@@ -56,7 +56,7 @@ public class PopupAlertImpl extends AlertImpl<PopupAlertParams> implements Popup
 
     @Nullable
     @Override
-    protected PopupWindow onCreatePopup(@NonNull LayoutInflater inflater, @NonNull Context context,
+    protected PopupWindow onCreatePopup(LayoutInflater inflater, @NonNull Context context,
                                         @NonNull PopupAlertParams params) {
         View view = null;
         if (params.getLayoutRes() != null && params.getLayoutRes() != 0) {

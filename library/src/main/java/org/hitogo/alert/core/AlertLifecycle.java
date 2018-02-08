@@ -72,9 +72,9 @@ public abstract class AlertLifecycle<T extends AlertParams> {
     }
 
     /**
-     * This method is executed after the onCreate and if the underlying alert is based on a view
-     * (not to confuse with a popup- or dialog-view). At the end of this method the view for this
-     * alert should be fully initialised.
+     * This method is executed after the onCreate and if the underlying alert is based on the
+     * alert type VIEW. At the end of this method the view for this alert should be fully
+     * initialised.
      *
      * @param params   an object which is extending AlertParams
      * @param inflater a LayoutInflater object
@@ -86,14 +86,15 @@ public abstract class AlertLifecycle<T extends AlertParams> {
      * @since 1.0.0
      */
     @Nullable
-    protected View onCreateView(@NonNull LayoutInflater inflater, @NonNull Context context,
+    protected View onCreateView(LayoutInflater inflater, @NonNull Context context,
                                 @NonNull T params) {
         return null;
     }
 
     /**
-     * This method is executed after the onCreate and if the underlying alert is based on a dialog.
-     * At the end of this method the dialog object for this alert should be fully initialised.
+     * This method is executed after the onCreate and if the underlying alert is based on the
+     * alert type DIALOG. At the end of this method the dialog object for this alert should be fully
+     * initialised.
      *
      * @param params   an object which is extending AlertParams
      * @param inflater a LayoutInflater object
@@ -105,14 +106,15 @@ public abstract class AlertLifecycle<T extends AlertParams> {
      * @since 1.0.0
      */
     @Nullable
-    protected Dialog onCreateDialog(@NonNull LayoutInflater inflater, @NonNull Context context,
+    protected Dialog onCreateDialog(LayoutInflater inflater, @NonNull Context context,
                                     @NonNull T params) {
         return null;
     }
 
     /**
-     * This method is executed after the onCreate and if the underlying alert is based on a popup.
-     * At the end of this method the popup object for this alert should be fully initialised.
+     * This method is executed after the onCreate and if the underlying alert is based on the
+     * alert type POPUP. At the end of this method the popup object for this alert should be
+     * fully initialised.
      *
      * @param params   an object which is extending AlertParams
      * @param inflater a LayoutInflater object
@@ -124,14 +126,14 @@ public abstract class AlertLifecycle<T extends AlertParams> {
      * @since 1.0.0
      */
     @Nullable
-    protected PopupWindow onCreatePopup(@NonNull LayoutInflater inflater, @NonNull Context context,
+    protected PopupWindow onCreatePopup(LayoutInflater inflater, @NonNull Context context,
                                         @NonNull T params) {
         return null;
     }
 
     /**
      * This method is executed after the onCreate and if the underlying alert is from AlertType
-     * other.
+     * OTHER.
      *
      * @param params   an object which is extending AlertParams
      * @param inflater a LayoutInflater object
@@ -142,7 +144,7 @@ public abstract class AlertLifecycle<T extends AlertParams> {
      * @see LayoutInflater
      * @since 1.0.0
      */
-    protected Object onCreateOther(@NonNull LayoutInflater inflater, @NonNull Context context,
+    protected Object onCreateOther(LayoutInflater inflater, @NonNull Context context,
                                         @NonNull T params) {
         return null;
     }

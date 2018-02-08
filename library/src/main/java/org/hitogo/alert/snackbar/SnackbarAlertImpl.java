@@ -31,7 +31,7 @@ public class SnackbarAlertImpl extends AlertImpl<SnackbarAlertParams> implements
     }
 
     @Override
-    protected Object onCreateOther(@NonNull LayoutInflater inflater, @NonNull Context context, @NonNull SnackbarAlertParams params) {
+    protected Object onCreateOther(LayoutInflater inflater, @NonNull Context context, @NonNull SnackbarAlertParams params) {
         Snackbar snackbar = Snackbar.make(getRootView(),
                 params.getTextMap().valueAt(0),
                 params.getDuration());
