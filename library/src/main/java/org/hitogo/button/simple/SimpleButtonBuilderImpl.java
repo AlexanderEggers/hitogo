@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 import org.hitogo.button.core.ButtonBuilderImpl;
 import org.hitogo.button.core.ButtonImpl;
 import org.hitogo.button.core.ButtonParams;
+import org.hitogo.button.core.ButtonType;
 import org.hitogo.core.HitogoContainer;
 
 public class SimpleButtonBuilderImpl extends ButtonBuilderImpl<SimpleButtonBuilder, SimpleButton> implements SimpleButtonBuilder {
@@ -12,6 +13,6 @@ public class SimpleButtonBuilderImpl extends ButtonBuilderImpl<SimpleButtonBuild
     public SimpleButtonBuilderImpl(@NonNull Class<? extends ButtonImpl> targetClass,
                                    @NonNull Class<? extends ButtonParams> paramClass,
                                    @NonNull HitogoContainer container) {
-        super(targetClass, paramClass, container);
+        super(targetClass, paramClass, container, ButtonType.SIMPLE);
     }
 }

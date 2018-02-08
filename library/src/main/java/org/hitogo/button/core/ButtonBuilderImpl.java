@@ -19,6 +19,7 @@ public abstract class ButtonBuilderImpl<C extends ButtonBuilder, B extends Butto
     private final Class<? extends ButtonImpl> targetClass;
     private final Class<? extends ButtonParams> paramClass;
     private final WeakReference<HitogoContainer> containerRef;
+    private final ButtonType buttonType;
 
     private String text;
     private boolean closeAfterClick = true;
@@ -27,10 +28,12 @@ public abstract class ButtonBuilderImpl<C extends ButtonBuilder, B extends Butto
 
     public ButtonBuilderImpl(@NonNull Class<? extends ButtonImpl> targetClass,
                              @NonNull Class<? extends ButtonParams> paramClass,
-                             @NonNull HitogoContainer container) {
+                             @NonNull HitogoContainer container,
+                             @NonNull ButtonType buttonType) {
         this.targetClass = targetClass;
         this.paramClass = paramClass;
         this.containerRef = new WeakReference<>(container);
+        this.buttonType = buttonType;
     }
 
     @Override
@@ -78,7 +81,7 @@ public abstract class ButtonBuilderImpl<C extends ButtonBuilder, B extends Butto
     @NonNull
     @SuppressWarnings("unchecked")
     public B build() {
-        HitogoParamsHolder holder = getController().provideButtonParamsHolder();
+        HitogoParamsHolder holder = getController().provideButtonParamsHolder(buttonType);
         onProvideData(holder);
 
         try {
@@ -96,6 +99,7 @@ public abstract class ButtonBuilderImpl<C extends ButtonBuilder, B extends Butto
     protected void onProvideData(HitogoParamsHolder holder) {
         holder.provideString(ButtonParamsKeys.TEXT_KEY, text);
         holder.provideBoolean(ButtonParamsKeys.CLOSE_AFTER_CLICK_KEY, closeAfterClick);
+        holder.provideSerializable(ButtonParamsKeys.BUTTON_TYPE_KEY, buttonType);
 
         holder.provideCustomObject(ButtonParamsKeys.BUTTON_LISTENER_KEY, listener);
         holder.provideCustomObject(ButtonParamsKeys.BUTTON_PARAMETER_KEY, buttonParameter);

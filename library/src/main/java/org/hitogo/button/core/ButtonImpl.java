@@ -12,10 +12,12 @@ public abstract class ButtonImpl<T extends ButtonParams> extends ButtonLifecycle
 
     private WeakReference<HitogoContainer> containerRef;
     private T params;
+    private ButtonType buttonType;
 
     ButtonImpl<T> create(@NonNull HitogoContainer container, @NonNull T params) {
         this.containerRef = new WeakReference<>(container);
         this.params = params;
+        this.buttonType = params.getButtonType();
 
         if(getController().provideIsDebugState()) {
             onCheck(params);
@@ -35,8 +37,15 @@ public abstract class ButtonImpl<T extends ButtonParams> extends ButtonLifecycle
         return containerRef.get().getController();
     }
 
+    @Override
     @NonNull
     public T getParams() {
         return params;
+    }
+
+    @Override
+    @NonNull
+    public ButtonType getButtonType() {
+        return buttonType;
     }
 }

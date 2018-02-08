@@ -7,6 +7,7 @@ import android.support.annotation.Nullable;
 import org.hitogo.button.core.ButtonBuilderImpl;
 import org.hitogo.button.core.ButtonImpl;
 import org.hitogo.button.core.ButtonParams;
+import org.hitogo.button.core.ButtonType;
 import org.hitogo.core.HitogoContainer;
 import org.hitogo.core.HitogoParamsHolder;
 
@@ -19,7 +20,7 @@ public class ActionButtonBuilderImpl extends ButtonBuilderImpl<ActionButtonBuild
     public ActionButtonBuilderImpl(@NonNull Class<? extends ButtonImpl> targetClass,
                                    @NonNull Class<? extends ButtonParams> paramClass,
                                    @NonNull HitogoContainer container) {
-        super(targetClass, paramClass, container);
+        super(targetClass, paramClass, container, ButtonType.ACTION);
     }
 
     @Override

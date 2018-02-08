@@ -33,6 +33,7 @@ import org.hitogo.alert.dialog.DialogAlertParams;
 import org.hitogo.alert.view.ViewAlertBuilderImpl;
 import org.hitogo.alert.view.ViewAlertParams;
 import org.hitogo.button.core.ButtonParams;
+import org.hitogo.button.core.ButtonType;
 import org.hitogo.button.simple.SimpleButtonImpl;
 import org.hitogo.button.simple.SimpleButtonParams;
 
@@ -441,12 +442,12 @@ public abstract class HitogoController implements LifecycleObserver {
     }
 
     @NonNull
-    public HitogoParamsHolder provideAlertParamsHolder() {
+    public HitogoParamsHolder provideAlertParamsHolder(AlertType alertType) {
         return new HitogoParamsHolder();
     }
 
     @NonNull
-    public HitogoParamsHolder provideButtonParamsHolder() {
+    public HitogoParamsHolder provideButtonParamsHolder(ButtonType buttonType) {
         return new HitogoParamsHolder();
     }
 

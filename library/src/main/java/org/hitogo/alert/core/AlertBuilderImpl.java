@@ -53,7 +53,7 @@ public abstract class AlertBuilderImpl<B extends AlertBuilderBase, A extends Ale
     private Bundle arguments;
     private Integer state;
     private String tag;
-    private AlertType builderType;
+    private AlertType alertType;
     private Integer layoutRes;
     private Integer priority;
 
@@ -64,7 +64,7 @@ public abstract class AlertBuilderImpl<B extends AlertBuilderBase, A extends Ale
      * @param paramClass  Class object for the params object which is used by the alert.
      * @param container   Container which is used as a reference for this alert (context, view,
      *                    controller).
-     * @param builderType AlertType which is needed for the build and visibility process of this
+     * @param alertType   AlertType which is needed for the build and visibility process of this
      *                    alert.
      * @see HitogoContainer
      * @see HitogoController
@@ -74,12 +74,12 @@ public abstract class AlertBuilderImpl<B extends AlertBuilderBase, A extends Ale
     public AlertBuilderImpl(@NonNull Class<? extends AlertImpl> targetClass,
                             @NonNull Class<? extends AlertParams> paramClass,
                             @NonNull HitogoContainer container,
-                            @NonNull AlertType builderType) {
+                            @NonNull AlertType alertType) {
         this.targetClass = targetClass;
         this.paramClass = paramClass;
         this.containerRef = new WeakReference<>(container);
         this.controller = container.getController();
-        this.builderType = builderType;
+        this.alertType = alertType;
     }
 
     /**
@@ -95,7 +95,7 @@ public abstract class AlertBuilderImpl<B extends AlertBuilderBase, A extends Ale
     @NonNull
     @SuppressWarnings("unchecked")
     public A build() {
-        HitogoParamsHolder holder = getController().provideAlertParamsHolder();
+        HitogoParamsHolder holder = getController().provideAlertParamsHolder(alertType);
         onProvideData(holder);
 
         try {
@@ -124,7 +124,7 @@ public abstract class AlertBuilderImpl<B extends AlertBuilderBase, A extends Ale
         holder.provideString(AlertParamsKeys.TAG_KEY, tag);
         holder.provideBundle(AlertParamsKeys.ARGUMENTS_KEY, arguments);
         holder.provideSerializable(AlertParamsKeys.TITLE_VIEW_ID_KEY, titleViewId);
-        holder.provideSerializable(AlertParamsKeys.TYPE_KEY, builderType);
+        holder.provideSerializable(AlertParamsKeys.TYPE_KEY, alertType);
         holder.provideSerializable(AlertParamsKeys.STATE_KEY, state);
         holder.provideSerializable(AlertParamsKeys.LAYOUT_RES_KEY, layoutRes);
         holder.provideSerializable(AlertParamsKeys.PRIORITY_KEY, priority);
@@ -180,7 +180,7 @@ public abstract class AlertBuilderImpl<B extends AlertBuilderBase, A extends Ale
     @Override
     @NonNull
     public B setTitle(@NonNull String title) {
-        return setTitle(getController().provideDefaultTitleViewId(builderType), title);
+        return setTitle(getController().provideDefaultTitleViewId(alertType), title);
     }
 
     /**
@@ -198,7 +198,7 @@ public abstract class AlertBuilderImpl<B extends AlertBuilderBase, A extends Ale
     @Override
     @NonNull
     public B setTitle(@StringRes int titleRes) {
-        return setTitle(getController().provideDefaultTitleViewId(builderType),
+        return setTitle(getController().provideDefaultTitleViewId(alertType),
                 HitogoUtils.getStringRes(getContainer().getActivity(), titleRes));
     }
 
@@ -251,7 +251,7 @@ public abstract class AlertBuilderImpl<B extends AlertBuilderBase, A extends Ale
     @Override
     @NonNull
     public B addText(@NonNull String text) {
-        return addText(getController().provideDefaultTextViewId(builderType), text);
+        return addText(getController().provideDefaultTextViewId(alertType), text);
     }
 
     /**
@@ -272,7 +272,7 @@ public abstract class AlertBuilderImpl<B extends AlertBuilderBase, A extends Ale
     @Override
     @NonNull
     public B addText(@StringRes int textRes) {
-        return addText(getController().provideDefaultTextViewId(builderType),
+        return addText(getController().provideDefaultTextViewId(alertType),
                 HitogoUtils.getStringRes(getContainer().getActivity(), textRes));
     }
 
