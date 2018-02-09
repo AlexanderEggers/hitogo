@@ -80,12 +80,9 @@ public abstract class HitogoController implements LifecycleObserver {
                                                final boolean force, final long wait) {
         HitogoPrioritySubClass priorityObject = getCurrentHighestPriority(currentAlerts);
         for (AlertImpl alert : currentAlerts) {
-            if (alert.hasPriority() && !isAlertAttached(alert)) {
-                if (priorityObject.isAlertVisibilityAllowed(alert.hashCode())) {
-                    makeAlertVisible(alert, force, wait);
-                    break;
-                }
-            } else if (!isAlertAttached(alert)) {
+            if (!isAlertAttached(alert)
+                    && (!alert.hasPriority()
+                    || priorityObject.isAlertVisibilityAllowed(alert.hashCode()))) {
                 makeAlertVisible(alert, force, wait);
                 break;
             }
@@ -350,10 +347,10 @@ public abstract class HitogoController implements LifecycleObserver {
     protected void internalMakeActiveAlertInvisible(AlertImpl toBeClosedAlert, final boolean force) {
         Iterator<AlertImpl> iterator = currentActiveAlerts.iterator();
 
-        while (iterator.hasNext()){
+        while (iterator.hasNext()) {
             AlertImpl alert = iterator.next();
 
-            if(toBeClosedAlert.equals(alert)) {
+            if (toBeClosedAlert.equals(alert)) {
                 alert.makeInvisible(force);
                 iterator.remove();
                 break;

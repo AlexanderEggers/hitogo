@@ -24,8 +24,8 @@ public class MainActivity extends HitogoActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         //sourceTest();
-        showFirstView();
-        //showPrioAlerts();
+        //showFirstView();
+        showPrioAlerts();
 
         //testToast();
         //testSnackbar();
