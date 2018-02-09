@@ -45,9 +45,6 @@ public interface ViewAlertBuilder extends AlertBuilder<ViewAlertBuilder, ViewAle
     ViewAlertBuilder asOverlay(@IdRes @Nullable Integer overlayId);
 
     @NonNull
-    ViewAlertBuilder asSimpleView(@NonNull String text);
-
-    @NonNull
     ViewAlertBuilder asLayoutChild();
 
     @NonNull

@@ -34,12 +34,6 @@ public interface PopupAlertBuilder extends AlertBuilder<PopupAlertBuilder, Popup
     public PopupAlertBuilder setAnchor(String anchorViewTag);
 
     @NonNull
-    public PopupAlertBuilder asSimplePopup(@IdRes int anchorViewId, String text);
-
-    @NonNull
-    public PopupAlertBuilder asSimplePopup(String anchorViewTag, String text);
-
-    @NonNull
     public PopupAlertBuilder setOffset(int xoff, int yoff);
 
     @NonNull

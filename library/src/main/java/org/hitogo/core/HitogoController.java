@@ -525,9 +525,9 @@ public abstract class HitogoController implements LifecycleObserver {
         return null;
     }
 
-    @Nullable
+    @NonNull
     public DialogAlertBuilder provideSimpleDialog(@NonNull DialogAlertBuilderImpl builder) {
-        return null;
+        return builder.asDismissible(true);
     }
 
     @Nullable

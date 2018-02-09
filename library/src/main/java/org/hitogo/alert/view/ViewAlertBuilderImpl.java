@@ -130,20 +130,6 @@ public class ViewAlertBuilderImpl extends AlertBuilderImpl<ViewAlertBuilder, Vie
 
     @Override
     @NonNull
-    public ViewAlertBuilder asSimpleView(@NonNull String text) {
-        ViewAlertBuilder customBuilder = getController().provideSimpleView(this);
-        if (customBuilder != null) {
-            return customBuilder;
-        } else {
-            return asLayoutChild()
-                    .addText(text)
-                    .asDismissible(true)
-                    .setState(getController().provideDefaultState(AlertType.VIEW));
-        }
-    }
-
-    @Override
-    @NonNull
     public ViewAlertBuilder asLayoutChild() {
         return asLayoutChild(getController().provideDefaultLayoutContainerId());
     }

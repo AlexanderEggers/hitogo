@@ -90,33 +90,6 @@ public class PopupAlertBuilderImpl extends AlertBuilderImpl<PopupAlertBuilder, P
 
     @Override
     @NonNull
-    public PopupAlertBuilder asSimplePopup(@IdRes int anchorViewId, String text) {
-        setAnchor(anchorViewId);
-        return setInternalAsSimplePopup(text);
-    }
-
-    @Override
-    @NonNull
-    public PopupAlertBuilder asSimplePopup(String anchorViewTag, String text) {
-        setAnchor(anchorViewTag);
-        return setInternalAsSimplePopup(text);
-    }
-
-    @NonNull
-    private PopupAlertBuilder setInternalAsSimplePopup(String text) {
-        addText(text);
-
-        PopupAlertBuilder customBuilder = getController().provideSimplePopup(this);
-        if (customBuilder != null) {
-            return customBuilder;
-        } else {
-            return asDismissible(false)
-                    .setState(getController().provideDefaultState(AlertType.POPUP));
-        }
-    }
-
-    @Override
-    @NonNull
     public PopupAlertBuilder setOffset(int xoff, int yoff) {
         this.xoff = xoff;
         this.yoff = yoff;

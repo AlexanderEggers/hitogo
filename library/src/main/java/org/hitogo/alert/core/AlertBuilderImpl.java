@@ -34,7 +34,7 @@ import java.util.List;
  * @since 1.0.0
  */
 @SuppressWarnings({"unchecked"})
-public abstract class AlertBuilderImpl<B extends AlertBuilderBase, A extends Alert> implements AlertBuilder<B, A> {
+public abstract class AlertBuilderImpl<B, A extends Alert> implements AlertBuilder<B, A> {
 
     private final Class<? extends AlertImpl> targetClass;
     private final Class<? extends AlertParams> paramClass;

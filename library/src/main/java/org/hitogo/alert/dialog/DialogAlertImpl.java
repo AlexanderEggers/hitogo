@@ -35,7 +35,7 @@ public class DialogAlertImpl extends AlertImpl<DialogAlertParams> implements Dia
         super.onCheck(params);
 
         if (params.getTextMap().size() == 0) {
-            throw new InvalidParameterException("You need to add a text to this dialog.");
+            throw new InvalidParameterException("You need to add one text element to this dialog.");
         }
 
         if (params.getButtons().isEmpty()) {
@@ -43,8 +43,8 @@ public class DialogAlertImpl extends AlertImpl<DialogAlertParams> implements Dia
         }
 
         if (params.getState() == null && params.getLayoutRes() == null) {
-            Log.i(ViewAlertBuilderImpl.class.getName(), "State and custom layout is null. This " +
-                    "dialog will use the default implementation instead.");
+            Log.i(ViewAlertBuilderImpl.class.getName(), "State and custom layout is null. " +
+                    "This dialog will use the default implementation instead.");
         }
     }
 
@@ -221,7 +221,7 @@ public class DialogAlertImpl extends AlertImpl<DialogAlertParams> implements Dia
             }
             dialogButtonCount++;
 
-            if (dialogButtonCount >= MAX_BUILDER_BUTTON_AMOUNT && getController().provideIsDebugState()) {
+            if (getController().provideIsDebugState() && dialogButtonCount >= MAX_BUILDER_BUTTON_AMOUNT) {
                 throw new InvalidParameterException("Dialog only supports up to three different " +
                         "builder buttons (primary, secondary and neutral)!");
             }

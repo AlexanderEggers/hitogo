@@ -12,8 +12,8 @@ import org.hitogo.core.HitogoContainer;
 import org.hitogo.alert.core.AlertImpl;
 import org.hitogo.alert.core.AlertParams;
 import org.hitogo.alert.core.AlertType;
+import org.hitogo.core.HitogoController;
 import org.hitogo.core.HitogoParamsHolder;
-import org.hitogo.core.HitogoUtils;
 
 @SuppressWarnings({"WeakerAccess", "unused"})
 public class DialogAlertBuilderImpl extends AlertBuilderImpl<DialogAlertBuilder, DialogAlert> implements DialogAlertBuilder {
@@ -21,6 +21,18 @@ public class DialogAlertBuilderImpl extends AlertBuilderImpl<DialogAlertBuilder,
     private Integer dialogThemeResId;
     private boolean isDismissible;
 
+    /**
+     * Default constructor for the DialogAlertBuilderImpl.
+     *
+     * @param targetClass Class object for the requested alert.
+     * @param paramClass  Class object for the params object which is used by the alert.
+     * @param container   Container which is used as a reference for this alert (context, view,
+     *                    controller).
+     * @see HitogoContainer
+     * @see HitogoController
+     * @see AlertType
+     * @since 1.0.0
+     */
     public DialogAlertBuilderImpl(@NonNull Class<? extends AlertImpl> targetClass,
                                   @NonNull Class<? extends AlertParams> paramClass,
                                   @NonNull HitogoContainer container) {
@@ -49,26 +61,6 @@ public class DialogAlertBuilderImpl extends AlertBuilderImpl<DialogAlertBuilder,
             return super.setCloseButton(closeButton);
         }
         return this;
-    }
-
-    @Override
-    @NonNull
-    public DialogAlertBuilder asSimpleDialog(@NonNull String title, @StringRes int textRes) {
-        return asSimpleDialog(title, HitogoUtils.getStringRes(getContainer().getActivity(), textRes));
-    }
-
-    @Override
-    @NonNull
-    public DialogAlertBuilder asSimpleDialog(@NonNull String title, @NonNull String text) {
-        super.setTitle(title);
-        super.addText(text);
-
-        DialogAlertBuilder customBuilder = getController().provideSimpleDialog(this);
-        if (customBuilder != null) {
-            return customBuilder;
-        } else {
-            return asDismissible(true);
-        }
     }
 
     @Override
