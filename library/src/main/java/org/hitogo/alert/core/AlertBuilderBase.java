@@ -6,7 +6,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.StringRes;
 
 import org.hitogo.core.HitogoController;
-import org.hitogo.core.HitogoUtils;
+import org.hitogo.core.HitogoHelper;
 
 /**
  * Public api interface for the AlertBaseBuilder. This interface includes all methods that
@@ -78,12 +78,12 @@ public interface AlertBuilderBase<B, A extends Alert> {
      * Alerts can have more than one text element. If more than one text element is defined, the
      * method addText(Integer, int) should rather be used to include a view id that can differ
      * between the text elements. The string resource will be translated by the builder using the
-     * HitogoUtils.getStringRes(int).
+     * HitogoHelper.getText(int).
      *
      * @param textRes Text element for the alert object.
      * @return Builder object which has called this method.
      * @see HitogoController
-     * @see HitogoUtils
+     * @see HitogoHelper
      * @since 1.0.0
      */
     @NonNull

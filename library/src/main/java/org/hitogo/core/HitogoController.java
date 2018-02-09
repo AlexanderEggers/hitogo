@@ -36,7 +36,7 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
-@SuppressWarnings({"WeakerAccess", "unused"})
+@SuppressWarnings({"WeakerAccess", "unused", "unchecked"})
 public abstract class HitogoController implements LifecycleObserver {
 
     private final Object syncLock = new Object();
@@ -436,13 +436,13 @@ public abstract class HitogoController implements LifecycleObserver {
     }
 
     @NonNull
-    public HitogoParamsHolder provideAlertParamsHolder(AlertType alertType) {
-        return new HitogoParamsHolder();
+    public <T extends HitogoParamsHolder> T provideAlertParamsHolder(AlertType alertType) {
+        return (T) new HitogoParamsHolder();
     }
 
     @NonNull
-    public HitogoParamsHolder provideButtonParamsHolder(ButtonType buttonType) {
-        return new HitogoParamsHolder();
+    public <T extends HitogoParamsHolder> T provideButtonParamsHolder(ButtonType buttonType) {
+        return (T) new HitogoParamsHolder();
     }
 
     @LayoutRes
@@ -505,13 +505,18 @@ public abstract class HitogoController implements LifecycleObserver {
     }
 
     @Nullable
-    public HitogoAnimation provideDefaultAnimation() {
+    public <T extends HitogoAnimation> T provideDefaultAnimation() {
         return null;
     }
 
     @Nullable
     public Integer provideDefaultLayoutViewId() {
         return null;
+    }
+
+    @NonNull
+    public <T extends HitogoHelper> T provideHelper() {
+        return (T) new HitogoHelper();
     }
 
     public abstract boolean provideIsDebugState();

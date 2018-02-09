@@ -16,7 +16,7 @@ import org.hitogo.button.core.Button;
 import org.hitogo.core.HitogoContainer;
 import org.hitogo.core.HitogoController;
 import org.hitogo.core.HitogoParamsHolder;
-import org.hitogo.core.HitogoUtils;
+import org.hitogo.core.HitogoHelper;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
@@ -44,6 +44,7 @@ public abstract class AlertBuilderImpl<B, A extends Alert> implements AlertBuild
     private final List<Button> buttons = new ArrayList<>();
 
     private HitogoController controller;
+    private HitogoHelper helper;
 
     private Button closeButton;
     private String title;
@@ -78,6 +79,7 @@ public abstract class AlertBuilderImpl<B, A extends Alert> implements AlertBuild
         this.paramClass = paramClass;
         this.containerRef = new WeakReference<>(container);
         this.controller = container.getController();
+        this.helper = controller.provideHelper();
         this.alertType = alertType;
     }
 
@@ -129,6 +131,7 @@ public abstract class AlertBuilderImpl<B, A extends Alert> implements AlertBuild
     @NonNull
     public B setController(@NonNull HitogoController controller) {
         this.controller = controller;
+        this.helper = controller.provideHelper();
         return (B) this;
     }
 
@@ -149,13 +152,13 @@ public abstract class AlertBuilderImpl<B, A extends Alert> implements AlertBuild
     @NonNull
     public B setTitle(@StringRes int titleRes) {
         return setTitle(controller.provideDefaultTitleViewId(alertType),
-                HitogoUtils.getStringRes(getContainer().getActivity(), titleRes));
+                helper.getText(getContainer().getActivity(), titleRes));
     }
 
     @Override
     @NonNull
     public B setTitle(@IdRes @Nullable Integer viewId, @StringRes int titleRes) {
-        return setTitle(viewId, HitogoUtils.getStringRes(getContainer().getActivity(), titleRes));
+        return setTitle(viewId, helper.getText(getContainer().getActivity(), titleRes));
     }
 
     @Override
@@ -176,13 +179,13 @@ public abstract class AlertBuilderImpl<B, A extends Alert> implements AlertBuild
     @NonNull
     public B addText(@StringRes int textRes) {
         return addText(controller.provideDefaultTextViewId(alertType),
-                HitogoUtils.getStringRes(getContainer().getActivity(), textRes));
+                helper.getText(getContainer().getActivity(), textRes));
     }
 
     @Override
     @NonNull
     public B addText(@IdRes @Nullable Integer viewId, @StringRes int textRes) {
-        return addText(viewId, HitogoUtils.getStringRes(getContainer().getActivity(), textRes));
+        return addText(viewId, helper.getText(getContainer().getActivity(), textRes));
     }
 
     @Override
@@ -259,6 +262,7 @@ public abstract class AlertBuilderImpl<B, A extends Alert> implements AlertBuild
      * @see HitogoContainer
      * @since 1.0.0
      */
+    @NonNull
     protected HitogoContainer getContainer() {
         return containerRef.get();
     }
@@ -270,7 +274,20 @@ public abstract class AlertBuilderImpl<B, A extends Alert> implements AlertBuild
      * @see HitogoController
      * @since 1.0.0
      */
+    @NonNull
     protected HitogoController getController() {
         return controller;
+    }
+
+    /**
+     * Returns the used HitogoHelper object for the alert.
+     *
+     * @return a HitogoHelper object
+     * @see HitogoHelper
+     * @since 1.0.0
+     */
+    @NonNull
+    protected HitogoHelper getHelper() {
+        return helper;
     }
 }

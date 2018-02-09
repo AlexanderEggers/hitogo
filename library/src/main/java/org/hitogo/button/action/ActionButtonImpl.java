@@ -4,7 +4,7 @@ import android.support.annotation.NonNull;
 import android.util.Log;
 
 import org.hitogo.button.core.ButtonImpl;
-import org.hitogo.core.HitogoUtils;
+import org.hitogo.core.HitogoHelper;
 
 import java.security.InvalidParameterException;
 
@@ -15,7 +15,7 @@ public class ActionButtonImpl extends ButtonImpl<ActionButtonParams> implements 
     protected void onCheck(@NonNull ActionButtonParams params) {
         super.onCheck(params);
 
-        if (HitogoUtils.isEmpty(params.getText())) {
+        if (getHelper().isEmpty(params.getText())) {
             Log.w(ActionButtonBuilderImpl.class.getName(), "Button has no text. If you want to " +
                     "display a button with only one icon, you can ignore this warning.");
         }

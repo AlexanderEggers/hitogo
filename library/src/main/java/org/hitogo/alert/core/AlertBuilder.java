@@ -8,7 +8,7 @@ import android.support.annotation.StringRes;
 
 import org.hitogo.button.core.Button;
 import org.hitogo.core.HitogoController;
-import org.hitogo.core.HitogoUtils;
+import org.hitogo.core.HitogoHelper;
 
 /**
  * Public api interface for the AlertBuilder. This interface includes all methods that can be
@@ -38,11 +38,11 @@ public interface AlertBuilder<B, A extends Alert> extends AlertBuilderBase<B, A>
      * Adds a title resource to this alert which can be used inside the alert implementation. This
      * method implementation will use the provideDefaultTitleViewId(Integer) method offered by the
      * HitogoController. This method will define the default view id for this title. The string
-     * resource will be translated by the builder using the HitogoUtils.getStringRes(int).
+     * resource will be translated by the builder using the HitogoHelper.getText(int).
      *
      * @param titleRes String resource which is used for the title.
      * @return Builder object which has called this method.
-     * @see HitogoUtils
+     * @see HitogoHelper
      * @see HitogoController
      * @since 1.0.0
      */
@@ -52,12 +52,12 @@ public interface AlertBuilder<B, A extends Alert> extends AlertBuilderBase<B, A>
     /**
      * Adds a title resource and it's related view id to this alert which can be used inside the
      * alert implementation. The string resource will be translated by the builder using the
-     * HitogoUtils.getStringRes(int).
+     * HitogoHelper.getText(int).
      *
      * @param viewId   View id which is going to use the title (optional).
      * @param titleRes String resource which is used for the title.
      * @return Builder object which has called this method.
-     * @see HitogoUtils
+     * @see HitogoHelper
      * @since 1.0.0
      */
     @NonNull
@@ -78,12 +78,12 @@ public interface AlertBuilder<B, A extends Alert> extends AlertBuilderBase<B, A>
      * Adds a text string resource to this alert which can be used inside the alert implementation.
      * Alerts can have more than one text element. If more than one text element is defined, each
      * text element will need it's own view (id). The string resource will be translated by the
-     * builder using the HitogoUtils.getStringRes(int).
+     * builder using the HitogoHelper.getText(int).
      *
      * @param viewId  View id which is going to use the text element (optional).
      * @param textRes Text element for the alert object.
      * @return Builder object which has called this method.
-     * @see HitogoUtils
+     * @see HitogoHelper
      * @since 1.0.0
      */
     @NonNull

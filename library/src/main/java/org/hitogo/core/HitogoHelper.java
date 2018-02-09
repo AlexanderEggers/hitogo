@@ -19,22 +19,18 @@ import org.hitogo.button.core.Button;
 import java.util.List;
 
 @SuppressWarnings({"WeakerAccess", "unused"})
-public class HitogoUtils {
+public class HitogoHelper {
 
-    private HitogoUtils() {
-
-    }
-
-    public static boolean isNotEmpty(String text) {
+    public boolean isNotEmpty(@Nullable String text) {
         return !isEmpty(text);
     }
 
-    public static boolean isEmpty(String text) {
+    public boolean isEmpty(@Nullable String text) {
         return text == null || text.isEmpty();
     }
 
-    public static void measureView(@NonNull Activity activity, @NonNull View customView,
-                                   @Nullable ViewGroup viewGroup) {
+    public void measureView(@NonNull Activity activity, @NonNull View customView,
+                            @Nullable ViewGroup viewGroup) {
         int widthSpec;
         if (viewGroup != null) {
             widthSpec = View.MeasureSpec.makeMeasureSpec(viewGroup.getMeasuredWidth(), View.MeasureSpec.EXACTLY);
@@ -45,7 +41,7 @@ public class HitogoUtils {
         customView.measure(widthSpec, View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED));
     }
 
-    public static int generateAlertHashCode(AlertParams params) {
+    public int generateAlertHashCode(@NonNull AlertParams params) {
         int hashCode = 0;
 
         String title = params.getTitle();
@@ -72,7 +68,7 @@ public class HitogoUtils {
     }
 
     @SuppressWarnings("deprecation")
-    public static Spanned getHtmlText(String text) {
+    public Spanned getHtmlText(@Nullable String text) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             return text != null ? Html.fromHtml(text, Html.FROM_HTML_MODE_LEGACY) : new SpannableString("");
         } else {
@@ -80,7 +76,7 @@ public class HitogoUtils {
         }
     }
 
-    public static String getStringRes(Context context, @StringRes int stringRes) {
+    public String getText(@NonNull Context context, @StringRes int stringRes) {
         return context.getString(stringRes);
     }
 }

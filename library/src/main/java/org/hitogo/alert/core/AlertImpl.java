@@ -13,7 +13,7 @@ import android.widget.PopupWindow;
 import org.hitogo.alert.view.ViewAlertParams;
 import org.hitogo.core.HitogoContainer;
 import org.hitogo.core.HitogoController;
-import org.hitogo.core.HitogoUtils;
+import org.hitogo.core.HitogoHelper;
 
 import java.lang.ref.WeakReference;
 import java.util.List;
@@ -47,6 +47,7 @@ public abstract class AlertImpl<T extends AlertParams> extends AlertLifecycle<T>
     private List<VisibilityListener> visibilityListeners;
     private WeakReference<HitogoContainer> containerRef;
     private T params;
+    private HitogoHelper helper;
 
     private View view;
     private Dialog dialog;
@@ -68,7 +69,8 @@ public abstract class AlertImpl<T extends AlertParams> extends AlertLifecycle<T>
     protected AlertImpl<T> create(final @NonNull HitogoContainer container, final @NonNull T params) {
         this.containerRef = new WeakReference<>(container);
         this.params = params;
-        this.hashCode = HitogoUtils.generateAlertHashCode(params);
+        this.helper = getController().provideHelper();
+        this.hashCode = helper.generateAlertHashCode(params);
         this.closeOthers = params.isClosingOthers();
         this.hasAnimation = params.hasAnimation();
         this.type = params.getType();
@@ -357,6 +359,7 @@ public abstract class AlertImpl<T extends AlertParams> extends AlertLifecycle<T>
      * @see HitogoContainer
      * @since 1.0.0
      */
+    @NonNull
     public HitogoContainer getContainer() {
         return containerRef.get();
     }
@@ -368,8 +371,21 @@ public abstract class AlertImpl<T extends AlertParams> extends AlertLifecycle<T>
      * @see HitogoController
      * @since 1.0.0
      */
+    @NonNull
     public HitogoController getController() {
         return containerRef.get().getController();
+    }
+
+    /**
+     * Returns the used HitogoHelper object for the alert.
+     *
+     * @return a HitogoHelper object
+     * @see HitogoHelper
+     * @since 1.0.0
+     */
+    @NonNull
+    public HitogoHelper getHelper() {
+        return helper;
     }
 
     /**

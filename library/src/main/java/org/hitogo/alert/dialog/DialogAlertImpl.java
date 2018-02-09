@@ -14,7 +14,6 @@ import android.widget.TextView;
 
 import org.hitogo.button.core.Button;
 import org.hitogo.alert.core.AlertImpl;
-import org.hitogo.core.HitogoUtils;
 import org.hitogo.alert.view.ViewAlertBuilderImpl;
 
 import java.security.InvalidParameterException;
@@ -82,7 +81,7 @@ public class DialogAlertImpl extends AlertImpl<DialogAlertParams> implements Dia
         }
         builder.setCancelable(getParams().isDismissible());
 
-        if (HitogoUtils.isNotEmpty(getParams().getTitle())) {
+        if (getHelper().isNotEmpty(getParams().getTitle())) {
             setDialogTitle(view, builder);
         }
 
@@ -115,7 +114,7 @@ public class DialogAlertImpl extends AlertImpl<DialogAlertParams> implements Dia
     protected void setDialogTitle(View containerView, AlertDialog.Builder builder) {
         if (containerView != null && getParams().getTitleViewId() != null) {
             ((TextView) containerView.findViewById(getParams().getTitleViewId()))
-                    .setText(HitogoUtils.getHtmlText(getParams().getTitle()));
+                    .setText(getHelper().getHtmlText(getParams().getTitle()));
         } else {
             builder.setTitle(getParams().getTitle());
         }
@@ -126,9 +125,9 @@ public class DialogAlertImpl extends AlertImpl<DialogAlertParams> implements Dia
         if (viewId != null) {
             TextView textView = containerView.findViewById(viewId);
             if (textView != null) {
-                if (HitogoUtils.isNotEmpty(chars)) {
+                if (getHelper().isNotEmpty(chars)) {
                     textView.setVisibility(View.VISIBLE);
-                    textView.setText(HitogoUtils.getHtmlText(chars));
+                    textView.setText(getHelper().getHtmlText(chars));
                 } else {
                     textView.setVisibility(View.GONE);
                 }
@@ -163,8 +162,8 @@ public class DialogAlertImpl extends AlertImpl<DialogAlertParams> implements Dia
             }
 
             if (icon != null) {
-                if (icon instanceof TextView && HitogoUtils.isNotEmpty(button.getParams().getText())) {
-                    ((TextView) icon).setText(HitogoUtils.getHtmlText(button.getParams().getText()));
+                if (icon instanceof TextView && getHelper().isNotEmpty(button.getParams().getText())) {
+                    ((TextView) icon).setText(getHelper().getHtmlText(button.getParams().getText()));
                 }
 
                 icon.setVisibility(View.VISIBLE);
@@ -187,7 +186,7 @@ public class DialogAlertImpl extends AlertImpl<DialogAlertParams> implements Dia
     }
 
     protected void buildDialogButton(final Button button, AlertDialog.Builder builder) {
-        if (HitogoUtils.isNotEmpty(button.getParams().getText())) {
+        if (getHelper().isNotEmpty(button.getParams().getText())) {
             switch (dialogButtonCount) {
                 case PRIMARY_BUTTON:
                     builder.setPositiveButton(button.getParams().getText(), new DialogInterface.OnClickListener() {

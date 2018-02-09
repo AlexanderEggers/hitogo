@@ -4,6 +4,7 @@ import android.support.annotation.NonNull;
 
 import org.hitogo.core.HitogoContainer;
 import org.hitogo.core.HitogoController;
+import org.hitogo.core.HitogoHelper;
 
 import java.lang.ref.WeakReference;
 
@@ -11,11 +12,16 @@ import java.lang.ref.WeakReference;
 public abstract class ButtonImpl<T extends ButtonParams> extends ButtonLifecycle<T> implements Button<T> {
 
     private WeakReference<HitogoContainer> containerRef;
+    private HitogoController controller;
+    private HitogoHelper helper;
+
     private T params;
     private ButtonType buttonType;
 
-    ButtonImpl<T> create(@NonNull HitogoContainer container, @NonNull T params) {
+    protected ButtonImpl<T> create(@NonNull HitogoContainer container, @NonNull T params) {
         this.containerRef = new WeakReference<>(container);
+        this.controller = container.getController();
+        this.helper = controller.provideHelper();
         this.params = params;
         this.buttonType = params.getButtonType();
 
@@ -28,13 +34,18 @@ public abstract class ButtonImpl<T extends ButtonParams> extends ButtonLifecycle
     }
 
     @NonNull
-    public HitogoContainer getContainer() {
+    protected HitogoContainer getContainer() {
         return containerRef.get();
     }
 
     @NonNull
-    public HitogoController getController() {
-        return containerRef.get().getController();
+    protected HitogoController getController() {
+        return controller;
+    }
+
+    @NonNull
+    protected HitogoHelper getHelper() {
+        return helper;
     }
 
     @Override

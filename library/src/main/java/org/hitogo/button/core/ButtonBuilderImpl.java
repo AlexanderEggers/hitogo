@@ -9,7 +9,7 @@ import android.util.Log;
 import org.hitogo.core.HitogoContainer;
 import org.hitogo.core.HitogoController;
 import org.hitogo.core.HitogoParamsHolder;
-import org.hitogo.core.HitogoUtils;
+import org.hitogo.core.HitogoHelper;
 
 import java.lang.ref.WeakReference;
 
@@ -19,6 +19,8 @@ public abstract class ButtonBuilderImpl<C extends ButtonBuilder, B extends Butto
     private final Class<? extends ButtonImpl> targetClass;
     private final Class<? extends ButtonParams> paramClass;
     private final WeakReference<HitogoContainer> containerRef;
+    private final HitogoController controller;
+    private final HitogoHelper helper;
     private final ButtonType buttonType;
 
     private String text;
@@ -33,6 +35,8 @@ public abstract class ButtonBuilderImpl<C extends ButtonBuilder, B extends Butto
         this.targetClass = targetClass;
         this.paramClass = paramClass;
         this.containerRef = new WeakReference<>(container);
+        this.controller = container.getController();
+        this.helper = controller.provideHelper();
         this.buttonType = buttonType;
     }
 
@@ -46,7 +50,7 @@ public abstract class ButtonBuilderImpl<C extends ButtonBuilder, B extends Butto
     @Override
     @NonNull
     public C setText(@StringRes int textRes) {
-        this.text = HitogoUtils.getStringRes(getContainer().getActivity(), textRes);
+        this.text = helper.getText(getContainer().getActivity(), textRes);
         return (C) this;
     }
 
@@ -112,6 +116,11 @@ public abstract class ButtonBuilderImpl<C extends ButtonBuilder, B extends Butto
 
     @NonNull
     protected final HitogoController getController() {
-        return containerRef.get().getController();
+        return controller;
+    }
+
+    @NonNull
+    protected HitogoHelper getHelper() {
+        return helper;
     }
 }

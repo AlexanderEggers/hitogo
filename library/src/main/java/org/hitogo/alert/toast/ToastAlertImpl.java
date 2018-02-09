@@ -13,7 +13,6 @@ import android.widget.Toast;
 
 import org.hitogo.alert.core.AlertImpl;
 import org.hitogo.button.core.Button;
-import org.hitogo.core.HitogoUtils;
 
 import java.security.InvalidParameterException;
 
@@ -121,9 +120,9 @@ public class ToastAlertImpl extends AlertImpl<ToastAlertParams> implements Toast
         if (viewId != null) {
             TextView textView = containerView.findViewById(viewId);
             if (textView != null) {
-                if (HitogoUtils.isNotEmpty(chars)) {
+                if (getHelper().isNotEmpty(chars)) {
                     textView.setVisibility(View.VISIBLE);
-                    textView.setText(HitogoUtils.getHtmlText(chars));
+                    textView.setText(getHelper().getHtmlText(chars));
                 } else {
                     textView.setVisibility(View.GONE);
                 }
@@ -146,8 +145,8 @@ public class ToastAlertImpl extends AlertImpl<ToastAlertParams> implements Toast
             }
 
             if (icon != null) {
-                if (icon instanceof TextView && HitogoUtils.isNotEmpty(button.getParams().getText())) {
-                    ((TextView) icon).setText(HitogoUtils.getHtmlText(button.getParams().getText()));
+                if (icon instanceof TextView && getHelper().isNotEmpty(button.getParams().getText())) {
+                    ((TextView) icon).setText(getHelper().getHtmlText(button.getParams().getText()));
                 }
 
                 icon.setVisibility(View.VISIBLE);
