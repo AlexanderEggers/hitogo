@@ -25,8 +25,7 @@ import java.util.List;
 
 /**
  * Base alert builder which includes all basic method to assign the most important/common values to
- * the alert. The builder includes also some alert visibility method to prevent breaking the fluent
- * api design.
+ * the alert.
  *
  * @param <B> Type for the build class which is using this class implementation.
  * @param <A> Type for the result alert which is usable to execute certain methods at the end.

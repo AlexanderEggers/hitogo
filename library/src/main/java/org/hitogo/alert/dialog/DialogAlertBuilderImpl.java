@@ -5,6 +5,7 @@ import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
 import android.support.annotation.StyleRes;
 
+import org.hitogo.alert.core.Alert;
 import org.hitogo.button.core.Button;
 import org.hitogo.core.Hitogo;
 import org.hitogo.alert.core.AlertBuilderImpl;
@@ -15,6 +16,12 @@ import org.hitogo.alert.core.AlertType;
 import org.hitogo.core.HitogoController;
 import org.hitogo.core.HitogoParamsHolder;
 
+/**
+ * Builder which includes all basic method to assign specific dialog values to the alert.
+ *
+ * @see Alert
+ * @since 1.0.0
+ */
 @SuppressWarnings({"WeakerAccess", "unused"})
 public class DialogAlertBuilderImpl extends AlertBuilderImpl<DialogAlertBuilder, DialogAlert> implements DialogAlertBuilder {
 

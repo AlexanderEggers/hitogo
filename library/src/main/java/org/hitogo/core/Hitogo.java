@@ -68,6 +68,7 @@ public class Hitogo implements ViewAlertFactory<ViewAlertBuilder>, DialogAlertFa
                 container);
     }
 
+    @NonNull
     @Override
     public DialogAlertBuilder asDialogAlert() {
         return new DialogAlertBuilderImpl(controller.provideDefaultDialogClass(),
@@ -75,6 +76,7 @@ public class Hitogo implements ViewAlertFactory<ViewAlertBuilder>, DialogAlertFa
                 container);
     }
 
+    @NonNull
     @Override
     public DialogAlertBuilder asDialogAlert(@NonNull Class<? extends AlertImpl> targetClass) {
         return new DialogAlertBuilderImpl(targetClass,
@@ -82,6 +84,7 @@ public class Hitogo implements ViewAlertFactory<ViewAlertBuilder>, DialogAlertFa
                 container);
     }
 
+    @NonNull
     @Override
     public DialogAlertBuilder asDialogAlert(@NonNull Class<? extends AlertImpl> targetClass,
                                             @NonNull Class<? extends AlertParams> paramClass) {
