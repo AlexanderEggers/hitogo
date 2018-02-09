@@ -10,17 +10,13 @@ import android.support.annotation.Nullable;
 import android.util.SparseIntArray;
 
 import org.hitogo.alert.core.Alert;
-import org.hitogo.alert.dialog.DialogAlertBuilder;
 import org.hitogo.alert.dialog.DialogAlertImpl;
-import org.hitogo.alert.popup.PopupAlertBuilder;
 import org.hitogo.alert.popup.PopupAlertImpl;
-import org.hitogo.alert.popup.PopupAlertBuilderImpl;
 import org.hitogo.alert.popup.PopupAlertParams;
 import org.hitogo.alert.snackbar.SnackbarAlertImpl;
 import org.hitogo.alert.snackbar.SnackbarAlertParams;
 import org.hitogo.alert.toast.ToastAlertImpl;
 import org.hitogo.alert.toast.ToastAlertParams;
-import org.hitogo.alert.view.ViewAlertBuilder;
 import org.hitogo.alert.view.ViewAlertImpl;
 import org.hitogo.alert.core.AlertImpl;
 import org.hitogo.alert.core.AlertParams;
@@ -28,9 +24,7 @@ import org.hitogo.alert.core.AlertType;
 import org.hitogo.button.action.ActionButtonImpl;
 import org.hitogo.button.core.ButtonImpl;
 import org.hitogo.button.action.ActionButtonParams;
-import org.hitogo.alert.dialog.DialogAlertBuilderImpl;
 import org.hitogo.alert.dialog.DialogAlertParams;
-import org.hitogo.alert.view.ViewAlertBuilderImpl;
 import org.hitogo.alert.view.ViewAlertParams;
 import org.hitogo.button.core.ButtonParams;
 import org.hitogo.button.core.ButtonType;
@@ -517,21 +511,6 @@ public abstract class HitogoController implements LifecycleObserver {
 
     @Nullable
     public Integer provideDefaultLayoutViewId() {
-        return null;
-    }
-
-    @Nullable
-    public ViewAlertBuilder provideSimpleView(@NonNull ViewAlertBuilderImpl builder) {
-        return null;
-    }
-
-    @NonNull
-    public DialogAlertBuilder provideSimpleDialog(@NonNull DialogAlertBuilderImpl builder) {
-        return builder.asDismissible(true);
-    }
-
-    @Nullable
-    public PopupAlertBuilder provideSimplePopup(@NonNull PopupAlertBuilderImpl builder) {
         return null;
     }
 
