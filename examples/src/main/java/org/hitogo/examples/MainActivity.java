@@ -381,7 +381,7 @@ public class MainActivity extends HitogoActivity {
 
     @NonNull
     @Override
-    public HitogoController initialiseHitogo(@NonNull Lifecycle lifecycle) {
+    public HitogoController initialiseController(@NonNull Lifecycle lifecycle) {
         return new AlertController(lifecycle);
     }
 }

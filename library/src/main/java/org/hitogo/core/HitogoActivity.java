@@ -9,19 +9,19 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
 @SuppressWarnings({"WeakerAccess", "unused"})
-public abstract class HitogoActivity extends AppCompatActivity implements HitogoContainer {
+public abstract class HitogoActivity<T extends HitogoController> extends AppCompatActivity implements HitogoContainer {
 
-    private HitogoController hitogoController;
+    private T hitogoController;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        hitogoController = initialiseHitogo(getLifecycle());
+        hitogoController = initialiseController(getLifecycle());
     }
 
     @NonNull
     @Override
-    public HitogoController getController() {
+    public T getController() {
         return hitogoController;
     }
 
@@ -44,5 +44,5 @@ public abstract class HitogoActivity extends AppCompatActivity implements Hitogo
     }
 
     @NonNull
-    public abstract HitogoController initialiseHitogo(@NonNull Lifecycle lifecycle);
+    public abstract T initialiseController(@NonNull Lifecycle lifecycle);
 }

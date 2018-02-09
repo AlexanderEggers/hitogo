@@ -8,19 +8,19 @@ import android.support.v4.app.Fragment;
 import android.view.View;
 
 @SuppressWarnings({"WeakerAccess", "unused"})
-public abstract class HitogoFragment extends Fragment implements HitogoContainer {
+public abstract class HitogoFragment<T extends HitogoController> extends Fragment implements HitogoContainer {
 
-    private HitogoController hitogoController;
+    private T hitogoController;
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        hitogoController = initialiseHitogo(getLifecycle());
+        hitogoController = initialiseController(getLifecycle());
     }
 
     @NonNull
     @Override
-    public HitogoController getController() {
+    public T getController() {
         return hitogoController;
     }
 
@@ -31,5 +31,5 @@ public abstract class HitogoFragment extends Fragment implements HitogoContainer
     }
 
     @NonNull
-    public abstract HitogoController initialiseHitogo(@NonNull Lifecycle lifecycle);
+    public abstract T initialiseController(@NonNull Lifecycle lifecycle);
 }
