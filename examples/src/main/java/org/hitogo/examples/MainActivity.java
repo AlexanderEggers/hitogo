@@ -116,10 +116,16 @@ public class MainActivity extends HitogoActivity {
                 .withAnimations(R.id.content)
                 .asDismissible(closeButton)
                 .addText("Test")
-                .setTitle("Test Prio 1")
+                .setTitle("Test Prio 4")
                 .asLayoutChild(R.id.container_layout)
                 .setState(AlertState.HINT)
-                .setPriority(1)
+                .setPriority(4)
+                .addVisibilityListener(new VisibilityListener<ViewAlert>() {
+                    @Override
+                    public void onShow(ViewAlert object) {
+                        thirdPrioTest();
+                    }
+                })
                 .show();
 
         Hitogo.with(this)
@@ -131,12 +137,39 @@ public class MainActivity extends HitogoActivity {
                 .asLayoutChild(R.id.container_layout)
                 .setState(AlertState.HINT)
                 .setPriority(2)
-                .addVisibilityListener(new VisibilityListener<ViewAlert>() {
-                    @Override
-                    public void onShow(ViewAlert object) {
-                        thirdPrioTest();
-                    }
-                })
+                .show();
+
+        Hitogo.with(this)
+                .asViewAlert()
+                .withAnimations(R.id.content)
+                .asDismissible(closeButton)
+                .addText("Test")
+                .setTitle("Test Prio 3")
+                .asLayoutChild(R.id.container_layout)
+                .setState(AlertState.HINT)
+                .setPriority(3)
+                .show();
+
+        Hitogo.with(this)
+                .asViewAlert()
+                .withAnimations(R.id.content)
+                .asDismissible(closeButton)
+                .addText("Test")
+                .setTitle("Test Prio 1")
+                .asLayoutChild(R.id.container_layout)
+                .setState(AlertState.HINT)
+                .setPriority(1)
+                .show();
+
+        Hitogo.with(this)
+                .asViewAlert()
+                .withAnimations(R.id.content)
+                .asDismissible(closeButton)
+                .addText("Test")
+                .setTitle("Test Prio 1 copy")
+                .asLayoutChild(R.id.container_layout)
+                .setState(AlertState.HINT)
+                .setPriority(1)
                 .show();
     }
 
@@ -159,32 +192,32 @@ public class MainActivity extends HitogoActivity {
                 .withAnimations(R.id.content)
                 .asDismissible(closeButton)
                 .addText("Test")
-                .setTitle("Test Prio 3")
+                .setTitle("Test Prio 4a")
+                .asLayoutChild(R.id.container_layout)
+                .setState(AlertState.HINT)
+                .setPriority(4)
+                .showLater(true);
+
+        Hitogo.with(this)
+                .asViewAlert()
+                .withAnimations(R.id.content)
+                .asDismissible(closeButton)
+                .addText("Test")
+                .setTitle("Test Prio 3a")
+                .asLayoutChild(R.id.container_layout)
+                .setState(AlertState.HINT)
+                .setPriority(3)
+                .showLater(true);
+
+        Hitogo.with(this)
+                .asViewAlert()
+                .withAnimations(R.id.content)
+                .asDismissible(closeButton)
+                .addText("Test")
+                .setTitle("Test Prio 1a")
                 .asLayoutChild(R.id.container_layout)
                 .setState(AlertState.HINT)
                 .setPriority(1)
-                .showLater(true);
-
-        Hitogo.with(this)
-                .asViewAlert()
-                .withAnimations(R.id.content)
-                .asDismissible(closeButton)
-                .addText("Test")
-                .setTitle("Test Prio 4")
-                .asLayoutChild(R.id.container_layout)
-                .setState(AlertState.HINT)
-                .setPriority(2)
-                .showLater(true);
-
-        Hitogo.with(this)
-                .asViewAlert()
-                .withAnimations(R.id.content)
-                .asDismissible(closeButton)
-                .addText("Test")
-                .setTitle("Test Prio 5")
-                .asLayoutChild(R.id.container_layout)
-                .setState(AlertState.HINT)
-                .setPriority(2)
                 .showLater(true);
     }
 
