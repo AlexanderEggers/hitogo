@@ -1,5 +1,6 @@
 package org.hitogo.alert.core;
 
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.CallSuper;
 import android.support.annotation.IdRes;
@@ -13,6 +14,7 @@ import android.util.SparseArray;
 
 import org.hitogo.alert.view.ViewAlertBuilderImpl;
 import org.hitogo.button.core.Button;
+import org.hitogo.core.HitogoAccessor;
 import org.hitogo.core.HitogoContainer;
 import org.hitogo.core.HitogoController;
 import org.hitogo.core.HitogoParamsHolder;
@@ -41,10 +43,12 @@ public abstract class AlertBuilderImpl<B, A extends Alert> implements AlertBuild
 
     private final List<VisibilityListener> visibilityListener = new ArrayList<>();
     private final SparseArray<String> textMap = new SparseArray<>();
+    private final SparseArray<Drawable> drawableMap = new SparseArray<>();
     private final List<Button> buttons = new ArrayList<>();
 
     private HitogoController controller;
     private HitogoHelper helper;
+    private HitogoAccessor accessor;
 
     private Button closeButton;
     private String title;
@@ -80,6 +84,7 @@ public abstract class AlertBuilderImpl<B, A extends Alert> implements AlertBuild
         this.containerRef = new WeakReference<>(container);
         this.controller = container.getController();
         this.helper = controller.provideHelper();
+        this.accessor = controller.provideAccessor();
         this.alertType = alertType;
     }
 
@@ -123,6 +128,7 @@ public abstract class AlertBuilderImpl<B, A extends Alert> implements AlertBuild
 
         holder.provideCustomObject(AlertParamsKeys.VISIBILITY_LISTENER_KEY, visibilityListener);
         holder.provideCustomObject(AlertParamsKeys.TEXT_KEY, textMap);
+        holder.provideCustomObject(AlertParamsKeys.DRAWABLE_KEY, drawableMap);
         holder.provideCustomObject(AlertParamsKeys.BUTTONS_KEY, buttons);
         holder.provideCustomObject(AlertParamsKeys.CLOSE_BUTTON_KEY, closeButton);
     }
@@ -132,6 +138,7 @@ public abstract class AlertBuilderImpl<B, A extends Alert> implements AlertBuild
     public B setController(@NonNull HitogoController controller) {
         this.controller = controller;
         this.helper = controller.provideHelper();
+        this.accessor = controller.provideAccessor();
         return (B) this;
     }
 
@@ -152,13 +159,13 @@ public abstract class AlertBuilderImpl<B, A extends Alert> implements AlertBuild
     @NonNull
     public B setTitle(@StringRes int titleRes) {
         return setTitle(controller.provideDefaultTitleViewId(alertType),
-                helper.getText(getContainer().getActivity(), titleRes));
+                accessor.getString(getContainer().getActivity(), titleRes));
     }
 
     @Override
     @NonNull
     public B setTitle(@IdRes @Nullable Integer viewId, @StringRes int titleRes) {
-        return setTitle(viewId, helper.getText(getContainer().getActivity(), titleRes));
+        return setTitle(viewId, accessor.getString(getContainer().getActivity(), titleRes));
     }
 
     @Override
@@ -179,13 +186,13 @@ public abstract class AlertBuilderImpl<B, A extends Alert> implements AlertBuild
     @NonNull
     public B addText(@StringRes int textRes) {
         return addText(controller.provideDefaultTextViewId(alertType),
-                helper.getText(getContainer().getActivity(), textRes));
+                accessor.getString(getContainer().getActivity(), textRes));
     }
 
     @Override
     @NonNull
     public B addText(@IdRes @Nullable Integer viewId, @StringRes int textRes) {
-        return addText(viewId, helper.getText(getContainer().getActivity(), textRes));
+        return addText(viewId, accessor.getString(getContainer().getActivity(), textRes));
     }
 
     @Override
@@ -250,6 +257,31 @@ public abstract class AlertBuilderImpl<B, A extends Alert> implements AlertBuild
         return (B) this;
     }
 
+    @NonNull
+    @Override
+    public B addDrawable(int drawableRes) {
+        return addDrawable(controller.provideDefaultDrawableViewId(alertType), drawableRes);
+    }
+
+    @NonNull
+    @Override
+    public B addDrawable(@NonNull Drawable drawable) {
+        return addDrawable(controller.provideDefaultDrawableViewId(alertType), drawable);
+    }
+
+    @NonNull
+    @Override
+    public B addDrawable(@Nullable Integer viewId, int drawableRes) {
+        return addDrawable(viewId, accessor.getDrawable(getContainer().getActivity(), drawableRes));
+    }
+
+    @NonNull
+    @Override
+    public B addDrawable(@Nullable Integer viewId, @NonNull Drawable drawable) {
+        drawableMap.put(viewId != null ? viewId : 0, drawable);
+        return (B) this;
+    }
+
     @Override
     public void show() {
         build().show();
@@ -289,5 +321,17 @@ public abstract class AlertBuilderImpl<B, A extends Alert> implements AlertBuild
     @NonNull
     protected HitogoHelper getHelper() {
         return helper;
+    }
+
+    /**
+     * Returns the used HitogoAccessor object for the alert.
+     *
+     * @return a HitogoAccessor object
+     * @see HitogoAccessor
+     * @since 1.0.0
+     */
+    @NonNull
+    protected HitogoAccessor getAccessor() {
+        return accessor;
     }
 }

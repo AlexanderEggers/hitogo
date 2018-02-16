@@ -114,7 +114,7 @@ public class DialogAlertImpl extends AlertImpl<DialogAlertParams> implements Dia
     protected void setDialogTitle(View containerView, AlertDialog.Builder builder) {
         if (containerView != null && getParams().getTitleViewId() != null) {
             ((TextView) containerView.findViewById(getParams().getTitleViewId()))
-                    .setText(getHelper().getHtmlText(getParams().getTitle()));
+                    .setText(getAccessor().getHtmlText(getParams().getTitle()));
         } else {
             builder.setTitle(getParams().getTitle());
         }
@@ -127,7 +127,7 @@ public class DialogAlertImpl extends AlertImpl<DialogAlertParams> implements Dia
             if (textView != null) {
                 if (getHelper().isNotEmpty(chars)) {
                     textView.setVisibility(View.VISIBLE);
-                    textView.setText(getHelper().getHtmlText(chars));
+                    textView.setText(getAccessor().getHtmlText(chars));
                 } else {
                     textView.setVisibility(View.GONE);
                 }
@@ -163,7 +163,7 @@ public class DialogAlertImpl extends AlertImpl<DialogAlertParams> implements Dia
 
             if (icon != null) {
                 if (icon instanceof TextView && getHelper().isNotEmpty(button.getParams().getText())) {
-                    ((TextView) icon).setText(getHelper().getHtmlText(button.getParams().getText()));
+                    ((TextView) icon).setText(getAccessor().getHtmlText(button.getParams().getText()));
                 }
 
                 icon.setVisibility(View.VISIBLE);

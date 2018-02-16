@@ -512,6 +512,11 @@ public abstract class HitogoController implements LifecycleObserver {
     }
 
     @Nullable
+    public Integer provideDefaultDrawableViewId(AlertType type) {
+        return null;
+    }
+
+    @Nullable
     public Integer provideDefaultCloseIconId() {
         return null;
     }
@@ -534,6 +539,11 @@ public abstract class HitogoController implements LifecycleObserver {
     @NonNull
     public <T extends HitogoHelper> T provideHelper() {
         return (T) new HitogoHelper();
+    }
+
+    @NonNull
+    public <T extends HitogoAccessor> T provideAccessor() {
+        return (T) new HitogoAccessor();
     }
 
     public abstract boolean provideIsDebugState();

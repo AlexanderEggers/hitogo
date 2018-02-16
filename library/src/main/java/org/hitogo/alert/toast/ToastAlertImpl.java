@@ -122,7 +122,7 @@ public class ToastAlertImpl extends AlertImpl<ToastAlertParams> implements Toast
             if (textView != null) {
                 if (getHelper().isNotEmpty(chars)) {
                     textView.setVisibility(View.VISIBLE);
-                    textView.setText(getHelper().getHtmlText(chars));
+                    textView.setText(getAccessor().getHtmlText(chars));
                 } else {
                     textView.setVisibility(View.GONE);
                 }
@@ -146,7 +146,7 @@ public class ToastAlertImpl extends AlertImpl<ToastAlertParams> implements Toast
 
             if (icon != null) {
                 if (icon instanceof TextView && getHelper().isNotEmpty(button.getParams().getText())) {
-                    ((TextView) icon).setText(getHelper().getHtmlText(button.getParams().getText()));
+                    ((TextView) icon).setText(getAccessor().getHtmlText(button.getParams().getText()));
                 }
 
                 icon.setVisibility(View.VISIBLE);

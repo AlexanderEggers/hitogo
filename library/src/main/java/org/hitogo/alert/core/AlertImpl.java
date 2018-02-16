@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.PopupWindow;
 
 import org.hitogo.alert.view.ViewAlertParams;
+import org.hitogo.core.HitogoAccessor;
 import org.hitogo.core.HitogoContainer;
 import org.hitogo.core.HitogoController;
 import org.hitogo.core.HitogoHelper;
@@ -48,6 +49,7 @@ public abstract class AlertImpl<T extends AlertParams> extends AlertLifecycle<T>
     private WeakReference<HitogoContainer> containerRef;
     private T params;
     private HitogoHelper helper;
+    private HitogoAccessor accessor;
 
     private View view;
     private Dialog dialog;
@@ -70,6 +72,7 @@ public abstract class AlertImpl<T extends AlertParams> extends AlertLifecycle<T>
         this.containerRef = new WeakReference<>(container);
         this.params = params;
         this.helper = getController().provideHelper();
+        this.accessor = getController().provideAccessor();
         this.hashCode = helper.generateAlertHashCode(params);
         this.closeOthers = params.isClosingOthers();
         this.hasAnimation = params.hasAnimation();
@@ -386,6 +389,18 @@ public abstract class AlertImpl<T extends AlertParams> extends AlertLifecycle<T>
     @NonNull
     public HitogoHelper getHelper() {
         return helper;
+    }
+
+    /**
+     * Returns the used HitogoAccessor object for the alert.
+     *
+     * @return a HitogoAccessor object
+     * @see HitogoAccessor
+     * @since 1.0.0
+     */
+    @NonNull
+    public HitogoAccessor getAccessor() {
+        return accessor;
     }
 
     /**

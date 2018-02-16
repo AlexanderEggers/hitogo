@@ -78,7 +78,7 @@ public interface AlertBuilderBase<B, A extends Alert> {
      * Alerts can have more than one text element. If more than one text element is defined, the
      * method addText(Integer, int) should rather be used to include a view id that can differ
      * between the text elements. The string resource will be translated by the builder using the
-     * HitogoHelper.getText(int).
+     * HitogoHelper.getString(int).
      *
      * @param textRes Text element for the alert object.
      * @return Builder object which has called this method.

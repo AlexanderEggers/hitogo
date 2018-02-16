@@ -15,6 +15,7 @@ public abstract class AlertParamsKeys extends HitogoParamsKeys {
 
     public static final String VISIBILITY_LISTENER_KEY = "visibilityListener";
     public static final String TEXT_KEY = "text";
+    public static final String DRAWABLE_KEY = "drawable";
     public static final String BUTTONS_KEY = "buttons";
     public static final String CLOSE_BUTTON_KEY = "closeButton";
 }

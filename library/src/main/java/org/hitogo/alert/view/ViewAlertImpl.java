@@ -16,7 +16,6 @@ import org.hitogo.core.HitogoAnimation;
 import org.hitogo.button.core.Button;
 import org.hitogo.core.HitogoController;
 import org.hitogo.alert.core.AlertImpl;
-import org.hitogo.core.HitogoHelper;
 
 import java.security.InvalidParameterException;
 
@@ -165,7 +164,7 @@ public class ViewAlertImpl extends AlertImpl<ViewAlertParams> implements ViewAle
             if (textView != null) {
                 if (getHelper().isNotEmpty(chars)) {
                     textView.setVisibility(View.VISIBLE);
-                    textView.setText(getHelper().getHtmlText(chars));
+                    textView.setText(getAccessor().getHtmlText(chars));
                 } else {
                     textView.setVisibility(View.GONE);
                 }
@@ -189,7 +188,7 @@ public class ViewAlertImpl extends AlertImpl<ViewAlertParams> implements ViewAle
 
             if (icon != null) {
                 if (icon instanceof TextView && getHelper().isNotEmpty(button.getParams().getText())) {
-                    ((TextView) icon).setText(getHelper().getHtmlText(button.getParams().getText()));
+                    ((TextView) icon).setText(getAccessor().getHtmlText(button.getParams().getText()));
                 }
 
                 icon.setVisibility(View.VISIBLE);

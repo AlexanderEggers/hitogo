@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
 import android.util.Log;
 
+import org.hitogo.core.HitogoAccessor;
 import org.hitogo.core.HitogoContainer;
 import org.hitogo.core.HitogoController;
 import org.hitogo.core.HitogoParamsHolder;
@@ -21,6 +22,7 @@ public abstract class ButtonBuilderImpl<C extends ButtonBuilder, B extends Butto
     private final WeakReference<HitogoContainer> containerRef;
     private final HitogoController controller;
     private final HitogoHelper helper;
+    private final HitogoAccessor accessor;
     private final ButtonType buttonType;
 
     private String text;
@@ -37,6 +39,7 @@ public abstract class ButtonBuilderImpl<C extends ButtonBuilder, B extends Butto
         this.containerRef = new WeakReference<>(container);
         this.controller = container.getController();
         this.helper = controller.provideHelper();
+        this.accessor = controller.provideAccessor();
         this.buttonType = buttonType;
     }
 
@@ -50,7 +53,7 @@ public abstract class ButtonBuilderImpl<C extends ButtonBuilder, B extends Butto
     @Override
     @NonNull
     public C setText(@StringRes int textRes) {
-        this.text = helper.getText(getContainer().getActivity(), textRes);
+        this.text = accessor.getString(getContainer().getActivity(), textRes);
         return (C) this;
     }
 
@@ -122,5 +125,9 @@ public abstract class ButtonBuilderImpl<C extends ButtonBuilder, B extends Butto
     @NonNull
     protected HitogoHelper getHelper() {
         return helper;
+    }
+
+    public HitogoAccessor getAccessor() {
+        return accessor;
     }
 }

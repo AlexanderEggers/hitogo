@@ -204,6 +204,7 @@ public class PopupAlertBuilderImpl extends AlertBuilderImpl<PopupAlertBuilder, P
         holder.provideFloat(PopupAlertParamsKeys.ELEVATION_KEY, elevation);
         holder.provideString(PopupAlertParamsKeys.ANCHOR_VIEW_TAG_KEY, anchorViewTag);
         holder.provideBoolean(PopupAlertParamsKeys.IS_DISMISSIBLE_KEY, isDismissible);
+        holder.provideBoolean(PopupAlertParamsKeys.DISMISS_BY_LAYOUT_CLICK_KEY, dismissByClick);
 
         holder.provideCustomObject(PopupAlertParamsKeys.ENTER_TRANSITION_KEY, enterTransition);
         holder.provideCustomObject(PopupAlertParamsKeys.EXIT_TRANSITION_KEY, exitTransition);

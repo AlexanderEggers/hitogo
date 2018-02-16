@@ -1,6 +1,9 @@
 package org.hitogo.alert.core;
 
+import android.graphics.drawable.Drawable;
+import android.support.annotation.DrawableRes;
 import android.support.annotation.IdRes;
+import android.support.annotation.IntegerRes;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -38,7 +41,7 @@ public interface AlertBuilder<B, A extends Alert> extends AlertBuilderBase<B, A>
      * Adds a title resource to this alert which can be used inside the alert implementation. This
      * method implementation will use the provideDefaultTitleViewId(Integer) method offered by the
      * HitogoController. This method will define the default view id for this title. The string
-     * resource will be translated by the builder using the HitogoHelper.getText(int).
+     * resource will be translated by the builder using the HitogoHelper.getString(int).
      *
      * @param titleRes String resource which is used for the title.
      * @return Builder object which has called this method.
@@ -52,7 +55,7 @@ public interface AlertBuilder<B, A extends Alert> extends AlertBuilderBase<B, A>
     /**
      * Adds a title resource and it's related view id to this alert which can be used inside the
      * alert implementation. The string resource will be translated by the builder using the
-     * HitogoHelper.getText(int).
+     * HitogoHelper.getString(int).
      *
      * @param viewId   View id which is going to use the title (optional).
      * @param titleRes String resource which is used for the title.
@@ -78,7 +81,7 @@ public interface AlertBuilder<B, A extends Alert> extends AlertBuilderBase<B, A>
      * Adds a text string resource to this alert which can be used inside the alert implementation.
      * Alerts can have more than one text element. If more than one text element is defined, each
      * text element will need it's own view (id). The string resource will be translated by the
-     * builder using the HitogoHelper.getText(int).
+     * builder using the HitogoHelper.getString(int).
      *
      * @param viewId  View id which is going to use the text element (optional).
      * @param textRes Text element for the alert object.
@@ -127,4 +130,62 @@ public interface AlertBuilder<B, A extends Alert> extends AlertBuilderBase<B, A>
      */
     @NonNull
     B setLayout(@LayoutRes int layoutRes);
+
+    /**
+     * Adds a drawable to the alert which can be used inside the alert implementation. This
+     * method implementation will use the provideDefaultDrawableViewId(Integer) method offered by
+     * the HitogoController. This method will define the default view id for this drawable. Alerts
+     * can have more than one drawable. If more than one drawable is defined, the method
+     * addDrawable(Integer, int) should rather be used to include a view id that can differ between
+     * the drawables. The drawable resource will be translated by the builder using the
+     * HitogoAccessor.getDrawable(int).
+     *
+     * @param drawableRes an int which represents the image
+     * @return Builder object which has called this method.
+     * @see Button
+     * @since 1.0.0
+     */
+    @NonNull
+    B addDrawable(@DrawableRes int drawableRes);
+
+    /**
+     * Adds a drawable to the alert which can be used inside the alert implementation. This
+     * method implementation will use the provideDefaultDrawableViewId(Integer) method offered by
+     * the HitogoController. This method will define the default view id for this drawable. Alerts
+     * can have more than one drawable. If more than one drawable is defined, the method
+     * addDrawable(Integer, Drawable) should rather be used to include a view id that can differ
+     * between the drawables.
+     *
+     * @param drawable a Drawable
+     * @return Builder object which has called this method.
+     * @see Button
+     * @since 1.0.0
+     */
+    @NonNull
+    B addDrawable(@NonNull Drawable drawable);
+
+    /**
+     * Adds a drawable to the alert which can be used inside the alert implementation. Alerts can
+     * have more than one drawable. The drawable resource will be translated by the builder using the
+     * HitogoAccessor.getDrawable(int).
+     *
+     * @param drawableRes an int which represents the drawable
+     * @return Builder object which has called this method.
+     * @see Button
+     * @since 1.0.0
+     */
+    @NonNull
+    B addDrawable(@IdRes @Nullable Integer viewId, @DrawableRes int drawableRes);
+
+    /**
+     * Adds a drawable to the alert which can be used inside the alert implementation. Alerts can
+     * have more than one drawable.
+     *
+     * @param drawable a Drawable
+     * @return Builder object which has called this method.
+     * @see Button
+     * @since 1.0.0
+     */
+    @NonNull
+    B addDrawable(@IdRes @Nullable Integer viewId, @NonNull Drawable drawable);
 }

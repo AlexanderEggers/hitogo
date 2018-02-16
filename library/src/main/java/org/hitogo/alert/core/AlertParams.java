@@ -1,5 +1,6 @@
 package org.hitogo.alert.core;
 
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.util.SparseArray;
@@ -24,6 +25,7 @@ public abstract class AlertParams extends HitogoParams<HitogoParamsHolder, Alert
     private String title;
     private String tag;
     private SparseArray<String> textMap;
+    private SparseArray<Drawable> drawableMap;
 
     private Integer layoutRes;
     private Integer titleViewId;
@@ -42,6 +44,7 @@ public abstract class AlertParams extends HitogoParams<HitogoParamsHolder, Alert
         title = holder.getString(AlertParamsKeys.TITLE_KEY);
         tag = holder.getString(AlertParamsKeys.TAG_KEY);
         textMap = holder.getCustomObject(AlertParamsKeys.TEXT_KEY);
+        drawableMap = holder.getCustomObject(AlertParamsKeys.DRAWABLE_KEY);
 
         layoutRes = holder.getSerializable(AlertParamsKeys.LAYOUT_RES_KEY);
         titleViewId = holder.getSerializable(AlertParamsKeys.TITLE_VIEW_ID_KEY);
@@ -99,6 +102,11 @@ public abstract class AlertParams extends HitogoParams<HitogoParamsHolder, Alert
         return textMap != null ? textMap : new SparseArray<String>();
     }
 
+    @NonNull
+    public SparseArray<Drawable> getDrawableMap() {
+        return drawableMap != null ? drawableMap : new SparseArray<Drawable>();
+    }
+
     public Bundle getArguments() {
         return arguments;
     }
@@ -107,8 +115,9 @@ public abstract class AlertParams extends HitogoParams<HitogoParamsHolder, Alert
         return closeButton;
     }
 
+    @NonNull
     public List<VisibilityListener> getVisibilityListener() {
-        return visibilityListener;
+        return visibilityListener != null ? visibilityListener : Collections.<VisibilityListener>emptyList();
     }
 
     public Integer getPriority() {

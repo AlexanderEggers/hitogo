@@ -9,7 +9,6 @@ import org.hitogo.alert.core.AlertImpl;
 import org.hitogo.alert.core.AlertParams;
 import org.hitogo.alert.core.AlertType;
 import org.hitogo.button.core.Button;
-import org.hitogo.core.Hitogo;
 import org.hitogo.core.HitogoContainer;
 import org.hitogo.core.HitogoController;
 import org.hitogo.core.HitogoParamsHolder;
