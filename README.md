@@ -15,11 +15,11 @@ repositories {
 }
 
 dependencies {
-  implementation 'org.hitogo:Hitogo:1.0.0-beta18.2'
+  implementation 'org.hitogo:Hitogo:1.0.0-beta18.4'
 }
 ```
 
-How do I use Hitogo? (Step-by-step introduction for 1.0.0-beta18.2)
+How do I use Hitogo? (Step-by-step introduction for 1.0.0-beta18.4)
 -------------------
 
 1. Extend the HitogoController
