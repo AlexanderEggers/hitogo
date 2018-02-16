@@ -184,7 +184,7 @@ public abstract class AlertImpl<T extends AlertParams> extends AlertLifecycle<T>
      * @param force  Determines if the animation for the show-process should displayed or not.
      * @since 1.0.0
      */
-    protected void internalShowDelayed(final long millis, final boolean force) {
+    private void internalShowDelayed(final long millis, final boolean force) {
         Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
             @Override

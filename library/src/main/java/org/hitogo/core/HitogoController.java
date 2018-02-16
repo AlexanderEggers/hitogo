@@ -227,7 +227,7 @@ public abstract class HitogoController implements LifecycleObserver {
         }
     }
 
-    protected long internalCloseByType(Iterator<AlertImpl> it, @NonNull AlertType type, boolean force) {
+    private long internalCloseByType(Iterator<AlertImpl> it, @NonNull AlertType type, boolean force) {
         long longestClosingAnim = 0;
 
         while (it.hasNext()) {
@@ -260,7 +260,7 @@ public abstract class HitogoController implements LifecycleObserver {
         }
     }
 
-    protected void internalCloseByTag(Iterator<AlertImpl> it, @NonNull String tag, boolean force, long currentLongest) {
+    private void internalCloseByTag(Iterator<AlertImpl> it, @NonNull String tag, boolean force, long currentLongest) {
         while (it.hasNext()) {
             AlertImpl object = it.next();
             if (object != null && object.isAttached() && tag.equals(object.getTag())) {
@@ -297,7 +297,7 @@ public abstract class HitogoController implements LifecycleObserver {
         }
     }
 
-    protected void internalCloseByState(Iterator<AlertImpl> it, int state, boolean force, long currentLongest) {
+    private void internalCloseByState(Iterator<AlertImpl> it, int state, boolean force, long currentLongest) {
         while (it.hasNext()) {
             AlertImpl object = it.next();
             if (object != null && object.isAttached() && object.getState() == state) {
@@ -321,7 +321,7 @@ public abstract class HitogoController implements LifecycleObserver {
         }
     }
 
-    protected long internalCloseByAlert(Iterator<AlertImpl> it, final @NonNull Alert alert, boolean force) {
+    private long internalCloseByAlert(Iterator<AlertImpl> it, final @NonNull Alert alert, boolean force) {
         long longestClosingAnim = 0;
 
         while (it.hasNext()) {
@@ -339,7 +339,7 @@ public abstract class HitogoController implements LifecycleObserver {
         return longestClosingAnim;
     }
 
-    protected void internalMakeVisible(AlertImpl object, boolean force) {
+    private void internalMakeVisible(AlertImpl object, boolean force) {
         int count = alertCountMap.get(object.hashCode());
         if (count == 0) {
             alertCountMap.put(object.hashCode(), 1);
@@ -350,7 +350,7 @@ public abstract class HitogoController implements LifecycleObserver {
         }
     }
 
-    protected void internalMakeInvisible(AlertImpl object, boolean force) {
+    private void internalMakeInvisible(AlertImpl object, boolean force) {
         int count = alertCountMap.get(object.hashCode());
         if (count == 1) {
             alertCountMap.delete(object.hashCode());
@@ -360,7 +360,7 @@ public abstract class HitogoController implements LifecycleObserver {
         }
     }
 
-    protected void internalMakeActiveAlertInvisible(AlertImpl toBeClosedAlert, final boolean force) {
+    private void internalMakeActiveAlertInvisible(AlertImpl toBeClosedAlert, final boolean force) {
         Iterator<AlertImpl> iterator = getCurrentActiveList(toBeClosedAlert.getType()).iterator();
 
         while (iterator.hasNext()) {
