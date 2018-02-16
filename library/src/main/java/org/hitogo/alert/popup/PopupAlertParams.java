@@ -22,6 +22,7 @@ public class PopupAlertParams extends AlertParams {
     private Float elevation;
     private String anchorViewTag;
     private boolean isDismissible;
+    private boolean dismissByLayoutClick;
 
     private Transition enterTransition;
     private Transition exitTransition;
@@ -42,6 +43,7 @@ public class PopupAlertParams extends AlertParams {
         elevation = holder.getFloat(PopupAlertParamsKeys.ELEVATION_KEY);
         anchorViewTag = holder.getString(PopupAlertParamsKeys.ANCHOR_VIEW_TAG_KEY);
         isDismissible = holder.getBoolean(PopupAlertParamsKeys.IS_DISMISSIBLE_KEY);
+        dismissByLayoutClick = holder.getBoolean(PopupAlertParamsKeys.DISMISS_BY_LAYOUT_CLICK_KEY);
 
         enterTransition = holder.getCustomObject(PopupAlertParamsKeys.ENTER_TRANSITION_KEY);
         exitTransition = holder.getCustomObject(PopupAlertParamsKeys.EXIT_TRANSITION_KEY);
@@ -90,6 +92,10 @@ public class PopupAlertParams extends AlertParams {
 
     protected boolean isDismissible() {
         return isDismissible;
+    }
+
+    public boolean isDismissByLayoutClick() {
+        return dismissByLayoutClick;
     }
 
     public Transition getEnterTransition() {

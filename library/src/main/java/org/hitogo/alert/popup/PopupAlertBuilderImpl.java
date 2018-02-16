@@ -39,6 +39,7 @@ public class PopupAlertBuilderImpl extends AlertBuilderImpl<PopupAlertBuilder, P
     private Float elevation;
     private String anchorViewTag;
     private boolean isDismissible;
+    private boolean dismissByClick;
 
     private Transition enterTransition;
     private Transition exitTransition;
@@ -134,6 +135,7 @@ public class PopupAlertBuilderImpl extends AlertBuilderImpl<PopupAlertBuilder, P
         return this;
     }
 
+    @NonNull
     @Override
     public PopupAlertBuilder setTouchListener(@NonNull View.OnTouchListener onTouchListener) {
         this.onTouchListener = onTouchListener;
@@ -146,6 +148,13 @@ public class PopupAlertBuilderImpl extends AlertBuilderImpl<PopupAlertBuilder, P
     public PopupAlertBuilder setTransition(@Nullable Transition enterTransition, @Nullable Transition exitTransition) {
         this.enterTransition = enterTransition;
         this.exitTransition = exitTransition;
+        return this;
+    }
+
+    @NonNull
+    @Override
+    public PopupAlertBuilder dismissByLayoutClick(boolean dismissByClick) {
+        this.dismissByClick = dismissByClick;
         return this;
     }
 

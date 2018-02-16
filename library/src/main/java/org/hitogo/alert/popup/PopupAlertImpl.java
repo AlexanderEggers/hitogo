@@ -66,6 +66,7 @@ public class PopupAlertImpl extends AlertImpl<PopupAlertParams> implements Popup
 
         if (view != null) {
             buildLayoutContent(view);
+            buildLayoutInteractions(view);
 
             for (Button button : params.getButtons()) {
                 determineButtonCreation(button, view, false);
@@ -83,6 +84,18 @@ public class PopupAlertImpl extends AlertImpl<PopupAlertParams> implements Popup
         }
 
         return null;
+    }
+
+    protected void buildLayoutInteractions(@NonNull View dialogView) {
+        if (getParams().isDismissByLayoutClick()) {
+            dialogView.setOnClickListener(new android.view.View.OnClickListener() {
+                @Override
+                public void onClick(android.view.View view) {
+                    close();
+                }
+            });
+            dialogView.setClickable(true);
+        }
     }
 
     protected void determineButtonCreation(Button button, View dialogView, boolean forceClose) {

@@ -19,45 +19,49 @@ import static android.os.Build.VERSION_CODES.M;
 public interface PopupAlertBuilder extends AlertBuilder<PopupAlertBuilder, PopupAlert> {
 
     @NonNull
-    public PopupAlertBuilder asDismissible();
+    PopupAlertBuilder asDismissible();
 
     @NonNull
-    public PopupAlertBuilder asDismissible(boolean isDismissible);
+    PopupAlertBuilder asDismissible(boolean isDismissible);
 
     @NonNull
-    public PopupAlertBuilder asDismissible(@Nullable Button closeButton);
+    PopupAlertBuilder asDismissible(@Nullable Button closeButton);
 
     @NonNull
-    public PopupAlertBuilder setAnchor(@IdRes int anchorViewId);
+    PopupAlertBuilder setAnchor(@IdRes int anchorViewId);
 
     @NonNull
-    public PopupAlertBuilder setAnchor(String anchorViewTag);
+    PopupAlertBuilder setAnchor(String anchorViewTag);
 
     @NonNull
-    public PopupAlertBuilder setOffset(int xoff, int yoff);
+    PopupAlertBuilder setOffset(int xoff, int yoff);
 
     @NonNull
     @RequiresApi(KITKAT)
-    public PopupAlertBuilder setGravity(int gravity);
+    PopupAlertBuilder setGravity(int gravity);
 
     @NonNull
     @RequiresApi(LOLLIPOP)
-    public PopupAlertBuilder setElevation(float elevation);
+    PopupAlertBuilder setElevation(float elevation);
 
     @NonNull
-    public PopupAlertBuilder setBackgroundDrawable(@DrawableRes Integer drawableRes);
+    PopupAlertBuilder setBackgroundDrawable(@DrawableRes Integer drawableRes);
 
     @NonNull
-    public PopupAlertBuilder setSize(int width, int height);
+    PopupAlertBuilder setSize(int width, int height);
 
     @NonNull
-    public PopupAlertBuilder setAnimationStyle(@StyleRes int animationStyle);
+    PopupAlertBuilder setAnimationStyle(@StyleRes int animationStyle);
 
-    public PopupAlertBuilder setTouchListener(@NonNull View.OnTouchListener onTouchListener);
+    @NonNull
+    PopupAlertBuilder setTouchListener(@NonNull View.OnTouchListener onTouchListener);
 
     @NonNull
     @RequiresApi(M)
-    public PopupAlertBuilder setTransition(@Nullable Transition enterTransition, @Nullable Transition exitTransition);
+    PopupAlertBuilder setTransition(@Nullable Transition enterTransition, @Nullable Transition exitTransition);
+
+    @NonNull
+    PopupAlertBuilder dismissByLayoutClick(boolean dismissByClick);
 
     void show(boolean force);
 
