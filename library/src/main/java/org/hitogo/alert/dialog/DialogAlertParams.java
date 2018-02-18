@@ -10,7 +10,7 @@ public class DialogAlertParams extends AlertParams {
     private boolean isDismissible;
 
     @Override
-    protected void onCreateParams(HitogoParamsHolder holder, AlertParams alertParams) {
+    protected void onCreateParams(HitogoParamsHolder holder) {
         dialogThemeResId = holder.getInteger(DialogAlertParamsKeys.DIALOG_THEME_RES_ID);
         isDismissible = holder.getBoolean(DialogAlertParamsKeys.IS_DISMISSIBLE_KEY);
     }

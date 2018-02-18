@@ -4,12 +4,14 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Log;
 import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import org.hitogo.button.core.Button;
@@ -81,20 +83,7 @@ public class DialogAlertImpl extends AlertImpl<DialogAlertParams> implements Dia
         }
         builder.setCancelable(getParams().isDismissible());
 
-        if (getHelper().isNotEmpty(getParams().getTitle())) {
-            setDialogTitle(view, builder);
-        }
-
-        SparseArray<String> textMap = getParams().getTextMap();
-        if (view != null) {
-            for (int i = 0; i < textMap.size(); i++) {
-                Integer viewId = textMap.keyAt(i);
-                String text = textMap.valueAt(i);
-                setViewString(view, viewId, text);
-            }
-        } else if (textMap.size() > 0) {
-            builder.setMessage(textMap.valueAt(0));
-        }
+        buildLayoutContent(view, builder);
 
         for (Button button : buttonList) {
             determineButtonCreation(button, view, builder);
@@ -111,17 +100,65 @@ public class DialogAlertImpl extends AlertImpl<DialogAlertParams> implements Dia
         return builder;
     }
 
-    protected void setDialogTitle(View containerView, AlertDialog.Builder builder) {
-        if (containerView != null && getParams().getTitleViewId() != null) {
-            ((TextView) containerView.findViewById(getParams().getTitleViewId()))
-                    .setText(getAccessor().getHtmlText(getParams().getTitle()));
-        } else {
-            builder.setTitle(getParams().getTitle());
+    protected void buildLayoutContent(View view, @NonNull AlertDialog.Builder builder) {
+        if (getHelper().isNotEmpty(getParams().getTitle())) {
+            if (view != null && getParams().getTitleViewId() != null) {
+                ((TextView) view.findViewById(getParams().getTitleViewId()))
+                        .setText(getAccessor().getHtmlText(getParams().getTitle()));
+            } else {
+                builder.setTitle(getParams().getTitle());
+            }
+        }
+
+        SparseArray<String> textMap = getParams().getTextMap();
+        if (view != null) {
+            for (int i = 0; i < textMap.size(); i++) {
+                Integer viewId = textMap.keyAt(i);
+                String text = textMap.valueAt(i);
+                setViewString(view, viewId, text);
+            }
+        } else if (textMap.size() > 0) {
+            builder.setMessage(textMap.valueAt(0));
+        }
+
+        SparseArray<Drawable> drawableMap = getParams().getDrawableMap();
+        if (view != null) {
+            for (int i = 0; i < drawableMap.size(); i++) {
+                Integer viewId = drawableMap.keyAt(i);
+                Drawable drawable = drawableMap.valueAt(i);
+                setDrawable(view, viewId, drawable);
+            }
+        } else if (textMap.size() > 0) {
+            builder.setIcon(drawableMap.valueAt(0));
+        }
+    }
+
+    protected void setDrawable(@NonNull View containerView, @Nullable Integer viewId,
+                               @Nullable Drawable drawable) {
+        if (viewId != null) {
+            View view = containerView.findViewById(viewId);
+            if (view != null) {
+                if (drawable != null) {
+                    view.setVisibility(View.VISIBLE);
+
+                    if (view instanceof ImageView) {
+                        ((ImageView) view).setImageDrawable(drawable);
+                    } else {
+                        view.setBackground(drawable);
+                    }
+                } else {
+                    view.setVisibility(View.GONE);
+                }
+            } else if (getController().provideIsDebugState()) {
+                throw new InvalidParameterException("Did you forget to add the view to your layout?");
+            }
+        } else if (getController().provideIsDebugState()) {
+            throw new InvalidParameterException("View id is null.");
         }
     }
 
     protected void setViewString(@NonNull View containerView, @Nullable Integer viewId,
-                               @Nullable String chars) {
+                                 @Nullable String chars) {
         if (viewId != null) {
             TextView textView = containerView.findViewById(viewId);
             if (textView != null) {

@@ -25,10 +25,44 @@ public class MainActivity extends HitogoActivity {
         setContentView(R.layout.activity_main);
         //sourceTest();
         //showFirstView();
-        showPrioAlerts();
+        //showPrioAlerts();
+        testImage();
 
         //testToast();
-        //testSnackbar();
+        testSnackbar();
+    }
+
+    public void testImage() {
+        ActionButton actionButton = Hitogo.with(this)
+                .asActionButton()
+                .setButtonListener(new ButtonListener<String>() {
+                    @Override
+                    public void onClick(Alert alert, String parameter) {
+                        testImageDialog();
+                    }
+                }, false)
+                .setText("Dialog")
+                .forViewAction(R.id.close)
+                .build();
+
+        Hitogo.with(this)
+                .asViewAlert()
+                .addText("Test Image Alert")
+                .asLayoutChild()
+                .addButton(actionButton)
+                .setState(AlertState.HINT)
+                .addDrawable(R.id.imageTest, android.R.drawable.star_on)
+                .show();
+    }
+
+    public void testImageDialog() {
+        Hitogo.with(this)
+                .asDialogAlert()
+                .setTitle("Test")
+                .addText("Test Image Alert")
+                .addButton("Ok")
+                .addDrawable(android.R.drawable.star_on)
+                .show();
     }
 
     public void testToast() {

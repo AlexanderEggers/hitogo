@@ -18,7 +18,7 @@ public class ViewAlertParams extends AlertParams {
     private HitogoAnimation animation;
 
     @Override
-    protected void onCreateParams(HitogoParamsHolder holder, AlertParams alertParams) {
+    protected void onCreateParams(HitogoParamsHolder holder) {
         containerId = holder.getInteger(ViewAlertParamsKeys.CONTAINER_ID_KEY);
         innerLayoutViewId = holder.getInteger(ViewAlertParamsKeys.INNER_LAYOUT_VIEW_ID_KEY);
 

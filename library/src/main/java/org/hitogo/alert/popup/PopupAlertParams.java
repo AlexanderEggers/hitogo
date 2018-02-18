@@ -29,7 +29,7 @@ public class PopupAlertParams extends AlertParams {
     private View.OnTouchListener onTouchListener;
 
     @Override
-    protected void onCreateParams(HitogoParamsHolder holder, AlertParams alertParams) {
+    protected void onCreateParams(HitogoParamsHolder holder) {
         drawableRes = holder.getInteger(PopupAlertParamsKeys.DRAWABLE_RES_KEY);
         anchorViewId = holder.getInteger(PopupAlertParamsKeys.ANCHOR_VIEW_ID_KEY);
         animationStyle = holder.getInteger(PopupAlertParamsKeys.ANIMATION_STYLE_KEY);

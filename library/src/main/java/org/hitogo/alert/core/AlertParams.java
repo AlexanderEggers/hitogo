@@ -59,7 +59,7 @@ public abstract class AlertParams extends HitogoParams<HitogoParamsHolder, Alert
 
         visibilityListener = holder.getCustomObject(AlertParamsKeys.VISIBILITY_LISTENER_KEY);
 
-        onCreateParams(holder, this);
+        onCreateParams(holder);
     }
 
     public abstract boolean hasAnimation();

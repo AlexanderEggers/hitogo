@@ -15,12 +15,12 @@ public class SnackbarAlertParams extends AlertParams {
     private ColorStateList colorStates;
 
     @Override
-    protected void onCreateParams(HitogoParamsHolder holder, AlertParams alertParams) {
+    protected void onCreateParams(HitogoParamsHolder holder) {
         actionTextColor = holder.getInteger(SnackbarAlertParamsKeys.ACTION_TEXT_COLOR_KEY);
         duration = holder.getInteger(SnackbarAlertParamsKeys.DURATION_KEY);
 
-        snackbarCallback = (Snackbar.Callback) holder.getCustomObject(SnackbarAlertParamsKeys.CALLBACK_KEY);
-        colorStates = (ColorStateList) holder.getCustomObject(SnackbarAlertParamsKeys.COLOR_STATE_LIST_KEY);
+        snackbarCallback = holder.getCustomObject(SnackbarAlertParamsKeys.CALLBACK_KEY);
+        colorStates = holder.getCustomObject(SnackbarAlertParamsKeys.COLOR_STATE_LIST_KEY);
     }
 
     public Integer getActionTextColor() {

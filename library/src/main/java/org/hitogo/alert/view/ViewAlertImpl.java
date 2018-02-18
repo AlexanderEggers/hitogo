@@ -2,6 +2,7 @@ package org.hitogo.alert.view;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Log;
@@ -10,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewManager;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import org.hitogo.core.HitogoAnimation;
@@ -155,10 +157,17 @@ public class ViewAlertImpl extends AlertImpl<ViewAlertParams> implements ViewAle
             String text = textMap.valueAt(i);
             setViewString(containerView, viewId, text);
         }
+
+        SparseArray<Drawable> drawableMap = getParams().getDrawableMap();
+        for (int i = 0; i < drawableMap.size(); i++) {
+            Integer viewId = drawableMap.keyAt(i);
+            Drawable drawable = drawableMap.valueAt(i);
+            setDrawable(containerView, viewId, drawable);
+        }
     }
 
     protected void setViewString(@NonNull View containerView, @Nullable Integer viewId,
-                               @Nullable String chars) {
+                                 @Nullable String chars) {
         if (viewId != null) {
             TextView textView = containerView.findViewById(viewId);
             if (textView != null) {
@@ -167,6 +176,30 @@ public class ViewAlertImpl extends AlertImpl<ViewAlertParams> implements ViewAle
                     textView.setText(getAccessor().getHtmlText(chars));
                 } else {
                     textView.setVisibility(View.GONE);
+                }
+            } else if (getController().provideIsDebugState()) {
+                throw new InvalidParameterException("Did you forget to add the view to your layout?");
+            }
+        } else if (getController().provideIsDebugState()) {
+            throw new InvalidParameterException("View id is null.");
+        }
+    }
+
+    protected void setDrawable(@NonNull View containerView, @Nullable Integer viewId,
+                               @Nullable Drawable drawable) {
+        if (viewId != null) {
+            View view = containerView.findViewById(viewId);
+            if (view != null) {
+                if (drawable != null) {
+                    view.setVisibility(View.VISIBLE);
+
+                    if (view instanceof ImageView) {
+                        ((ImageView) view).setImageDrawable(drawable);
+                    } else {
+                        view.setBackground(drawable);
+                    }
+                } else {
+                    view.setVisibility(View.GONE);
                 }
             } else if (getController().provideIsDebugState()) {
                 throw new InvalidParameterException("Did you forget to add the view to your layout?");

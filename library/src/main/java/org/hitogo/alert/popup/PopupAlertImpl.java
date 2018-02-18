@@ -1,6 +1,7 @@
 package org.hitogo.alert.popup;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -8,6 +9,7 @@ import android.support.v4.content.ContextCompat;
 import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
@@ -165,6 +167,13 @@ public class PopupAlertImpl extends AlertImpl<PopupAlertParams> implements Popup
             String text = textMap.valueAt(i);
             setViewString(containerView, viewId, text);
         }
+
+        SparseArray<Drawable> drawableMap = getParams().getDrawableMap();
+        for (int i = 0; i < drawableMap.size(); i++) {
+            Integer viewId = drawableMap.keyAt(i);
+            Drawable drawable = drawableMap.valueAt(i);
+            setDrawable(containerView, viewId, drawable);
+        }
     }
 
     protected void setViewString(@NonNull View containerView, @Nullable Integer viewId,
@@ -184,6 +193,30 @@ public class PopupAlertImpl extends AlertImpl<PopupAlertParams> implements Popup
             }
         } else if (getController().provideIsDebugState()) {
             throw new InvalidParameterException("Title or text view id is null.");
+        }
+    }
+
+    protected void setDrawable(@NonNull View containerView, @Nullable Integer viewId,
+                               @Nullable Drawable drawable) {
+        if (viewId != null) {
+            View view = containerView.findViewById(viewId);
+            if (view != null) {
+                if (drawable != null) {
+                    view.setVisibility(View.VISIBLE);
+
+                    if (view instanceof ImageView) {
+                        ((ImageView) view).setImageDrawable(drawable);
+                    } else {
+                        view.setBackground(drawable);
+                    }
+                } else {
+                    view.setVisibility(View.GONE);
+                }
+            } else if (getController().provideIsDebugState()) {
+                throw new InvalidParameterException("Did you forget to add the view to your layout?");
+            }
+        } else if (getController().provideIsDebugState()) {
+            throw new InvalidParameterException("View id is null.");
         }
     }
 

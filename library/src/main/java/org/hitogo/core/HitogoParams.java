@@ -26,12 +26,11 @@ public abstract class HitogoParams<T extends HitogoParamsHolder, P extends Hitog
 
     /**
      * This method should be called by the provideData to provide a public method which sub-classes
-     * can use to inject their data via the HitogoParamsHolder.
+     * can use to retrieve their data from the HitogoParamsHolder.
      *
-     * @param holder      an object which is extending HitogoParamsHolder
-     * @param alertParams an object which is extending HitogoParams
+     * @param holder an object which is extending HitogoParamsHolder
      * @see HitogoParamsHolder
      * @since 1.0.0
      */
-    protected abstract void onCreateParams(T holder, P alertParams);
+    protected abstract void onCreateParams(T holder);
 }

@@ -25,7 +25,7 @@ public abstract class ButtonParams extends HitogoParams<HitogoParamsHolder, Butt
         this.listener = holder.getCustomObject(ButtonParamsKeys.BUTTON_LISTENER_KEY);
         this.buttonParameter = holder.getCustomObject(ButtonParamsKeys.BUTTON_PARAMETER_KEY);
 
-        onCreateParams(holder, this);
+        onCreateParams(holder);
     }
 
     public abstract int[] getViewIds();

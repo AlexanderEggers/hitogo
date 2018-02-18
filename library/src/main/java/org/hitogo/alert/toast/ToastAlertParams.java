@@ -15,7 +15,7 @@ public class ToastAlertParams extends AlertParams {
     private Float verticalMargin;
 
     @Override
-    protected void onCreateParams(HitogoParamsHolder holder, AlertParams alertParams) {
+    protected void onCreateParams(HitogoParamsHolder holder) {
         duration = holder.getInteger(ToastAlertParamsKeys.DURATION_KEY);
 
         gravity = holder.getInteger(ToastAlertParamsKeys.GRAVITY_KEY);

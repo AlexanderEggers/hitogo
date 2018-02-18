@@ -32,7 +32,7 @@ android {
     buildToolsVersion "27.0.3"
 
     defaultConfig {
-        minSdkVersion 14
+        minSdkVersion 16
         versionName "1.0.0-beta18.4"
         consumerProguardFiles 'proguard-rules.pro'
     }

@@ -6,7 +6,7 @@ import org.hitogo.core.HitogoParamsHolder;
 public class SimpleButtonParams extends ButtonParams {
 
     @Override
-    protected void onCreateParams(HitogoParamsHolder holder, ButtonParams alertParams) {
+    protected void onCreateParams(HitogoParamsHolder holder) {
         //do nothing
     }
 

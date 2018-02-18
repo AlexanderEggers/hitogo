@@ -10,7 +10,7 @@ public class ActionButtonParams extends ButtonParams {
     private boolean hasButtonView;
 
     @Override
-    protected void onCreateParams(HitogoParamsHolder holder, ButtonParams buttonParams) {
+    protected void onCreateParams(HitogoParamsHolder holder) {
         viewIds = holder.getSerializable(ActionButtonParamsKeys.VIEW_IDS_KEY);
         hasButtonView = holder.getBoolean(ActionButtonParamsKeys.HAS_BUTTON_VIEW_KEY);
     }
