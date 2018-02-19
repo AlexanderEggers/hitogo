@@ -198,7 +198,7 @@ public abstract class AlertBuilderImpl<B, A extends Alert> implements AlertBuild
     @Override
     @NonNull
     public B addText(@IdRes @Nullable Integer viewId, @NonNull String text) {
-        textMap.put(viewId != null ? viewId : 0, text);
+        textMap.put(viewId != null ? viewId : -1, text);
         return (B) this;
     }
 
@@ -278,7 +278,7 @@ public abstract class AlertBuilderImpl<B, A extends Alert> implements AlertBuild
     @NonNull
     @Override
     public B addDrawable(@Nullable Integer viewId, @NonNull Drawable drawable) {
-        drawableMap.put(viewId != null ? viewId : 0, drawable);
+        drawableMap.put(viewId != null ? viewId : -1, drawable);
         return (B) this;
     }
 

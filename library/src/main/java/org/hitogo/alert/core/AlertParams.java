@@ -62,64 +62,161 @@ public abstract class AlertParams extends HitogoParams<HitogoParamsHolder, Alert
         onCreateParams(holder);
     }
 
+    /**
+     * Returns if the alert has an animation. This method is used internally for all alerts. Due to
+     * forcing overriding the correct method, this method is required to implement.
+     *
+     * @return True if the alert has animations, false otherwise.
+     * @since 1.0.0
+     */
     public abstract boolean hasAnimation();
 
+    /**
+     * Returns if the alert is closing alerts when it is in process to be displayed. This method is
+     * used internally for all alerts. Due to forcing overriding the correct method, this method is
+     * required to implement.
+     *
+     * @return True if the alert is closing other alerts when displayed, false otherwise.
+     * @since 1.0.0
+     */
     public abstract boolean isClosingOthers();
 
+    /**
+     * Returns the title for the alert.
+     *
+     * @return a String
+     * @since 1.0.0
+     */
     public String getTitle() {
         return title;
     }
 
+    /**
+     * Returns the title view id for the alert.
+     *
+     * @return an Integer or null
+     * @since 1.0.0
+     */
     public Integer getTitleViewId() {
         return titleViewId;
     }
 
+    /**
+     * Returns the AlertType for the alert.
+     *
+     * @return an AlertType object
+     * @see AlertType
+     * @since 1.0.0
+     */
     @NonNull
     public AlertType getType() {
         return type;
     }
 
+    /**
+     * Returns the tag for the alert.
+     *
+     * @return a String
+     * @since 1.0.0
+     */
     @NonNull
     public String getTag() {
         return tag;
     }
 
+    /**
+     * Returns the state for the alert.
+     *
+     * @return an Integer or null
+     * @since 1.0.0
+     */
     public Integer getState() {
         return state;
     }
 
+    /**
+     * Returns the layout resource for the alert.
+     *
+     * @return an Integer or null
+     * @since 1.0.0
+     */
     public Integer getLayoutRes() {
         return layoutRes;
     }
 
+    /**
+     * Returns the buttons that are attached to this alert.
+     *
+     * @return List of buttons
+     * @since 1.0.0
+     */
     @NonNull
     public List<Button> getButtons() {
         return buttons != null ? buttons : Collections.<Button>emptyList();
     }
 
+    /**
+     * Returns the text elements that are attached to this alert. The key is the view id, value is
+     * the text element. If the alert is not using any views for the text, the key is -1.
+     *
+     * @return SparseArray of String
+     * @since 1.0.0
+     */
     @NonNull
     public SparseArray<String> getTextMap() {
         return textMap != null ? textMap : new SparseArray<String>();
     }
 
+    /**
+     * Returns the drawables that are attached to this alert. The key is the view id, value is the
+     * drawable. If the alert is not using any views for the drawable, the key is -1.
+     *
+     * @return SparseArray of Drawable
+     * @since 1.0.0
+     */
     @NonNull
     public SparseArray<Drawable> getDrawableMap() {
         return drawableMap != null ? drawableMap : new SparseArray<Drawable>();
     }
 
+    /**
+     * Returns the optional bundle object for the alert.
+     *
+     * @return a Bundle object or null
+     * @since 1.0.0
+     */
     public Bundle getArguments() {
         return arguments;
     }
 
+    /**
+     * Returns the close button for the alert.
+     *
+     * @return a Button object or null
+     * @since 1.0.0
+     */
     public Button getCloseButton() {
         return closeButton;
     }
 
+    /**
+     * Returns the VisibilityListener that are attached to this alert.
+     *
+     * @return List of VisibilityListener
+     * @see VisibilityListener
+     * @since 1.0.0
+     */
     @NonNull
     public List<VisibilityListener> getVisibilityListener() {
         return visibilityListener != null ? visibilityListener : Collections.<VisibilityListener>emptyList();
     }
 
+    /**
+     * Returns the priority for the alert.
+     *
+     * @return an Integer or null
+     * @since 1.0.0
+     */
     public Integer getPriority() {
         return priority;
     }

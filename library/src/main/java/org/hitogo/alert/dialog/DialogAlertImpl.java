@@ -21,6 +21,12 @@ import org.hitogo.alert.view.ViewAlertBuilderImpl;
 import java.security.InvalidParameterException;
 import java.util.List;
 
+/**
+ * Implementation for the dialog alert. This alert requires to have at least one text element and
+ * one button.
+ *
+ * @since 1.0.0
+ */
 @SuppressWarnings({"WeakerAccess", "unused", "unchecked"})
 public class DialogAlertImpl extends AlertImpl<DialogAlertParams> implements DialogAlert {
 
@@ -39,7 +45,7 @@ public class DialogAlertImpl extends AlertImpl<DialogAlertParams> implements Dia
             throw new InvalidParameterException("You need to add one text element to this dialog.");
         }
 
-        if (params.getButtons().isEmpty()) {
+        if (params.getButtons().isEmpty() && params.getCloseButton() == null) {
             throw new InvalidParameterException("This dialog needs at least one button.");
         }
 

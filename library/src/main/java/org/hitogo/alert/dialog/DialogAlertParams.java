@@ -3,6 +3,12 @@ package org.hitogo.alert.dialog;
 import org.hitogo.alert.core.AlertParams;
 import org.hitogo.core.HitogoParamsHolder;
 
+/**
+ * Params object for the DialogAlert.
+ *
+ * @see AlertParams
+ * @since 1.0.0
+ */
 @SuppressWarnings({"WeakerAccess", "unused"})
 public class DialogAlertParams extends AlertParams {
 
@@ -15,10 +21,20 @@ public class DialogAlertParams extends AlertParams {
         isDismissible = holder.getBoolean(DialogAlertParamsKeys.IS_DISMISSIBLE_KEY);
     }
 
+    /**
+     * Returns the dialog theme resource id for the alert.
+     *
+     * @return an Integer or null
+     */
     public Integer getDialogThemeResId() {
         return dialogThemeResId;
     }
 
+    /**
+     * Returns if the alert can be dismissed.
+     *
+     * @return True if the alert can be dismissed, false otherwise.
+     */
     public boolean isDismissible() {
         return isDismissible;
     }

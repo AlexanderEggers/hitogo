@@ -2,6 +2,14 @@ package org.hitogo.alert.core;
 
 import org.hitogo.core.HitogoParamsKeys;
 
+/**
+ * This class is only used to define common keys for the HitogoParamsHolder which can be used by
+ * the AlertParams implementation.
+ *
+ * @see org.hitogo.core.HitogoParamsHolder
+ * @see AlertParams
+ * @since 1.0.0
+ */
 @SuppressWarnings("WeakerAccess")
 public abstract class AlertParamsKeys extends HitogoParamsKeys {
     public static final String TITLE_KEY = "title";
