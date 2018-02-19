@@ -23,6 +23,7 @@ public class PopupAlertParams extends AlertParams {
     private String anchorViewTag;
     private boolean isDismissible;
     private boolean dismissByLayoutClick;
+    private boolean fullScreen;
 
     private Transition enterTransition;
     private Transition exitTransition;
@@ -44,6 +45,7 @@ public class PopupAlertParams extends AlertParams {
         anchorViewTag = holder.getString(PopupAlertParamsKeys.ANCHOR_VIEW_TAG_KEY);
         isDismissible = holder.getBoolean(PopupAlertParamsKeys.IS_DISMISSIBLE_KEY);
         dismissByLayoutClick = holder.getBoolean(PopupAlertParamsKeys.DISMISS_BY_LAYOUT_CLICK_KEY);
+        fullScreen = holder.getBoolean(PopupAlertParamsKeys.FULLSCREEN_KEY);
 
         enterTransition = holder.getCustomObject(PopupAlertParamsKeys.ENTER_TRANSITION_KEY);
         exitTransition = holder.getCustomObject(PopupAlertParamsKeys.EXIT_TRANSITION_KEY);
@@ -118,5 +120,9 @@ public class PopupAlertParams extends AlertParams {
     @Override
     public boolean isClosingOthers() {
         return false;
+    }
+
+    public boolean isFullScreen() {
+        return fullScreen;
     }
 }

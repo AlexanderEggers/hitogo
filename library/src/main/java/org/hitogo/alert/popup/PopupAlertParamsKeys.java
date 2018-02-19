@@ -15,6 +15,7 @@ public abstract class PopupAlertParamsKeys extends AlertParamsKeys {
     public static final String ELEVATION_KEY = "elevation";
     public static final String ANCHOR_VIEW_TAG_KEY = "anchorViewTag";
     public static final String DISMISS_BY_LAYOUT_CLICK_KEY = "dismissByLayoutClick";
+    public static final String FULLSCREEN_KEY = "fullscreen";
 
     public static final String ENTER_TRANSITION_KEY = "enterTransition";
     public static final String EXIT_TRANSITION_KEY = "exitTransition";

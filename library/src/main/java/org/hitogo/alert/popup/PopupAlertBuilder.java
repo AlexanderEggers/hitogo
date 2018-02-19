@@ -2,6 +2,7 @@ package org.hitogo.alert.popup;
 
 import android.support.annotation.DrawableRes;
 import android.support.annotation.IdRes;
+import android.support.annotation.IntRange;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
@@ -62,6 +63,9 @@ public interface PopupAlertBuilder extends AlertBuilder<PopupAlertBuilder, Popup
 
     @NonNull
     PopupAlertBuilder dismissByLayoutClick(boolean dismissByClick);
+
+    @NonNull
+    PopupAlertBuilder asFullscreen(boolean isFullscreen);
 
     void show(boolean force);
 

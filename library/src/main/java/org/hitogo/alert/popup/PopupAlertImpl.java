@@ -9,6 +9,7 @@ import android.support.v4.content.ContextCompat;
 import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup.LayoutParams;
 import android.widget.ImageView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
@@ -78,7 +79,13 @@ public class PopupAlertImpl extends AlertImpl<PopupAlertParams> implements Popup
                 determineButtonCreation(params.getCloseButton(), view, true);
             }
 
-            PopupWindow window = new PopupWindow(view, params.getWidth(), params.getHeight());
+            PopupWindow window;
+            if(params.isFullScreen()) {
+                window = new PopupWindow(view, LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT,true);
+            } else {
+                window = new PopupWindow(view, params.getWidth(), params.getHeight());
+            }
+
             return buildPopupWindow(window);
         } else if (getController().provideIsDebugState()) {
             throw new InvalidParameterException("View is null. Is the layout existing for " +

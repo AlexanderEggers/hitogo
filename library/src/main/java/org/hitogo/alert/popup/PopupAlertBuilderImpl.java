@@ -40,6 +40,7 @@ public class PopupAlertBuilderImpl extends AlertBuilderImpl<PopupAlertBuilder, P
     private String anchorViewTag;
     private boolean isDismissible;
     private boolean dismissByClick;
+    private boolean fullscreen;
 
     private Transition enterTransition;
     private Transition exitTransition;
@@ -158,6 +159,13 @@ public class PopupAlertBuilderImpl extends AlertBuilderImpl<PopupAlertBuilder, P
         return this;
     }
 
+    @NonNull
+    @Override
+    public PopupAlertBuilder asFullscreen(boolean isFullscreen) {
+        this.fullscreen = isFullscreen;
+        return this;
+    }
+
     @Override
     public void show() {
         show(false);
@@ -205,6 +213,7 @@ public class PopupAlertBuilderImpl extends AlertBuilderImpl<PopupAlertBuilder, P
         holder.provideString(PopupAlertParamsKeys.ANCHOR_VIEW_TAG_KEY, anchorViewTag);
         holder.provideBoolean(PopupAlertParamsKeys.IS_DISMISSIBLE_KEY, isDismissible);
         holder.provideBoolean(PopupAlertParamsKeys.DISMISS_BY_LAYOUT_CLICK_KEY, dismissByClick);
+        holder.provideBoolean(PopupAlertParamsKeys.FULLSCREEN_KEY, fullscreen);
 
         holder.provideCustomObject(PopupAlertParamsKeys.ENTER_TRANSITION_KEY, enterTransition);
         holder.provideCustomObject(PopupAlertParamsKeys.EXIT_TRANSITION_KEY, exitTransition);
