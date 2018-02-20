@@ -25,14 +25,14 @@ import org.hitogo.alert.dialog.DialogAlertFactory;
 import org.hitogo.alert.view.ViewAlertBuilderImpl;
 import org.hitogo.alert.view.ViewAlertFactory;
 import org.hitogo.button.core.ButtonParams;
-import org.hitogo.button.simple.SimpleButtonBuilder;
-import org.hitogo.button.simple.SimpleButtonBuilderImpl;
-import org.hitogo.button.simple.SimpleButtonFactory;
+import org.hitogo.button.simple.TextButtonBuilder;
+import org.hitogo.button.simple.TextButtonBuilderImpl;
+import org.hitogo.button.simple.TextButtonFactory;
 
 @SuppressWarnings({"WeakerAccess", "unused"})
 public class Hitogo implements ViewAlertFactory<ViewAlertBuilder>, DialogAlertFactory<DialogAlertBuilder>,
         ViewButtonFactory<ViewButtonBuilder>, PopupAlertFactory<PopupAlertBuilder>,
-        SnackbarAlertFactory<SnackbarAlertBuilder>, SimpleButtonFactory<SimpleButtonBuilder>,
+        SnackbarAlertFactory<SnackbarAlertBuilder>, TextButtonFactory<TextButtonBuilder>,
         ToastAlertFactory<ToastAlertBuilder>, CloseButtonFactory<ViewButtonBuilder> {
 
     private final HitogoContainer container;
@@ -186,23 +186,23 @@ public class Hitogo implements ViewAlertFactory<ViewAlertBuilder>, DialogAlertFa
     }
 
     @Override
-    public SimpleButtonBuilder asSimpleButton() {
-        return new SimpleButtonBuilderImpl(controller.provideDefaultSimpleButtonClass(),
+    public TextButtonBuilder asTextButton() {
+        return new TextButtonBuilderImpl(controller.provideDefaultSimpleButtonClass(),
                 controller.provideDefaultSimpleButtonParamsClass(),
                 container);
     }
 
     @Override
-    public SimpleButtonBuilder asSimpleButton(@NonNull Class<? extends ButtonImpl> targetClass) {
-        return new SimpleButtonBuilderImpl(targetClass,
+    public TextButtonBuilder asTextButton(@NonNull Class<? extends ButtonImpl> targetClass) {
+        return new TextButtonBuilderImpl(targetClass,
                 controller.provideDefaultSimpleButtonParamsClass(),
                 container);
     }
 
     @Override
-    public SimpleButtonBuilder asSimpleButton(@NonNull Class<? extends ButtonImpl> targetClass,
-                                              @NonNull Class<? extends ButtonParams> paramClass) {
-        return new SimpleButtonBuilderImpl(targetClass,
+    public TextButtonBuilder asTextButton(@NonNull Class<? extends ButtonImpl> targetClass,
+                                          @NonNull Class<? extends ButtonParams> paramClass) {
+        return new TextButtonBuilderImpl(targetClass,
                 paramClass,
                 container);
     }

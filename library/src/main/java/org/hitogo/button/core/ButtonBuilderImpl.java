@@ -103,22 +103,26 @@ public abstract class ButtonBuilderImpl<C extends ButtonBuilder, B extends Butto
         return (C) this;
     }
 
+    @NonNull
     @Override
     public C addDrawable(int drawableRes) {
         return addDrawable(controller.provideDefaultButtonDrawableViewId(buttonType),
                 ContextCompat.getDrawable(getContainer().getActivity(), drawableRes));
     }
 
+    @NonNull
     @Override
     public C addDrawable(@NonNull Drawable drawable) {
         return addDrawable(controller.provideDefaultButtonDrawableViewId(buttonType), drawable);
     }
 
+    @NonNull
     @Override
     public C addDrawable(@IdRes @Nullable Integer viewId, int drawableRes) {
         return addDrawable(viewId, ContextCompat.getDrawable(getContainer().getActivity(), drawableRes));
     }
 
+    @NonNull
     @Override
     public C addDrawable(@IdRes @Nullable Integer viewId, @Nullable Drawable drawable) {
         drawableMap.put(viewId != null ? viewId : -1, drawable);

@@ -7,10 +7,10 @@ import org.hitogo.button.core.ButtonImpl;
 
 import java.security.InvalidParameterException;
 
-public class SimpleButtonImpl extends ButtonImpl<SimpleButtonParams> implements SimpleButton {
+public class TextButtonImpl extends ButtonImpl<TextButtonParams> implements TextButton {
 
     @Override
-    protected void onCheck(@NonNull SimpleButtonParams params) {
+    protected void onCheck(@NonNull TextButtonParams params) {
         super.onCheck(params);
 
         if (params.getTextMap().size() == 0) {
@@ -18,14 +18,14 @@ public class SimpleButtonImpl extends ButtonImpl<SimpleButtonParams> implements 
         }
 
         if (params.getTextMap().size() > 0) {
-            Log.w(SimpleButtonImpl.class.getName(), "This button only supports one text " +
+            Log.w(TextButtonImpl.class.getName(), "This button only supports one text " +
                     "element. Any other added text elements are not used.");
         }
     }
 
     @Override
     public boolean equals(final Object obj) {
-        return obj != null && obj instanceof SimpleButtonImpl && hashCode() == obj.hashCode();
+        return obj != null && obj instanceof TextButtonImpl && hashCode() == obj.hashCode();
     }
 
     @Override

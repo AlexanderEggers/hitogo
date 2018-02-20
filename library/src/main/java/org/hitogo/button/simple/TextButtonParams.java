@@ -3,7 +3,7 @@ package org.hitogo.button.simple;
 import org.hitogo.button.core.ButtonParams;
 import org.hitogo.core.HitogoParamsHolder;
 
-public class SimpleButtonParams extends ButtonParams {
+public class TextButtonParams extends ButtonParams {
 
     @Override
     protected void onCreateParams(HitogoParamsHolder holder) {

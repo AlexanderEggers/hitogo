@@ -22,7 +22,7 @@ public class ViewButtonImpl extends ButtonImpl<ViewButtonParams> implements View
 
         if (!params.hasButtonView()) {
             throw new InvalidParameterException("Have you forgot to add at least one view id for " +
-                    "this button? If you don't need a view for your button, use asSimpleButton instead.");
+                    "this button? If you don't need a view for your button, use asTextButton instead.");
         }
     }
 

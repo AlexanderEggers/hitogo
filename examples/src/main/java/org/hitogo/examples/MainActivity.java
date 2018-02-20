@@ -11,7 +11,7 @@ import android.widget.Toast;
 import org.hitogo.alert.core.Alert;
 import org.hitogo.alert.core.VisibilityListener;
 import org.hitogo.alert.view.ViewAlert;
-import org.hitogo.button.simple.SimpleButton;
+import org.hitogo.button.simple.TextButton;
 import org.hitogo.button.view.ViewButton;
 import org.hitogo.button.core.ButtonListener;
 import org.hitogo.core.Hitogo;
@@ -327,8 +327,8 @@ public class MainActivity extends HitogoActivity {
     }
 
     private void testOnClick() {
-        SimpleButton button = Hitogo.with(this)
-                .asSimpleButton()
+        TextButton button = Hitogo.with(this)
+                .asTextButton()
                 .setButtonListener(new ButtonListener() {
                     @Override
                     public void onClick(Alert alert, Object parameter) {
@@ -350,8 +350,8 @@ public class MainActivity extends HitogoActivity {
     }
 
     private void dialogTest2() {
-        SimpleButton button = Hitogo.with(this)
-                .asSimpleButton()
+        TextButton button = Hitogo.with(this)
+                .asTextButton()
                 .setButtonListener(new ButtonListener() {
                     @Override
                     public void onClick(Alert alert, Object parameter) {
