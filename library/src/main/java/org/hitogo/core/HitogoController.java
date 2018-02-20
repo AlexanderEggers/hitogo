@@ -65,7 +65,7 @@ public abstract class HitogoController implements LifecycleObserver {
 
     public void show(AlertImpl alert, boolean force, boolean showLater) {
         synchronized (syncLock) {
-            internalShow(getCurrentAlertList(alert.getType()), alert, force, showLater);
+            internalShow(getCurrentAlertList(alert.getAlerType()), alert, force, showLater);
         }
     }
 
@@ -75,7 +75,7 @@ public abstract class HitogoController implements LifecycleObserver {
                 closeByAlert(alert);
             }
 
-            final LinkedList<AlertImpl> currentAlerts = getCurrentAlertList(alert.getType());
+            final LinkedList<AlertImpl> currentAlerts = getCurrentAlertList(alert.getAlerType());
             if (!currentAlerts.isEmpty()) {
                 searchForNextInvisibleAlert(currentAlerts, force, alert.getAnimationDuration());
             }
@@ -136,19 +136,19 @@ public abstract class HitogoController implements LifecycleObserver {
             return;
         }
 
-        List<AlertImpl> currentActiveObjects = getCurrentActiveList(newAlert.getType());
+        List<AlertImpl> currentActiveObjects = getCurrentActiveList(newAlert.getAlerType());
         long waitForClosing = 0;
 
         if (newAlert.hasPriority()) {
             int newAlertPrio = newAlert.getPriority();
             if (newAlertPrio < currentHighestPriority) {
                 currentHighestPriority = newAlertPrio;
-                waitForClosing = closeByType(newAlert.getType(), force);
+                waitForClosing = closeByType(newAlert.getAlerType(), force);
             } else {
                 return;
             }
         } else if (newAlert.isClosingOthers() && !currentActiveObjects.isEmpty()) {
-            long waitByType = closeByType(newAlert.getType(), force);
+            long waitByType = closeByType(newAlert.getAlerType(), force);
             if (waitByType > waitForClosing) {
                 waitForClosing = waitByType;
             }
@@ -233,7 +233,7 @@ public abstract class HitogoController implements LifecycleObserver {
 
         while (it.hasNext()) {
             AlertImpl object = it.next();
-            if (object != null && type == object.getType() && object.isAttached()) {
+            if (object != null && type == object.getAlerType() && object.isAttached()) {
                 if (object.getAnimationDuration() > longestClosingAnim) {
                     longestClosingAnim = object.getAnimationDuration();
                 }
@@ -318,7 +318,7 @@ public abstract class HitogoController implements LifecycleObserver {
 
     public long closeByAlert(@NonNull Alert alert, boolean force) {
         synchronized (syncLock) {
-            return internalCloseByAlert(getCurrentAlertList(alert.getType()).iterator(), alert, force);
+            return internalCloseByAlert(getCurrentAlertList(alert.getAlerType()).iterator(), alert, force);
         }
     }
 
@@ -345,7 +345,7 @@ public abstract class HitogoController implements LifecycleObserver {
         if (count == 0) {
             alertCountMap.put(object.hashCode(), 1);
             object.makeVisible(force);
-            getCurrentActiveList(object.getType()).add(object);
+            getCurrentActiveList(object.getAlerType()).add(object);
         } else {
             alertCountMap.put(object.hashCode(), count + 1);
         }
@@ -362,7 +362,7 @@ public abstract class HitogoController implements LifecycleObserver {
     }
 
     private void internalMakeActiveAlertInvisible(AlertImpl toBeClosedAlert, final boolean force) {
-        Iterator<AlertImpl> iterator = getCurrentActiveList(toBeClosedAlert.getType()).iterator();
+        Iterator<AlertImpl> iterator = getCurrentActiveList(toBeClosedAlert.getAlerType()).iterator();
 
         while (iterator.hasNext()) {
             AlertImpl alert = iterator.next();
@@ -498,17 +498,17 @@ public abstract class HitogoController implements LifecycleObserver {
     }
 
     @Nullable
+    public Integer provideDefaultViewAlertLayoutContainerId() {
+        return null;
+    }
+
+    @Nullable
+    public Integer provideDefaultViewAlertOverlayContainerId() {
+        return null;
+    }
+
+    @Nullable
     public Integer provideDefaultAlertState(AlertType type) {
-        return null;
-    }
-
-    @Nullable
-    public Integer provideDefaultAlertLayoutContainerId() {
-        return null;
-    }
-
-    @Nullable
-    public Integer provideDefaultAlertOverlayContainerId() {
         return null;
     }
 

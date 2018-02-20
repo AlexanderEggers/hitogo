@@ -48,7 +48,7 @@ public class ViewAlertImpl extends AlertImpl<ViewAlertParams> implements ViewAle
         super.onCreate(controller, params);
 
         this.animation = params.getAnimation() != null ?
-                params.getAnimation() : controller.provideDefaultAlertAnimation(getType());
+                params.getAnimation() : controller.provideDefaultAlertAnimation(getAlerType());
 
         if (params.getContainerId() != null) {
             View containerView = determineViewGroup();
@@ -73,7 +73,7 @@ public class ViewAlertImpl extends AlertImpl<ViewAlertParams> implements ViewAle
         int layoutContainerId = getParams().getContainerId();
         View containerView = getRootView().findViewById(layoutContainerId);
 
-        Integer overlayContainerId = getController().provideDefaultAlertOverlayContainerId();
+        Integer overlayContainerId = getController().provideDefaultViewAlertOverlayContainerId();
         if (containerView == null && overlayContainerId != null) {
             Log.e(ViewAlertBuilderImpl.class.getName(), "Cannot find container view. " +
                     "Using default overlay container view as fallback.");

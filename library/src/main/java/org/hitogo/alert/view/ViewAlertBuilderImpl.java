@@ -118,21 +118,21 @@ public class ViewAlertBuilderImpl extends AlertBuilderImpl<ViewAlertBuilder, Vie
     @Override
     @NonNull
     public ViewAlertBuilder asOverlay() {
-        return asOverlay(getController().provideDefaultAlertOverlayContainerId());
+        return asOverlay(getController().provideDefaultViewAlertOverlayContainerId());
     }
 
     @Override
     @NonNull
     public ViewAlertBuilder asOverlay(@IdRes @Nullable Integer overlayId) {
         this.containerId = overlayId == null ?
-                getController().provideDefaultAlertOverlayContainerId() : overlayId;
+                getController().provideDefaultViewAlertOverlayContainerId() : overlayId;
         return this;
     }
 
     @Override
     @NonNull
     public ViewAlertBuilder asLayoutChild() {
-        return asLayoutChild(getController().provideDefaultAlertLayoutContainerId());
+        return asLayoutChild(getController().provideDefaultViewAlertLayoutContainerId());
     }
 
     @Override

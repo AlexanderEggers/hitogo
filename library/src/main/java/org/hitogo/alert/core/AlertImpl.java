@@ -412,7 +412,7 @@ public abstract class AlertImpl<T extends AlertParams> extends AlertLifecycle<T>
      * @since 1.0.0
      */
     @Override
-    public AlertType getType() {
+    public AlertType getAlerType() {
         return type;
     }
 

@@ -85,7 +85,7 @@ public interface Alert<T extends AlertParams> {
      * @see AlertType
      * @since 1.0.0
      */
-    AlertType getType();
+    AlertType getAlerType();
 
     /**
      * Returns the alert params object. The params object is storing all values for the alert.
