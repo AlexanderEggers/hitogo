@@ -165,7 +165,7 @@ public abstract class ButtonBuilderImpl<C extends ButtonBuilder, B extends Butto
     }
 
     @NonNull
-    public ButtonType getButtonType() {
+    protected ButtonType getButtonType() {
         return buttonType;
     }
 
@@ -174,7 +174,8 @@ public abstract class ButtonBuilderImpl<C extends ButtonBuilder, B extends Butto
         return helper;
     }
 
-    public HitogoAccessor getAccessor() {
+    @NonNull
+    protected HitogoAccessor getAccessor() {
         return accessor;
     }
 }

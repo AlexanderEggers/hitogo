@@ -16,7 +16,7 @@ public abstract class VisibilityListener<T extends Alert> {
      * Called when the alert has executed the method "build" provided by the builder system.
      * The alert is not visible but the calculation for display-process has been executed.
      *
-     * @param object a object which is extending Alert
+     * @param object an object which is extending Alert
      * @see Alert
      * @see AlertBuilderImpl
      * @since 1.0.0
@@ -28,7 +28,7 @@ public abstract class VisibilityListener<T extends Alert> {
     /**
      * Called when the alert has executed the method "makeVisible" provided by the alert object.
      *
-     * @param object a object which is extending Alert
+     * @param object an object which is extending Alert
      * @see Alert
      * @see AlertBuilderImpl
      * @since 1.0.0
@@ -40,7 +40,7 @@ public abstract class VisibilityListener<T extends Alert> {
     /**
      * Called when the alert has executed the method "makeInvisible" provided by the alert object.
      *
-     * @param object a object which is extending Alert
+     * @param object an object which is extending Alert
      * @see Alert
      * @see AlertBuilderImpl
      * @since 1.0.0

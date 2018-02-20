@@ -26,7 +26,7 @@ public interface AlertBuilder<B, A extends Alert> extends AlertBuilderBase<B, A>
 
     /**
      * Adds a title to this alert which can be used inside the alert implementation. This method
-     * implementation will use the provideDefaultTitleViewId(Integer) method offered by the
+     * implementation will use the provideDefaultAlertTitleViewId(Integer) method offered by the
      * HitogoController. This method will define the default view id for this title.
      *
      * @param title Title for the alert.
@@ -39,7 +39,7 @@ public interface AlertBuilder<B, A extends Alert> extends AlertBuilderBase<B, A>
 
     /**
      * Adds a title resource to this alert which can be used inside the alert implementation. This
-     * method implementation will use the provideDefaultTitleViewId(Integer) method offered by the
+     * method implementation will use the provideDefaultAlertTitleViewId(Integer) method offered by the
      * HitogoController. This method will define the default view id for this title. The string
      * resource will be translated by the builder using the HitogoHelper.getString(int).
      *
@@ -133,7 +133,7 @@ public interface AlertBuilder<B, A extends Alert> extends AlertBuilderBase<B, A>
 
     /**
      * Adds a drawable to the alert which can be used inside the alert implementation. This
-     * method implementation will use the provideDefaultDrawableViewId(Integer) method offered by
+     * method implementation will use the provideDefaultAlertDrawableViewId(Integer) method offered by
      * the HitogoController. This method will define the default view id for this drawable. Alerts
      * can have more than one drawable. If more than one drawable is defined, the method
      * addDrawable(Integer, int) should rather be used to include a view id that can differ between
@@ -150,7 +150,7 @@ public interface AlertBuilder<B, A extends Alert> extends AlertBuilderBase<B, A>
 
     /**
      * Adds a drawable to the alert which can be used inside the alert implementation. This
-     * method implementation will use the provideDefaultDrawableViewId(Integer) method offered by
+     * method implementation will use the provideDefaultAlertDrawableViewId(Integer) method offered by
      * the HitogoController. This method will define the default view id for this drawable. Alerts
      * can have more than one drawable. If more than one drawable is defined, the method
      * addDrawable(Integer, Drawable) should rather be used to include a view id that can differ

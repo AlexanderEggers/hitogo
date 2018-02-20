@@ -319,7 +319,7 @@ public abstract class AlertBuilderImpl<B, A extends Alert> implements AlertBuild
      * @since 1.0.0
      */
     @NonNull
-    public AlertType getAlertType() {
+    protected AlertType getAlertType() {
         return alertType;
     }
 
