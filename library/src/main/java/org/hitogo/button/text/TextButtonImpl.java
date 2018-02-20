@@ -17,9 +17,9 @@ public class TextButtonImpl extends ButtonImpl<TextButtonParams> implements Text
             throw new InvalidParameterException("You need to add a text to this button.");
         }
 
-        if (params.getTextMap().size() > 0) {
-            Log.w(TextButtonImpl.class.getName(), "This button only supports one text " +
-                    "element. Any other added text elements are not used.");
+        if (params.getTextMap().size() > 1) {
+            Log.d(TextButtonImpl.class.getName(), "This button has more than one text " +
+                    "element. Make sure your AlertImpl supports that.");
         }
     }
 
