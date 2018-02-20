@@ -10,6 +10,7 @@ import android.transition.Transition;
 import android.view.View;
 import android.widget.LinearLayout;
 
+import org.hitogo.alert.core.Alert;
 import org.hitogo.alert.core.AlertBuilderImpl;
 import org.hitogo.alert.core.AlertImpl;
 import org.hitogo.alert.core.AlertParams;
@@ -22,19 +23,24 @@ import static android.os.Build.VERSION_CODES.KITKAT;
 import static android.os.Build.VERSION_CODES.LOLLIPOP;
 import static android.os.Build.VERSION_CODES.M;
 
-@SuppressWarnings({"WeakerAccess", "unused"})
+/**
+ * Builder which includes all basic method to assign specific popup values to the alert.
+ *
+ * @see Alert
+ * @since 1.0.0
+ */
 public class PopupAlertBuilderImpl extends AlertBuilderImpl<PopupAlertBuilder, PopupAlert>
         implements PopupAlertBuilder {
 
     private Integer drawableRes;
     private Integer anchorViewId;
-    private Integer animationStyle;
     private Integer gravity;
 
-    private int xoff;
-    private int yoff;
-    private int width = LinearLayout.LayoutParams.WRAP_CONTENT;
-    private int height = LinearLayout.LayoutParams.WRAP_CONTENT;
+    private int animationStyle = -1; //default animation style
+    private int xOffset;
+    private int yOffset;
+    private int width = LinearLayout.LayoutParams.WRAP_CONTENT; //default width
+    private int height = LinearLayout.LayoutParams.WRAP_CONTENT; //default height
 
     private Float elevation;
     private String anchorViewTag;
@@ -85,16 +91,16 @@ public class PopupAlertBuilderImpl extends AlertBuilderImpl<PopupAlertBuilder, P
 
     @Override
     @NonNull
-    public PopupAlertBuilder setAnchor(String anchorViewTag) {
+    public PopupAlertBuilder setAnchor(@NonNull String anchorViewTag) {
         this.anchorViewTag = anchorViewTag;
         return this;
     }
 
     @Override
     @NonNull
-    public PopupAlertBuilder setOffset(int xoff, int yoff) {
-        this.xoff = xoff;
-        this.yoff = yoff;
+    public PopupAlertBuilder setOffset(int xOffset, int yOffset) {
+        this.xOffset = xOffset;
+        this.yOffset = yOffset;
         return this;
     }
 
@@ -167,32 +173,17 @@ public class PopupAlertBuilderImpl extends AlertBuilderImpl<PopupAlertBuilder, P
     }
 
     @Override
-    public void show() {
-        show(false);
-    }
-
-    @Override
-    public void show(boolean force) {
-        build().show(force);
-    }
-
-    @Override
     public void showLater(boolean showLater) {
         if (!showLater) {
-            show(false);
+            super.show();
         } else {
-            build().showLater(true);
+            super.build().showLater(true);
         }
     }
 
     @Override
     public void showDelayed(long millis) {
-        showDelayed(millis, false);
-    }
-
-    @Override
-    public void showDelayed(long millis, boolean force) {
-        build().showDelayed(millis, force);
+        super.build().showDelayed(millis);
     }
 
     @Override
@@ -204,8 +195,8 @@ public class PopupAlertBuilderImpl extends AlertBuilderImpl<PopupAlertBuilder, P
         holder.provideInteger(PopupAlertParamsKeys.ANCHOR_VIEW_ID_KEY, anchorViewId);
         holder.provideInteger(PopupAlertParamsKeys.GRAVITY_KEY, gravity);
 
-        holder.provideInteger(PopupAlertParamsKeys.X_OFF_KEY, xoff);
-        holder.provideInteger(PopupAlertParamsKeys.Y_OFF_KEY, yoff);
+        holder.provideInteger(PopupAlertParamsKeys.X_OFFSET_KEY, xOffset);
+        holder.provideInteger(PopupAlertParamsKeys.Y_OFFSET_KEY, yOffset);
         holder.provideInteger(PopupAlertParamsKeys.WIDTH_KEY, width);
         holder.provideInteger(PopupAlertParamsKeys.HEIGHT_KEY, height);
 

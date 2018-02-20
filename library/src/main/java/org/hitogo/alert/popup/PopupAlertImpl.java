@@ -9,8 +9,8 @@ import android.support.v4.content.ContextCompat;
 import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup.LayoutParams;
 import android.widget.ImageView;
+import android.widget.LinearLayout.LayoutParams;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
@@ -19,6 +19,12 @@ import org.hitogo.button.core.Button;
 
 import java.security.InvalidParameterException;
 
+/**
+ * Implementation for the popup alert. This alert requires to have at least one text element, a
+ * state or layout resource and an anchor view-id/-tag.
+ *
+ * @since 1.0.0
+ */
 @SuppressWarnings({"WeakerAccess", "unused"})
 public class PopupAlertImpl extends AlertImpl<PopupAlertParams> implements PopupAlert {
 
@@ -80,8 +86,8 @@ public class PopupAlertImpl extends AlertImpl<PopupAlertParams> implements Popup
             }
 
             PopupWindow window;
-            if(params.isFullScreen()) {
-                window = new PopupWindow(view, LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT,true);
+            if (params.isFullScreen()) {
+                window = new PopupWindow(view, LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT, true);
             } else {
                 window = new PopupWindow(view, params.getWidth(), params.getHeight());
             }
@@ -95,21 +101,21 @@ public class PopupAlertImpl extends AlertImpl<PopupAlertParams> implements Popup
         return null;
     }
 
-    protected void buildLayoutInteractions(@NonNull View dialogView) {
+    protected void buildLayoutInteractions(@NonNull View popupView) {
         if (getParams().isDismissByLayoutClick()) {
-            dialogView.setOnClickListener(new android.view.View.OnClickListener() {
+            popupView.setOnClickListener(new android.view.View.OnClickListener() {
                 @Override
                 public void onClick(android.view.View view) {
                     close();
                 }
             });
-            dialogView.setClickable(true);
+            popupView.setClickable(true);
         }
     }
 
-    protected void determineButtonCreation(Button button, View dialogView, boolean forceClose) {
+    protected void determineButtonCreation(Button button, View popupView, boolean forceClose) {
         if (button.getParams().hasButtonView()) {
-            buildActionButton(button, dialogView, forceClose);
+            buildActionButton(button, popupView, forceClose);
         } else if (getController().provideIsDebugState()) {
             throw new IllegalStateException("Popup can only process buttons that have a view (use forViewAction)");
         }
@@ -117,19 +123,17 @@ public class PopupAlertImpl extends AlertImpl<PopupAlertParams> implements Popup
 
     @SuppressWarnings("unchecked")
     protected PopupWindow buildPopupWindow(PopupWindow window) {
-        if (getParams().getAnimationStyle() != null) {
-            window.setAnimationStyle(getParams().getAnimationStyle());
-        }
+        window.setAnimationStyle(getParams().getAnimationStyle());
 
-        if (getParams().getOnTouchListener() != null) {
+        if(getParams().getOnTouchListener() != null) {
             window.setTouchInterceptor(getParams().getOnTouchListener());
         }
 
-        if (getParams().getEnterTransition() != null && Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && getParams().getEnterTransition() != null) {
             window.setEnterTransition(getParams().getEnterTransition());
         }
 
-        if (getParams().getExitTransition() != null && Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && getParams().getExitTransition() != null) {
             window.setExitTransition(getParams().getExitTransition());
         }
 
@@ -184,7 +188,7 @@ public class PopupAlertImpl extends AlertImpl<PopupAlertParams> implements Popup
     }
 
     protected void setViewString(@NonNull View containerView, @Nullable Integer viewId,
-                               @Nullable String chars) {
+                                 @Nullable String chars) {
         if (viewId != null) {
             TextView textView = containerView.findViewById(viewId);
             if (textView != null) {
@@ -259,7 +263,7 @@ public class PopupAlertImpl extends AlertImpl<PopupAlertParams> implements Popup
             }
         } else if (getController().provideIsDebugState()) {
             throw new InvalidParameterException("Are you using the correct button type? You can use " +
-                    "ActionButton which will define your button view. Reason: View ids for the button " +
+                    "ViewButton which will define your button view. Reason: View ids for the button " +
                     "view is less than two.");
         }
     }
@@ -268,16 +272,14 @@ public class PopupAlertImpl extends AlertImpl<PopupAlertParams> implements Popup
     protected void onShowDefault(@NonNull Context context) {
         super.onShowDefault(context);
 
-        int xoff = getParams().getXoff();
-        int yoff = getParams().getYoff();
+        int xoff = getParams().getXOffset();
+        int yoff = getParams().getYOffset();
+        Integer gravity = getParams().getGravity();
 
-        if (anchorView != null && getParams().getGravity() != null &&
-                Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            getPopup().showAsDropDown(anchorView, xoff, yoff, getParams().getGravity());
-        } else if (anchorView != null && xoff != 0 && yoff != 0) {
-            getPopup().showAsDropDown(anchorView, xoff, yoff);
+        if (anchorView != null && gravity != null && Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            getPopup().showAsDropDown(anchorView, xoff, yoff, gravity);
         } else if (anchorView != null) {
-            getPopup().showAsDropDown(anchorView);
+            getPopup().showAsDropDown(anchorView, xoff, yoff);
         }
     }
 

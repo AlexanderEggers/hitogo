@@ -15,7 +15,6 @@ import org.hitogo.alert.core.AlertParams;
  * @see AlertImpl
  * @since 1.0.0
  */
-@SuppressWarnings("unused")
 public interface DialogAlert extends Alert<DialogAlertParams> {
 
     /**

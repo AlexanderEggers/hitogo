@@ -1,18 +1,17 @@
-package org.hitogo.button.action;
+package org.hitogo.button.view;
 
 import org.hitogo.button.core.ButtonParams;
 import org.hitogo.core.HitogoParamsHolder;
 
 @SuppressWarnings({"WeakerAccess", "unused"})
-public class ActionButtonParams extends ButtonParams {
+public class ViewButtonParams extends ButtonParams {
 
     private int[] viewIds;
     private boolean hasButtonView;
 
     @Override
     protected void onCreateParams(HitogoParamsHolder holder) {
-        viewIds = holder.getSerializable(ActionButtonParamsKeys.VIEW_IDS_KEY);
-        hasButtonView = holder.getBoolean(ActionButtonParamsKeys.HAS_BUTTON_VIEW_KEY);
+        viewIds = holder.getSerializable(ViewButtonParamsKeys.VIEW_IDS_KEY);
     }
 
     @Override
@@ -22,6 +21,6 @@ public class ActionButtonParams extends ButtonParams {
 
     @Override
     public boolean hasButtonView() {
-        return hasButtonView;
+        return viewIds.length != 0;
     }
 }

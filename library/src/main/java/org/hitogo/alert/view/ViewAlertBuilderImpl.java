@@ -86,8 +86,7 @@ public class ViewAlertBuilderImpl extends AlertBuilderImpl<ViewAlertBuilder, Vie
         if (isDismissible) {
             try {
                 return asDismissible(Hitogo.with(getContainer())
-                        .asActionButton()
-                        .forCloseAction()
+                        .asCloseButton()
                         .build());
             } catch (InvalidParameterException ex) {
                 Log.e(ViewAlertBuilderImpl.class.getName(), "Cannot add default close button.");

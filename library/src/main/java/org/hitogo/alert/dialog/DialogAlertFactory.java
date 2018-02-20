@@ -7,8 +7,7 @@ import org.hitogo.alert.core.AlertImpl;
 import org.hitogo.alert.core.AlertParams;
 
 /**
- * Factory interface which can be used to assign the ability to generate DialogAlerts to a specific
- * class.
+ * Factory interface which can be used to structure the ability to generate DialogAlerts.
  *
  * @param <D> AlertBuilder interface which is responsible to create the AlertDialog.
  * @since 1.0.0

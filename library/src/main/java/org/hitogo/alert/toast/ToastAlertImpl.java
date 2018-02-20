@@ -199,7 +199,7 @@ public class ToastAlertImpl extends AlertImpl<ToastAlertParams> implements Toast
             }
         } else if (getController().provideIsDebugState()) {
             throw new InvalidParameterException("Are you using the correct button type? You can use " +
-                    "ActionButton which will define your button view. Reason: View ids for the button " +
+                    "ViewButton which will define your button view. Reason: View ids for the button " +
                     "view is less than two.");
         }
     }

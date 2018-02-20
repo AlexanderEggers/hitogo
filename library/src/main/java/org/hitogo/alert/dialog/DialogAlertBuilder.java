@@ -10,8 +10,8 @@ import org.hitogo.alert.core.AlertBuilder;
 import org.hitogo.button.core.Button;
 
 /**
- * Public api interface for the DialogAlertBuilder. This interface includes all methods that can be
- * used by this builder.
+ * Public api interface for the DialogAlertBuilderImpl. This interface includes all methods that
+ * can be used by this builder.
  *
  * @see Alert
  * @since 1.0.0

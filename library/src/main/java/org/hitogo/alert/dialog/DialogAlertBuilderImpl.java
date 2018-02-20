@@ -22,7 +22,6 @@ import org.hitogo.core.HitogoParamsHolder;
  * @see Alert
  * @since 1.0.0
  */
-@SuppressWarnings({"WeakerAccess", "unused"})
 public class DialogAlertBuilderImpl extends AlertBuilderImpl<DialogAlertBuilder, DialogAlert> implements DialogAlertBuilder {
 
     private Integer dialogThemeResId;
@@ -75,8 +74,7 @@ public class DialogAlertBuilderImpl extends AlertBuilderImpl<DialogAlertBuilder,
     public DialogAlertBuilder addButton(@NonNull String... buttonContent) {
         for (String buttonText : buttonContent) {
             Button button = Hitogo.with(getContainer())
-                    .asActionButton()
-                    .forClickOnlyAction()
+                    .asSimpleButton()
                     .setText(buttonText)
                     .build();
             super.addButton(button);
@@ -89,8 +87,7 @@ public class DialogAlertBuilderImpl extends AlertBuilderImpl<DialogAlertBuilder,
     public DialogAlertBuilder addButton(@StringRes int... buttonContent) {
         for (int textRes : buttonContent) {
             Button button = Hitogo.with(getContainer())
-                    .asActionButton()
-                    .forClickOnlyAction()
+                    .asSimpleButton()
                     .setText(textRes)
                     .build();
             super.addButton(button);

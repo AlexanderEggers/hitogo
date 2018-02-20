@@ -15,9 +15,10 @@ import org.hitogo.alert.toast.ToastAlertBuilder;
 import org.hitogo.alert.toast.ToastAlertBuilderImpl;
 import org.hitogo.alert.toast.ToastAlertFactory;
 import org.hitogo.alert.view.ViewAlertBuilder;
-import org.hitogo.button.action.ActionButtonBuilder;
-import org.hitogo.button.action.ActionButtonBuilderImpl;
-import org.hitogo.button.action.ActionButtonFactory;
+import org.hitogo.button.close.CloseButtonFactory;
+import org.hitogo.button.view.ViewButtonBuilder;
+import org.hitogo.button.view.ViewButtonBuilderImpl;
+import org.hitogo.button.view.ViewButtonFactory;
 import org.hitogo.button.core.ButtonImpl;
 import org.hitogo.alert.dialog.DialogAlertBuilderImpl;
 import org.hitogo.alert.dialog.DialogAlertFactory;
@@ -30,9 +31,9 @@ import org.hitogo.button.simple.SimpleButtonFactory;
 
 @SuppressWarnings({"WeakerAccess", "unused"})
 public class Hitogo implements ViewAlertFactory<ViewAlertBuilder>, DialogAlertFactory<DialogAlertBuilder>,
-        ActionButtonFactory<ActionButtonBuilder>, PopupAlertFactory<PopupAlertBuilder>,
+        ViewButtonFactory<ViewButtonBuilder>, PopupAlertFactory<PopupAlertBuilder>,
         SnackbarAlertFactory<SnackbarAlertBuilder>, SimpleButtonFactory<SimpleButtonBuilder>,
-        ToastAlertFactory<ToastAlertBuilder>{
+        ToastAlertFactory<ToastAlertBuilder>, CloseButtonFactory<ViewButtonBuilder> {
 
     private final HitogoContainer container;
     private final HitogoController controller;
@@ -94,27 +95,50 @@ public class Hitogo implements ViewAlertFactory<ViewAlertBuilder>, DialogAlertFa
     }
 
     @Override
-    public ActionButtonBuilder asActionButton() {
-        return new ActionButtonBuilderImpl(controller.provideDefaultActionButtonClass(),
-                controller.provideDefaultActionButtonParamsClass(),
+    public ViewButtonBuilder asViewButton() {
+        return new ViewButtonBuilderImpl(controller.provideDefaultViewButtonClass(),
+                controller.provideDefaultViewButtonParamsClass(),
                 container);
     }
 
     @Override
-    public ActionButtonBuilder asActionButton(@NonNull Class<? extends ButtonImpl> targetClass) {
-        return new ActionButtonBuilderImpl(targetClass,
-                controller.provideDefaultActionButtonParamsClass(),
+    public ViewButtonBuilder asViewButton(@NonNull Class<? extends ButtonImpl> targetClass) {
+        return new ViewButtonBuilderImpl(targetClass,
+                controller.provideDefaultViewButtonParamsClass(),
                 container);
     }
 
     @Override
-    public ActionButtonBuilder asActionButton(@NonNull Class<? extends ButtonImpl> targetClass,
-                                              @NonNull Class<? extends ButtonParams> paramClass) {
-        return new ActionButtonBuilderImpl(targetClass,
+    public ViewButtonBuilder asViewButton(@NonNull Class<? extends ButtonImpl> targetClass,
+                                          @NonNull Class<? extends ButtonParams> paramClass) {
+        return new ViewButtonBuilderImpl(targetClass,
                 paramClass,
                 container);
     }
 
+    @Override
+    public ViewButtonBuilder asCloseButton() {
+        return new ViewButtonBuilderImpl(controller.provideDefaultCloseButtonClass(),
+                controller.provideDefaultCloseButtonParamsClass(),
+                container);
+    }
+
+    @Override
+    public ViewButtonBuilder asCloseButton(@NonNull Class<? extends ButtonImpl> targetClass) {
+        return new ViewButtonBuilderImpl(targetClass,
+                controller.provideDefaultCloseButtonParamsClass(),
+                container);
+    }
+
+    @Override
+    public ViewButtonBuilder asCloseButton(@NonNull Class<? extends ButtonImpl> targetClass,
+                                          @NonNull Class<? extends ButtonParams> paramClass) {
+        return new ViewButtonBuilderImpl(targetClass,
+                paramClass,
+                container);
+    }
+
+    @NonNull
     @Override
     public PopupAlertBuilder asPopupAlert() {
         return new PopupAlertBuilderImpl(controller.provideDefaultPopupClass(),
@@ -122,6 +146,7 @@ public class Hitogo implements ViewAlertFactory<ViewAlertBuilder>, DialogAlertFa
                 container);
     }
 
+    @NonNull
     @Override
     public PopupAlertBuilder asPopupAlert(@NonNull Class<? extends AlertImpl> targetClass) {
         return new PopupAlertBuilderImpl(targetClass,
@@ -129,6 +154,7 @@ public class Hitogo implements ViewAlertFactory<ViewAlertBuilder>, DialogAlertFa
                 container);
     }
 
+    @NonNull
     @Override
     public PopupAlertBuilder asPopupAlert(@NonNull Class<? extends AlertImpl> targetClass,
                                           @NonNull Class<? extends AlertParams> paramClass) {

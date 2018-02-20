@@ -1,10 +1,10 @@
 package org.hitogo.button.simple;
 
 import android.support.annotation.NonNull;
-import android.util.Log;
 
 import org.hitogo.button.core.ButtonImpl;
-import org.hitogo.core.HitogoHelper;
+
+import java.security.InvalidParameterException;
 
 public class SimpleButtonImpl extends ButtonImpl<SimpleButtonParams> implements SimpleButton {
 
@@ -13,8 +13,7 @@ public class SimpleButtonImpl extends ButtonImpl<SimpleButtonParams> implements 
         super.onCheck(params);
 
         if (getHelper().isEmpty(params.getText())) {
-            Log.w(SimpleButtonImpl.class.getName(), "Button has no text. If you want to " +
-                    "display a button with only one icon, you can ignore this warning.");
+            throw new InvalidParameterException("You need to add a text to this button.");
         }
     }
 

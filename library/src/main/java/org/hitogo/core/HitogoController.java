@@ -21,9 +21,10 @@ import org.hitogo.alert.view.ViewAlertImpl;
 import org.hitogo.alert.core.AlertImpl;
 import org.hitogo.alert.core.AlertParams;
 import org.hitogo.alert.core.AlertType;
-import org.hitogo.button.action.ActionButtonImpl;
+import org.hitogo.button.close.CloseButtonImpl;
+import org.hitogo.button.view.ViewButtonImpl;
 import org.hitogo.button.core.ButtonImpl;
-import org.hitogo.button.action.ActionButtonParams;
+import org.hitogo.button.view.ViewButtonParams;
 import org.hitogo.alert.dialog.DialogAlertParams;
 import org.hitogo.alert.view.ViewAlertParams;
 import org.hitogo.button.core.ButtonParams;
@@ -413,13 +414,23 @@ public abstract class HitogoController implements LifecycleObserver {
     }
 
     @NonNull
-    public Class<? extends ButtonImpl> provideDefaultActionButtonClass() {
-        return ActionButtonImpl.class;
+    public Class<? extends ButtonImpl> provideDefaultViewButtonClass() {
+        return ViewButtonImpl.class;
     }
 
     @NonNull
-    public Class<? extends ButtonParams> provideDefaultActionButtonParamsClass() {
-        return ActionButtonParams.class;
+    public Class<? extends ButtonParams> provideDefaultViewButtonParamsClass() {
+        return ViewButtonParams.class;
+    }
+
+    @NonNull
+    public Class<? extends ButtonImpl> provideDefaultCloseButtonClass() {
+        return CloseButtonImpl.class;
+    }
+
+    @NonNull
+    public Class<? extends ButtonParams> provideDefaultCloseButtonParamsClass() {
+        return ViewButtonParams.class;
     }
 
     @NonNull
