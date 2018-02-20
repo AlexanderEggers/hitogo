@@ -14,7 +14,7 @@ import org.hitogo.core.HitogoParamsHolder;
 @SuppressWarnings({"WeakerAccess", "unused"})
 public class ViewButtonBuilderImpl extends ButtonBuilderImpl<ViewButtonBuilder, ViewButton> implements ViewButtonBuilder {
 
-    private int iconId = -1;
+    private Integer iconId;
     private Integer clickId;
 
     public ViewButtonBuilderImpl(@NonNull Class<? extends ButtonImpl> targetClass,
