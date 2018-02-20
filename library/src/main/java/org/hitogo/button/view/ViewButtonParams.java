@@ -11,7 +11,9 @@ public class ViewButtonParams extends ButtonParams {
     @Override
     protected void onCreateParams(HitogoParamsHolder holder) {
         iconId = holder.getInteger(ViewButtonParamsKeys.ICON_ID_KEY);
+
         clickId = holder.getInteger(ViewButtonParamsKeys.CLICK_ID_KEY);
+        clickId = clickId != null ? clickId : iconId;
     }
 
     public int getIconId() {
@@ -19,7 +21,7 @@ public class ViewButtonParams extends ButtonParams {
     }
 
     public Integer getClickId() {
-        return clickId != null ? clickId : iconId;
+        return clickId;
     }
 
     @Override
