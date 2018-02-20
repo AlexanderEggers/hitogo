@@ -2,7 +2,6 @@ package org.hitogo.alert.snackbar;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
-import android.support.design.widget.BaseTransientBottomBar;
 import android.support.design.widget.Snackbar;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -40,7 +39,7 @@ public class SnackbarAlertImpl extends AlertImpl<SnackbarAlertParams> implements
             final Button button = params.getButtons().get(0);
 
             if(button != null) {
-                snackbar.setAction(button.getParams().getText(), new View.OnClickListener() {
+                snackbar.setAction(button.getParams().getTextMap().valueAt(0), new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         button.getParams().getListener().onClick(SnackbarAlertImpl.this,

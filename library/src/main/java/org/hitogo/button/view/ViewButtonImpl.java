@@ -2,6 +2,7 @@ package org.hitogo.button.view;
 
 import android.support.annotation.NonNull;
 import android.util.Log;
+import android.util.SparseArray;
 
 import org.hitogo.button.core.ButtonImpl;
 
@@ -14,7 +15,7 @@ public class ViewButtonImpl extends ButtonImpl<ViewButtonParams> implements View
     protected void onCheck(@NonNull ViewButtonParams params) {
         super.onCheck(params);
 
-        if (getHelper().isEmpty(params.getText())) {
+        if (params.getTextMap().size() == 0) {
             Log.w(ViewButtonBuilderImpl.class.getName(), "Button has no text. If you want to " +
                     "display a button with only one icon, you can ignore this warning.");
         }
@@ -22,14 +23,6 @@ public class ViewButtonImpl extends ButtonImpl<ViewButtonParams> implements View
         if (!params.hasButtonView()) {
             throw new InvalidParameterException("Have you forgot to add at least one view id for " +
                     "this button? If you don't need a view for your button, use asSimpleButton instead.");
-        }
-
-        checkViewIds(params);
-    }
-
-    protected void checkViewIds(@NonNull ViewButtonParams params) {
-        if(params.hasButtonView() && params.getViewIds()[1] == -1) {
-            params.getViewIds()[1] = params.getViewIds()[0];
         }
     }
 
@@ -40,6 +33,14 @@ public class ViewButtonImpl extends ButtonImpl<ViewButtonParams> implements View
 
     @Override
     public int hashCode() {
-        return getParams().getText() != null ? getParams().getText().hashCode() : 0;
+        int hashCode = 0;
+
+        SparseArray<String> textMap = getParams().getTextMap();
+        for (int i = 0; i < textMap.size(); i++) {
+            String text = textMap.valueAt(i);
+            hashCode += text.hashCode();
+        }
+
+        return hashCode;
     }
 }

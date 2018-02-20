@@ -1,6 +1,7 @@
 package org.hitogo.button.simple;
 
 import android.support.annotation.NonNull;
+import android.util.Log;
 
 import org.hitogo.button.core.ButtonImpl;
 
@@ -12,8 +13,13 @@ public class SimpleButtonImpl extends ButtonImpl<SimpleButtonParams> implements 
     protected void onCheck(@NonNull SimpleButtonParams params) {
         super.onCheck(params);
 
-        if (getHelper().isEmpty(params.getText())) {
+        if (params.getTextMap().size() == 0) {
             throw new InvalidParameterException("You need to add a text to this button.");
+        }
+
+        if (params.getTextMap().size() > 0) {
+            Log.w(SimpleButtonImpl.class.getName(), "This button only supports one text " +
+                    "element. Any other added text elements are not used.");
         }
     }
 
@@ -24,6 +30,6 @@ public class SimpleButtonImpl extends ButtonImpl<SimpleButtonParams> implements 
 
     @Override
     public int hashCode() {
-        return getParams().getText() != null ? getParams().getText().hashCode() : 0;
+        return getParams().getTextMap().valueAt(0).hashCode();
     }
 }

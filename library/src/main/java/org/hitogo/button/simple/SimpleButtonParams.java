@@ -10,10 +10,17 @@ public class SimpleButtonParams extends ButtonParams {
         //do nothing
     }
 
-    public int[] getViewIds() {
-        return new int[0];
+    @Override
+    public int getIconId() {
+        return -1;
     }
 
+    @Override
+    public Integer getClickId() {
+        return null;
+    }
+
+    @Override
     public boolean hasButtonView() {
         return false;
     }

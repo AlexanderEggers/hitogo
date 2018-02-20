@@ -45,32 +45,34 @@ public class ViewAlertBuilderImpl extends AlertBuilderImpl<ViewAlertBuilder, Vie
     @NonNull
     public ViewAlertBuilder withAnimations(boolean withAnimation) {
         if (withAnimation) {
-            return withAnimations(getController().provideDefaultAnimation(),
-                    getController().provideDefaultLayoutViewId());
+            return withAnimations(null,null);
+        } else {
+            this.animation = null;
+            this.innerLayoutViewId = null;
+            return this;
         }
-        this.animation = null;
-        return this;
     }
 
     @Override
     @NonNull
     public ViewAlertBuilder withAnimations(@IdRes @Nullable Integer innerLayoutViewId) {
-        return withAnimations(getController().provideDefaultAnimation(), innerLayoutViewId);
+        return withAnimations(null, innerLayoutViewId);
     }
 
     @Override
     @NonNull
     public ViewAlertBuilder withAnimations(@Nullable HitogoAnimation animation) {
-        return withAnimations(animation, getController().provideDefaultLayoutViewId());
+        return withAnimations(animation, null);
     }
 
     @Override
     @NonNull
     public ViewAlertBuilder withAnimations(@Nullable HitogoAnimation animation,
                                            @IdRes @Nullable Integer innerLayoutViewId) {
-        this.animation = animation;
+        this.animation = animation != null ? animation : getController().provideDefaultAlertAnimation(getAlertType());
         this.innerLayoutViewId = innerLayoutViewId == null ?
-                getController().provideDefaultLayoutViewId() : innerLayoutViewId;
+                getController().provideDefaultAlertAnimationLayoutViewId(getAlertType()) :
+                innerLayoutViewId;
         return this;
     }
 
@@ -116,21 +118,21 @@ public class ViewAlertBuilderImpl extends AlertBuilderImpl<ViewAlertBuilder, Vie
     @Override
     @NonNull
     public ViewAlertBuilder asOverlay() {
-        return asOverlay(getController().provideDefaultOverlayContainerId());
+        return asOverlay(getController().provideDefaultAlertOverlayContainerId());
     }
 
     @Override
     @NonNull
     public ViewAlertBuilder asOverlay(@IdRes @Nullable Integer overlayId) {
         this.containerId = overlayId == null ?
-                getController().provideDefaultOverlayContainerId() : overlayId;
+                getController().provideDefaultAlertOverlayContainerId() : overlayId;
         return this;
     }
 
     @Override
     @NonNull
     public ViewAlertBuilder asLayoutChild() {
-        return asLayoutChild(getController().provideDefaultLayoutContainerId());
+        return asLayoutChild(getController().provideDefaultAlertLayoutContainerId());
     }
 
     @Override

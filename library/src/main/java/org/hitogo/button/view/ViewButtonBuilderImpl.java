@@ -14,7 +14,8 @@ import org.hitogo.core.HitogoParamsHolder;
 @SuppressWarnings({"WeakerAccess", "unused"})
 public class ViewButtonBuilderImpl extends ButtonBuilderImpl<ViewButtonBuilder, ViewButton> implements ViewButtonBuilder {
 
-    private final int[] viewIds = new int[2];
+    private int iconId = -1;
+    private Integer clickId;
 
     public ViewButtonBuilderImpl(@NonNull Class<? extends ButtonImpl> targetClass,
                                  @NonNull Class<? extends ButtonParams> paramClass,
@@ -31,14 +32,15 @@ public class ViewButtonBuilderImpl extends ButtonBuilderImpl<ViewButtonBuilder, 
     @Override
     @NonNull
     public ViewButtonBuilder setView(@IdRes int iconId, @IdRes @Nullable Integer clickId) {
-        this.viewIds[0] = iconId;
-        this.viewIds[1] = clickId != null ? clickId : -1;
+        this.iconId = iconId;
+        this.clickId = clickId != null ? clickId : -1;
         return this;
     }
 
     @Override
     protected void onProvideData(HitogoParamsHolder holder) {
         super.onProvideData(holder);
-        holder.provideSerializable(ViewButtonParamsKeys.VIEW_IDS_KEY, viewIds);
+        holder.provideInteger(ViewButtonParamsKeys.ICON_ID_KEY, iconId);
+        holder.provideInteger(ViewButtonParamsKeys.CLICK_ID_KEY, clickId);
     }
 }

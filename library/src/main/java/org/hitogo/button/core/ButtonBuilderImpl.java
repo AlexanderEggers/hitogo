@@ -1,10 +1,14 @@
 package org.hitogo.button.core;
 
+import android.graphics.drawable.Drawable;
 import android.support.annotation.CallSuper;
+import android.support.annotation.IdRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
+import android.util.SparseArray;
 
 import org.hitogo.core.HitogoAccessor;
 import org.hitogo.core.HitogoContainer;
@@ -20,12 +24,15 @@ public abstract class ButtonBuilderImpl<C extends ButtonBuilder, B extends Butto
     private final Class<? extends ButtonImpl> targetClass;
     private final Class<? extends ButtonParams> paramClass;
     private final WeakReference<HitogoContainer> containerRef;
+
     private final HitogoController controller;
     private final HitogoHelper helper;
     private final HitogoAccessor accessor;
     private final ButtonType buttonType;
 
-    private String text;
+    private final SparseArray<String> textMap = new SparseArray<>();
+    private final SparseArray<Drawable> drawableMap = new SparseArray<>();
+
     private boolean closeAfterClick = true;
     private ButtonListener listener;
     private Object buttonParameter;
@@ -45,15 +52,27 @@ public abstract class ButtonBuilderImpl<C extends ButtonBuilder, B extends Butto
 
     @Override
     @NonNull
-    public C setText(String text) {
-        this.text = text;
-        return (C) this;
+    public C addText(@Nullable String text) {
+        return addText(controller.provideDefaultButtonTextViewId(buttonType), text);
     }
 
     @Override
     @NonNull
-    public C setText(@StringRes int textRes) {
-        this.text = accessor.getString(getContainer().getActivity(), textRes);
+    public C addText(@StringRes int textRes) {
+        return addText(controller.provideDefaultButtonTextViewId(buttonType),
+                accessor.getString(getContainer().getActivity(), textRes));
+    }
+
+    @NonNull
+    @Override
+    public C addText(@IdRes @Nullable Integer viewId, int textRes) {
+        return addText(viewId, accessor.getString(getContainer().getActivity(), textRes));
+    }
+
+    @NonNull
+    @Override
+    public C addText(@IdRes @Nullable Integer viewId, @Nullable String text) {
+        textMap.put(viewId != null ? viewId : -1, text);
         return (C) this;
     }
 
@@ -85,6 +104,28 @@ public abstract class ButtonBuilderImpl<C extends ButtonBuilder, B extends Butto
     }
 
     @Override
+    public C addDrawable(int drawableRes) {
+        return addDrawable(controller.provideDefaultButtonDrawableViewId(buttonType),
+                ContextCompat.getDrawable(getContainer().getActivity(), drawableRes));
+    }
+
+    @Override
+    public C addDrawable(@NonNull Drawable drawable) {
+        return addDrawable(controller.provideDefaultButtonDrawableViewId(buttonType), drawable);
+    }
+
+    @Override
+    public C addDrawable(@IdRes @Nullable Integer viewId, int drawableRes) {
+        return addDrawable(viewId, ContextCompat.getDrawable(getContainer().getActivity(), drawableRes));
+    }
+
+    @Override
+    public C addDrawable(@IdRes @Nullable Integer viewId, @Nullable Drawable drawable) {
+        drawableMap.put(viewId != null ? viewId : -1, drawable);
+        return (C) this;
+    }
+
+    @Override
     @NonNull
     @SuppressWarnings("unchecked")
     public B build() {
@@ -94,7 +135,7 @@ public abstract class ButtonBuilderImpl<C extends ButtonBuilder, B extends Butto
         try {
             ButtonImpl object = targetClass.getConstructor().newInstance();
             ButtonParams params = paramClass.getConstructor().newInstance();
-            params.provideData(holder);
+            params.provideData(holder, getController());
             return (B) object.create(getContainer(), params);
         } catch (Exception e) {
             Log.wtf(ButtonBuilderImpl.class.getName(), "Build process failed.");
@@ -104,10 +145,11 @@ public abstract class ButtonBuilderImpl<C extends ButtonBuilder, B extends Butto
 
     @CallSuper
     protected void onProvideData(HitogoParamsHolder holder) {
-        holder.provideString(ButtonParamsKeys.TEXT_KEY, text);
         holder.provideBoolean(ButtonParamsKeys.CLOSE_AFTER_CLICK_KEY, closeAfterClick);
         holder.provideSerializable(ButtonParamsKeys.BUTTON_TYPE_KEY, buttonType);
 
+        holder.provideCustomObject(ButtonParamsKeys.TEXT_KEY, textMap);
+        holder.provideCustomObject(ButtonParamsKeys.DRAWABLE_KEY, drawableMap);
         holder.provideCustomObject(ButtonParamsKeys.BUTTON_LISTENER_KEY, listener);
         holder.provideCustomObject(ButtonParamsKeys.BUTTON_PARAMETER_KEY, buttonParameter);
     }
@@ -120,6 +162,11 @@ public abstract class ButtonBuilderImpl<C extends ButtonBuilder, B extends Butto
     @NonNull
     protected final HitogoController getController() {
         return controller;
+    }
+
+    @NonNull
+    public ButtonType getButtonType() {
+        return buttonType;
     }
 
     @NonNull

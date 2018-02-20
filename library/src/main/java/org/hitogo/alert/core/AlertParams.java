@@ -6,6 +6,7 @@ import android.support.annotation.NonNull;
 import android.util.SparseArray;
 
 import org.hitogo.button.core.Button;
+import org.hitogo.core.HitogoController;
 import org.hitogo.core.HitogoParams;
 import org.hitogo.core.HitogoParamsHolder;
 
@@ -20,7 +21,7 @@ import java.util.List;
  * @since 1.0.0
  */
 @SuppressWarnings({"WeakerAccess", "unused"})
-public abstract class AlertParams extends HitogoParams<HitogoParamsHolder, AlertParams> {
+public abstract class AlertParams extends HitogoParams<HitogoParamsHolder> {
 
     private String title;
     private String tag;
@@ -40,7 +41,9 @@ public abstract class AlertParams extends HitogoParams<HitogoParamsHolder, Alert
     private List<VisibilityListener> visibilityListener;
 
     @Override
-    protected void provideData(HitogoParamsHolder holder) {
+    protected void provideData(HitogoParamsHolder holder, HitogoController controller) {
+        super.provideData(holder, controller);
+
         title = holder.getString(AlertParamsKeys.TITLE_KEY);
         tag = holder.getString(AlertParamsKeys.TAG_KEY);
         textMap = holder.getCustomObject(AlertParamsKeys.TEXT_KEY);

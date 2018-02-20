@@ -48,7 +48,7 @@ public class ViewAlertImpl extends AlertImpl<ViewAlertParams> implements ViewAle
         super.onCreate(controller, params);
 
         this.animation = params.getAnimation() != null ?
-                params.getAnimation() : controller.provideDefaultAnimation();
+                params.getAnimation() : controller.provideDefaultAlertAnimation(getType());
 
         if (params.getContainerId() != null) {
             View containerView = determineViewGroup();
@@ -73,7 +73,7 @@ public class ViewAlertImpl extends AlertImpl<ViewAlertParams> implements ViewAle
         int layoutContainerId = getParams().getContainerId();
         View containerView = getRootView().findViewById(layoutContainerId);
 
-        Integer overlayContainerId = getController().provideDefaultOverlayContainerId();
+        Integer overlayContainerId = getController().provideDefaultAlertOverlayContainerId();
         if (containerView == null && overlayContainerId != null) {
             Log.e(ViewAlertBuilderImpl.class.getName(), "Cannot find container view. " +
                     "Using default overlay container view as fallback.");
@@ -130,7 +130,8 @@ public class ViewAlertImpl extends AlertImpl<ViewAlertParams> implements ViewAle
         if (button.getParams().hasButtonView()) {
             buildActionButton(button, dialogView, forceClose);
         } else if (getController().provideIsDebugState()) {
-            throw new IllegalStateException("View can only process buttons that have a view (use forViewAction)");
+            throw new IllegalStateException("ViewAlert can only process buttons that have a view " +
+                    "use asViewButton or asCloseButton.");
         }
     }
 
@@ -211,38 +212,65 @@ public class ViewAlertImpl extends AlertImpl<ViewAlertParams> implements ViewAle
 
     @SuppressWarnings("unchecked")
     protected void buildActionButton(final Button button, View view, final boolean forceClose) {
-        if (button != null && button.getParams().getViewIds().length >= 2) {
-            final View icon = view.findViewById(button.getParams().getViewIds()[0]);
-            View click = view.findViewById(button.getParams().getViewIds()[1]);
+        final View buttonLayout = view.findViewById(button.getParams().getIconId());
+        View clickLayout = view.findViewById(button.getParams().getClickId());
 
-            if (click == null) {
-                click = icon;
+        if (clickLayout == null) {
+            clickLayout = buttonLayout;
+        }
+
+        if (buttonLayout != null) {
+            SparseArray<String> textMap = button.getParams().getTextMap();
+            for (int i = 0; i < textMap.size(); i++) {
+                Integer viewId = textMap.keyAt(i);
+                String text = textMap.valueAt(i);
+                setButtonString(buttonLayout, viewId, text);
             }
 
-            if (icon != null) {
-                if (icon instanceof TextView && getHelper().isNotEmpty(button.getParams().getText())) {
-                    ((TextView) icon).setText(getAccessor().getHtmlText(button.getParams().getText()));
-                }
+            SparseArray<Drawable> drawableMap = button.getParams().getDrawableMap();
+            for (int i = 0; i < drawableMap.size(); i++) {
+                Integer viewId = drawableMap.keyAt(i);
+                Drawable drawable = drawableMap.valueAt(i);
+                setDrawable(buttonLayout, viewId, drawable);
+            }
 
-                icon.setVisibility(View.VISIBLE);
-                click.setVisibility(View.VISIBLE);
-                click.setOnClickListener(new android.view.View.OnClickListener() {
-                    @Override
-                    public void onClick(android.view.View v) {
-                        button.getParams().getListener().onClick(ViewAlertImpl.this, button.getParams().getButtonParameter());
+            buttonLayout.setVisibility(View.VISIBLE);
+            clickLayout.setVisibility(View.VISIBLE);
+            clickLayout.setOnClickListener(new android.view.View.OnClickListener() {
+                @Override
+                public void onClick(android.view.View v) {
+                    button.getParams().getListener().onClick(ViewAlertImpl.this, button.getParams().getButtonParameter());
 
-                        if (button.getParams().isClosingAfterClick() || forceClose) {
-                            close();
-                        }
+                    if (button.getParams().isClosingAfterClick() || forceClose) {
+                        close();
                     }
-                });
-            } else if (getController().provideIsDebugState()) {
-                throw new InvalidParameterException("Did you forget to add the button to your layout?");
+                }
+            });
+        } else if (getController().provideIsDebugState()) {
+            throw new InvalidParameterException("Did you forget to add the button to your layout?");
+        }
+    }
+
+    protected void setButtonString(@NonNull View buttonLayout, @Nullable Integer viewId,
+                                   @Nullable String chars) {
+        TextView textView = null;
+        if(viewId != null && viewId != -1) {
+            textView = buttonLayout.findViewById(viewId);
+        } else if(buttonLayout instanceof TextView) {
+            textView = (TextView) buttonLayout;
+        }
+
+        if(textView != null) {
+            if (getHelper().isNotEmpty(chars)) {
+                textView.setVisibility(View.VISIBLE);
+                textView.setText(getAccessor().getHtmlText(chars));
+            } else {
+                textView.setVisibility(View.GONE);
             }
         } else if (getController().provideIsDebugState()) {
-            throw new InvalidParameterException("Are you using the correct button type? You can use " +
-                    "ViewButton which will define your button view. Reason: View ids for the button " +
-                    "view is less than two.");
+            throw new InvalidParameterException("Either your button layout is not a text view or " +
+                    "the subview for the text element could not be found. Make sure your button" +
+                    "layout is including the TextView.");
         }
     }
 

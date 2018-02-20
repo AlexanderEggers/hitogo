@@ -98,7 +98,7 @@ public abstract class AlertBuilderImpl<B, A extends Alert> implements AlertBuild
         try {
             AlertImpl object = targetClass.getConstructor().newInstance();
             AlertParams params = paramClass.getConstructor().newInstance();
-            params.provideData(holder);
+            params.provideData(holder, getController());
             return (A) object.create(getContainer(), params);
         } catch (Exception e) {
             Log.wtf(ViewAlertBuilderImpl.class.getName(), "Build process failed.");
@@ -152,13 +152,13 @@ public abstract class AlertBuilderImpl<B, A extends Alert> implements AlertBuild
     @Override
     @NonNull
     public B setTitle(@NonNull String title) {
-        return setTitle(controller.provideDefaultTitleViewId(alertType), title);
+        return setTitle(controller.provideDefaultAlertTitleViewId(alertType), title);
     }
 
     @Override
     @NonNull
     public B setTitle(@StringRes int titleRes) {
-        return setTitle(controller.provideDefaultTitleViewId(alertType),
+        return setTitle(controller.provideDefaultAlertTitleViewId(alertType),
                 accessor.getString(getContainer().getActivity(), titleRes));
     }
 
@@ -179,13 +179,13 @@ public abstract class AlertBuilderImpl<B, A extends Alert> implements AlertBuild
     @Override
     @NonNull
     public B addText(@NonNull String text) {
-        return addText(controller.provideDefaultTextViewId(alertType), text);
+        return addText(controller.provideDefaultAlertTextViewId(alertType), text);
     }
 
     @Override
     @NonNull
     public B addText(@StringRes int textRes) {
-        return addText(controller.provideDefaultTextViewId(alertType),
+        return addText(controller.provideDefaultAlertTextViewId(alertType),
                 accessor.getString(getContainer().getActivity(), textRes));
     }
 
@@ -260,13 +260,13 @@ public abstract class AlertBuilderImpl<B, A extends Alert> implements AlertBuild
     @NonNull
     @Override
     public B addDrawable(int drawableRes) {
-        return addDrawable(controller.provideDefaultDrawableViewId(alertType), drawableRes);
+        return addDrawable(controller.provideDefaultAlertDrawableViewId(alertType), drawableRes);
     }
 
     @NonNull
     @Override
     public B addDrawable(@NonNull Drawable drawable) {
-        return addDrawable(controller.provideDefaultDrawableViewId(alertType), drawable);
+        return addDrawable(controller.provideDefaultAlertDrawableViewId(alertType), drawable);
     }
 
     @NonNull
@@ -309,6 +309,18 @@ public abstract class AlertBuilderImpl<B, A extends Alert> implements AlertBuild
     @NonNull
     protected HitogoController getController() {
         return controller;
+    }
+
+    /**
+     * Returns the used alert type for this alert.
+     *
+     * @return a AlertType object
+     * @see AlertType
+     * @since 1.0.0
+     */
+    @NonNull
+    public AlertType getAlertType() {
+        return alertType;
     }
 
     /**

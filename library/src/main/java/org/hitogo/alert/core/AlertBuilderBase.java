@@ -57,7 +57,7 @@ public interface AlertBuilderBase<B, A extends Alert> {
 
     /**
      * Adds a text element to this alert which can be used inside the alert implementation. This
-     * method implementation will use the provideDefaultTextViewId(Integer) method offered by the
+     * method implementation will use the provideDefaultAlertTextViewId(Integer) method offered by the
      * HitogoController. This method will define the default view id for this text element. Alerts
      * can have more than one text element. If more than one text element is defined, the method
      * addText(Integer, String) should rather be used to include a view id that can differ between
@@ -73,7 +73,7 @@ public interface AlertBuilderBase<B, A extends Alert> {
 
     /**
      * Adds a text string resource to this alert which can be used inside the alert implementation.
-     * This method implementation will use the provideDefaultTextViewId(Integer) method offered by
+     * This method implementation will use the provideDefaultAlertTextViewId(Integer) method offered by
      * the HitogoController. This method will define the default view id for this text element.
      * Alerts can have more than one text element. If more than one text element is defined, the
      * method addText(Integer, int) should rather be used to include a view id that can differ

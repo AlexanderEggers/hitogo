@@ -3,24 +3,27 @@ package org.hitogo.button.view;
 import org.hitogo.button.core.ButtonParams;
 import org.hitogo.core.HitogoParamsHolder;
 
-@SuppressWarnings({"WeakerAccess", "unused"})
 public class ViewButtonParams extends ButtonParams {
 
-    private int[] viewIds;
-    private boolean hasButtonView;
+    private Integer iconId;
+    private Integer clickId;
 
     @Override
     protected void onCreateParams(HitogoParamsHolder holder) {
-        viewIds = holder.getSerializable(ViewButtonParamsKeys.VIEW_IDS_KEY);
+        iconId = holder.getInteger(ViewButtonParamsKeys.ICON_ID_KEY);
+        clickId = holder.getInteger(ViewButtonParamsKeys.CLICK_ID_KEY);
     }
 
-    @Override
-    public int[] getViewIds() {
-        return viewIds;
+    public int getIconId() {
+        return iconId;
+    }
+
+    public Integer getClickId() {
+        return clickId != null ? clickId : iconId;
     }
 
     @Override
     public boolean hasButtonView() {
-        return viewIds.length != 0;
+        return iconId != -1;
     }
 }

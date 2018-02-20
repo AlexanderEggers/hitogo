@@ -21,7 +21,7 @@ import org.hitogo.alert.view.ViewAlertImpl;
 import org.hitogo.alert.core.AlertImpl;
 import org.hitogo.alert.core.AlertParams;
 import org.hitogo.alert.core.AlertType;
-import org.hitogo.button.close.CloseButtonImpl;
+import org.hitogo.button.close.CloseButtonParams;
 import org.hitogo.button.view.ViewButtonImpl;
 import org.hitogo.button.core.ButtonImpl;
 import org.hitogo.button.view.ViewButtonParams;
@@ -425,12 +425,12 @@ public abstract class HitogoController implements LifecycleObserver {
 
     @NonNull
     public Class<? extends ButtonImpl> provideDefaultCloseButtonClass() {
-        return CloseButtonImpl.class;
+        return ViewButtonImpl.class;
     }
 
     @NonNull
     public Class<? extends ButtonParams> provideDefaultCloseButtonParamsClass() {
-        return ViewButtonParams.class;
+        return CloseButtonParams.class;
     }
 
     @NonNull
@@ -498,52 +498,62 @@ public abstract class HitogoController implements LifecycleObserver {
     }
 
     @Nullable
-    public Integer provideDefaultState(AlertType type) {
+    public Integer provideDefaultAlertState(AlertType type) {
         return null;
     }
 
     @Nullable
-    public Integer provideDefaultLayoutContainerId() {
+    public Integer provideDefaultAlertLayoutContainerId() {
         return null;
     }
 
     @Nullable
-    public Integer provideDefaultOverlayContainerId() {
+    public Integer provideDefaultAlertOverlayContainerId() {
         return null;
     }
 
     @Nullable
-    public Integer provideDefaultTextViewId(AlertType type) {
+    public Integer provideDefaultAlertTextViewId(AlertType type) {
         return null;
     }
 
     @Nullable
-    public Integer provideDefaultTitleViewId(AlertType type) {
+    public Integer provideDefaultAlertTitleViewId(AlertType type) {
         return null;
     }
 
     @Nullable
-    public Integer provideDefaultDrawableViewId(AlertType type) {
+    public Integer provideDefaultAlertDrawableViewId(AlertType type) {
         return null;
     }
 
     @Nullable
-    public Integer provideDefaultCloseIconId() {
+    public <T extends HitogoAnimation> T provideDefaultAlertAnimation(AlertType type) {
         return null;
     }
 
     @Nullable
-    public Integer provideDefaultCloseClickId() {
+    public Integer provideDefaultAlertAnimationLayoutViewId(AlertType type) {
         return null;
     }
 
     @Nullable
-    public <T extends HitogoAnimation> T provideDefaultAnimation() {
+    public Integer provideDefaultButtonCloseIconId(ButtonType type) {
         return null;
     }
 
     @Nullable
-    public Integer provideDefaultLayoutViewId() {
+    public Integer provideDefaultButtonCloseClickId(ButtonType type) {
+        return null;
+    }
+
+    @Nullable
+    public Integer provideDefaultButtonTextViewId(ButtonType type) {
+        return null;
+    }
+
+    @Nullable
+    public Integer provideDefaultButtonDrawableViewId(ButtonType type) {
         return null;
     }
 

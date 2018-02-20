@@ -1,10 +1,8 @@
 package org.hitogo.examples;
 
 import android.arch.lifecycle.Lifecycle;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-import org.hitogo.alert.core.Alert;
 import org.hitogo.core.HitogoAnimation;
 import org.hitogo.core.HitogoController;
 import org.hitogo.alert.core.AlertType;
@@ -57,32 +55,33 @@ public class AlertController extends HitogoController {
 
     @Nullable
     @Override
-    public Integer provideDefaultLayoutContainerId() {
+    public Integer provideDefaultAlertLayoutContainerId() {
         return R.id.container_layout;
     }
 
     @Nullable
     @Override
-    public Integer provideDefaultOverlayContainerId() {
+    public Integer provideDefaultAlertOverlayContainerId() {
         return R.id.container_overview_layout;
     }
 
     @Nullable
     @Override
-    public Integer provideDefaultTitleViewId(AlertType type) {
+    public Integer provideDefaultAlertTitleViewId(AlertType type) {
         return R.id.title;
     }
 
     @Nullable
     @Override
-    public Integer provideDefaultTextViewId(AlertType type) {
+    public Integer provideDefaultAlertTextViewId(AlertType type) {
         return R.id.text;
     }
 
     @Nullable
     @Override
-    public HitogoAnimation provideDefaultAnimation() {
-        return TopAnimation.build();
+    @SuppressWarnings("unchecked")
+    public <T extends HitogoAnimation> T provideDefaultAlertAnimation(AlertType type) {
+        return (T) TopAnimation.build();
     }
 
     @Override

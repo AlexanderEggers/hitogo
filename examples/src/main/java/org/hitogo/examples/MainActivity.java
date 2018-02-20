@@ -25,12 +25,36 @@ public class MainActivity extends HitogoActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         //sourceTest();
-        showFirstView();
+        //showFirstView();
         //showPrioAlerts();
         //testImage();
+        testButtonImage();
 
         //testToast();
         testSnackbar();
+    }
+
+    private void testButtonImage() {
+        ViewButton viewButton = Hitogo.with(this)
+                .asViewButton()
+                .setButtonListener(new ButtonListener<String>() {
+                    @Override
+                    public void onClick(Alert alert, String parameter) {
+                        testImageDialog();
+                    }
+                }, false)
+                .addText(R.id.button_text, "Dialog")
+                .setView(R.id.button_test_image)
+                .addDrawable(R.id.button_image, android.R.drawable.star_on)
+                .build();
+
+        Hitogo.with(this)
+                .asViewAlert()
+                .addText("Test Image Alert")
+                .asLayoutChild()
+                .addButton(viewButton)
+                .setState(AlertState.SUCCESS)
+                .show();
     }
 
     public void testImage() {
@@ -42,7 +66,7 @@ public class MainActivity extends HitogoActivity {
                         testImageDialog();
                     }
                 }, false)
-                .setText("Dialog")
+                .addText("Dialog")
                 .setView(R.id.close)
                 .build();
 
@@ -95,7 +119,7 @@ public class MainActivity extends HitogoActivity {
     public void sourceTest() {
         ViewButton closeButton = Hitogo.with(this)
                 .asViewButton()
-                .setText(R.string.test_id)
+                .addText(R.string.test_id)
                 .setView(R.id.close)
                 .build();
 
@@ -142,7 +166,7 @@ public class MainActivity extends HitogoActivity {
                         getController().showNext(alert, false);
                     }
                 }, false, "Test parameter")
-                .setText(R.string.test_id)
+                .addText(R.string.test_id)
                 .setView(R.id.close)
                 .build();
 
@@ -218,7 +242,7 @@ public class MainActivity extends HitogoActivity {
                         System.out.println(parameter);
                     }
                 }, false, "Test parameter")
-                .setText(R.string.test_id)
+                .addText(R.string.test_id)
                 .setView(R.id.close)
                 .build();
 
@@ -266,7 +290,7 @@ public class MainActivity extends HitogoActivity {
                     }
                 }, false)
                 .setView(R.id.button)
-                .setText("Click me!")
+                .addText("Click me!")
                 .build();
 
         ViewButton closeButton = Hitogo.with(this)
@@ -277,7 +301,7 @@ public class MainActivity extends HitogoActivity {
                         getController().closeAll(true);
                     }
                 }, false)
-                .setText(R.string.test_id)
+                .addText(R.string.test_id)
                 .setView(R.id.close)
                 .build();
 
@@ -311,7 +335,7 @@ public class MainActivity extends HitogoActivity {
                         showSecondView();
                     }
                 }, false)
-                .setText("Ok")
+                .addText("Ok")
                 .build();
 
         Hitogo.with(this)
@@ -334,7 +358,7 @@ public class MainActivity extends HitogoActivity {
                         showPopup();
                     }
                 }, false)
-                .setText("Ok")
+                .addText("Ok")
                 .build();
 
         Hitogo.with(this)
@@ -358,7 +382,7 @@ public class MainActivity extends HitogoActivity {
                     }
                 }, false)
                 .setView(R.id.button)
-                .setText("Click me!")
+                .addText("Click me!")
                 .build();
 
         Hitogo.with(this)
@@ -383,7 +407,7 @@ public class MainActivity extends HitogoActivity {
                     }
                 }, true)
                 .setView(R.id.button)
-                .setText("Next")
+                .addText("Next")
                 .build();
 
         ViewButton save = Hitogo.with(this)
@@ -395,7 +419,7 @@ public class MainActivity extends HitogoActivity {
                     }
                 }, false)
                 .setView(R.id.close)
-                .setText("Load next internally")
+                .addText("Load next internally")
                 .build();
 
         Hitogo.with(this)
@@ -421,7 +445,7 @@ public class MainActivity extends HitogoActivity {
                     }
                 }, false)
                 .setView(R.id.button)
-                .setText("Click me!")
+                .addText("Click me!")
                 .build();
 
         Hitogo.with(this)

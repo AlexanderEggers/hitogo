@@ -75,7 +75,7 @@ public class DialogAlertBuilderImpl extends AlertBuilderImpl<DialogAlertBuilder,
         for (String buttonText : buttonContent) {
             Button button = Hitogo.with(getContainer())
                     .asSimpleButton()
-                    .setText(buttonText)
+                    .addText(buttonText)
                     .build();
             super.addButton(button);
         }
@@ -88,7 +88,7 @@ public class DialogAlertBuilderImpl extends AlertBuilderImpl<DialogAlertBuilder,
         for (int textRes : buttonContent) {
             Button button = Hitogo.with(getContainer())
                     .asSimpleButton()
-                    .setText(textRes)
+                    .addText(textRes)
                     .build();
             super.addButton(button);
         }

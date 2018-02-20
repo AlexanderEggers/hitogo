@@ -1,18 +1,21 @@
 package org.hitogo.core;
 
+import android.support.annotation.CallSuper;
+import android.support.annotation.NonNull;
+
 /**
  * This class is used to provide all needed alert-related values which has been initialised via
  * the builder system. In comparision: The counterpart, HitogoParamsHolder, can save and
  * provide data. The communication between those two params objects is the provideData-method.
  *
  * @param <T> Class which has been used to save the builder values.
- * @param <P> Used parent class to implement the provideData method to simplify it's access inside
- *            sub-classes.
  * @see HitogoParamsHolder
  * @since 1.0.0
  */
 @SuppressWarnings({"WeakerAccess", "unused"})
-public abstract class HitogoParams<T extends HitogoParamsHolder, P extends HitogoParams> {
+public abstract class HitogoParams<T extends HitogoParamsHolder> {
+
+    private HitogoController controller;
 
     /**
      * This is an internal method which is used to fill the params object with different values.
@@ -22,7 +25,10 @@ public abstract class HitogoParams<T extends HitogoParamsHolder, P extends Hitog
      * @see HitogoParamsHolder
      * @since 1.0.0
      */
-    protected abstract void provideData(T holder);
+    @CallSuper
+    protected void provideData(T holder, HitogoController controller) {
+        this.controller = controller;
+    }
 
     /**
      * This method should be called by the provideData to provide a public method which sub-classes
@@ -33,4 +39,9 @@ public abstract class HitogoParams<T extends HitogoParamsHolder, P extends Hitog
      * @since 1.0.0
      */
     protected abstract void onCreateParams(T holder);
+
+    @NonNull
+    public HitogoController getController() {
+        return controller;
+    }
 }

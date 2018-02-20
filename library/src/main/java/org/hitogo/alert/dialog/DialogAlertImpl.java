@@ -196,43 +196,70 @@ public class DialogAlertImpl extends AlertImpl<DialogAlertParams> implements Dia
     }
 
     protected void buildActionButton(final Button button, View view) {
-        if (button != null && button.getParams().getViewIds().length >= 2) {
-            final View icon = view.findViewById(button.getParams().getViewIds()[0]);
-            View click = view.findViewById(button.getParams().getViewIds()[1]);
+        final View buttonLayout = view.findViewById(button.getParams().getIconId());
+        View clickLayout = view.findViewById(button.getParams().getClickId());
 
-            if (click == null) {
-                click = icon;
+        if (clickLayout == null) {
+            clickLayout = buttonLayout;
+        }
+
+        if (buttonLayout != null) {
+            SparseArray<String> textMap = button.getParams().getTextMap();
+            for (int i = 0; i < textMap.size(); i++) {
+                Integer viewId = textMap.keyAt(i);
+                String text = textMap.valueAt(i);
+                setButtonString(buttonLayout, viewId, text);
             }
 
-            if (icon != null) {
-                if (icon instanceof TextView && getHelper().isNotEmpty(button.getParams().getText())) {
-                    ((TextView) icon).setText(getAccessor().getHtmlText(button.getParams().getText()));
-                }
+            SparseArray<Drawable> drawableMap = button.getParams().getDrawableMap();
+            for (int i = 0; i < drawableMap.size(); i++) {
+                Integer viewId = drawableMap.keyAt(i);
+                Drawable drawable = drawableMap.valueAt(i);
+                setDrawable(buttonLayout, viewId, drawable);
+            }
 
-                icon.setVisibility(View.VISIBLE);
-                click.setVisibility(View.VISIBLE);
-                click.setOnClickListener(new android.view.View.OnClickListener() {
-                    @Override
-                    public void onClick(android.view.View v) {
-                        button.getParams().getListener().onClick(DialogAlertImpl.this, button.getParams().getButtonParameter());
-                        close();
-                    }
-                });
-            } else if (getController().provideIsDebugState()) {
-                throw new InvalidParameterException("Did you forget to add the button to your layout?");
+            buttonLayout.setVisibility(View.VISIBLE);
+            clickLayout.setVisibility(View.VISIBLE);
+            clickLayout.setOnClickListener(new android.view.View.OnClickListener() {
+                @Override
+                public void onClick(android.view.View v) {
+                    button.getParams().getListener().onClick(DialogAlertImpl.this, button.getParams().getButtonParameter());
+                    close();
+                }
+            });
+        } else if (getController().provideIsDebugState()) {
+            throw new InvalidParameterException("Did you forget to add the button to your layout?");
+        }
+    }
+
+    protected void setButtonString(@NonNull View buttonLayout, @Nullable Integer viewId,
+                                 @Nullable String chars) {
+        TextView textView = null;
+        if(viewId != null && viewId != -1) {
+            textView = buttonLayout.findViewById(viewId);
+        } else if(buttonLayout instanceof TextView) {
+            textView = (TextView) buttonLayout;
+        }
+
+        if(textView != null) {
+            if (getHelper().isNotEmpty(chars)) {
+                textView.setVisibility(View.VISIBLE);
+                textView.setText(getAccessor().getHtmlText(chars));
+            } else {
+                textView.setVisibility(View.GONE);
             }
         } else if (getController().provideIsDebugState()) {
-            throw new InvalidParameterException("Are you using the correct button type? You can use " +
-                    "ViewButton which will define your button view. Reason: View ids for the button " +
-                    "view is less than two.");
+            throw new InvalidParameterException("Either your button layout is not a text view or " +
+                    "the subview for the text element could not be found. Make sure your button" +
+                    "layout is including the TextView.");
         }
     }
 
     protected void buildDialogButton(final Button button, AlertDialog.Builder builder) {
-        if (getHelper().isNotEmpty(button.getParams().getText())) {
+        if (getHelper().isNotEmpty(button.getParams().getTextMap().valueAt(0))) {
             switch (dialogButtonCount) {
                 case PRIMARY_BUTTON:
-                    builder.setPositiveButton(button.getParams().getText(), new DialogInterface.OnClickListener() {
+                    builder.setPositiveButton(button.getParams().getTextMap().valueAt(0), new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int id) {
                             button.getParams().getListener().onClick(DialogAlertImpl.this, button.getParams().getButtonParameter());
@@ -241,7 +268,7 @@ public class DialogAlertImpl extends AlertImpl<DialogAlertParams> implements Dia
                     });
                     break;
                 case SECONDARY_BUTTON:
-                    builder.setNegativeButton(button.getParams().getText(), new DialogInterface.OnClickListener() {
+                    builder.setNegativeButton(button.getParams().getTextMap().valueAt(0), new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int id) {
                             button.getParams().getListener().onClick(DialogAlertImpl.this, button.getParams().getButtonParameter());
@@ -250,7 +277,7 @@ public class DialogAlertImpl extends AlertImpl<DialogAlertParams> implements Dia
                     });
                     break;
                 case NEUTRAL_BUTTON:
-                    builder.setNeutralButton(button.getParams().getText(), new DialogInterface.OnClickListener() {
+                    builder.setNeutralButton(button.getParams().getTextMap().valueAt(0), new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int id) {
                             button.getParams().getListener().onClick(DialogAlertImpl.this, button.getParams().getButtonParameter());
