@@ -29,8 +29,8 @@ import org.hitogo.alert.dialog.DialogAlertParams;
 import org.hitogo.alert.view.ViewAlertParams;
 import org.hitogo.button.core.ButtonParams;
 import org.hitogo.button.core.ButtonType;
-import org.hitogo.button.simple.TextButtonImpl;
-import org.hitogo.button.simple.TextButtonParams;
+import org.hitogo.button.text.TextButtonImpl;
+import org.hitogo.button.text.TextButtonParams;
 
 import java.util.ArrayList;
 import java.util.Iterator;

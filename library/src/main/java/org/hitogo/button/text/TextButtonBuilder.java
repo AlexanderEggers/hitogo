@@ -1,4 +1,4 @@
-package org.hitogo.button.simple;
+package org.hitogo.button.text;
 
 import org.hitogo.button.core.ButtonBuilder;
 
