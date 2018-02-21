@@ -53,7 +53,7 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
     //Support lib dependencies
-    implementation 'org.hitogo:Hitogo:1.0.0-beta18.4'
+    //implementation 'org.hitogo:Hitogo-Core:1.0.0-beta19'
 }
 
 apply from: 'https://raw.githubusercontent.com/nuuneoi/JCenter/master/installv1.gradle'
