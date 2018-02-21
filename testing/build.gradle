@@ -1,0 +1,60 @@
+apply plugin: 'com.android.library'
+
+ext {
+    bintrayRepo = 'android'
+    bintrayName = 'Hitogo'
+
+    publishedGroupId = 'org.hitogo'
+    libraryName = 'Hitogo'
+    artifact = 'Testing'
+
+    libraryDescription = 'Testing tools for the Android library Hitogo.'
+
+    siteUrl = 'https://github.com/Mordag/hitogo'
+    gitUrl = 'https://github.com/Mordag/hitogo.git'
+
+    libraryVersion = '1.0.0-beta19'
+
+    developerId = 'mordag'
+    developerName = 'Alexander Eggers'
+
+    Properties properties = new Properties()
+    properties.load(project.rootProject.file("local.properties").newDataInputStream())
+    developerEmail = properties.getProperty("user.email", "")
+
+    licenseName = 'The Apache Software License, Version 2.0'
+    licenseUrl = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+    allLicenses = ["Apache-2.0"]
+}
+
+android {
+    compileSdkVersion 27
+    buildToolsVersion "27.0.3"
+
+    defaultConfig {
+        minSdkVersion 16
+        versionName "1.0.0-beta19"
+        consumerProguardFiles 'proguard-rules.pro'
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_7
+        targetCompatibility JavaVersion.VERSION_1_7
+    }
+}
+
+android.libraryVariants.all { variant ->
+    variant.outputs.all {
+        outputFileName = "Hitogo-Testing-${version}.aar"
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    //Support lib dependencies
+    implementation 'org.hitogo:Hitogo:1.0.0-beta18.4'
+}
+
+apply from: 'https://raw.githubusercontent.com/nuuneoi/JCenter/master/installv1.gradle'
+apply from: 'https://raw.githubusercontent.com/nuuneoi/JCenter/master/bintrayv1.gradle'
