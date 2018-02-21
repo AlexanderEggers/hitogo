@@ -53,7 +53,11 @@ public abstract class HitogoController implements LifecycleObserver {
     private final List<AlertImpl> currentActiveOthers = new ArrayList<>();
 
     private final SparseIntArray alertCountMap = new SparseIntArray();
-    private int currentHighestPriority = Integer.MAX_VALUE;
+
+    private int currentHighestPriorityForViews = Integer.MAX_VALUE;
+    private int currentHighestPriorityForDialogs = Integer.MAX_VALUE;
+    private int currentHighestPriorityForPopups = Integer.MAX_VALUE;
+    private int currentHighestPriorityForOthers = Integer.MAX_VALUE;
 
     public HitogoController(@NonNull Lifecycle lifecycle) {
         lifecycle.addObserver(this);
@@ -88,7 +92,7 @@ public abstract class HitogoController implements LifecycleObserver {
         for (AlertImpl alert : currentAlerts) {
             if (!isAlertAttached(alert) && (!alert.hasPriority() || alert.getPriority() <= highestIncludingPriority)) {
                 if (alert.hasPriority()) {
-                    currentHighestPriority = alert.getPriority();
+                    setCurrentHighestPriority(alert.getAlerType(), alert.getPriority());
                 }
                 makeAlertVisible(alert, force, wait);
                 break;
@@ -128,6 +132,40 @@ public abstract class HitogoController implements LifecycleObserver {
         }
     }
 
+    protected int getCurrentHighestPriority(AlertType type) {
+        switch (type) {
+            case VIEW:
+                return currentHighestPriorityForViews;
+            case DIALOG:
+                return currentHighestPriorityForDialogs;
+            case POPUP:
+                return currentHighestPriorityForPopups;
+            case OTHER:
+                return currentHighestPriorityForOthers;
+            default:
+                return Integer.MAX_VALUE;
+        }
+    }
+
+    protected void setCurrentHighestPriority(AlertType type, int newPriority) {
+        switch (type) {
+            case VIEW:
+                currentHighestPriorityForViews = newPriority;
+                break;
+            case DIALOG:
+                currentHighestPriorityForDialogs = newPriority;
+                break;
+            case POPUP:
+                currentHighestPriorityForPopups = newPriority;
+                break;
+            case OTHER:
+                currentHighestPriorityForOthers = newPriority;
+                break;
+            default:
+                break;
+        }
+    }
+
     protected void internalShow(final LinkedList<AlertImpl> currentObjects, final AlertImpl newAlert,
                                 final boolean force, final boolean showLater) {
         currentObjects.addLast(newAlert);
@@ -141,8 +179,8 @@ public abstract class HitogoController implements LifecycleObserver {
 
         if (newAlert.hasPriority()) {
             int newAlertPrio = newAlert.getPriority();
-            if (newAlertPrio < currentHighestPriority) {
-                currentHighestPriority = newAlertPrio;
+            if (newAlertPrio < getCurrentHighestPriority(newAlert.getAlerType())) {
+                setCurrentHighestPriority(newAlert.getAlerType(), newAlertPrio);
                 waitForClosing = closeByType(newAlert.getAlerType(), force);
             } else {
                 return;
@@ -164,7 +202,7 @@ public abstract class HitogoController implements LifecycleObserver {
                 @Override
                 public void run() {
                     if (alert.getContainer().getLifecycle().getCurrentState().isAtLeast(Lifecycle.State.CREATED) &&
-                            (!alert.hasPriority() || alert.getPriority() <= currentHighestPriority)) {
+                            (!alert.hasPriority() || alert.getPriority() <= getCurrentHighestPriority(alert.getAlerType()))) {
                         internalMakeVisible(alert, false);
                     }
                 }
@@ -369,7 +407,7 @@ public abstract class HitogoController implements LifecycleObserver {
 
             if (toBeClosedAlert.equals(alert)) {
                 if (alert.hasPriority()) {
-                    currentHighestPriority = Integer.MAX_VALUE;
+                    setCurrentHighestPriority(alert.getAlerType(), Integer.MAX_VALUE);
                 }
 
                 alert.makeInvisible(force);
@@ -434,12 +472,12 @@ public abstract class HitogoController implements LifecycleObserver {
     }
 
     @NonNull
-    public Class<? extends ButtonImpl> provideDefaultSimpleButtonClass() {
+    public Class<? extends ButtonImpl> provideDefaultTextButtonClass() {
         return SimpleButtonImpl.class;
     }
 
     @NonNull
-    public Class<? extends ButtonParams> provideDefaultSimpleButtonParamsClass() {
+    public Class<? extends ButtonParams> provideDefaultTextButtonParamsClass() {
         return SimpleButtonParams.class;
     }
 

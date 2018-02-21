@@ -187,15 +187,15 @@ public class Hitogo implements ViewAlertFactory<ViewAlertBuilder>, DialogAlertFa
 
     @Override
     public SimpleButtonBuilder asSimpleButton() {
-        return new SimpleButtonBuilderImpl(controller.provideDefaultSimpleButtonClass(),
-                controller.provideDefaultSimpleButtonParamsClass(),
+        return new SimpleButtonBuilderImpl(controller.provideDefaultTextButtonClass(),
+                controller.provideDefaultTextButtonParamsClass(),
                 container);
     }
 
     @Override
     public SimpleButtonBuilder asSimpleButton(@NonNull Class<? extends ButtonImpl> targetClass) {
         return new SimpleButtonBuilderImpl(targetClass,
-                controller.provideDefaultSimpleButtonParamsClass(),
+                controller.provideDefaultTextButtonParamsClass(),
                 container);
     }
 
