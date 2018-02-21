@@ -2,11 +2,11 @@ apply plugin: 'com.android.library'
 
 ext {
     bintrayRepo = 'android'
-    bintrayName = 'Hitogo'
+    bintrayName = 'hitogo-core'
 
     publishedGroupId = 'org.hitogo'
-    libraryName = 'Hitogo'
-    artifact = 'Hitogo'
+    libraryName = 'hitogo-core'
+    artifact = 'hitogo-core'
 
     libraryDescription = 'Android library to simplify alerts for your app.'
 
@@ -45,7 +45,7 @@ android {
 
 android.libraryVariants.all { variant ->
     variant.outputs.all {
-        outputFileName = "Hitogo-${version}.aar"
+        outputFileName = "Hitogo-Core-${version}.aar"
     }
 }
 
