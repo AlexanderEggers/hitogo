@@ -73,6 +73,10 @@ public abstract class HitogoController implements LifecycleObserver {
         }
     }
 
+    public void showNext(final Alert alert) {
+        showNext(alert, false);
+    }
+
     public void showNext(final Alert alert, final boolean force) {
         synchronized (syncLock) {
             if (!alert.isClosing()) {
@@ -82,6 +86,19 @@ public abstract class HitogoController implements LifecycleObserver {
             final LinkedList<AlertImpl> currentAlerts = getCurrentAlertList(alert.getAlerType());
             if (!currentAlerts.isEmpty()) {
                 searchForNextInvisibleAlert(currentAlerts, force, alert.getAnimationDuration());
+            }
+        }
+    }
+
+    public void showNext(final AlertType alertType) {
+        showNext(alertType, false);
+    }
+
+    public void showNext(final AlertType alertType, final boolean force) {
+        synchronized (syncLock) {
+            final LinkedList<AlertImpl> currentAlerts = getCurrentAlertList(alertType);
+            if (!currentAlerts.isEmpty()) {
+                searchForNextInvisibleAlert(currentAlerts, force, 0);
             }
         }
     }
