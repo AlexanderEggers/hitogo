@@ -51,8 +51,8 @@ android.libraryVariants.all { variant ->
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    //implementation 'org.hitogo:hitogo-core:1.0.0-beta19.1'
-    implementation project(path: ':hitogo-core')
+    implementation 'org.hitogo:hitogo-core:1.0.0-beta19.1'
+    //implementation project(path: ':hitogo-core')
 
     implementation 'com.android.support:design:27.0.2'
 
