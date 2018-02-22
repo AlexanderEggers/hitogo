@@ -22,6 +22,13 @@ import static org.mockito.Mockito.when;
 
 public class HitogoMock {
 
+    public static <T extends Hitogo> T getMock(Hitogo hitogo) {
+        return getMock(hitogo, DialogAlertBuilderMock.getMock(),PopupAlertBuilderMock.getMock(),
+                SnackbarAlertBuilderMock.getMock(), ToastAlertBuilderMock.getMock(),
+                ViewAlertBuilderMock.getMock(), CloseButtonBuilderMock.getMock(),
+                TextButtonBuilderMock.getMock(), ViewButtonBuilderMock.getMock());
+    }
+
     public static Hitogo getMock() {
         return getMock(DialogAlertBuilderMock.getMock(),PopupAlertBuilderMock.getMock(),
                 SnackbarAlertBuilderMock.getMock(), ToastAlertBuilderMock.getMock(),
@@ -36,6 +43,15 @@ public class HitogoMock {
                                     TextButtonBuilder textButtonBuilderMock, ViewButtonBuilder viewButtonBuilderMock) {
 
         Hitogo hitogo = mock(Hitogo.class);
+        return getMock(hitogo, dialogAlertBuilder, popupAlertBuilder, snackbarAlertBuilder, toastAlertBuilder,
+                viewAlertBuilder, closeButtonBuilderMock, textButtonBuilderMock, viewButtonBuilderMock);
+    }
+
+    @SuppressWarnings("unchecked")
+    public static <T extends Hitogo> T getMock(Hitogo hitogo, DialogAlertBuilder dialogAlertBuilder, PopupAlertBuilder popupAlertBuilder,
+                                 SnackbarAlertBuilder snackbarAlertBuilder, ToastAlertBuilder toastAlertBuilder,
+                                 ViewAlertBuilder viewAlertBuilder, ViewButtonBuilder closeButtonBuilderMock,
+                                 TextButtonBuilder textButtonBuilderMock, ViewButtonBuilder viewButtonBuilderMock) {
 
         when(hitogo.asDialogAlert()).thenReturn(dialogAlertBuilder);
         when(hitogo.asDialogAlert(any(Class.class), any(Class.class))).thenReturn(dialogAlertBuilder);
@@ -69,6 +85,6 @@ public class HitogoMock {
         when(hitogo.asViewButton(any(Class.class), any(Class.class))).thenReturn(viewButtonBuilderMock);
         when(hitogo.asViewButton(any(Class.class))).thenReturn(viewButtonBuilderMock);
 
-        return hitogo;
+        return (T) hitogo;
     }
 }
