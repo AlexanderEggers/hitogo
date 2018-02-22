@@ -1,7 +1,9 @@
 Hitogo
 =====
 
-[![Download](https://api.bintray.com/packages/mordag/android/Hitogo/images/download.svg) ](https://bintray.com/mordag/android/Hitogo/_latestVersion)
+[![Download](https://api.bintray.com/packages/mordag/android/hitogo-core/images/download.svg) ](https://bintray.com/mordag/android/hitogo-core/_latestVersion)
+
+[![Download](https://api.bintray.com/packages/mordag/android/hitogo-testing/images/download.svg) ](https://bintray.com/mordag/android/hitogo-testing/_latestVersion)
 
 Hitogo is a fluent-api for Android which helps you to simplify alerts for your app! This api can be initialsed by only a few lines of codes.
 
