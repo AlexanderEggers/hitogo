@@ -14,11 +14,12 @@ repositories {
 }
 
 dependencies {
-  implementation 'org.hitogo:Hitogo:1.0.0-beta18.4'
+  implementation 'org.hitogo:hitogo-core:1.0.0-beta19.1'
+  testImplementation 'org.hitogo:hitogo-testing:1.0.0-beta19.1' //mocks and testing tools
 }
 ```
 
-How do I use Hitogo? (Step-by-step introduction for 1.0.0-beta18.4)
+How do I use Hitogo? (Step-by-step introduction for 1.0.0-beta19.1)
 -------------------
 
 1. Extend the HitogoController
@@ -54,7 +55,7 @@ public class AlertController extends HitogoController {
 
     @Nullable
     @Override
-    public Integer provideDefaultTextViewId(AlertType type) {
+    public Integer provideDefaultAlertTextViewId(AlertType type) {
         return R.id.text;
     }
     
@@ -78,7 +79,7 @@ public class MainActivity extends HitogoActivity {
 
     @NonNull
     @Override
-    public HitogoController initialiseHitogo(@NonNull Lifecycle lifecycle) {
+    public HitogoController initialiseController(@NonNull Lifecycle lifecycle) {
         return new AlertController(lifecycle);
     }
 }
@@ -101,16 +102,16 @@ If you have finished step 1 and 2, you are ready to go! Using Hitogo you can cre
 
     //Here is a more complex alert, that has one button:
     public void someMethod() {
-        ActionButton button = Hitogo.with(this)
-                .asActionButton()
+        ViewButton button = Hitogo.with(this)
+                .asViewButton()
                 .setButtonListener(new ButtonListener() {
                     @Override
                     public void onClick(Alert alert, Object parameter) {
                         testOnClick();
                     }
                 }, false)
-                .forClickToAction(R.id.button)
-                .setText("Click me!")
+                .setView(R.id.button)
+                .addText("Click me!")
                 .build();
 
         Hitogo.with(this)
