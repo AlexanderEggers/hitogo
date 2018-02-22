@@ -6,6 +6,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.support.annotation.BoolRes;
 import android.support.annotation.ColorRes;
+import android.support.annotation.DimenRes;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.FontRes;
 import android.support.annotation.IntegerRes;
@@ -57,5 +58,21 @@ public class HitogoAccessor {
 
     public Drawable getDrawable(@NonNull Context context, @DrawableRes int drawableRes) {
         return ContextCompat.getDrawable(context, drawableRes);
+    }
+
+    public int getDimensionPixelSize(@NonNull Context context, int res) {
+        return context.getResources().getDimensionPixelSize(res);
+    }
+
+    public int getDimensionPixelOffset(@NonNull Context context, int res) {
+        return context.getResources().getDimensionPixelOffset(res);
+    }
+
+    public int[] getIntArray(@NonNull Context context, int res) {
+        return context.getResources().getIntArray(res);
+    }
+
+    public float getDimension(@NonNull Context context, @DimenRes int res) {
+        return context.getResources().getDimension(res);
     }
 }
