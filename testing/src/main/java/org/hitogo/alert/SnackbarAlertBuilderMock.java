@@ -2,7 +2,6 @@ package org.hitogo.alert;
 
 import android.content.res.ColorStateList;
 import android.os.Bundle;
-import android.support.design.widget.Snackbar;
 
 import org.hitogo.alert.core.VisibilityListener;
 import org.hitogo.alert.snackbar.SnackbarAlert;
@@ -38,7 +37,6 @@ public class SnackbarAlertBuilderMock {
         when(snackbarAlertBuilder.setTag(anyString())).thenReturn(snackbarAlertBuilder);
         when(snackbarAlertBuilder.addVisibilityListener(any(VisibilityListener.class))).thenReturn(snackbarAlertBuilder);
         when(snackbarAlertBuilder.setPriority(anyInt())).thenReturn(snackbarAlertBuilder);
-        when(snackbarAlertBuilder.addCallback(any(Snackbar.Callback.class))).thenReturn(snackbarAlertBuilder);
         when(snackbarAlertBuilder.setActionTextColor(anyInt())).thenReturn(snackbarAlertBuilder);
         when(snackbarAlertBuilder.setActionTextColor(any(ColorStateList.class))).thenReturn(snackbarAlertBuilder);
         when(snackbarAlertBuilder.setDuration(anyInt())).thenReturn(snackbarAlertBuilder);
