@@ -135,6 +135,15 @@ public abstract class AlertImpl<T extends AlertParams> extends AlertLifecycle<T>
     }
 
     /**
+     * Prepares the show-process for this alert. The alert will stay invisible for later.
+     *
+     * @since 1.0.0
+     */
+    public void showLater() {
+        showLater(true);
+    }
+
+    /**
      * Prepares the show-process for this alert. Depending on the input, the alert will be made
      * visible or stay invisible for later.
      *
@@ -276,7 +285,9 @@ public abstract class AlertImpl<T extends AlertParams> extends AlertLifecycle<T>
     }
 
     /**
-     * Return the animation duration length for the show-/hide-process.
+     * Return the animation duration length for the show-/hide-process. The value is usually zero,
+     * if the alert has no HitogoAnimation attached. It is still possible that the alert body has a
+     * default animation that has a certain duration.
      *
      * @return a long
      * @since 1.0.0
@@ -412,7 +423,7 @@ public abstract class AlertImpl<T extends AlertParams> extends AlertLifecycle<T>
      * @since 1.0.0
      */
     @Override
-    public AlertType getAlerType() {
+    public AlertType getAlertType() {
         return type;
     }
 

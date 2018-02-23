@@ -85,7 +85,7 @@ public interface Alert<T extends AlertParams> {
      * @see AlertType
      * @since 1.0.0
      */
-    AlertType getAlerType();
+    AlertType getAlertType();
 
     /**
      * Returns the alert params object. The params object is storing all values for the alert.
@@ -113,7 +113,9 @@ public interface Alert<T extends AlertParams> {
     boolean isExecutedByActivity();
 
     /**
-     * Return the animation duration length for the show-/hide-process.
+     * Return the animation duration length for the show-/hide-process. The value is usually zero,
+     * if the alert has no HitogoAnimation attached. It is still possible that the alert body has a
+     * default animation that has a certain duration.
      *
      * @return a long
      * @since 1.0.0

@@ -48,7 +48,7 @@ public class ViewAlertImpl extends AlertImpl<ViewAlertParams> implements ViewAle
         super.onCreate(controller, params);
 
         this.animation = params.getAnimation() != null ?
-                params.getAnimation() : controller.provideDefaultAlertAnimation(getAlerType());
+                params.getAnimation() : controller.provideDefaultAlertAnimation(getAlertType());
 
         if (params.getContainerId() != null) {
             View containerView = determineViewGroup();
