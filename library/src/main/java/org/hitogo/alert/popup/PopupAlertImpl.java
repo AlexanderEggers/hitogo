@@ -114,7 +114,7 @@ public class PopupAlertImpl extends AlertImpl<PopupAlertParams> implements Popup
 
     protected void determineButtonCreation(Button button, View popupView, boolean forceClose) {
         if (button.getParams().hasButtonView()) {
-            buildActionButton(button, popupView, forceClose);
+            buildButton(button, popupView, forceClose);
         } else if (getController().provideIsDebugState()) {
             throw new IllegalStateException("PopupAlert can only process buttons that have a view " +
                     "use asViewButton or asCloseButton.");
@@ -232,7 +232,7 @@ public class PopupAlertImpl extends AlertImpl<PopupAlertParams> implements Popup
     }
 
     @SuppressWarnings("unchecked")
-    protected void buildActionButton(final Button button, View view, final boolean forceClose) {
+    protected void buildButton(final Button button, View view, final boolean forceClose) {
         final View buttonLayout = view.findViewById(button.getParams().getIconId());
         View clickLayout = view.findViewById(button.getParams().getClickId());
 

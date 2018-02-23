@@ -128,7 +128,7 @@ public class ViewAlertImpl extends AlertImpl<ViewAlertParams> implements ViewAle
 
     protected void determineButtonCreation(Button button, View dialogView, boolean forceClose) {
         if (button.getParams().hasButtonView()) {
-            buildActionButton(button, dialogView, forceClose);
+            buildButton(button, dialogView, forceClose);
         } else if (getController().provideIsDebugState()) {
             throw new IllegalStateException("ViewAlert can only process buttons that have a view " +
                     "use asViewButton or asCloseButton.");
@@ -211,7 +211,7 @@ public class ViewAlertImpl extends AlertImpl<ViewAlertParams> implements ViewAle
     }
 
     @SuppressWarnings("unchecked")
-    protected void buildActionButton(final Button button, View view, final boolean forceClose) {
+    protected void buildButton(final Button button, View view, final boolean forceClose) {
         final View buttonLayout = view.findViewById(button.getParams().getIconId());
         View clickLayout = view.findViewById(button.getParams().getClickId());
 

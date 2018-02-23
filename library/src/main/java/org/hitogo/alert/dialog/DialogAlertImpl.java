@@ -185,7 +185,7 @@ public class DialogAlertImpl extends AlertImpl<DialogAlertParams> implements Dia
     protected void determineButtonCreation(Button button, @Nullable View dialogView, AlertDialog.Builder builder) {
         if (button.getParams().hasButtonView()) {
             if (dialogView != null) {
-                buildActionButton(button, dialogView);
+                buildButton(button, dialogView);
             } else if (getController().provideIsDebugState()) {
                 throw new InvalidParameterException("The button cannot be attached to a null view. " +
                         "Check your dialog or button builder.");
@@ -195,7 +195,7 @@ public class DialogAlertImpl extends AlertImpl<DialogAlertParams> implements Dia
         }
     }
 
-    protected void buildActionButton(final Button button, View view) {
+    protected void buildButton(final Button button, View view) {
         final View buttonLayout = view.findViewById(button.getParams().getIconId());
         View clickLayout = view.findViewById(button.getParams().getClickId());
 

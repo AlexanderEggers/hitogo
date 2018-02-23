@@ -98,7 +98,7 @@ public class ToastAlertImpl extends AlertImpl<ToastAlertParams> implements Toast
 
     protected void determineButtonCreation(Button button, View toastView, boolean forceClose) {
         if (button.getParams().hasButtonView()) {
-            buildActionButton(button, toastView, forceClose);
+            buildButton(button, toastView, forceClose);
         } else if (getController().provideIsDebugState()) {
             throw new IllegalStateException("Toast can only process buttons that have a view use " +
                     "asViewButton or asCloseButton.");
@@ -169,7 +169,7 @@ public class ToastAlertImpl extends AlertImpl<ToastAlertParams> implements Toast
     }
 
     @SuppressWarnings("unchecked")
-    protected void buildActionButton(final Button button, View view, final boolean forceClose) {
+    protected void buildButton(final Button button, View view, final boolean forceClose) {
         final View buttonLayout = view.findViewById(button.getParams().getIconId());
         View clickLayout = view.findViewById(button.getParams().getClickId());
 
