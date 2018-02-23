@@ -18,6 +18,11 @@ import org.hitogo.button.core.Button;
 
 import java.security.InvalidParameterException;
 
+/**
+ * Implementation for the toast alert. This alert requires to have at least one text element.
+ *
+ * @since 1.0.0
+ */
 public class ToastAlertImpl extends AlertImpl<ToastAlertParams> implements ToastAlert {
 
     @Override
@@ -74,26 +79,6 @@ public class ToastAlertImpl extends AlertImpl<ToastAlertParams> implements Toast
         }
 
         return toast;
-    }
-
-    protected void injectOnDismissCallback(ToastAlertParams params) {
-        int realDurationInMs;
-
-        if (params.getDuration() == Toast.LENGTH_SHORT) {
-            realDurationInMs = 2000;
-        } else {
-            realDurationInMs = 3500;
-        }
-
-        Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                if (isAttached()) {
-                    close();
-                }
-            }
-        }, realDurationInMs);
     }
 
     protected void determineButtonCreation(Button button, View toastView, boolean forceClose) {
@@ -230,6 +215,26 @@ public class ToastAlertImpl extends AlertImpl<ToastAlertParams> implements Toast
                     "the subview for the text element could not be found. Make sure your button" +
                     "layout is including the TextView.");
         }
+    }
+
+    protected void injectOnDismissCallback(ToastAlertParams params) {
+        int realDurationInMs;
+
+        if (params.getDuration() == Toast.LENGTH_SHORT) {
+            realDurationInMs = 2000;
+        } else {
+            realDurationInMs = 3500;
+        }
+
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if (isAttached()) {
+                    close();
+                }
+            }
+        }, realDurationInMs);
     }
 
     @Override

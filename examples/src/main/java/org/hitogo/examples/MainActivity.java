@@ -1,8 +1,8 @@
 package org.hitogo.examples;
 
 import android.arch.lifecycle.Lifecycle;
-import android.support.annotation.NonNull;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.util.Log;
 import android.view.View;
@@ -11,9 +11,9 @@ import android.widget.Toast;
 import org.hitogo.alert.core.Alert;
 import org.hitogo.alert.core.VisibilityListener;
 import org.hitogo.alert.view.ViewAlert;
+import org.hitogo.button.core.ButtonListener;
 import org.hitogo.button.text.TextButton;
 import org.hitogo.button.view.ViewButton;
-import org.hitogo.button.core.ButtonListener;
 import org.hitogo.core.Hitogo;
 import org.hitogo.core.HitogoActivity;
 import org.hitogo.core.HitogoController;

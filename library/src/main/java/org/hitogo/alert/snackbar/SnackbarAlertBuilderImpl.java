@@ -11,6 +11,7 @@ import org.hitogo.alert.core.AlertParams;
 import org.hitogo.alert.core.AlertType;
 import org.hitogo.button.core.Button;
 import org.hitogo.core.HitogoContainer;
+import org.hitogo.core.HitogoController;
 import org.hitogo.core.HitogoParamsHolder;
 
 import static org.hitogo.alert.snackbar.SnackbarAlertParamsKeys.ACTION_TEXT_COLOR_KEY;
@@ -30,6 +31,18 @@ public class SnackbarAlertBuilderImpl extends AlertBuilderImpl<SnackbarAlertBuil
 
     private ColorStateList colorStates;
 
+    /**
+     * Default constructor for the SnackbarAlertBuilderImpl.
+     *
+     * @param targetClass Class object for the requested alert.
+     * @param paramClass  Class object for the params object which is used by the alert.
+     * @param container   Container which is used as a reference for this alert (context, view,
+     *                    controller).
+     * @see HitogoContainer
+     * @see HitogoController
+     * @see AlertType
+     * @since 1.0.0
+     */
     public SnackbarAlertBuilderImpl(@NonNull Class<? extends AlertImpl> targetClass,
                                     @NonNull Class<? extends AlertParams> paramClass,
                                     @NonNull HitogoContainer container) {

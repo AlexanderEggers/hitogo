@@ -3,10 +3,10 @@ package org.hitogo.examples;
 import android.arch.lifecycle.Lifecycle;
 import android.support.annotation.Nullable;
 
-import org.hitogo.core.HitogoAnimation;
-import org.hitogo.core.HitogoController;
 import org.hitogo.alert.core.AlertType;
 import org.hitogo.alert.view.anim.TopAnimation;
+import org.hitogo.core.HitogoAnimation;
+import org.hitogo.core.HitogoController;
 
 public class AlertController extends HitogoController {
 

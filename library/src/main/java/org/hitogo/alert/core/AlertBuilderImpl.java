@@ -17,8 +17,8 @@ import org.hitogo.button.core.Button;
 import org.hitogo.core.HitogoAccessor;
 import org.hitogo.core.HitogoContainer;
 import org.hitogo.core.HitogoController;
-import org.hitogo.core.HitogoParamsHolder;
 import org.hitogo.core.HitogoHelper;
+import org.hitogo.core.HitogoParamsHolder;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;

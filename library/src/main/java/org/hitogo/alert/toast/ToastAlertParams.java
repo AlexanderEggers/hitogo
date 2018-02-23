@@ -3,6 +3,12 @@ package org.hitogo.alert.toast;
 import org.hitogo.alert.core.AlertParams;
 import org.hitogo.core.HitogoParamsHolder;
 
+/**
+ * Params object for the ToastAlert.
+ *
+ * @see AlertParams
+ * @since 1.0.0
+ */
 public class ToastAlertParams extends AlertParams {
 
     private int duration;
@@ -26,30 +32,6 @@ public class ToastAlertParams extends AlertParams {
         verticalMargin = holder.getFloat(ToastAlertParamsKeys.VERTICAL_MARGIN_KEY);
     }
 
-    public Integer getGravity() {
-        return gravity;
-    }
-
-    public Integer getxOffset() {
-        return xOffset;
-    }
-
-    public Integer getyOffset() {
-        return yOffset;
-    }
-
-    public int getDuration() {
-        return duration;
-    }
-
-    public Float getHorizontalMargin() {
-        return horizontalMargin;
-    }
-
-    public Float getVerticalMargin() {
-        return verticalMargin;
-    }
-
     @Override
     public boolean hasAnimation() {
         return false;
@@ -58,5 +40,65 @@ public class ToastAlertParams extends AlertParams {
     @Override
     public boolean isClosingOthers() {
         return false;
+    }
+
+    /**
+     * Returns the gravity for the alert.
+     *
+     * @return an Integer or null
+     * @since 1.0.0
+     */
+    public Integer getGravity() {
+        return gravity;
+    }
+
+    /**
+     * Returns the xOffset for the alert.
+     *
+     * @return an Integer or null
+     * @since 1.0.0
+     */
+    public Integer getxOffset() {
+        return xOffset;
+    }
+
+    /**
+     * Returns the yOffset for the alert.
+     *
+     * @return an Integer or null
+     * @since 1.0.0
+     */
+    public Integer getyOffset() {
+        return yOffset;
+    }
+
+    /**
+     * Returns the duration for the alert.
+     *
+     * @return an Int
+     * @since 1.0.0
+     */
+    public int getDuration() {
+        return duration;
+    }
+
+    /**
+     * Returns the horizontal margin for the alert.
+     *
+     * @return an Float or null
+     * @since 1.0.0
+     */
+    public Float getHorizontalMargin() {
+        return horizontalMargin;
+    }
+
+    /**
+     * Returns the vertical margin for the alert.
+     *
+     * @return an Float or null
+     * @since 1.0.0
+     */
+    public Float getVerticalMargin() {
+        return verticalMargin;
     }
 }

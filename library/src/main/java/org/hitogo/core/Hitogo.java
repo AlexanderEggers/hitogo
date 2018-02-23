@@ -5,6 +5,8 @@ import android.support.annotation.NonNull;
 import org.hitogo.alert.core.AlertImpl;
 import org.hitogo.alert.core.AlertParams;
 import org.hitogo.alert.dialog.DialogAlertBuilder;
+import org.hitogo.alert.dialog.DialogAlertBuilderImpl;
+import org.hitogo.alert.dialog.DialogAlertFactory;
 import org.hitogo.alert.popup.PopupAlertBuilder;
 import org.hitogo.alert.popup.PopupAlertBuilderImpl;
 import org.hitogo.alert.popup.PopupAlertFactory;
@@ -15,19 +17,17 @@ import org.hitogo.alert.toast.ToastAlertBuilder;
 import org.hitogo.alert.toast.ToastAlertBuilderImpl;
 import org.hitogo.alert.toast.ToastAlertFactory;
 import org.hitogo.alert.view.ViewAlertBuilder;
-import org.hitogo.button.close.CloseButtonFactory;
-import org.hitogo.button.view.ViewButtonBuilder;
-import org.hitogo.button.view.ViewButtonBuilderImpl;
-import org.hitogo.button.view.ViewButtonFactory;
-import org.hitogo.button.core.ButtonImpl;
-import org.hitogo.alert.dialog.DialogAlertBuilderImpl;
-import org.hitogo.alert.dialog.DialogAlertFactory;
 import org.hitogo.alert.view.ViewAlertBuilderImpl;
 import org.hitogo.alert.view.ViewAlertFactory;
+import org.hitogo.button.close.CloseButtonFactory;
+import org.hitogo.button.core.ButtonImpl;
 import org.hitogo.button.core.ButtonParams;
 import org.hitogo.button.text.TextButtonBuilder;
 import org.hitogo.button.text.TextButtonBuilderImpl;
 import org.hitogo.button.text.TextButtonFactory;
+import org.hitogo.button.view.ViewButtonBuilder;
+import org.hitogo.button.view.ViewButtonBuilderImpl;
+import org.hitogo.button.view.ViewButtonFactory;
 
 @SuppressWarnings({"WeakerAccess", "unused"})
 public class Hitogo implements ViewAlertFactory<ViewAlertBuilder>, DialogAlertFactory<DialogAlertBuilder>,

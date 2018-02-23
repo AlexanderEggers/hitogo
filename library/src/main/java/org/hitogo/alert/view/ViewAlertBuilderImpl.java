@@ -5,17 +5,17 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
-import java.security.InvalidParameterException;
-
 import org.hitogo.alert.core.AlertBuilderImpl;
-import org.hitogo.core.HitogoAnimation;
-import org.hitogo.button.core.Button;
-import org.hitogo.core.Hitogo;
-import org.hitogo.core.HitogoContainer;
 import org.hitogo.alert.core.AlertImpl;
 import org.hitogo.alert.core.AlertParams;
 import org.hitogo.alert.core.AlertType;
+import org.hitogo.button.core.Button;
+import org.hitogo.core.Hitogo;
+import org.hitogo.core.HitogoAnimation;
+import org.hitogo.core.HitogoContainer;
 import org.hitogo.core.HitogoParamsHolder;
+
+import java.security.InvalidParameterException;
 
 @SuppressWarnings({"WeakerAccess", "unused"})
 public class ViewAlertBuilderImpl extends AlertBuilderImpl<ViewAlertBuilder, ViewAlert>

@@ -14,10 +14,10 @@ import android.view.ViewManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import org.hitogo.core.HitogoAnimation;
-import org.hitogo.button.core.Button;
-import org.hitogo.core.HitogoController;
 import org.hitogo.alert.core.AlertImpl;
+import org.hitogo.button.core.Button;
+import org.hitogo.core.HitogoAnimation;
+import org.hitogo.core.HitogoController;
 
 import java.security.InvalidParameterException;
 

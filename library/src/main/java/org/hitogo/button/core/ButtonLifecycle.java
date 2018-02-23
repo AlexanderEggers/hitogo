@@ -3,8 +3,6 @@ package org.hitogo.button.core;
 import android.support.annotation.CallSuper;
 import android.support.annotation.NonNull;
 
-import org.hitogo.core.HitogoController;
-
 @SuppressWarnings({"WeakerAccess", "unused"})
 public abstract class ButtonLifecycle<T extends ButtonParams> {
 

@@ -8,7 +8,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewManager;
 
-import org.hitogo.R;
 import org.hitogo.alert.core.AlertImpl;
 import org.hitogo.alert.view.ViewAlertParams;
 import org.hitogo.core.HitogoAnimation;

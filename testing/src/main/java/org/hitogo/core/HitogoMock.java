@@ -23,14 +23,14 @@ import static org.mockito.Mockito.when;
 public class HitogoMock {
 
     public static <T extends Hitogo> T getMock(Hitogo hitogo) {
-        return getMock(hitogo, DialogAlertBuilderMock.getMock(),PopupAlertBuilderMock.getMock(),
+        return getMock(hitogo, DialogAlertBuilderMock.getMock(), PopupAlertBuilderMock.getMock(),
                 SnackbarAlertBuilderMock.getMock(), ToastAlertBuilderMock.getMock(),
                 ViewAlertBuilderMock.getMock(), CloseButtonBuilderMock.getMock(),
                 TextButtonBuilderMock.getMock(), ViewButtonBuilderMock.getMock());
     }
 
     public static Hitogo getMock() {
-        return getMock(DialogAlertBuilderMock.getMock(),PopupAlertBuilderMock.getMock(),
+        return getMock(DialogAlertBuilderMock.getMock(), PopupAlertBuilderMock.getMock(),
                 SnackbarAlertBuilderMock.getMock(), ToastAlertBuilderMock.getMock(),
                 ViewAlertBuilderMock.getMock(), CloseButtonBuilderMock.getMock(),
                 TextButtonBuilderMock.getMock(), ViewButtonBuilderMock.getMock());
@@ -38,9 +38,9 @@ public class HitogoMock {
 
     @SuppressWarnings("unchecked")
     public static Hitogo getMock(DialogAlertBuilder dialogAlertBuilder, PopupAlertBuilder popupAlertBuilder,
-                                    SnackbarAlertBuilder snackbarAlertBuilder, ToastAlertBuilder toastAlertBuilder,
-                                    ViewAlertBuilder viewAlertBuilder, ViewButtonBuilder closeButtonBuilderMock,
-                                    TextButtonBuilder textButtonBuilderMock, ViewButtonBuilder viewButtonBuilderMock) {
+                                 SnackbarAlertBuilder snackbarAlertBuilder, ToastAlertBuilder toastAlertBuilder,
+                                 ViewAlertBuilder viewAlertBuilder, ViewButtonBuilder closeButtonBuilderMock,
+                                 TextButtonBuilder textButtonBuilderMock, ViewButtonBuilder viewButtonBuilderMock) {
 
         Hitogo hitogo = mock(Hitogo.class);
         return getMock(hitogo, dialogAlertBuilder, popupAlertBuilder, snackbarAlertBuilder, toastAlertBuilder,
@@ -49,9 +49,9 @@ public class HitogoMock {
 
     @SuppressWarnings("unchecked")
     public static <T extends Hitogo> T getMock(Hitogo hitogo, DialogAlertBuilder dialogAlertBuilder, PopupAlertBuilder popupAlertBuilder,
-                                 SnackbarAlertBuilder snackbarAlertBuilder, ToastAlertBuilder toastAlertBuilder,
-                                 ViewAlertBuilder viewAlertBuilder, ViewButtonBuilder closeButtonBuilderMock,
-                                 TextButtonBuilder textButtonBuilderMock, ViewButtonBuilder viewButtonBuilderMock) {
+                                               SnackbarAlertBuilder snackbarAlertBuilder, ToastAlertBuilder toastAlertBuilder,
+                                               ViewAlertBuilder viewAlertBuilder, ViewButtonBuilder closeButtonBuilderMock,
+                                               TextButtonBuilder textButtonBuilderMock, ViewButtonBuilder viewButtonBuilderMock) {
 
         when(hitogo.asDialogAlert()).thenReturn(dialogAlertBuilder);
         when(hitogo.asDialogAlert(any(Class.class), any(Class.class))).thenReturn(dialogAlertBuilder);

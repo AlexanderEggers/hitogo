@@ -14,9 +14,9 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import org.hitogo.button.core.Button;
 import org.hitogo.alert.core.AlertImpl;
 import org.hitogo.alert.view.ViewAlertBuilderImpl;
+import org.hitogo.button.core.Button;
 
 import java.security.InvalidParameterException;
 import java.util.List;

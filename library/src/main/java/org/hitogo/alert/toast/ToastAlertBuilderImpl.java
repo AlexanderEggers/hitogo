@@ -4,6 +4,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.widget.Toast;
 
+import org.hitogo.alert.core.Alert;
 import org.hitogo.alert.core.AlertBuilderImpl;
 import org.hitogo.alert.core.AlertImpl;
 import org.hitogo.alert.core.AlertParams;
@@ -13,6 +14,12 @@ import org.hitogo.core.HitogoContainer;
 import org.hitogo.core.HitogoController;
 import org.hitogo.core.HitogoParamsHolder;
 
+/**
+ * Builder which includes all basic method to assign specific toast values to the alert.
+ *
+ * @see Alert
+ * @since 1.0.0
+ */
 public class ToastAlertBuilderImpl extends AlertBuilderImpl<ToastAlertBuilder, ToastAlert> implements ToastAlertBuilder {
 
     private int duration = Toast.LENGTH_SHORT;

@@ -2,6 +2,11 @@ package org.hitogo.alert.toast;
 
 import org.hitogo.alert.core.AlertParamsKeys;
 
+/**
+ * Defines the params keys for the HitogoParamsHolder that will be used by the ToastAlert.
+ *
+ * @since 1.0.0
+ */
 public class ToastAlertParamsKeys extends AlertParamsKeys {
 
     public static final String DURATION_KEY = "duration";
