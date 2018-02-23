@@ -6,7 +6,12 @@ import org.hitogo.alert.core.AlertParams;
 import org.hitogo.core.HitogoAnimation;
 import org.hitogo.core.HitogoParamsHolder;
 
-@SuppressWarnings({"WeakerAccess", "unused"})
+/**
+ * Params object for the ViewAlert.
+ *
+ * @see AlertParams
+ * @since 1.0.0
+ */
 public class ViewAlertParams extends AlertParams {
 
     private Integer containerId;
@@ -28,21 +33,9 @@ public class ViewAlertParams extends AlertParams {
         animation = holder.getCustomObject(ViewAlertParamsKeys.ANIMATION_KEY);
     }
 
-    public Integer getContainerId() {
-        return containerId;
-    }
-
-    public Integer getInnerLayoutViewId() {
-        return innerLayoutViewId;
-    }
-
     @Override
     public boolean isClosingOthers() {
         return closeOthers;
-    }
-
-    public boolean dismissByLayoutClick() {
-        return dismissByClick;
     }
 
     @Nullable
@@ -53,5 +46,35 @@ public class ViewAlertParams extends AlertParams {
     @Override
     public boolean hasAnimation() {
         return animation != null;
+    }
+
+    /**
+     * Returns the container id for the alert.
+     *
+     * @return an Integer or null
+     * @since 1.0.0
+     */
+    public Integer getContainerId() {
+        return containerId;
+    }
+
+    /**
+     * Returns the inner layout view id for the alert.
+     *
+     * @return an Integer or null
+     * @since 1.0.0
+     */
+    public Integer getInnerLayoutViewId() {
+        return innerLayoutViewId;
+    }
+
+    /**
+     * Returns if the alert is dismissed when clicked on it's layout.
+     *
+     * @return an Integer or null
+     * @since 1.0.0
+     */
+    public boolean dismissByLayoutClick() {
+        return dismissByClick;
     }
 }

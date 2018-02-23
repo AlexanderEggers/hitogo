@@ -21,7 +21,12 @@ import org.hitogo.core.HitogoController;
 
 import java.security.InvalidParameterException;
 
-@SuppressWarnings({"WeakerAccess", "unused"})
+/**
+ * Implementation for the view alert. This alert requires to have at least one text element, a
+ * state or layout resource and an anchor view-id/-tag.
+ *
+ * @since 1.0.0
+ */
 public class ViewAlertImpl extends AlertImpl<ViewAlertParams> implements ViewAlert {
 
     private ViewGroup viewGroup;

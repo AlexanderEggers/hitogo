@@ -12,9 +12,20 @@ import org.hitogo.alert.core.AlertImpl;
 import org.hitogo.alert.view.ViewAlertParams;
 import org.hitogo.core.HitogoAnimation;
 
-@SuppressWarnings({"WeakerAccess", "unused"})
+/**
+ * Animation object which is used to play an animation that will animate the alert moving in from
+ * the top.
+ *
+ * @since 1.0.0
+ */
 public class TopAnimation extends HitogoAnimation {
 
+    /**
+     * Returns a new animation object that can be used.
+     *
+     * @return a HitogoAnimation object
+     * @since 1.0.0
+     */
     public static HitogoAnimation build() {
         return new TopAnimation();
     }

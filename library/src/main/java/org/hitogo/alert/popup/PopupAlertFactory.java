@@ -19,7 +19,7 @@ public interface PopupAlertFactory<P extends AlertBuilder> {
      * values are provided by the methods provideDefaultPopupClass and
      * provideDefaultPopupParamsClass.
      *
-     * @return a DialogAlertBuilder
+     * @return a PopupAlertBuilder
      * @see org.hitogo.core.HitogoController
      * @since 1.0.0
      */

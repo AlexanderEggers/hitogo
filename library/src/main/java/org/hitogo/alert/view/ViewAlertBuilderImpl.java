@@ -167,6 +167,11 @@ public class ViewAlertBuilderImpl extends AlertBuilderImpl<ViewAlertBuilder, Vie
     }
 
     @Override
+    public void showLater() {
+        showLater(true);
+    }
+
+    @Override
     public void showLater(boolean showLater) {
         if (showLater) {
             build().showLater(true);

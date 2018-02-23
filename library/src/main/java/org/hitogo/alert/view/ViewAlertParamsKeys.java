@@ -2,6 +2,11 @@ package org.hitogo.alert.view;
 
 import org.hitogo.alert.core.AlertParamsKeys;
 
+/**
+ * Defines the params keys for the HitogoParamsHolder that will be used by the ViewAlert.
+ *
+ * @since 1.0.0
+ */
 @SuppressWarnings("WeakerAccess")
 public abstract class ViewAlertParamsKeys extends AlertParamsKeys {
     public static final String CONTAINER_ID_KEY = "containerId";
