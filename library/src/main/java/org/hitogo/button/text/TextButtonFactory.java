@@ -9,7 +9,9 @@ import org.hitogo.button.core.ButtonParams;
 public interface TextButtonFactory<B extends ButtonBuilder> {
 
     B asTextButton();
+
     B asTextButton(@NonNull Class<? extends ButtonImpl> targetClass);
+
     B asTextButton(@NonNull Class<? extends ButtonImpl> targetClass,
                    @NonNull Class<? extends ButtonParams> paramClass);
 }

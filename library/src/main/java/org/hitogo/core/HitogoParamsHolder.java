@@ -37,7 +37,7 @@ public class HitogoParamsHolder {
     /**
      * Inserts a value into the holder object, if no value is existing for the given key.
      *
-     * @param key a String
+     * @param key   a String
      * @param value a String object, or null
      * @since 1.0.0
      */
@@ -50,7 +50,7 @@ public class HitogoParamsHolder {
     /**
      * Inserts a value into the holder object, if no value is existing for the given key.
      *
-     * @param key a String
+     * @param key   a String
      * @param value a Float object, or null
      * @since 1.0.0
      */
@@ -63,7 +63,7 @@ public class HitogoParamsHolder {
     /**
      * Inserts a value into the holder object, if no value is existing for the given key.
      *
-     * @param key a String
+     * @param key   a String
      * @param value a Double object, or null
      * @since 1.0.0
      */
@@ -76,7 +76,7 @@ public class HitogoParamsHolder {
     /**
      * Inserts a value into the holder object, if no value is existing for the given key.
      *
-     * @param key a String
+     * @param key   a String
      * @param value a Integer object, or null
      * @since 1.0.0
      */
@@ -89,7 +89,7 @@ public class HitogoParamsHolder {
     /**
      * Inserts a value into the holder object, if no value is existing for the given key.
      *
-     * @param key a String
+     * @param key   a String
      * @param value a boolean value
      * @since 1.0.0
      */
@@ -102,7 +102,7 @@ public class HitogoParamsHolder {
     /**
      * Inserts a value into the holder object, if no value is existing for the given key.
      *
-     * @param key a String
+     * @param key   a String
      * @param value a Long object, or null
      * @since 1.0.0
      */
@@ -115,7 +115,7 @@ public class HitogoParamsHolder {
     /**
      * Inserts a value into the holder object, if no value is existing for the given key.
      *
-     * @param key a String
+     * @param key   a String
      * @param value a Serializable object, or null
      * @since 1.0.0
      */
@@ -128,7 +128,7 @@ public class HitogoParamsHolder {
     /**
      * Inserts a value into the holder object, if no value is existing for the given key.
      *
-     * @param key a String
+     * @param key   a String
      * @param value a Bundle object, or null
      * @since 1.0.0
      */

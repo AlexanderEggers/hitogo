@@ -132,7 +132,7 @@ public class Hitogo implements ViewAlertFactory<ViewAlertBuilder>, DialogAlertFa
 
     @Override
     public ViewButtonBuilder asCloseButton(@NonNull Class<? extends ButtonImpl> targetClass,
-                                          @NonNull Class<? extends ButtonParams> paramClass) {
+                                           @NonNull Class<? extends ButtonParams> paramClass) {
         return new ViewButtonBuilderImpl(targetClass,
                 paramClass,
                 container);

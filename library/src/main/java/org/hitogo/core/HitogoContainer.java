@@ -8,8 +8,15 @@ import android.view.View;
 
 @SuppressWarnings({"WeakerAccess", "unused"})
 public interface HitogoContainer extends LifecycleOwner {
-    @NonNull HitogoController getController();
-    @Nullable View getView();
-    @NonNull Activity getActivity();
-    @Nullable View getActivityView();
+    @NonNull
+    HitogoController getController();
+
+    @Nullable
+    View getView();
+
+    @NonNull
+    Activity getActivity();
+
+    @Nullable
+    View getActivityView();
 }

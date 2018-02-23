@@ -31,11 +31,11 @@ public class HitogoAccessor {
         }
     }
 
-    public String getString(@NonNull Context context, @StringRes int stringRes, Object...arguments) {
+    public String getString(@NonNull Context context, @StringRes int stringRes, Object... arguments) {
         return context.getString(stringRes, arguments);
     }
 
-    public String getPlural(@NonNull Context context, @PluralsRes int pluralRes, int amount, Object...arguments) {
+    public String getPlural(@NonNull Context context, @PluralsRes int pluralRes, int amount, Object... arguments) {
         return context.getResources().getQuantityString(pluralRes, amount, arguments);
     }
 

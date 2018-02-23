@@ -530,8 +530,8 @@ public abstract class AlertImpl<T extends AlertParams> extends AlertLifecycle<T>
      * @return Base object of the alert. Null if the alert is not from type OTHER (AlertType).
      * @since 1.0.0
      */
-    public Object getOther() {
-        return other;
+    public <T extends Object> T getOther() {
+        return (T) other;
     }
 
     /**

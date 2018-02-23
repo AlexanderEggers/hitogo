@@ -47,7 +47,7 @@ public class ToastAlertImpl extends AlertImpl<ToastAlertParams> implements Toast
             view = inflater.inflate(getController().provideViewLayout(getParams().getState()), null);
         }
 
-        if(view != null) {
+        if (view != null) {
             toast = new Toast(getContext());
             buildLayoutContent(view);
 
@@ -65,11 +65,11 @@ public class ToastAlertImpl extends AlertImpl<ToastAlertParams> implements Toast
             toast.setText(params.getTextMap().valueAt(0));
         }
 
-        if(params.getGravity() != null) {
+        if (params.getGravity() != null) {
             toast.setGravity(params.getGravity(), params.getxOffset(), params.getyOffset());
         }
 
-        if(params.getHorizontalMargin() != null) {
+        if (params.getHorizontalMargin() != null) {
             toast.setMargin(params.getHorizontalMargin(), params.getVerticalMargin());
         }
 
@@ -79,7 +79,7 @@ public class ToastAlertImpl extends AlertImpl<ToastAlertParams> implements Toast
     protected void injectOnDismissCallback(ToastAlertParams params) {
         int realDurationInMs;
 
-        if(params.getDuration() == Toast.LENGTH_SHORT) {
+        if (params.getDuration() == Toast.LENGTH_SHORT) {
             realDurationInMs = 2000;
         } else {
             realDurationInMs = 3500;
@@ -89,7 +89,7 @@ public class ToastAlertImpl extends AlertImpl<ToastAlertParams> implements Toast
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                if(isAttached()) {
+                if (isAttached()) {
                     close();
                 }
             }
@@ -212,13 +212,13 @@ public class ToastAlertImpl extends AlertImpl<ToastAlertParams> implements Toast
     protected void setButtonString(@NonNull View buttonLayout, @Nullable Integer viewId,
                                    @Nullable String chars) {
         TextView textView = null;
-        if(viewId != null && viewId != -1) {
+        if (viewId != null && viewId != -1) {
             textView = buttonLayout.findViewById(viewId);
-        } else if(buttonLayout instanceof TextView) {
+        } else if (buttonLayout instanceof TextView) {
             textView = (TextView) buttonLayout;
         }
 
-        if(textView != null) {
+        if (textView != null) {
             if (getHelper().isNotEmpty(chars)) {
                 textView.setVisibility(View.VISIBLE);
                 textView.setText(getAccessor().getHtmlText(chars));

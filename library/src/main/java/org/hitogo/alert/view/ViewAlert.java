@@ -9,8 +9,11 @@ import org.hitogo.alert.core.Alert;
 public interface ViewAlert extends Alert<ViewAlertParams> {
 
     void show(final boolean force);
+
     void showLater(final boolean showLater);
+
     void showDelayed(final long millis);
+
     void showDelayed(final long millis, final boolean force);
 
     void close(final boolean force);
@@ -25,5 +28,6 @@ public interface ViewAlert extends Alert<ViewAlertParams> {
     View getView();
 
     boolean hasAnimation();
+
     boolean isClosingOthers();
 }

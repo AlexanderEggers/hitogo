@@ -145,7 +145,7 @@ public abstract class AlertLifecycle<T extends AlertParams> {
      * @since 1.0.0
      */
     protected Object onCreateOther(LayoutInflater inflater, @NonNull Context context,
-                                        @NonNull T params) {
+                                   @NonNull T params) {
         return null;
     }
 

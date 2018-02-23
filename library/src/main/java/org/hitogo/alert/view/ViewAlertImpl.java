@@ -254,13 +254,13 @@ public class ViewAlertImpl extends AlertImpl<ViewAlertParams> implements ViewAle
     protected void setButtonString(@NonNull View buttonLayout, @Nullable Integer viewId,
                                    @Nullable String chars) {
         TextView textView = null;
-        if(viewId != null && viewId != -1) {
+        if (viewId != null && viewId != -1) {
             textView = buttonLayout.findViewById(viewId);
-        } else if(buttonLayout instanceof TextView) {
+        } else if (buttonLayout instanceof TextView) {
             textView = (TextView) buttonLayout;
         }
 
-        if(textView != null) {
+        if (textView != null) {
             if (getHelper().isNotEmpty(chars)) {
                 textView.setVisibility(View.VISIBLE);
                 textView.setText(getAccessor().getHtmlText(chars));

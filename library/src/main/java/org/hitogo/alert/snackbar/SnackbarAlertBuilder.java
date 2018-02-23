@@ -4,7 +4,6 @@ import android.content.res.ColorStateList;
 import android.support.annotation.ColorRes;
 import android.support.annotation.IntRange;
 import android.support.annotation.NonNull;
-import android.support.design.widget.Snackbar;
 
 import org.hitogo.alert.core.Alert;
 import org.hitogo.alert.core.AlertBuilderBase;
@@ -29,15 +28,33 @@ public interface SnackbarAlertBuilder extends AlertBuilderBase<SnackbarAlertBuil
     @NonNull
     SnackbarAlertBuilder setAction(@NonNull Button button);
 
+    /**
+     * Specifies the text color for the action button which used by the snackbar.
+     *
+     * @param color a color resource reference
+     * @return Builder object which has called this method.
+     * @since 1.0.0
+     */
     @NonNull
     SnackbarAlertBuilder setActionTextColor(@ColorRes int color);
 
+    /**
+     * Specifies the text color for the action button which used by the snackbar.
+     *
+     * @param colors a ColorStateList
+     * @return Builder object which has called this method.
+     * @since 1.0.0
+     */
     @NonNull
     SnackbarAlertBuilder setActionTextColor(@NonNull ColorStateList colors);
 
-    @NonNull
-    SnackbarAlertBuilder addCallback(@NonNull Snackbar.Callback callback);
-
+    /**
+     * Specifies the duration for the snackbar alert.
+     *
+     * @param duration an Int
+     * @return Builder object which has called this method.
+     * @since 1.0.0
+     */
     @NonNull
     SnackbarAlertBuilder setDuration(@IntRange(from = -2) int duration);
 }

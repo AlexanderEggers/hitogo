@@ -25,7 +25,6 @@ import java.security.InvalidParameterException;
  *
  * @since 1.0.0
  */
-@SuppressWarnings({"WeakerAccess", "unused"})
 public class PopupAlertImpl extends AlertImpl<PopupAlertParams> implements PopupAlert {
 
     private View anchorView;
@@ -126,7 +125,7 @@ public class PopupAlertImpl extends AlertImpl<PopupAlertParams> implements Popup
     protected PopupWindow buildPopupWindow(PopupWindow window) {
         window.setAnimationStyle(getParams().getAnimationStyle());
 
-        if(getParams().getOnTouchListener() != null) {
+        if (getParams().getOnTouchListener() != null) {
             window.setTouchInterceptor(getParams().getOnTouchListener());
         }
 
@@ -276,13 +275,13 @@ public class PopupAlertImpl extends AlertImpl<PopupAlertParams> implements Popup
     protected void setButtonString(@NonNull View buttonLayout, @Nullable Integer viewId,
                                    @Nullable String chars) {
         TextView textView = null;
-        if(viewId != null && viewId != -1) {
+        if (viewId != null && viewId != -1) {
             textView = buttonLayout.findViewById(viewId);
-        } else if(buttonLayout instanceof TextView) {
+        } else if (buttonLayout instanceof TextView) {
             textView = (TextView) buttonLayout;
         }
 
-        if(textView != null) {
+        if (textView != null) {
             if (getHelper().isNotEmpty(chars)) {
                 textView.setVisibility(View.VISIBLE);
                 textView.setText(getAccessor().getHtmlText(chars));

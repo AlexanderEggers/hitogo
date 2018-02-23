@@ -4,6 +4,7 @@ import android.content.res.ColorStateList;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 
+import org.hitogo.alert.core.Alert;
 import org.hitogo.alert.core.AlertBuilderImpl;
 import org.hitogo.alert.core.AlertImpl;
 import org.hitogo.alert.core.AlertParams;
@@ -13,16 +14,20 @@ import org.hitogo.core.HitogoContainer;
 import org.hitogo.core.HitogoParamsHolder;
 
 import static org.hitogo.alert.snackbar.SnackbarAlertParamsKeys.ACTION_TEXT_COLOR_KEY;
-import static org.hitogo.alert.snackbar.SnackbarAlertParamsKeys.CALLBACK_KEY;
 import static org.hitogo.alert.snackbar.SnackbarAlertParamsKeys.COLOR_STATE_LIST_KEY;
 import static org.hitogo.alert.snackbar.SnackbarAlertParamsKeys.DURATION_KEY;
 
+/**
+ * Builder which includes all basic method to assign specific snackbar values to the alert.
+ *
+ * @see Alert
+ * @since 1.0.0
+ */
 public class SnackbarAlertBuilderImpl extends AlertBuilderImpl<SnackbarAlertBuilder, SnackbarAlert> implements SnackbarAlertBuilder {
 
     private Integer actionTextColor;
     private int duration = Snackbar.LENGTH_SHORT;
 
-    private Snackbar.Callback snackbarCallback;
     private ColorStateList colorStates;
 
     public SnackbarAlertBuilderImpl(@NonNull Class<? extends AlertImpl> targetClass,
@@ -60,21 +65,12 @@ public class SnackbarAlertBuilderImpl extends AlertBuilderImpl<SnackbarAlertBuil
         return this;
     }
 
-    @NonNull
-    @Override
-    public SnackbarAlertBuilder addCallback(@NonNull Snackbar.Callback callback) {
-        snackbarCallback = callback;
-        return this;
-    }
-
     @Override
     protected void onProvideData(HitogoParamsHolder holder) {
         super.onProvideData(holder);
 
         holder.provideInteger(ACTION_TEXT_COLOR_KEY, actionTextColor);
         holder.provideInteger(DURATION_KEY, duration);
-
-        holder.provideCustomObject(CALLBACK_KEY, snackbarCallback);
         holder.provideCustomObject(COLOR_STATE_LIST_KEY, colorStates);
     }
 }

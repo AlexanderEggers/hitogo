@@ -45,7 +45,7 @@ public class ViewAlertBuilderImpl extends AlertBuilderImpl<ViewAlertBuilder, Vie
     @NonNull
     public ViewAlertBuilder withAnimations(boolean withAnimation) {
         if (withAnimation) {
-            return withAnimations(null,null);
+            return withAnimations(null, null);
         } else {
             this.animation = null;
             this.innerLayoutViewId = null;
