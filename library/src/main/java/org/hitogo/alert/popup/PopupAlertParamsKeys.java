@@ -7,7 +7,6 @@ import org.hitogo.alert.core.AlertParamsKeys;
  *
  * @since 1.0.0
  */
-@SuppressWarnings("WeakerAccess")
 public abstract class PopupAlertParamsKeys extends AlertParamsKeys {
     public static final String DRAWABLE_RES_KEY = "drawableRes";
     public static final String ANIMATION_STYLE_KEY = "animationStyle";

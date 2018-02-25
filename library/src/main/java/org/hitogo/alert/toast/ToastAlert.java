@@ -20,5 +20,5 @@ public interface ToastAlert extends Alert<ToastAlertParams> {
      * @return Base object of the alert. Null if the alert is not from type OTHER (AlertType).
      * @since 1.0.0
      */
-    <T extends Object> T getOther();
+    <O extends Object> O getOther();
 }

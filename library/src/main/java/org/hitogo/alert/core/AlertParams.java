@@ -20,7 +20,6 @@ import java.util.List;
  *
  * @since 1.0.0
  */
-@SuppressWarnings({"WeakerAccess", "unused"})
 public abstract class AlertParams extends HitogoParams<HitogoParamsHolder> {
 
     private String title;

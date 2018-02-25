@@ -9,7 +9,6 @@ import org.hitogo.core.HitogoParamsHolder;
  * @see AlertParams
  * @since 1.0.0
  */
-@SuppressWarnings({"WeakerAccess", "unused"})
 public class DialogAlertParams extends AlertParams {
 
     private Integer dialogThemeResId;

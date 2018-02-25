@@ -8,7 +8,6 @@ import org.hitogo.core.HitogoHelper;
 
 import java.lang.ref.WeakReference;
 
-@SuppressWarnings({"WeakerAccess", "unused"})
 public abstract class ButtonImpl<T extends ButtonParams> extends ButtonLifecycle<T> implements Button<T> {
 
     private WeakReference<HitogoContainer> containerRef;

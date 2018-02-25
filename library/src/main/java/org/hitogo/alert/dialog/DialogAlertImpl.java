@@ -27,7 +27,7 @@ import java.util.List;
  *
  * @since 1.0.0
  */
-@SuppressWarnings({"WeakerAccess", "unused", "unchecked"})
+@SuppressWarnings({"unchecked"})
 public class DialogAlertImpl extends AlertImpl<DialogAlertParams> implements DialogAlert {
 
     private static final int MAX_BUILDER_BUTTON_AMOUNT = 3;

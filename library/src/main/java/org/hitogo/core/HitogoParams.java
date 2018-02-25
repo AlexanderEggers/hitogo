@@ -12,7 +12,6 @@ import android.support.annotation.NonNull;
  * @see HitogoParamsHolder
  * @since 1.0.0
  */
-@SuppressWarnings({"WeakerAccess", "unused"})
 public abstract class HitogoParams<T extends HitogoParamsHolder> {
 
     private HitogoController controller;

@@ -10,7 +10,6 @@ import org.hitogo.core.HitogoParamsKeys;
  * @see AlertParams
  * @since 1.0.0
  */
-@SuppressWarnings("WeakerAccess")
 public abstract class AlertParamsKeys extends HitogoParamsKeys {
     public static final String TITLE_KEY = "title";
     public static final String TITLE_VIEW_ID_KEY = "titleViewId";

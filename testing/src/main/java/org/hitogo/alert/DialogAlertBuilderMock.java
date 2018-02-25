@@ -17,14 +17,13 @@ import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+@SuppressWarnings("unchecked")
 public class DialogAlertBuilderMock {
 
-    @SuppressWarnings("unchecked")
     public static DialogAlertBuilder getMock() {
         return getMock(mock(DialogAlert.class));
     }
 
-    @SuppressWarnings("unchecked")
     public static DialogAlertBuilder getMock(DialogAlert alert) {
         DialogAlertBuilder dialogAlertBuilder = mock(DialogAlertBuilder.class);
 

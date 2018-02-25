@@ -12,7 +12,6 @@ import org.hitogo.core.HitogoParamsHolder;
  * @see AlertParams
  * @since 1.0.0
  */
-@SuppressWarnings({"WeakerAccess", "unused"})
 public class PopupAlertParams extends AlertParams {
 
     private Integer drawableRes;

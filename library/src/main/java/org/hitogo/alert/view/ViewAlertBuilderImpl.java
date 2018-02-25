@@ -17,7 +17,6 @@ import org.hitogo.core.HitogoParamsHolder;
 
 import java.security.InvalidParameterException;
 
-@SuppressWarnings({"WeakerAccess", "unused"})
 public class ViewAlertBuilderImpl extends AlertBuilderImpl<ViewAlertBuilder, ViewAlert>
         implements ViewAlertBuilder {
 

@@ -9,7 +9,6 @@ package org.hitogo.alert.core;
  * @see AlertBuilderImpl
  * @since 1.0.0
  */
-@SuppressWarnings({"WeakerAccess", "unused"})
 public abstract class VisibilityListener<T extends Alert> {
 
     /**

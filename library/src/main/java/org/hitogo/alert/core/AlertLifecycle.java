@@ -20,7 +20,6 @@ import org.hitogo.core.HitogoController;
  * @see AlertParams
  * @since 1.0.0
  */
-@SuppressWarnings({"WeakerAccess", "unused"})
 public abstract class AlertLifecycle<T extends AlertParams> {
 
     /**

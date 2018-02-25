@@ -37,7 +37,7 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
-@SuppressWarnings({"WeakerAccess", "unused", "unchecked"})
+@SuppressWarnings({"unchecked"})
 public abstract class HitogoController implements LifecycleObserver {
 
     private final Object syncLock = new Object();

@@ -18,7 +18,7 @@ import org.hitogo.core.HitogoParamsHolder;
 
 import java.lang.ref.WeakReference;
 
-@SuppressWarnings({"WeakerAccess", "unused", "unchecked"})
+@SuppressWarnings({"unchecked"})
 public abstract class ButtonBuilderImpl<C extends ButtonBuilder, B extends Button> implements ButtonBuilder<C, B> {
 
     private final Class<? extends ButtonImpl> targetClass;
@@ -125,7 +125,6 @@ public abstract class ButtonBuilderImpl<C extends ButtonBuilder, B extends Butto
 
     @Override
     @NonNull
-    @SuppressWarnings("unchecked")
     public B build() {
         HitogoParamsHolder holder = getController().provideButtonParamsHolder(buttonType);
         onProvideData(holder);
@@ -153,12 +152,12 @@ public abstract class ButtonBuilderImpl<C extends ButtonBuilder, B extends Butto
     }
 
     @NonNull
-    protected final HitogoContainer getContainer() {
+    protected HitogoContainer getContainer() {
         return containerRef.get();
     }
 
     @NonNull
-    protected final HitogoController getController() {
+    protected HitogoController getController() {
         return controller;
     }
 

@@ -29,7 +29,7 @@ import java.util.List;
  * @see AlertParams
  * @since 1.0.0
  */
-@SuppressWarnings({"WeakerAccess", "unused", "unchecked"})
+@SuppressWarnings({"unchecked"})
 public abstract class AlertImpl<T extends AlertParams> extends AlertLifecycle<T> implements Alert<T> {
 
     private static final int NO_ANIMATION_LENGTH = 0;
@@ -541,8 +541,8 @@ public abstract class AlertImpl<T extends AlertParams> extends AlertLifecycle<T>
      * @return Base object of the alert. Null if the alert is not from type OTHER (AlertType).
      * @since 1.0.0
      */
-    public <T extends Object> T getOther() {
-        return (T) other;
+    public <O extends Object> O getOther() {
+        return (O) other;
     }
 
     /**

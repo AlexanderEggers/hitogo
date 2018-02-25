@@ -7,7 +7,6 @@ import org.hitogo.alert.core.AlertParamsKeys;
  *
  * @since 1.0.0
  */
-@SuppressWarnings("WeakerAccess")
 public class SnackbarAlertParamsKeys extends AlertParamsKeys {
     public static final String ACTION_TEXT_COLOR_KEY = "actionTextColor";
     public static final String DURATION_KEY = "duration";

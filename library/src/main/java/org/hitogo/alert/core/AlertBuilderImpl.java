@@ -90,7 +90,6 @@ public abstract class AlertBuilderImpl<B, A extends Alert> implements AlertBuild
 
     @Override
     @NonNull
-    @SuppressWarnings("unchecked")
     public A build() {
         HitogoParamsHolder holder = controller.provideAlertParamsHolder(alertType);
         onProvideData(holder);

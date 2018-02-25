@@ -25,6 +25,7 @@ import java.security.InvalidParameterException;
  *
  * @since 1.0.0
  */
+@SuppressWarnings("unchecked")
 public class PopupAlertImpl extends AlertImpl<PopupAlertParams> implements PopupAlert {
 
     private View anchorView;
@@ -121,7 +122,6 @@ public class PopupAlertImpl extends AlertImpl<PopupAlertParams> implements Popup
         }
     }
 
-    @SuppressWarnings("unchecked")
     protected PopupWindow buildPopupWindow(PopupWindow window) {
         window.setAnimationStyle(getParams().getAnimationStyle());
 
@@ -231,7 +231,6 @@ public class PopupAlertImpl extends AlertImpl<PopupAlertParams> implements Popup
         }
     }
 
-    @SuppressWarnings("unchecked")
     protected void buildButton(final Button button, View view, final boolean forceClose) {
         final View buttonLayout = view.findViewById(button.getParams().getIconId());
         View clickLayout = view.findViewById(button.getParams().getClickId());

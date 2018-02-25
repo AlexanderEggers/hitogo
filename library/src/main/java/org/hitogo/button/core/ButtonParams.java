@@ -9,7 +9,6 @@ import org.hitogo.core.HitogoController;
 import org.hitogo.core.HitogoParams;
 import org.hitogo.core.HitogoParamsHolder;
 
-@SuppressWarnings({"WeakerAccess", "unused"})
 public abstract class ButtonParams extends HitogoParams<HitogoParamsHolder> {
 
     private boolean closeAfterClick;

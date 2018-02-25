@@ -29,7 +29,6 @@ import org.hitogo.button.view.ViewButtonBuilder;
 import org.hitogo.button.view.ViewButtonBuilderImpl;
 import org.hitogo.button.view.ViewButtonFactory;
 
-@SuppressWarnings({"WeakerAccess", "unused"})
 public class Hitogo implements ViewAlertFactory<ViewAlertBuilder>, DialogAlertFactory<DialogAlertBuilder>,
         ViewButtonFactory<ViewButtonBuilder>, PopupAlertFactory<PopupAlertBuilder>,
         SnackbarAlertFactory<SnackbarAlertBuilder>, TextButtonFactory<TextButtonBuilder>,

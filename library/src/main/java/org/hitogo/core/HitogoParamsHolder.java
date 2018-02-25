@@ -15,7 +15,6 @@ import java.util.HashMap;
  *
  * @since 1.0.0
  */
-@SuppressWarnings("WeakerAccess")
 public class HitogoParamsHolder {
 
     private final Bundle bundle = new Bundle();
