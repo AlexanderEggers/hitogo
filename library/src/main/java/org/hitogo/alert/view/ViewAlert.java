@@ -18,14 +18,6 @@ import org.hitogo.alert.core.AlertType;
 public interface ViewAlert extends Alert<ViewAlertParams> {
 
     /**
-     * Displays this alert object on the user screen if the alert is not visible yet.
-     *
-     * @param force Determines if the animation for the show-process should displayed or not.
-     * @since 1.0.0
-     */
-    void show(final boolean force);
-
-    /**
      * Prepares the show-process for this alert. The alert will stay invisible for later.
      *
      * @since 1.0.0
@@ -48,23 +40,6 @@ public interface ViewAlert extends Alert<ViewAlertParams> {
      * @since 1.0.0
      */
     void showDelayed(final long millis);
-
-    /**
-     * Delays the show-process for this alert. The delay is depending the input.
-     *
-     * @param millis Delay in milliseconds.
-     * @param force  Determines if the animation for the show-process should displayed or not.
-     * @since 1.0.0
-     */
-    void showDelayed(final long millis, final boolean force);
-
-    /**
-     * Closes this alert object on the user screen if it's still visible.
-     *
-     * @param force Determines if the animation for the hide-process should displayed or not.
-     * @since 1.0.0
-     */
-    void close(final boolean force);
 
     /**
      * Returns the view of the alert. This value is usually non-null if the alert is attached

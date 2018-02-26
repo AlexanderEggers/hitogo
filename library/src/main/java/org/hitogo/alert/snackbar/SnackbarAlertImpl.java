@@ -70,7 +70,7 @@ public class SnackbarAlertImpl extends AlertImpl<SnackbarAlertParams> implements
 
             @Override
             public void onDismissed(Snackbar transientBottomBar, int event) {
-                if(isAttached()) {
+                if (isAttached()) {
                     close();
                 }
             }

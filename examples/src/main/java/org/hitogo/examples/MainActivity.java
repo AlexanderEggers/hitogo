@@ -25,8 +25,8 @@ public class MainActivity extends HitogoActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         //sourceTest();
-        //showFirstView();
-        showPrioAlerts();
+        showFirstView();
+        //showPrioAlerts();
         //testImage();
         //testButtonImage();
 
@@ -163,7 +163,7 @@ public class MainActivity extends HitogoActivity {
                 .setButtonListener(new ButtonListener<String>() {
                     @Override
                     public void onClick(@NonNull Alert alert, String parameter) {
-                        getController().showNext(alert, false);
+                        getController().showNext(alert);
                     }
                 }, false, "Test parameter")
                 .addText(R.string.test_id)
@@ -238,7 +238,7 @@ public class MainActivity extends HitogoActivity {
                 .setButtonListener(new ButtonListener<String>() {
                     @Override
                     public void onClick(@NonNull Alert alert, String parameter) {
-                        getController().showNext(alert, false);
+                        getController().showNext(alert);
                         System.out.println(parameter);
                     }
                 }, false, "Test parameter")
@@ -298,7 +298,7 @@ public class MainActivity extends HitogoActivity {
                 .setButtonListener(new ButtonListener() {
                     @Override
                     public void onClick(@NonNull Alert alert, Object parameter) {
-                        getController().closeAll(true);
+                        getController().closeAll();
                     }
                 }, false)
                 .addText(R.string.test_id)
@@ -334,7 +334,7 @@ public class MainActivity extends HitogoActivity {
                     public void onClick(@NonNull Alert alert, Object parameter) {
                         showSecondView();
                     }
-                }, false)
+                })
                 .addText("Ok")
                 .build();
 
@@ -403,7 +403,7 @@ public class MainActivity extends HitogoActivity {
                 .setButtonListener(new ButtonListener() {
                     @Override
                     public void onClick(@NonNull Alert alert, Object parameter) {
-                        getController().showNext(alert, false);
+                        getController().showNext(alert);
                     }
                 }, true)
                 .setView(R.id.button)

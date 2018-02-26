@@ -157,12 +157,7 @@ public class ViewAlertBuilderImpl extends AlertBuilderImpl<ViewAlertBuilder, Vie
 
     @Override
     public void show() {
-        show(false);
-    }
-
-    @Override
-    public void show(boolean force) {
-        build().show(force);
+        build().show();
     }
 
     @Override
@@ -175,18 +170,13 @@ public class ViewAlertBuilderImpl extends AlertBuilderImpl<ViewAlertBuilder, Vie
         if (showLater) {
             build().showLater(true);
         } else {
-            show(false);
+            show();
         }
     }
 
     @Override
     public void showDelayed(long millis) {
-        showDelayed(millis, false);
-    }
-
-    @Override
-    public void showDelayed(long millis, boolean force) {
-        build().showDelayed(millis, force);
+        build().showDelayed(millis);
     }
 
     @Override

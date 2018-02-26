@@ -197,14 +197,6 @@ public interface ViewAlertBuilder extends AlertBuilder<ViewAlertBuilder, ViewAle
     ViewAlertBuilder dismissByLayoutClick(boolean dismissByClick);
 
     /**
-     * Displays this alert object on the user screen if the alert is not visible yet.
-     *
-     * @param force Determines if the animation for the show-process should displayed or not.
-     * @since 1.0.0
-     */
-    void show(boolean force);
-
-    /**
      * Prepares the show-process for this alert. The alert will stay invisible for later.
      *
      * @since 1.0.0
@@ -227,13 +219,4 @@ public interface ViewAlertBuilder extends AlertBuilder<ViewAlertBuilder, ViewAle
      * @since 1.0.0
      */
     void showDelayed(long millis);
-
-    /**
-     * Delays the show-process for this alert. The delay is depending the input.
-     *
-     * @param millis Delay in milliseconds.
-     * @param force  Determines if the animation for the show-process should displayed or not.
-     * @since 1.0.0
-     */
-    void showDelayed(long millis, boolean force);
 }

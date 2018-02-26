@@ -116,20 +116,10 @@ public abstract class AlertImpl<T extends AlertParams> extends AlertLifecycle<T>
      */
     @Override
     public void show() {
-        show(false);
-    }
-
-    /**
-     * Displays this alert object on the user screen if the alert is not visible yet.
-     *
-     * @param force Determines if the animation for the show-process should displayed or not.
-     * @since 1.0.0
-     */
-    public void show(final boolean force) {
         getRootView().post(new Runnable() {
             @Override
             public void run() {
-                getController().show(AlertImpl.this, force);
+                getController().show(AlertImpl.this);
             }
         });
     }
@@ -154,7 +144,7 @@ public abstract class AlertImpl<T extends AlertParams> extends AlertLifecycle<T>
         getRootView().post(new Runnable() {
             @Override
             public void run() {
-                getController().show(AlertImpl.this, false, showLater);
+                getController().show(AlertImpl.this, showLater);
             }
         });
     }
@@ -166,25 +156,10 @@ public abstract class AlertImpl<T extends AlertParams> extends AlertLifecycle<T>
      * @since 1.0.0
      */
     public void showDelayed(final long millis) {
-        showDelayed(millis, false);
-    }
-
-    /**
-     * Delays the show-process for this alert. The delay is depending the input.
-     *
-     * @param millis Delay in milliseconds.
-     * @param force  Determines if the animation for the show-process should displayed or not.
-     * @since 1.0.0
-     */
-    public void showDelayed(final long millis, final boolean force) {
         getRootView().post(new Runnable() {
             @Override
             public void run() {
-                if (hasAnimation()) {
-                    internalShowDelayed(millis, force);
-                } else {
-                    show(force);
-                }
+                internalShowDelayed(millis);
             }
         });
     }
@@ -193,16 +168,15 @@ public abstract class AlertImpl<T extends AlertParams> extends AlertLifecycle<T>
      * Starts the delay process to display this alert. <b>Internal use only.</b>
      *
      * @param millis Delay in milliseconds.
-     * @param force  Determines if the animation for the show-process should displayed or not.
      * @since 1.0.0
      */
-    private void internalShowDelayed(final long millis, final boolean force) {
+    private void internalShowDelayed(final long millis) {
         Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
                 if (getContainer().getLifecycle().getCurrentState().isAtLeast(Lifecycle.State.CREATED)) {
-                    show(force);
+                    show();
                 }
             }
         }, millis);
@@ -211,10 +185,9 @@ public abstract class AlertImpl<T extends AlertParams> extends AlertLifecycle<T>
     /**
      * Starts the process to display this alert. <b>Internal use only.</b>
      *
-     * @param force Determines if the animation for the show-process should displayed or not.
      * @since 1.0.0
      */
-    public void makeVisible(final boolean force) {
+    public void makeVisible() {
         if (!isAttached()) {
             onAttach(getContainer().getActivity());
             attached = true;
@@ -224,7 +197,7 @@ public abstract class AlertImpl<T extends AlertParams> extends AlertLifecycle<T>
                 listener.onShow(this);
             }
 
-            if (hasAnimation && !force) {
+            if (hasAnimation) {
                 onShowAnimation(getContainer().getActivity());
             } else {
                 onShowDefault(getContainer().getActivity());
@@ -235,10 +208,9 @@ public abstract class AlertImpl<T extends AlertParams> extends AlertLifecycle<T>
     /**
      * Starts the process to hide this alert. <b>Internal use only.</b>
      *
-     * @param force Determines if the animation for the hide-process should displayed or not.
      * @since 1.0.0
      */
-    public void makeInvisible(final boolean force) {
+    public void makeInvisible() {
         if (isAttached()) {
             onDetach(getContext());
             attached = false;
@@ -247,7 +219,7 @@ public abstract class AlertImpl<T extends AlertParams> extends AlertLifecycle<T>
                 listener.onClose(this);
             }
 
-            if (hasAnimation() && !force) {
+            if (hasAnimation()) {
                 onCloseAnimation(getContext());
 
                 Handler handler = new Handler();
@@ -272,16 +244,6 @@ public abstract class AlertImpl<T extends AlertParams> extends AlertLifecycle<T>
     @Override
     public void close() {
         getController().closeByAlert(this);
-    }
-
-    /**
-     * Closes this alert object on the user screen if it's still visible.
-     *
-     * @param force Determines if the animation for the hide-process should displayed or not.
-     * @since 1.0.0
-     */
-    public void close(final boolean force) {
-        getController().closeByAlert(this, force);
     }
 
     /**
