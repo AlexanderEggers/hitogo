@@ -65,8 +65,7 @@ public abstract class AlertParams extends HitogoParams<HitogoParamsHolder> {
     }
 
     /**
-     * Returns if the alert has an animation. This method is used internally for all alerts. Due to
-     * forcing overriding the correct method, this method is required to implement.
+     * Returns if the alert has an animation. This method is used internally for all alerts.
      *
      * @return True if the alert has animations, false otherwise.
      * @since 1.0.0
@@ -74,9 +73,7 @@ public abstract class AlertParams extends HitogoParams<HitogoParamsHolder> {
     public abstract boolean hasAnimation();
 
     /**
-     * Returns if the alert is closing alerts when it is in process to be displayed. This method is
-     * used internally for all alerts. Due to forcing overriding the correct method, this method is
-     * required to implement.
+     * Returns if the alert is closing alerts when it is in process to be displayed.
      *
      * @return True if the alert is closing other alerts when displayed, false otherwise.
      * @since 1.0.0

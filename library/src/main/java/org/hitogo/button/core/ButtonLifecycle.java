@@ -34,6 +34,16 @@ public abstract class ButtonLifecycle<T extends ButtonParams> {
 
     }
 
+    /**
+     * This method is executed right after onCheck and should only be used to prepare the button's
+     * data and do some pre-calculations.
+     *
+     * @param params an object which is extending ButtonParams
+     * @see Button
+     * @see ButtonParams
+     * @see HitogoController
+     * @since 1.0.0
+     */
     @CallSuper
     protected void onCreate(@NonNull T params) {
 
