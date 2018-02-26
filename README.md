@@ -14,12 +14,12 @@ repositories {
 }
 
 dependencies {
-  implementation 'org.hitogo:hitogo-core:1.0.0-beta19.1'
-  testImplementation 'org.hitogo:hitogo-testing:1.0.0-beta19.1' //mocks and testing tools
+  implementation 'org.hitogo:hitogo-core:1.0.0-beta19.2'
+  testImplementation 'org.hitogo:hitogo-testing:1.0.0-beta19.2' //mocks and testing tools
 }
 ```
 
-How do I use Hitogo? (Step-by-step introduction for 1.0.0-beta19.1)
+How do I use Hitogo? (Step-by-step introduction for 1.0.0-beta19.2)
 -------------------
 
 1. Extend the HitogoController
