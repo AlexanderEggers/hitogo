@@ -397,7 +397,7 @@ public abstract class HitogoController implements LifecycleObserver {
 
     private long internalHideByAlert(final @NonNull Alert alert, boolean force) {
         long longestClosingAnim = 0;
-        Iterator<AlertImpl> it = getCurrentAlertList(alert.getAlertType()).iterator();
+        Iterator<AlertImpl> it = getCurrentActiveList(alert.getAlertType()).iterator();
 
         while (it.hasNext()) {
             AlertImpl object = it.next();
@@ -425,12 +425,14 @@ public abstract class HitogoController implements LifecycleObserver {
         }
     }
 
-    private void internalMakeHide(AlertImpl object, boolean force) {
-        int count = alertCountMap.get(object.hashCode());
+    private void internalMakeHide(AlertImpl alert, boolean force) {
+        int count = alertCountMap.get(alert.hashCode());
         if (count == 1) {
-            alertCountMap.delete(object.hashCode());
-            internalMakeActiveAlertInvisible(object, force);
-            getCurrentAlertList(object.getAlertType()).add(object);
+            alertCountMap.delete(alert.hashCode());
+            if (alert.hasPriority()) {
+                setCurrentHighestPriority(alert.getAlertType(), Integer.MAX_VALUE);
+            }
+            alert.makeInvisible(force);
         }
     }
 
