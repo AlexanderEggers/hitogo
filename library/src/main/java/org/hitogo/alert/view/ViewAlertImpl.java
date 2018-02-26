@@ -246,7 +246,7 @@ public class ViewAlertImpl extends AlertImpl<ViewAlertParams> implements ViewAle
                 public void onClick(android.view.View v) {
                     button.getParams().getListener().onClick(ViewAlertImpl.this, button.getParams().getButtonParameter());
 
-                    if (button.getParams().isClosingAfterClick() || forceClose) {
+                    if ((button.getParams().isClosingAfterClick() || forceClose) && isAttached()) {
                         close();
                     }
                 }

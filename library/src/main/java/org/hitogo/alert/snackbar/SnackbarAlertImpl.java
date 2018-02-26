@@ -50,7 +50,7 @@ public class SnackbarAlertImpl extends AlertImpl<SnackbarAlertParams> implements
                         button.getParams().getListener().onClick(SnackbarAlertImpl.this,
                                 button.getParams().getButtonParameter());
 
-                        if (button.getParams().isClosingAfterClick()) {
+                        if (button.getParams().isClosingAfterClick() && isAttached()) {
                             close();
                         }
                     }
@@ -70,7 +70,9 @@ public class SnackbarAlertImpl extends AlertImpl<SnackbarAlertParams> implements
 
             @Override
             public void onDismissed(Snackbar transientBottomBar, int event) {
-                close();
+                if(isAttached()) {
+                    close();
+                }
             }
         });
 

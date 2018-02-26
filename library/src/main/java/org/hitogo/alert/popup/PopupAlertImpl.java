@@ -261,7 +261,7 @@ public class PopupAlertImpl extends AlertImpl<PopupAlertParams> implements Popup
                 public void onClick(android.view.View v) {
                     button.getParams().getListener().onClick(PopupAlertImpl.this, button.getParams().getButtonParameter());
 
-                    if (button.getParams().isClosingAfterClick() || forceClose) {
+                    if ((button.getParams().isClosingAfterClick() || forceClose) && isAttached()) {
                         close();
                     }
                 }

@@ -22,7 +22,7 @@ import java.util.List;
 /**
  * This class is used to abstract the lifecycle of an alert. The class is extending the
  * AlertLifecycle to achieve that. Each instance of this class can have a different parameter
- * holder which provides values from the builder system.
+ * object which provides values from the builder system.
  *
  * @param <T> Generics for the params class which is used to provide builder values to the object.
  * @see AlertLifecycle

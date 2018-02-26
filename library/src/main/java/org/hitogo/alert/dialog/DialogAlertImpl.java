@@ -224,7 +224,9 @@ public class DialogAlertImpl extends AlertImpl<DialogAlertParams> implements Dia
                 @Override
                 public void onClick(android.view.View v) {
                     button.getParams().getListener().onClick(DialogAlertImpl.this, button.getParams().getButtonParameter());
-                    close();
+                    if(isAttached()) {
+                        close();
+                    }
                 }
             });
         } else if (getController().provideIsDebugState()) {
@@ -263,7 +265,9 @@ public class DialogAlertImpl extends AlertImpl<DialogAlertParams> implements Dia
                         @Override
                         public void onClick(DialogInterface dialog, int id) {
                             button.getParams().getListener().onClick(DialogAlertImpl.this, button.getParams().getButtonParameter());
-                            close();
+                            if(isAttached()) {
+                                close();
+                            }
                         }
                     });
                     break;
@@ -272,7 +276,9 @@ public class DialogAlertImpl extends AlertImpl<DialogAlertParams> implements Dia
                         @Override
                         public void onClick(DialogInterface dialog, int id) {
                             button.getParams().getListener().onClick(DialogAlertImpl.this, button.getParams().getButtonParameter());
-                            close();
+                            if(isAttached()) {
+                                close();
+                            }
                         }
                     });
                     break;
@@ -281,7 +287,9 @@ public class DialogAlertImpl extends AlertImpl<DialogAlertParams> implements Dia
                         @Override
                         public void onClick(DialogInterface dialog, int id) {
                             button.getParams().getListener().onClick(DialogAlertImpl.this, button.getParams().getButtonParameter());
-                            close();
+                            if(isAttached()) {
+                                close();
+                            }
                         }
                     });
                     break;

@@ -18,6 +18,15 @@ import org.hitogo.core.HitogoParamsHolder;
 
 import java.lang.ref.WeakReference;
 
+/**
+ * Base button builder which includes all basic method to assign the most important/common values to
+ * the button.
+ *
+ * @param <C> Type for the build class which is using this class implementation.
+ * @param <B> Type for the result button which is usable to execute certain methods at the end.
+ * @see Button
+ * @since 1.0.0
+ */
 @SuppressWarnings({"unchecked"})
 public abstract class ButtonBuilderImpl<C extends ButtonBuilder, B extends Button> implements ButtonBuilder<C, B> {
 
@@ -37,6 +46,20 @@ public abstract class ButtonBuilderImpl<C extends ButtonBuilder, B extends Butto
     private ButtonListener listener;
     private Object buttonParameter;
 
+    /**
+     * Default constructor for the ButtonBuilderImpl.
+     *
+     * @param targetClass Class object for the requested button.
+     * @param paramClass  Class object for the params object which is used by the button.
+     * @param container   Container which is used as a reference for this button (context, view,
+     *                    controller).
+     * @param buttonType  ButtonType which is needed for the build and visibility process of this
+     *                    alert.
+     * @see HitogoContainer
+     * @see HitogoController
+     * @see ButtonType
+     * @since 1.0.0
+     */
     public ButtonBuilderImpl(@NonNull Class<? extends ButtonImpl> targetClass,
                              @NonNull Class<? extends ButtonParams> paramClass,
                              @NonNull HitogoContainer container,
@@ -151,26 +174,61 @@ public abstract class ButtonBuilderImpl<C extends ButtonBuilder, B extends Butto
         holder.provideCustomObject(ButtonParamsKeys.BUTTON_PARAMETER_KEY, buttonParameter);
     }
 
+    /**
+     * Returns the used HitogoContainer object for the button.
+     *
+     * @return HitogoContainer of the button.
+     * @see HitogoContainer
+     * @since 1.0.0
+     */
     @NonNull
     protected HitogoContainer getContainer() {
         return containerRef.get();
     }
 
+    /**
+     * Returns the used HitogoController object for the button.
+     *
+     * @return HitogoController of the button.
+     * @see HitogoController
+     * @since 1.0.0
+     */
     @NonNull
     protected HitogoController getController() {
         return controller;
     }
 
+    /**
+     * Returns the used button type for this button.
+     *
+     * @return a ButtonType object
+     * @see ButtonType
+     * @since 1.0.0
+     */
     @NonNull
     protected ButtonType getButtonType() {
         return buttonType;
     }
 
+    /**
+     * Returns the used HitogoHelper object for the alert.
+     *
+     * @return a HitogoHelper object
+     * @see HitogoHelper
+     * @since 1.0.0
+     */
     @NonNull
     protected HitogoHelper getHelper() {
         return helper;
     }
 
+    /**
+     * Returns the used HitogoAccessor object for the button.
+     *
+     * @return a HitogoAccessor object
+     * @see HitogoAccessor
+     * @since 1.0.0
+     */
     @NonNull
     protected HitogoAccessor getAccessor() {
         return accessor;

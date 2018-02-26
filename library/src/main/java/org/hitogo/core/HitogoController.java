@@ -198,12 +198,12 @@ public abstract class HitogoController implements LifecycleObserver {
             int newAlertPrio = newAlert.getPriority();
             if (newAlertPrio < getCurrentHighestPriority(newAlert.getAlertType())) {
                 setCurrentHighestPriority(newAlert.getAlertType(), newAlertPrio);
-                waitForClosing = closeByType(newAlert.getAlertType(), force);
+                waitForClosing = internalHideByAlert(newAlert, force);
             } else {
                 return;
             }
         } else if (newAlert.isClosingOthers() && !currentActiveObjects.isEmpty()) {
-            long waitByType = closeByType(newAlert.getAlertType(), force);
+            long waitByType = internalHideByAlert(newAlert, force);
             if (waitByType > waitForClosing) {
                 waitForClosing = waitByType;
             }
@@ -395,6 +395,25 @@ public abstract class HitogoController implements LifecycleObserver {
         return longestClosingAnim;
     }
 
+    private long internalHideByAlert(final @NonNull Alert alert, boolean force) {
+        long longestClosingAnim = 0;
+        Iterator<AlertImpl> it = getCurrentAlertList(alert.getAlertType()).iterator();
+
+        while (it.hasNext()) {
+            AlertImpl object = it.next();
+            if (object.equals(alert)) {
+                if (object.getAnimationDuration() > longestClosingAnim) {
+                    longestClosingAnim = object.getAnimationDuration();
+                }
+
+                internalMakeHide((AlertImpl) alert, force);
+                it.remove();
+            }
+        }
+
+        return longestClosingAnim;
+    }
+
     private void internalMakeVisible(AlertImpl object, boolean force) {
         int count = alertCountMap.get(object.hashCode());
         if (count == 0) {
@@ -403,6 +422,15 @@ public abstract class HitogoController implements LifecycleObserver {
             getCurrentActiveList(object.getAlertType()).add(object);
         } else {
             alertCountMap.put(object.hashCode(), count + 1);
+        }
+    }
+
+    private void internalMakeHide(AlertImpl object, boolean force) {
+        int count = alertCountMap.get(object.hashCode());
+        if (count == 1) {
+            alertCountMap.delete(object.hashCode());
+            internalMakeActiveAlertInvisible(object, force);
+            getCurrentAlertList(object.getAlertType()).add(object);
         }
     }
 
