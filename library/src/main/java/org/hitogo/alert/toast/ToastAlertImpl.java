@@ -183,7 +183,6 @@ public class ToastAlertImpl extends AlertImpl<ToastAlertParams> implements Toast
                 @Override
                 public void onClick(android.view.View v) {
                     button.getParams().getListener().onClick(ToastAlertImpl.this, button.getParams().getButtonParameter());
-
                     if ((button.getParams().isClosingAfterClick() || forceClose) && isAttached()) {
                         close();
                     }

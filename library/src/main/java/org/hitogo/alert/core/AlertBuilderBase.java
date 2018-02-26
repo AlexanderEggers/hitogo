@@ -156,6 +156,7 @@ public interface AlertBuilderBase<B, A extends Alert> {
      * @see HitogoController
      * @since 1.0.0
      */
+    @NonNull
     B setPriority(@IntRange(from = 0) int priority);
 
     /**

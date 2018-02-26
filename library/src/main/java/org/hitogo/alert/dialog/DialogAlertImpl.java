@@ -224,7 +224,7 @@ public class DialogAlertImpl extends AlertImpl<DialogAlertParams> implements Dia
                 @Override
                 public void onClick(android.view.View v) {
                     button.getParams().getListener().onClick(DialogAlertImpl.this, button.getParams().getButtonParameter());
-                    if(isAttached()) {
+                    if(button.getParams().isClosingAfterClick() && isAttached()) {
                         close();
                     }
                 }
@@ -265,7 +265,7 @@ public class DialogAlertImpl extends AlertImpl<DialogAlertParams> implements Dia
                         @Override
                         public void onClick(DialogInterface dialog, int id) {
                             button.getParams().getListener().onClick(DialogAlertImpl.this, button.getParams().getButtonParameter());
-                            if(isAttached()) {
+                            if(button.getParams().isClosingAfterClick() && isAttached()) {
                                 close();
                             }
                         }
@@ -276,7 +276,7 @@ public class DialogAlertImpl extends AlertImpl<DialogAlertParams> implements Dia
                         @Override
                         public void onClick(DialogInterface dialog, int id) {
                             button.getParams().getListener().onClick(DialogAlertImpl.this, button.getParams().getButtonParameter());
-                            if(isAttached()) {
+                            if(button.getParams().isClosingAfterClick() && isAttached()) {
                                 close();
                             }
                         }
@@ -287,7 +287,7 @@ public class DialogAlertImpl extends AlertImpl<DialogAlertParams> implements Dia
                         @Override
                         public void onClick(DialogInterface dialog, int id) {
                             button.getParams().getListener().onClick(DialogAlertImpl.this, button.getParams().getButtonParameter());
-                            if(isAttached()) {
+                            if(button.getParams().isClosingAfterClick() && isAttached()) {
                                 close();
                             }
                         }

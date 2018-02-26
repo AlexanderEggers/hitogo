@@ -41,6 +41,7 @@ import java.util.List;
 public abstract class HitogoController implements LifecycleObserver {
 
     private final Object syncLock = new Object();
+    private final Object countSyncLock = new Object();
 
     private final LinkedList<AlertImpl> currentViews = new LinkedList<>();
     private final LinkedList<AlertImpl> currentDialogs = new LinkedList<>();
@@ -63,8 +64,8 @@ public abstract class HitogoController implements LifecycleObserver {
         lifecycle.addObserver(this);
     }
 
-    public void show(AlertImpl hitogo, boolean force) {
-        show(hitogo, force, false);
+    public void show(AlertImpl alert, boolean force) {
+        show(alert, force, false);
     }
 
     public void show(AlertImpl alert, boolean force, boolean showLater) {
@@ -117,72 +118,6 @@ public abstract class HitogoController implements LifecycleObserver {
         }
     }
 
-    @NonNull
-    protected LinkedList<AlertImpl> getCurrentAlertList(AlertType type) {
-        switch (type) {
-            case VIEW:
-                return currentViews;
-            case DIALOG:
-                return currentDialogs;
-            case POPUP:
-                return currentPopups;
-            case OTHER:
-                return currentOthers;
-            default:
-                return new LinkedList<>();
-        }
-    }
-
-    @NonNull
-    protected List<AlertImpl> getCurrentActiveList(AlertType type) {
-        switch (type) {
-            case VIEW:
-                return currentActiveViews;
-            case DIALOG:
-                return currentActiveDialogs;
-            case POPUP:
-                return currentActivePopups;
-            case OTHER:
-                return currentActiveOthers;
-            default:
-                return new LinkedList<>();
-        }
-    }
-
-    protected int getCurrentHighestPriority(AlertType type) {
-        switch (type) {
-            case VIEW:
-                return currentHighestPriorityForViews;
-            case DIALOG:
-                return currentHighestPriorityForDialogs;
-            case POPUP:
-                return currentHighestPriorityForPopups;
-            case OTHER:
-                return currentHighestPriorityForOthers;
-            default:
-                return Integer.MAX_VALUE;
-        }
-    }
-
-    protected void setCurrentHighestPriority(AlertType type, int newPriority) {
-        switch (type) {
-            case VIEW:
-                currentHighestPriorityForViews = newPriority;
-                break;
-            case DIALOG:
-                currentHighestPriorityForDialogs = newPriority;
-                break;
-            case POPUP:
-                currentHighestPriorityForPopups = newPriority;
-                break;
-            case OTHER:
-                currentHighestPriorityForOthers = newPriority;
-                break;
-            default:
-                break;
-        }
-    }
-
     protected void internalShow(final LinkedList<AlertImpl> currentObjects, final AlertImpl newAlert,
                                 final boolean force, final boolean showLater) {
         currentObjects.addLast(newAlert);
@@ -198,12 +133,12 @@ public abstract class HitogoController implements LifecycleObserver {
             int newAlertPrio = newAlert.getPriority();
             if (newAlertPrio < getCurrentHighestPriority(newAlert.getAlertType())) {
                 setCurrentHighestPriority(newAlert.getAlertType(), newAlertPrio);
-                waitForClosing = internalHideByAlert(newAlert, force);
+                waitForClosing = internalHideByType(newAlert.getAlertType(), force);
             } else {
                 return;
             }
         } else if (newAlert.isClosingOthers() && !currentActiveObjects.isEmpty()) {
-            long waitByType = internalHideByAlert(newAlert, force);
+            long waitByType = internalHideByType(newAlert.getAlertType(), force);
             if (waitByType > waitForClosing) {
                 waitForClosing = waitByType;
             }
@@ -229,7 +164,7 @@ public abstract class HitogoController implements LifecycleObserver {
         }
     }
 
-    protected int getCurrentHighestPriority(LinkedList<AlertImpl> currentObjects) {
+    protected int getCurrentHighestPriority(List<AlertImpl> currentObjects) {
         int highestIncludingPriority = Integer.MAX_VALUE;
         for (AlertImpl alert : currentObjects) {
             if (alert.hasPriority() && alert.getPriority() <= highestIncludingPriority) {
@@ -279,11 +214,17 @@ public abstract class HitogoController implements LifecycleObserver {
 
     public long closeByType(@NonNull AlertType type, boolean force) {
         synchronized (syncLock) {
-            return internalCloseByType(getCurrentAlertList(type).iterator(), type, force);
+            return internalCloseByType(getCurrentAlertList(type).iterator(), type, force, false);
         }
     }
 
-    private long internalCloseByType(Iterator<AlertImpl> it, @NonNull AlertType type, boolean force) {
+    private long internalHideByType(@NonNull AlertType type, boolean force) {
+        synchronized (syncLock) {
+            return internalCloseByType(getCurrentAlertList(type).iterator(), type, force, true);
+        }
+    }
+
+    private long internalCloseByType(Iterator<AlertImpl> it, @NonNull AlertType type, boolean force, boolean onlyHide) {
         long longestClosingAnim = 0;
 
         while (it.hasNext()) {
@@ -294,7 +235,10 @@ public abstract class HitogoController implements LifecycleObserver {
                 }
 
                 internalMakeInvisible(object, force);
-                it.remove();
+
+                if (!onlyHide) {
+                    it.remove();
+                }
             }
         }
 
@@ -395,54 +339,28 @@ public abstract class HitogoController implements LifecycleObserver {
         return longestClosingAnim;
     }
 
-    private long internalHideByAlert(final @NonNull Alert alert, boolean force) {
-        long longestClosingAnim = 0;
-        Iterator<AlertImpl> it = getCurrentActiveList(alert.getAlertType()).iterator();
-
-        while (it.hasNext()) {
-            AlertImpl object = it.next();
-            if (object.equals(alert)) {
-                if (object.getAnimationDuration() > longestClosingAnim) {
-                    longestClosingAnim = object.getAnimationDuration();
-                }
-
-                internalMakeHide((AlertImpl) alert, force);
-                it.remove();
-            }
-        }
-
-        return longestClosingAnim;
-    }
-
     private void internalMakeVisible(AlertImpl object, boolean force) {
-        int count = alertCountMap.get(object.hashCode());
-        if (count == 0) {
-            alertCountMap.put(object.hashCode(), 1);
-            object.makeVisible(force);
-            getCurrentActiveList(object.getAlertType()).add(object);
-        } else {
-            alertCountMap.put(object.hashCode(), count + 1);
-        }
-    }
-
-    private void internalMakeHide(AlertImpl alert, boolean force) {
-        int count = alertCountMap.get(alert.hashCode());
-        if (count == 1) {
-            alertCountMap.delete(alert.hashCode());
-            if (alert.hasPriority()) {
-                setCurrentHighestPriority(alert.getAlertType(), Integer.MAX_VALUE);
+        synchronized (countSyncLock) {
+            int count = alertCountMap.get(object.hashCode());
+            if (count <= 0) {
+                alertCountMap.put(object.hashCode(), 1);
+                object.makeVisible(force);
+                getCurrentActiveList(object.getAlertType()).add(object);
+            } else {
+                alertCountMap.put(object.hashCode(), count + 1);
             }
-            alert.makeInvisible(force);
         }
     }
 
     private void internalMakeInvisible(AlertImpl object, boolean force) {
-        int count = alertCountMap.get(object.hashCode());
-        if (count == 1) {
-            alertCountMap.delete(object.hashCode());
-            internalMakeActiveAlertInvisible(object, force);
-        } else {
-            alertCountMap.put(object.hashCode(), count - 1);
+        synchronized (countSyncLock) {
+            int count = alertCountMap.get(object.hashCode());
+            if (count <= 1) {
+                alertCountMap.put(object.hashCode(), 0);
+                internalMakeActiveAlertInvisible(object, force);
+            } else {
+                alertCountMap.put(object.hashCode(), count - 1);
+            }
         }
     }
 
@@ -466,6 +384,72 @@ public abstract class HitogoController implements LifecycleObserver {
 
     private boolean isAlertAttached(AlertImpl alert) {
         return alertCountMap.get(alert.hashCode()) != 0;
+    }
+
+    @NonNull
+    protected LinkedList<AlertImpl> getCurrentAlertList(AlertType type) {
+        switch (type) {
+            case VIEW:
+                return currentViews;
+            case DIALOG:
+                return currentDialogs;
+            case POPUP:
+                return currentPopups;
+            case OTHER:
+                return currentOthers;
+            default:
+                return new LinkedList<>();
+        }
+    }
+
+    @NonNull
+    protected List<AlertImpl> getCurrentActiveList(AlertType type) {
+        switch (type) {
+            case VIEW:
+                return currentActiveViews;
+            case DIALOG:
+                return currentActiveDialogs;
+            case POPUP:
+                return currentActivePopups;
+            case OTHER:
+                return currentActiveOthers;
+            default:
+                return new LinkedList<>();
+        }
+    }
+
+    protected void setCurrentHighestPriority(AlertType type, int newPriority) {
+        switch (type) {
+            case VIEW:
+                currentHighestPriorityForViews = newPriority;
+                break;
+            case DIALOG:
+                currentHighestPriorityForDialogs = newPriority;
+                break;
+            case POPUP:
+                currentHighestPriorityForPopups = newPriority;
+                break;
+            case OTHER:
+                currentHighestPriorityForOthers = newPriority;
+                break;
+            default:
+                break;
+        }
+    }
+
+    protected int getCurrentHighestPriority(AlertType type) {
+        switch (type) {
+            case VIEW:
+                return currentHighestPriorityForViews;
+            case DIALOG:
+                return currentHighestPriorityForDialogs;
+            case POPUP:
+                return currentHighestPriorityForPopups;
+            case OTHER:
+                return currentHighestPriorityForOthers;
+            default:
+                return Integer.MAX_VALUE;
+        }
     }
 
     @NonNull
