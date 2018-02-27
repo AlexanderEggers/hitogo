@@ -22,7 +22,6 @@ import static org.mockito.Mockito.when;
 /**
  * A class which can be used to create Mocks for the ViewAlertBuilder.
  *
- * @see ViewAlertBuilder
  * @since 1.0.0
  */
 public class ViewAlertBuilderMock {
@@ -31,7 +30,6 @@ public class ViewAlertBuilderMock {
      * Creates a new Mock object for the ViewAlertBuilder.
      *
      * @return a new ViewAlertBuilder
-     * @see ViewAlertBuilder
      * @since 1.0.0
      */
     @NonNull
@@ -45,8 +43,6 @@ public class ViewAlertBuilderMock {
      *
      * @param alert a ViewAlert
      * @return a new ViewAlertBuilder
-     * @see ViewAlertBuilder
-     * @see ViewAlert
      * @since 1.0.0
      */
     @NonNull

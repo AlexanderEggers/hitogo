@@ -25,7 +25,6 @@ import static org.mockito.Mockito.when;
 /**
  * A class which can be used to create Mocks for the PopupAlertBuilder.
  *
- * @see PopupAlertBuilder
  * @since 1.0.0
  */
 public class PopupAlertBuilderMock {
@@ -34,7 +33,6 @@ public class PopupAlertBuilderMock {
      * Creates a new Mock object for the PopupAlertBuilder.
      *
      * @return a new PopupAlertBuilder
-     * @see PopupAlertBuilder
      * @since 1.0.0
      */
     @NonNull
@@ -48,8 +46,6 @@ public class PopupAlertBuilderMock {
      *
      * @param alert a PopupAlert
      * @return a new PopupAlertBuilder
-     * @see PopupAlertBuilder
-     * @see PopupAlert
      * @since 1.0.0
      */
     @NonNull

@@ -13,8 +13,6 @@ import static org.mockito.Mockito.when;
 /**
  * A class which can be used to create Mocks for the HitogoService.
  *
- * @see HitogoService
- * @see Hitogo
  * @since 1.0.0
  */
 @SuppressWarnings("unchecked")
@@ -25,7 +23,6 @@ public class HitogoServiceMock {
      *
      * @param hitogoService object which is extending HitogoService
      * @return same HitogoService object that has been provided to this method
-     * @see HitogoService
      * @since 1.0.0
      */
     public static <T extends HitogoService> T getMock(T hitogoService) {
@@ -40,7 +37,6 @@ public class HitogoServiceMock {
      * @param hitogoService object which is extending HitogoService
      * @param hitogo        a Hitogo factory
      * @return same HitogoService object that has been provided to this method
-     * @see HitogoService
      * @since 1.0.0
      */
     public static <T extends HitogoService> T getMock(T hitogoService, Hitogo hitogo) {
@@ -54,7 +50,6 @@ public class HitogoServiceMock {
      *
      * @param hitogoService object which is extending HitogoService
      * @return same HitogoService object that has been provided to this method
-     * @see HitogoService
      * @since 1.0.0
      */
     public static <T extends HitogoService> T getMock(T hitogoService,
@@ -79,7 +74,6 @@ public class HitogoServiceMock {
      * @param hitogoService object which is extending HitogoService
      * @param hitogo        a Hitogo factory
      * @return same HitogoService object that has been provided to this method
-     * @see HitogoService
      * @since 1.0.0
      */
     public static <T extends HitogoService> T getMock(T hitogoService,

@@ -21,7 +21,6 @@ import static org.mockito.Mockito.when;
 /**
  * A class which can be used to create Mocks for the DialogAlertBuilder.
  *
- * @see DialogAlertBuilder
  * @since 1.0.0
  */
 @SuppressWarnings("unchecked")
@@ -31,7 +30,6 @@ public class DialogAlertBuilderMock {
      * Creates a new Mock object for the DialogAlertBuilder.
      *
      * @return a new DialogAlertBuilder
-     * @see DialogAlertBuilder
      * @since 1.0.0
      */
     @NonNull
@@ -45,8 +43,6 @@ public class DialogAlertBuilderMock {
      *
      * @param alert a DialogAlert
      * @return a new DialogAlertBuilder
-     * @see DialogAlertBuilder
-     * @see DialogAlert
      * @since 1.0.0
      */
     @NonNull

@@ -17,7 +17,6 @@ import static org.mockito.Mockito.when;
 /**
  * A class which can be used to create Mocks for the ViewButtonBuilder.
  *
- * @see ViewButtonBuilder
  * @since 1.0.0
  */
 public class ViewButtonBuilderMock {
@@ -26,7 +25,6 @@ public class ViewButtonBuilderMock {
      * Creates a new Mock object for the ViewButtonBuilder.
      *
      * @return a new ViewButtonBuilder
-     * @see ViewButtonBuilder
      * @since 1.0.0
      */
     @NonNull
@@ -40,8 +38,6 @@ public class ViewButtonBuilderMock {
      *
      * @param button a ViewButton
      * @return a new ViewButtonBuilder
-     * @see ViewButtonBuilder
-     * @see ViewButton
      * @since 1.0.0
      */
     @NonNull

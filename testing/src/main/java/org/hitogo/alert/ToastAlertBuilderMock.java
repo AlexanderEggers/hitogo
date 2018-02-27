@@ -21,7 +21,6 @@ import static org.mockito.Mockito.when;
 /**
  * A class which can be used to create Mocks for the ToastAlertBuilder.
  *
- * @see ToastAlertBuilder
  * @since 1.0.0
  */
 public class ToastAlertBuilderMock {
@@ -30,7 +29,6 @@ public class ToastAlertBuilderMock {
      * Creates a new Mock object for the ToastAlertBuilder.
      *
      * @return a new ToastAlertBuilder
-     * @see ToastAlertBuilder
      * @since 1.0.0
      */
     @NonNull
@@ -44,8 +42,6 @@ public class ToastAlertBuilderMock {
      *
      * @param alert a ToastAlert
      * @return a new ToastAlertBuilder
-     * @see ToastAlertBuilder
-     * @see ToastAlert
      * @since 1.0.0
      */
     @NonNull

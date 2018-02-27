@@ -19,7 +19,6 @@ import static org.mockito.Mockito.when;
 /**
  * A class which can be used to create Mocks for the SnackbarAlertBuilder.
  *
- * @see SnackbarAlertBuilder
  * @since 1.0.0
  */
 public class SnackbarAlertBuilderMock {
@@ -28,7 +27,6 @@ public class SnackbarAlertBuilderMock {
      * Creates a new Mock object for the SnackbarAlertBuilder.
      *
      * @return a new SnackbarAlertBuilder
-     * @see SnackbarAlertBuilder
      * @since 1.0.0
      */
     @NonNull
@@ -42,8 +40,6 @@ public class SnackbarAlertBuilderMock {
      *
      * @param alert a SnackbarAlert
      * @return a new SnackbarAlertBuilder
-     * @see SnackbarAlertBuilder
-     * @see SnackbarAlert
      * @since 1.0.0
      */
     @NonNull

@@ -16,7 +16,6 @@ import static org.mockito.Mockito.when;
 /**
  * A class which can be used to create Mocks for the TextButtonBuilder.
  *
- * @see TextButtonBuilder
  * @since 1.0.0
  */
 public class TextButtonBuilderMock {
@@ -25,7 +24,6 @@ public class TextButtonBuilderMock {
      * Creates a new Mock object for the TextButtonBuilder.
      *
      * @return a new TextButtonBuilder
-     * @see TextButtonBuilder
      * @since 1.0.0
      */
     @NonNull
@@ -39,8 +37,6 @@ public class TextButtonBuilderMock {
      *
      * @param button a TextButton
      * @return a new TextButtonBuilder
-     * @see TextButtonBuilder
-     * @see TextButton
      * @since 1.0.0
      */
     @NonNull

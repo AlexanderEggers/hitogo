@@ -25,7 +25,6 @@ import static org.mockito.Mockito.when;
 /**
  * A class which can be used to create Mocks for the Hitogo factory.
  *
- * @see Hitogo
  * @since 1.0.0
  */
 public class HitogoMock {
@@ -35,7 +34,6 @@ public class HitogoMock {
      *
      * @param hitogo object which is extending Hitogo
      * @return same Hitogo object that has been provided to this method
-     * @see Hitogo
      * @since 1.0.0
      */
     @NonNull
@@ -50,7 +48,6 @@ public class HitogoMock {
      * Creates a new Mock object for the Hitogo factory.
      *
      * @return a new Hitogo
-     * @see Hitogo
      * @since 1.0.0
      */
     @NonNull
@@ -65,7 +62,6 @@ public class HitogoMock {
      * Creates a new Mock object for the given builder objects.
      *
      * @return a new Hitogo
-     * @see Hitogo
      * @since 1.0.0
      */
     @SuppressWarnings("unchecked")
@@ -84,7 +80,6 @@ public class HitogoMock {
      *
      * @param hitogo object which is exting Hitogo
      * @return same Hitogo object that has been provided to this method
-     * @see Hitogo
      * @since 1.0.0
      */
     @SuppressWarnings("unchecked")
