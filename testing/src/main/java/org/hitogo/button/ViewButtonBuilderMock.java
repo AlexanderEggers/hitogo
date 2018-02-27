@@ -29,7 +29,8 @@ public class ViewButtonBuilderMock {
      */
     @NonNull
     public static ViewButtonBuilder getMock() {
-        return getMock(mock(ViewButton.class));
+        ViewButton viewButtonMock = mock(ViewButton.class);
+        return getMock(viewButtonMock);
     }
 
     /**

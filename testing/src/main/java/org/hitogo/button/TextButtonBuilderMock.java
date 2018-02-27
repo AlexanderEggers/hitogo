@@ -28,7 +28,8 @@ public class TextButtonBuilderMock {
      */
     @NonNull
     public static TextButtonBuilder getMock() {
-        return getMock(mock(TextButton.class));
+        TextButton textButtonMock = mock(TextButton.class);
+        return getMock(textButtonMock);
     }
 
     /**

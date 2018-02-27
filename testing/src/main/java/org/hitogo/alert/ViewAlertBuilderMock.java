@@ -34,7 +34,8 @@ public class ViewAlertBuilderMock {
      */
     @NonNull
     public static ViewAlertBuilder getMock() {
-        return getMock(mock(ViewAlert.class));
+        ViewAlert viewAlert = mock(ViewAlert.class);
+        return getMock(viewAlert);
     }
 
     /**

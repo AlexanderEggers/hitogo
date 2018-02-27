@@ -34,7 +34,8 @@ public class DialogAlertBuilderMock {
      */
     @NonNull
     public static DialogAlertBuilder getMock() {
-        return getMock(mock(DialogAlert.class));
+        DialogAlert dialogAlertMock = mock(DialogAlert.class);
+        return getMock(dialogAlertMock);
     }
 
     /**

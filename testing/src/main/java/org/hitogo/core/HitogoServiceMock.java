@@ -8,6 +8,7 @@ import org.hitogo.alert.view.ViewAlertBuilder;
 import org.hitogo.button.text.TextButtonBuilder;
 import org.hitogo.button.view.ViewButtonBuilder;
 
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 /**
@@ -26,8 +27,9 @@ public class HitogoServiceMock {
      * @since 1.0.0
      */
     public static <T extends HitogoService> T getMock(T hitogoService) {
+        Hitogo hitogo = HitogoMock.getMock();
         when(hitogoService.create())
-                .thenReturn(HitogoMock.getMock());
+                .thenReturn(hitogo);
         return hitogoService;
     }
 
@@ -40,8 +42,9 @@ public class HitogoServiceMock {
      * @since 1.0.0
      */
     public static <T extends HitogoService> T getMock(T hitogoService, Hitogo hitogo) {
+        hitogo = HitogoMock.getMock(hitogo);
         when(hitogoService.create())
-                .thenReturn(HitogoMock.getMock(hitogo));
+                .thenReturn(hitogo);
         return hitogoService;
     }
 
@@ -61,11 +64,10 @@ public class HitogoServiceMock {
                                                       ViewButtonBuilder closeButtonBuilderMock,
                                                       TextButtonBuilder textButtonBuilderMock,
                                                       ViewButtonBuilder viewButtonBuilderMock) {
-        when(hitogoService.create())
-                .thenReturn(HitogoMock.getMock(dialogAlertBuilder, popupAlertBuilder,
-                        snackbarAlertBuilder, toastAlertBuilder, viewAlertBuilder,
-                        closeButtonBuilderMock, textButtonBuilderMock, viewButtonBuilderMock));
-        return hitogoService;
+        Hitogo hitogo = mock(Hitogo.class);
+        return getMock(hitogoService, hitogo, dialogAlertBuilder, popupAlertBuilder,
+                snackbarAlertBuilder, toastAlertBuilder, viewAlertBuilder, closeButtonBuilderMock,
+                textButtonBuilderMock, viewButtonBuilderMock);
     }
 
     /**
@@ -86,10 +88,12 @@ public class HitogoServiceMock {
                                                       ViewButtonBuilder closeButtonBuilderMock,
                                                       TextButtonBuilder textButtonBuilderMock,
                                                       ViewButtonBuilder viewButtonBuilderMock) {
+
+        hitogo = HitogoMock.getMock(hitogo, dialogAlertBuilder, popupAlertBuilder,
+                snackbarAlertBuilder, toastAlertBuilder, viewAlertBuilder,
+                closeButtonBuilderMock, textButtonBuilderMock, viewButtonBuilderMock);
         when(hitogoService.create())
-                .thenReturn(HitogoMock.getMock(hitogo, dialogAlertBuilder, popupAlertBuilder,
-                        snackbarAlertBuilder, toastAlertBuilder, viewAlertBuilder,
-                        closeButtonBuilderMock, textButtonBuilderMock, viewButtonBuilderMock));
+                .thenReturn(hitogo);
         return hitogoService;
     }
 }

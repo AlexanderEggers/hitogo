@@ -37,7 +37,8 @@ public class PopupAlertBuilderMock {
      */
     @NonNull
     public static PopupAlertBuilder getMock() {
-        return getMock(mock(PopupAlert.class));
+        PopupAlert popupAlertMock = mock(PopupAlert.class);
+        return getMock(popupAlertMock);
     }
 
     /**

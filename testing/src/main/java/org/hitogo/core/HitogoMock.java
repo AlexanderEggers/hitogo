@@ -38,10 +38,19 @@ public class HitogoMock {
      */
     @NonNull
     public static <T extends Hitogo> T getMock(@NonNull T hitogo) {
-        return getMock(hitogo, DialogAlertBuilderMock.getMock(), PopupAlertBuilderMock.getMock(),
-                SnackbarAlertBuilderMock.getMock(), ToastAlertBuilderMock.getMock(),
-                ViewAlertBuilderMock.getMock(), CloseButtonBuilderMock.getMock(),
-                TextButtonBuilderMock.getMock(), ViewButtonBuilderMock.getMock());
+        DialogAlertBuilder dialogAlertBuilderMock = DialogAlertBuilderMock.getMock();
+        PopupAlertBuilder popupAlertBuilderMock = PopupAlertBuilderMock.getMock();
+        SnackbarAlertBuilder snackbarAlertBuilderMock = SnackbarAlertBuilderMock.getMock();
+        ToastAlertBuilder toastAlertBuilderMock = ToastAlertBuilderMock.getMock();
+        ViewAlertBuilder viewAlertBuilderMock = ViewAlertBuilderMock.getMock();
+        ViewButtonBuilder closeButtonBuilderMock = CloseButtonBuilderMock.getMock();
+        TextButtonBuilder textButtonBuilderMock = TextButtonBuilderMock.getMock();
+        ViewButtonBuilder viewButtonBuilderMock = ViewButtonBuilderMock.getMock();
+
+        return getMock(hitogo, dialogAlertBuilderMock, popupAlertBuilderMock,
+                snackbarAlertBuilderMock, toastAlertBuilderMock,
+                viewAlertBuilderMock, closeButtonBuilderMock,
+                textButtonBuilderMock, viewButtonBuilderMock);
     }
 
     /**
@@ -52,10 +61,19 @@ public class HitogoMock {
      */
     @NonNull
     public static Hitogo getMock() {
-        return getMock(DialogAlertBuilderMock.getMock(), PopupAlertBuilderMock.getMock(),
-                SnackbarAlertBuilderMock.getMock(), ToastAlertBuilderMock.getMock(),
-                ViewAlertBuilderMock.getMock(), CloseButtonBuilderMock.getMock(),
-                TextButtonBuilderMock.getMock(), ViewButtonBuilderMock.getMock());
+        DialogAlertBuilder dialogAlertBuilderMock = DialogAlertBuilderMock.getMock();
+        PopupAlertBuilder popupAlertBuilderMock = PopupAlertBuilderMock.getMock();
+        SnackbarAlertBuilder snackbarAlertBuilderMock = SnackbarAlertBuilderMock.getMock();
+        ToastAlertBuilder toastAlertBuilderMock = ToastAlertBuilderMock.getMock();
+        ViewAlertBuilder viewAlertBuilderMock = ViewAlertBuilderMock.getMock();
+        ViewButtonBuilder closeButtonBuilderMock = CloseButtonBuilderMock.getMock();
+        TextButtonBuilder textButtonBuilderMock = TextButtonBuilderMock.getMock();
+        ViewButtonBuilder viewButtonBuilderMock = ViewButtonBuilderMock.getMock();
+
+        return getMock(dialogAlertBuilderMock, popupAlertBuilderMock,
+                snackbarAlertBuilderMock, toastAlertBuilderMock,
+                viewAlertBuilderMock, closeButtonBuilderMock,
+                textButtonBuilderMock, viewButtonBuilderMock);
     }
 
     /**

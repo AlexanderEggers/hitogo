@@ -31,7 +31,8 @@ public class SnackbarAlertBuilderMock {
      */
     @NonNull
     public static SnackbarAlertBuilder getMock() {
-        return getMock(mock(SnackbarAlert.class));
+        SnackbarAlert snackbarAlert = mock(SnackbarAlert.class);
+        return getMock(snackbarAlert);
     }
 
     /**

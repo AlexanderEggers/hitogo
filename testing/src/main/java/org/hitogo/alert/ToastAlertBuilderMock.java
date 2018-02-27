@@ -33,7 +33,8 @@ public class ToastAlertBuilderMock {
      */
     @NonNull
     public static ToastAlertBuilder getMock() {
-        return getMock(mock(ToastAlert.class));
+        ToastAlert toastAlertMock = mock(ToastAlert.class);
+        return getMock(toastAlertMock);
     }
 
     /**
