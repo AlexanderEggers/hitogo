@@ -51,8 +51,8 @@ android.libraryVariants.all { variant ->
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation 'org.hitogo:hitogo-core:1.0.0-rc1'
-    //implementation project(path: ':hitogo-core')
+    //implementation 'org.hitogo:hitogo-core:1.0.0-rc1'
+    implementation project(path: ':hitogo-core')
 
     implementation "com.android.support:support-annotations:27.0.2"
     implementation "junit:junit:4.12"
