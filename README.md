@@ -14,12 +14,12 @@ repositories {
 }
 
 dependencies {
-  implementation 'org.hitogo:hitogo-core:1.0.0-beta19.2'
-  testImplementation 'org.hitogo:hitogo-testing:1.0.0-beta19.2' //mocks and testing tools
+  implementation 'org.hitogo:hitogo-core:1.0.0-rc1'
+  testImplementation 'org.hitogo:hitogo-testing:1.0.0-rc1' //mocks and testing tools
 }
 ```
 
-How do I use Hitogo? (Step-by-step introduction for 1.0.0-beta19.2)
+How do I use Hitogo? (Step-by-step introduction for 1.0.0-rc1)
 -------------------
 
 1. Extend the HitogoController
@@ -144,7 +144,7 @@ If you have finished step 1 and 2, you are ready to go! Using Hitogo you can cre
 
 Status
 ------
-Version 1 is still in development. Updates are currently released at least monthly with new features and bug fixes. **Please keep in mind that the api is not stable yet and might change!**
+Version 1 is still in development. Updates are currently released at least monthly with new features and bug fixes.
 
 Comments/bugs/questions/pull requests are always welcome!
 
