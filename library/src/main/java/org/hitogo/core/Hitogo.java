@@ -29,6 +29,14 @@ import org.hitogo.button.view.ViewButtonBuilder;
 import org.hitogo.button.view.ViewButtonBuilderImpl;
 import org.hitogo.button.view.ViewButtonFactory;
 
+/**
+ * Base Factory class which is used to generate new builders and alerts/buttons. This class can only
+ * be initialised by the static method with(HitogoContainer). Each alert/button type has three
+ * different methods that accept different input parameter. Each type is implemented by using a
+ * separate interface object.
+ *
+ * @since 1.0.0
+ */
 public class Hitogo implements ViewAlertFactory<ViewAlertBuilder>, DialogAlertFactory<DialogAlertBuilder>,
         ViewButtonFactory<ViewButtonBuilder>, PopupAlertFactory<PopupAlertBuilder>,
         SnackbarAlertFactory<SnackbarAlertBuilder>, TextButtonFactory<TextButtonBuilder>,
@@ -42,10 +50,22 @@ public class Hitogo implements ViewAlertFactory<ViewAlertBuilder>, DialogAlertFa
         this.controller = container.getController();
     }
 
+    /**
+     * Creates a new Hitogo factory class using the given HitogoContainer object. This object
+     * includes all relevant objects that are needed for the builder, like config values, views,
+     * context etc.
+     *
+     * @param container a HitogoContainer object
+     * @return a new Hitogo factory
+     * @see HitogoContainer
+     * @since 1.0.0
+     */
+    @NonNull
     public static Hitogo with(@NonNull HitogoContainer container) {
         return new Hitogo(container);
     }
 
+    @NonNull
     @Override
     public ViewAlertBuilder asViewAlert() {
         return new ViewAlertBuilderImpl(controller.provideDefaultViewClass(),
@@ -53,6 +73,7 @@ public class Hitogo implements ViewAlertFactory<ViewAlertBuilder>, DialogAlertFa
                 container);
     }
 
+    @NonNull
     @Override
     public ViewAlertBuilder asViewAlert(@NonNull Class<? extends AlertImpl> targetClass) {
         return new ViewAlertBuilderImpl(targetClass,
@@ -60,6 +81,7 @@ public class Hitogo implements ViewAlertFactory<ViewAlertBuilder>, DialogAlertFa
                 container);
     }
 
+    @NonNull
     @Override
     public ViewAlertBuilder asViewAlert(@NonNull Class<? extends AlertImpl> targetClass,
                                         @NonNull Class<? extends AlertParams> paramClass) {
@@ -93,6 +115,7 @@ public class Hitogo implements ViewAlertFactory<ViewAlertBuilder>, DialogAlertFa
                 container);
     }
 
+    @NonNull
     @Override
     public ViewButtonBuilder asViewButton() {
         return new ViewButtonBuilderImpl(controller.provideDefaultViewButtonClass(),
@@ -100,6 +123,7 @@ public class Hitogo implements ViewAlertFactory<ViewAlertBuilder>, DialogAlertFa
                 container);
     }
 
+    @NonNull
     @Override
     public ViewButtonBuilder asViewButton(@NonNull Class<? extends ButtonImpl> targetClass) {
         return new ViewButtonBuilderImpl(targetClass,
@@ -107,6 +131,7 @@ public class Hitogo implements ViewAlertFactory<ViewAlertBuilder>, DialogAlertFa
                 container);
     }
 
+    @NonNull
     @Override
     public ViewButtonBuilder asViewButton(@NonNull Class<? extends ButtonImpl> targetClass,
                                           @NonNull Class<? extends ButtonParams> paramClass) {
@@ -115,6 +140,7 @@ public class Hitogo implements ViewAlertFactory<ViewAlertBuilder>, DialogAlertFa
                 container);
     }
 
+    @NonNull
     @Override
     public ViewButtonBuilder asCloseButton() {
         return new ViewButtonBuilderImpl(controller.provideDefaultCloseButtonClass(),
@@ -122,6 +148,7 @@ public class Hitogo implements ViewAlertFactory<ViewAlertBuilder>, DialogAlertFa
                 container);
     }
 
+    @NonNull
     @Override
     public ViewButtonBuilder asCloseButton(@NonNull Class<? extends ButtonImpl> targetClass) {
         return new ViewButtonBuilderImpl(targetClass,
@@ -129,6 +156,7 @@ public class Hitogo implements ViewAlertFactory<ViewAlertBuilder>, DialogAlertFa
                 container);
     }
 
+    @NonNull
     @Override
     public ViewButtonBuilder asCloseButton(@NonNull Class<? extends ButtonImpl> targetClass,
                                            @NonNull Class<? extends ButtonParams> paramClass) {
@@ -162,6 +190,7 @@ public class Hitogo implements ViewAlertFactory<ViewAlertBuilder>, DialogAlertFa
                 container);
     }
 
+    @NonNull
     @Override
     public SnackbarAlertBuilder asSnackbarAlert() {
         return new SnackbarAlertBuilderImpl(controller.provideDefaultSnackbarClass(),
@@ -169,6 +198,7 @@ public class Hitogo implements ViewAlertFactory<ViewAlertBuilder>, DialogAlertFa
                 container);
     }
 
+    @NonNull
     @Override
     public SnackbarAlertBuilder asSnackbarAlert(@NonNull Class<? extends AlertImpl> targetClass) {
         return new SnackbarAlertBuilderImpl(targetClass,
@@ -176,6 +206,7 @@ public class Hitogo implements ViewAlertFactory<ViewAlertBuilder>, DialogAlertFa
                 container);
     }
 
+    @NonNull
     @Override
     public SnackbarAlertBuilder asSnackbarAlert(@NonNull Class<? extends AlertImpl> targetClass,
                                                 @NonNull Class<? extends AlertParams> paramClass) {
@@ -184,6 +215,7 @@ public class Hitogo implements ViewAlertFactory<ViewAlertBuilder>, DialogAlertFa
                 container);
     }
 
+    @NonNull
     @Override
     public TextButtonBuilder asTextButton() {
         return new TextButtonBuilderImpl(controller.provideDefaultTextButtonClass(),
@@ -191,6 +223,7 @@ public class Hitogo implements ViewAlertFactory<ViewAlertBuilder>, DialogAlertFa
                 container);
     }
 
+    @NonNull
     @Override
     public TextButtonBuilder asTextButton(@NonNull Class<? extends ButtonImpl> targetClass) {
         return new TextButtonBuilderImpl(targetClass,
@@ -198,6 +231,7 @@ public class Hitogo implements ViewAlertFactory<ViewAlertBuilder>, DialogAlertFa
                 container);
     }
 
+    @NonNull
     @Override
     public TextButtonBuilder asTextButton(@NonNull Class<? extends ButtonImpl> targetClass,
                                           @NonNull Class<? extends ButtonParams> paramClass) {
@@ -206,6 +240,7 @@ public class Hitogo implements ViewAlertFactory<ViewAlertBuilder>, DialogAlertFa
                 container);
     }
 
+    @NonNull
     @Override
     public ToastAlertBuilder asToastAlert() {
         return new ToastAlertBuilderImpl(controller.provideDefaultToastClass(),
@@ -213,6 +248,7 @@ public class Hitogo implements ViewAlertFactory<ViewAlertBuilder>, DialogAlertFa
                 container);
     }
 
+    @NonNull
     @Override
     public ToastAlertBuilder asToastAlert(@NonNull Class<? extends AlertImpl> targetClass) {
         return new ToastAlertBuilderImpl(targetClass,
@@ -220,6 +256,7 @@ public class Hitogo implements ViewAlertFactory<ViewAlertBuilder>, DialogAlertFa
                 container);
     }
 
+    @NonNull
     @Override
     public ToastAlertBuilder asToastAlert(@NonNull Class<? extends AlertImpl> targetClass,
                                           @NonNull Class<? extends AlertParams> paramClass) {
@@ -228,11 +265,25 @@ public class Hitogo implements ViewAlertFactory<ViewAlertBuilder>, DialogAlertFa
                 container);
     }
 
+    /**
+     * Returns the used HitogoContainer object for the factory.
+     *
+     * @return HitogoContainer of the factory.
+     * @see HitogoContainer
+     * @since 1.0.0
+     */
     @NonNull
     protected HitogoContainer getContainer() {
         return container;
     }
 
+    /**
+     * Returns the used HitogoController object for the factory.
+     *
+     * @return HitogoController of the factory.
+     * @see HitogoController
+     * @since 1.0.0
+     */
     @NonNull
     protected HitogoController getController() {
         return controller;

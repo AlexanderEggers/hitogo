@@ -2,6 +2,7 @@ package org.hitogo.alert;
 
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 
 import org.hitogo.alert.core.VisibilityListener;
 import org.hitogo.alert.toast.ToastAlert;
@@ -17,14 +18,39 @@ import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+/**
+ * A class which can be used to create Mocks for the ToastAlertBuilder.
+ *
+ * @see ToastAlertBuilder
+ * @since 1.0.0
+ */
 public class ToastAlertBuilderMock {
 
+    /**
+     * Creates a new Mock object for the ToastAlertBuilder.
+     *
+     * @return a new ToastAlertBuilder
+     * @see ToastAlertBuilder
+     * @since 1.0.0
+     */
+    @NonNull
     public static ToastAlertBuilder getMock() {
         return getMock(mock(ToastAlert.class));
     }
 
+    /**
+     * Creates a new Mock object for the ToastAlertBuilder. The given ToastAlert can be used to
+     * define the return value for the method {@code build()}.
+     *
+     * @param alert a ToastAlert
+     * @return a new ToastAlertBuilder
+     * @see ToastAlertBuilder
+     * @see ToastAlert
+     * @since 1.0.0
+     */
+    @NonNull
     @SuppressWarnings("unchecked")
-    public static ToastAlertBuilder getMock(ToastAlert alert) {
+    public static ToastAlertBuilder getMock(@NonNull ToastAlert alert) {
         ToastAlertBuilder toastAlertBuilder = mock(ToastAlertBuilder.class);
 
         when(toastAlertBuilder.addButton(Matchers.<Button>anyVararg())).thenReturn(toastAlertBuilder);

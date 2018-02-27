@@ -1,5 +1,7 @@
 package org.hitogo.core;
 
+import android.support.annotation.NonNull;
+
 import org.hitogo.alert.DialogAlertBuilderMock;
 import org.hitogo.alert.PopupAlertBuilderMock;
 import org.hitogo.alert.SnackbarAlertBuilderMock;
@@ -20,15 +22,38 @@ import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+/**
+ * A class which can be used to create Mocks for the Hitogo factory.
+ *
+ * @see Hitogo
+ * @since 1.0.0
+ */
 public class HitogoMock {
 
-    public static <T extends Hitogo> T getMock(Hitogo hitogo) {
+    /**
+     * Creates a new Mock object for the given Hitogo factory.
+     *
+     * @param hitogo object which is extending Hitogo
+     * @return same Hitogo object that has been provided to this method
+     * @see Hitogo
+     * @since 1.0.0
+     */
+    @NonNull
+    public static <T extends Hitogo> T getMock(@NonNull T hitogo) {
         return getMock(hitogo, DialogAlertBuilderMock.getMock(), PopupAlertBuilderMock.getMock(),
                 SnackbarAlertBuilderMock.getMock(), ToastAlertBuilderMock.getMock(),
                 ViewAlertBuilderMock.getMock(), CloseButtonBuilderMock.getMock(),
                 TextButtonBuilderMock.getMock(), ViewButtonBuilderMock.getMock());
     }
 
+    /**
+     * Creates a new Mock object for the Hitogo factory.
+     *
+     * @return a new Hitogo
+     * @see Hitogo
+     * @since 1.0.0
+     */
+    @NonNull
     public static Hitogo getMock() {
         return getMock(DialogAlertBuilderMock.getMock(), PopupAlertBuilderMock.getMock(),
                 SnackbarAlertBuilderMock.getMock(), ToastAlertBuilderMock.getMock(),
@@ -36,6 +61,13 @@ public class HitogoMock {
                 TextButtonBuilderMock.getMock(), ViewButtonBuilderMock.getMock());
     }
 
+    /**
+     * Creates a new Mock object for the given builder objects.
+     *
+     * @return a new Hitogo
+     * @see Hitogo
+     * @since 1.0.0
+     */
     @SuppressWarnings("unchecked")
     public static Hitogo getMock(DialogAlertBuilder dialogAlertBuilder, PopupAlertBuilder popupAlertBuilder,
                                  SnackbarAlertBuilder snackbarAlertBuilder, ToastAlertBuilder toastAlertBuilder,
@@ -47,8 +79,16 @@ public class HitogoMock {
                 viewAlertBuilder, closeButtonBuilderMock, textButtonBuilderMock, viewButtonBuilderMock);
     }
 
+    /**
+     * Creates a new Mock object for the given Hitogo factory and builder objects.
+     *
+     * @param hitogo object which is exting Hitogo
+     * @return same Hitogo object that has been provided to this method
+     * @see Hitogo
+     * @since 1.0.0
+     */
     @SuppressWarnings("unchecked")
-    public static <T extends Hitogo> T getMock(Hitogo hitogo, DialogAlertBuilder dialogAlertBuilder, PopupAlertBuilder popupAlertBuilder,
+    public static <T extends Hitogo> T getMock(T hitogo, DialogAlertBuilder dialogAlertBuilder, PopupAlertBuilder popupAlertBuilder,
                                                SnackbarAlertBuilder snackbarAlertBuilder, ToastAlertBuilder toastAlertBuilder,
                                                ViewAlertBuilder viewAlertBuilder, ViewButtonBuilder closeButtonBuilderMock,
                                                TextButtonBuilder textButtonBuilderMock, ViewButtonBuilder viewButtonBuilderMock) {
@@ -85,6 +125,6 @@ public class HitogoMock {
         when(hitogo.asViewButton(any(Class.class), any(Class.class))).thenReturn(viewButtonBuilderMock);
         when(hitogo.asViewButton(any(Class.class))).thenReturn(viewButtonBuilderMock);
 
-        return (T) hitogo;
+        return hitogo;
     }
 }

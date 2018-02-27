@@ -7,7 +7,14 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.View;
 
-@SuppressWarnings({"WeakerAccess", "unused"})
+/**
+ * Fully implemented fragment that is using the HitogoContainer. This class can be used to have
+ * certain values pre-defined.
+ *
+ * @param <T> Class which is extending HitogoController
+ * @see HitogoController
+ * @since 1.0.0
+ */
 public abstract class HitogoFragment<T extends HitogoController> extends Fragment implements HitogoContainer {
 
     private T hitogoController;
@@ -30,6 +37,15 @@ public abstract class HitogoFragment<T extends HitogoController> extends Fragmen
         return getActivity().getWindow().getDecorView().findViewById(android.R.id.content);
     }
 
+    /**
+     * Creates a new HitogoController using the given Lifecycle object.
+     *
+     * @param lifecycle Lifecycle object provided for the HitogoController creation
+     * @return a new HitogoController
+     * @see HitogoController
+     * @see Lifecycle
+     * @since 1.0.0
+     */
     @NonNull
     public abstract T initialiseController(@NonNull Lifecycle lifecycle);
 }

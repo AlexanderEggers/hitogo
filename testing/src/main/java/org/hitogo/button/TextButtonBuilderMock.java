@@ -1,5 +1,7 @@
 package org.hitogo.button;
 
+import android.support.annotation.NonNull;
+
 import org.hitogo.button.core.ButtonListener;
 import org.hitogo.button.text.TextButton;
 import org.hitogo.button.text.TextButtonBuilder;
@@ -11,13 +13,38 @@ import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+/**
+ * A class which can be used to create Mocks for the TextButtonBuilder.
+ *
+ * @see TextButtonBuilder
+ * @since 1.0.0
+ */
 public class TextButtonBuilderMock {
 
+    /**
+     * Creates a new Mock object for the TextButtonBuilder.
+     *
+     * @return a new TextButtonBuilder
+     * @see TextButtonBuilder
+     * @since 1.0.0
+     */
+    @NonNull
     public static TextButtonBuilder getMock() {
         return getMock(mock(TextButton.class));
     }
 
-    public static TextButtonBuilder getMock(TextButton button) {
+    /**
+     * Creates a new Mock object for the TextButtonBuilder. The given TextButton can be used to
+     * define the return value for the method {@code build()}.
+     *
+     * @param button a TextButton
+     * @return a new TextButtonBuilder
+     * @see TextButtonBuilder
+     * @see TextButton
+     * @since 1.0.0
+     */
+    @NonNull
+    public static TextButtonBuilder getMock(@NonNull TextButton button) {
         TextButtonBuilder textButtonBuilder = mock(TextButtonBuilder.class);
 
         when(textButtonBuilder.addText(anyString())).thenReturn(textButtonBuilder);

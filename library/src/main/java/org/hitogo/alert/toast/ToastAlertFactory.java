@@ -23,6 +23,7 @@ public interface ToastAlertFactory<T extends AlertBuilderBase> {
      * @see org.hitogo.core.HitogoController
      * @since 1.0.0
      */
+    @NonNull
     T asToastAlert();
 
     /**
@@ -34,6 +35,7 @@ public interface ToastAlertFactory<T extends AlertBuilderBase> {
      * @see org.hitogo.core.HitogoController
      * @since 1.0.0
      */
+    @NonNull
     T asToastAlert(@NonNull Class<? extends AlertImpl> targetClass);
 
     /**
@@ -42,6 +44,7 @@ public interface ToastAlertFactory<T extends AlertBuilderBase> {
      * @return a ToastAlertBuilder
      * @since 1.0.0
      */
+    @NonNull
     T asToastAlert(@NonNull Class<? extends AlertImpl> targetClass,
                    @NonNull Class<? extends AlertParams> paramClass);
 }

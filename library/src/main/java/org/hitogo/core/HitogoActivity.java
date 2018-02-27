@@ -8,7 +8,14 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
-@SuppressWarnings({"WeakerAccess", "unused"})
+/**
+ * Fully implemented activity that is using the HitogoContainer. This class can be used to have
+ * certain values pre-defined.
+ *
+ * @param <T> Class which is extending HitogoController
+ * @see HitogoController
+ * @since 1.0.0
+ */
 public abstract class HitogoActivity<T extends HitogoController> extends AppCompatActivity implements HitogoContainer {
 
     private T hitogoController;
@@ -43,6 +50,15 @@ public abstract class HitogoActivity<T extends HitogoController> extends AppComp
         return getView();
     }
 
+    /**
+     * Creates a new HitogoController using the given Lifecycle object.
+     *
+     * @param lifecycle Lifecycle object provided for the HitogoController creation
+     * @return a new HitogoController
+     * @see HitogoController
+     * @see Lifecycle
+     * @since 1.0.0
+     */
     @NonNull
     public abstract T initialiseController(@NonNull Lifecycle lifecycle);
 }

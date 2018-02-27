@@ -23,6 +23,7 @@ public interface ViewAlertFactory<V extends AlertBuilder> {
      * @see org.hitogo.core.HitogoController
      * @since 1.0.0
      */
+    @NonNull
     V asViewAlert();
 
     /**
@@ -34,6 +35,7 @@ public interface ViewAlertFactory<V extends AlertBuilder> {
      * @see org.hitogo.core.HitogoController
      * @since 1.0.0
      */
+    @NonNull
     V asViewAlert(@NonNull Class<? extends AlertImpl> targetClass);
 
     /**
@@ -42,6 +44,7 @@ public interface ViewAlertFactory<V extends AlertBuilder> {
      * @return a ViewAlertBuilder
      * @since 1.0.0
      */
+    @NonNull
     V asViewAlert(@NonNull Class<? extends AlertImpl> targetClass,
                   @NonNull Class<? extends AlertParams> paramClass);
 }

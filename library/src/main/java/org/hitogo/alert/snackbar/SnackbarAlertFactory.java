@@ -23,6 +23,7 @@ public interface SnackbarAlertFactory<S extends AlertBuilderBase> {
      * @see org.hitogo.core.HitogoController
      * @since 1.0.0
      */
+    @NonNull
     S asSnackbarAlert();
 
     /**
@@ -34,6 +35,7 @@ public interface SnackbarAlertFactory<S extends AlertBuilderBase> {
      * @see org.hitogo.core.HitogoController
      * @since 1.0.0
      */
+    @NonNull
     S asSnackbarAlert(@NonNull Class<? extends AlertImpl> targetClass);
 
     /**
@@ -42,6 +44,7 @@ public interface SnackbarAlertFactory<S extends AlertBuilderBase> {
      * @return a SnackbarAlertBuilder
      * @since 1.0.0
      */
+    @NonNull
     S asSnackbarAlert(@NonNull Class<? extends AlertImpl> targetClass,
                       @NonNull Class<? extends AlertParams> paramClass);
 }

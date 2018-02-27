@@ -2,6 +2,13 @@ package org.hitogo.button.close;
 
 import org.hitogo.button.view.ViewButtonParams;
 
+/**
+ * Params object for the CloseButton.
+ *
+ * @see ViewButtonParams
+ * @see org.hitogo.button.core.ButtonParams
+ * @since 1.0.0
+ */
 public class CloseButtonParams extends ViewButtonParams {
 
     private Integer iconId;

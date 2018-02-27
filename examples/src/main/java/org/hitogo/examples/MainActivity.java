@@ -25,13 +25,83 @@ public class MainActivity extends HitogoActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         //sourceTest();
-        showFirstView();
+        //showFirstView();
         //showPrioAlerts();
+        showPrioAlerts2();
         //testImage();
         //testButtonImage();
 
         //testToast();
         testSnackbar();
+    }
+
+    private void showPrioAlerts2() {
+        ViewButton closeButton = Hitogo.with(this)
+                .asViewButton()
+                .setButtonListener(new ButtonListener<String>() {
+                    @Override
+                    public void onClick(@NonNull Alert alert, String parameter) {
+                        getController().showNext(alert);
+                    }
+                }, "Test parameter")
+                .addText(R.string.test_id)
+                .setView(R.id.close)
+                .build();
+
+        Hitogo.with(this)
+                .asViewAlert()
+                .withAnimations(R.id.content)
+                .asDismissible(closeButton)
+                .addText("Test")
+                .setTitle("Test Prio 1")
+                .asLayoutChild(R.id.container_layout)
+                .setState(AlertState.HINT)
+                .setPriority(1)
+                .show();
+
+        Hitogo.with(this)
+                .asViewAlert()
+                .withAnimations(R.id.content)
+                .asDismissible(closeButton)
+                .addText("Test")
+                .setTitle("Test Prio 1")
+                .asLayoutChild(R.id.container_layout)
+                .setState(AlertState.HINT)
+                .setPriority(2)
+                .show();
+
+        Hitogo.with(this)
+                .asViewAlert()
+                .withAnimations(R.id.content)
+                .asDismissible(closeButton)
+                .addText("Test")
+                .setTitle("Test Prio 1 copy")
+                .asLayoutChild(R.id.container_layout)
+                .setState(AlertState.HINT)
+                .setPriority(2)
+                .show();
+
+        Hitogo.with(this)
+                .asViewAlert()
+                .withAnimations(R.id.content)
+                .asDismissible(closeButton)
+                .addText("Test")
+                .setTitle("Test Prio 1 copy")
+                .asLayoutChild(R.id.container_layout)
+                .setState(AlertState.HINT)
+                .setPriority(2)
+                .show();
+
+        Hitogo.with(this)
+                .asViewAlert()
+                .withAnimations(R.id.content)
+                .asDismissible(closeButton)
+                .addText("Test")
+                .setTitle("Test Prio 3")
+                .asLayoutChild(R.id.container_layout)
+                .setState(AlertState.HINT)
+                .setPriority(3)
+                .show();
     }
 
     private void testButtonImage() {

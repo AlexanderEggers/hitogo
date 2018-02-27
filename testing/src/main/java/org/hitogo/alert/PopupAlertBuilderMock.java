@@ -3,6 +3,7 @@ package org.hitogo.alert;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.transition.Transition;
 import android.view.View;
 
@@ -21,14 +22,39 @@ import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+/**
+ * A class which can be used to create Mocks for the PopupAlertBuilder.
+ *
+ * @see PopupAlertBuilder
+ * @since 1.0.0
+ */
 public class PopupAlertBuilderMock {
 
+    /**
+     * Creates a new Mock object for the PopupAlertBuilder.
+     *
+     * @return a new PopupAlertBuilder
+     * @see PopupAlertBuilder
+     * @since 1.0.0
+     */
+    @NonNull
     public static PopupAlertBuilder getMock() {
         return getMock(mock(PopupAlert.class));
     }
 
+    /**
+     * Creates a new Mock object for the PopupAlertBuilder. The given PopupAlert can be used to
+     * define the return value for the method {@code build()}.
+     *
+     * @param alert a PopupAlert
+     * @return a new PopupAlertBuilder
+     * @see PopupAlertBuilder
+     * @see PopupAlert
+     * @since 1.0.0
+     */
+    @NonNull
     @SuppressWarnings("unchecked")
-    public static PopupAlertBuilder getMock(PopupAlert alert) {
+    public static PopupAlertBuilder getMock(@NonNull PopupAlert alert) {
         PopupAlertBuilder popupAlertBuilder = mock(PopupAlertBuilder.class);
 
         when(popupAlertBuilder.addButton(Matchers.<Button>anyVararg())).thenReturn(popupAlertBuilder);

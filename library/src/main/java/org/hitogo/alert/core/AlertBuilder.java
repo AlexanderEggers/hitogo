@@ -141,7 +141,6 @@ public interface AlertBuilder<B, A extends Alert> extends AlertBuilderBase<B, A>
      *
      * @param drawableRes an int which represents the image
      * @return Builder object which has called this method.
-     * @see Button
      * @since 1.0.0
      */
     @NonNull
@@ -157,7 +156,6 @@ public interface AlertBuilder<B, A extends Alert> extends AlertBuilderBase<B, A>
      *
      * @param drawable a Drawable
      * @return Builder object which has called this method.
-     * @see Button
      * @since 1.0.0
      */
     @NonNull
@@ -169,8 +167,8 @@ public interface AlertBuilder<B, A extends Alert> extends AlertBuilderBase<B, A>
      * HitogoAccessor.getDrawable(int).
      *
      * @param drawableRes an int which represents the drawable
+     *                    * @param viewId an Integer or null
      * @return Builder object which has called this method.
-     * @see Button
      * @since 1.0.0
      */
     @NonNull
@@ -181,8 +179,8 @@ public interface AlertBuilder<B, A extends Alert> extends AlertBuilderBase<B, A>
      * have more than one drawable.
      *
      * @param drawable a Drawable
+     * @param viewId   an Integer or null
      * @return Builder object which has called this method.
-     * @see Button
      * @since 1.0.0
      */
     @NonNull

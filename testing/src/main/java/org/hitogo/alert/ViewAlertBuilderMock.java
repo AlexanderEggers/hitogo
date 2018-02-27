@@ -2,6 +2,7 @@ package org.hitogo.alert;
 
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 
 import org.hitogo.alert.core.VisibilityListener;
 import org.hitogo.alert.view.ViewAlert;
@@ -18,14 +19,39 @@ import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+/**
+ * A class which can be used to create Mocks for the ViewAlertBuilder.
+ *
+ * @see ViewAlertBuilder
+ * @since 1.0.0
+ */
 public class ViewAlertBuilderMock {
 
+    /**
+     * Creates a new Mock object for the ViewAlertBuilder.
+     *
+     * @return a new ViewAlertBuilder
+     * @see ViewAlertBuilder
+     * @since 1.0.0
+     */
+    @NonNull
     public static ViewAlertBuilder getMock() {
         return getMock(mock(ViewAlert.class));
     }
 
+    /**
+     * Creates a new Mock object for the ViewAlertBuilder. The given ViewAlert can be used to
+     * define the return value for the method {@code build()}.
+     *
+     * @param alert a ViewAlert
+     * @return a new ViewAlertBuilder
+     * @see ViewAlertBuilder
+     * @see ViewAlert
+     * @since 1.0.0
+     */
+    @NonNull
     @SuppressWarnings("unchecked")
-    public static ViewAlertBuilder getMock(ViewAlert alert) {
+    public static ViewAlertBuilder getMock(@NonNull ViewAlert alert) {
         ViewAlertBuilder viewAlertBuilder = mock(ViewAlertBuilder.class);
 
         when(viewAlertBuilder.addButton(Matchers.<Button>anyVararg())).thenReturn(viewAlertBuilder);

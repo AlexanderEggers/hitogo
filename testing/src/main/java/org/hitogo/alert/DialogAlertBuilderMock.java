@@ -2,6 +2,7 @@ package org.hitogo.alert;
 
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 
 import org.hitogo.alert.core.VisibilityListener;
 import org.hitogo.alert.dialog.DialogAlert;
@@ -17,14 +18,39 @@ import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+/**
+ * A class which can be used to create Mocks for the DialogAlertBuilder.
+ *
+ * @see DialogAlertBuilder
+ * @since 1.0.0
+ */
 @SuppressWarnings("unchecked")
 public class DialogAlertBuilderMock {
 
+    /**
+     * Creates a new Mock object for the DialogAlertBuilder.
+     *
+     * @return a new DialogAlertBuilder
+     * @see DialogAlertBuilder
+     * @since 1.0.0
+     */
+    @NonNull
     public static DialogAlertBuilder getMock() {
         return getMock(mock(DialogAlert.class));
     }
 
-    public static DialogAlertBuilder getMock(DialogAlert alert) {
+    /**
+     * Creates a new Mock object for the DialogAlertBuilder. The given DialogAlert can be used to
+     * define the return value for the method {@code build()}.
+     *
+     * @param alert a DialogAlert
+     * @return a new DialogAlertBuilder
+     * @see DialogAlertBuilder
+     * @see DialogAlert
+     * @since 1.0.0
+     */
+    @NonNull
+    public static DialogAlertBuilder getMock(@NonNull DialogAlert alert) {
         DialogAlertBuilder dialogAlertBuilder = mock(DialogAlertBuilder.class);
 
         when(dialogAlertBuilder.addButton(anyInt())).thenReturn(dialogAlertBuilder);

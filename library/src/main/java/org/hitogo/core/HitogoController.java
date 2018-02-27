@@ -346,7 +346,7 @@ public abstract class HitogoController implements LifecycleObserver {
     }
 
     private boolean isAlertAttached(AlertImpl alert) {
-        return alertCountMap.get(alert.hashCode()) != 0;
+        return alertCountMap.get(alert.hashCode()) > 0;
     }
 
     @NonNull

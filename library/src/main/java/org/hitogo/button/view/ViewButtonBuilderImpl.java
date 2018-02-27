@@ -9,14 +9,32 @@ import org.hitogo.button.core.ButtonImpl;
 import org.hitogo.button.core.ButtonParams;
 import org.hitogo.button.core.ButtonType;
 import org.hitogo.core.HitogoContainer;
+import org.hitogo.core.HitogoController;
 import org.hitogo.core.HitogoParamsHolder;
 
-@SuppressWarnings({"WeakerAccess", "unused"})
+/**
+ * Builder which includes all basic method to assign specific values to the text button.
+ *
+ * @see org.hitogo.button.core.Button
+ * @since 1.0.0
+ */
 public class ViewButtonBuilderImpl extends ButtonBuilderImpl<ViewButtonBuilder, ViewButton> implements ViewButtonBuilder {
 
     private Integer iconId;
     private Integer clickId;
 
+    /**
+     * Default constructor for the ViewButtonBuilderImpl.
+     *
+     * @param targetClass Class object for the requested button.
+     * @param paramClass  Class object for the params object which is used by the button.
+     * @param container   Container which is used as a reference for this button (context, view,
+     *                    controller).
+     * @see HitogoContainer
+     * @see HitogoController
+     * @see ButtonType
+     * @since 1.0.0
+     */
     public ViewButtonBuilderImpl(@NonNull Class<? extends ButtonImpl> targetClass,
                                  @NonNull Class<? extends ButtonParams> paramClass,
                                  @NonNull HitogoContainer container) {

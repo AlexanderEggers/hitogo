@@ -2,6 +2,7 @@ package org.hitogo.alert;
 
 import android.content.res.ColorStateList;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 
 import org.hitogo.alert.core.VisibilityListener;
 import org.hitogo.alert.snackbar.SnackbarAlert;
@@ -15,14 +16,39 @@ import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+/**
+ * A class which can be used to create Mocks for the SnackbarAlertBuilder.
+ *
+ * @see SnackbarAlertBuilder
+ * @since 1.0.0
+ */
 public class SnackbarAlertBuilderMock {
 
+    /**
+     * Creates a new Mock object for the SnackbarAlertBuilder.
+     *
+     * @return a new SnackbarAlertBuilder
+     * @see SnackbarAlertBuilder
+     * @since 1.0.0
+     */
+    @NonNull
     public static SnackbarAlertBuilder getMock() {
         return getMock(mock(SnackbarAlert.class));
     }
 
+    /**
+     * Creates a new Mock object for the SnackbarAlertBuilder. The given SnackbarAlert can be used to
+     * define the return value for the method {@code build()}.
+     *
+     * @param alert a SnackbarAlert
+     * @return a new SnackbarAlertBuilder
+     * @see SnackbarAlertBuilder
+     * @see SnackbarAlert
+     * @since 1.0.0
+     */
+    @NonNull
     @SuppressWarnings("unchecked")
-    public static SnackbarAlertBuilder getMock(SnackbarAlert alert) {
+    public static SnackbarAlertBuilder getMock(@NonNull SnackbarAlert alert) {
         SnackbarAlertBuilder snackbarAlertBuilder = mock(SnackbarAlertBuilder.class);
 
         when(snackbarAlertBuilder.setState(anyInt())).thenReturn(snackbarAlertBuilder);
