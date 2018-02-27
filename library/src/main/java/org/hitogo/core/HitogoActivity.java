@@ -56,7 +56,6 @@ public abstract class HitogoActivity<T extends HitogoController> extends AppComp
      * @param lifecycle Lifecycle object provided for the HitogoController creation
      * @return a new HitogoController
      * @see HitogoController
-     * @see Lifecycle
      * @since 1.0.0
      */
     @NonNull

@@ -43,7 +43,6 @@ public abstract class HitogoFragment<T extends HitogoController> extends Fragmen
      * @param lifecycle Lifecycle object provided for the HitogoController creation
      * @return a new HitogoController
      * @see HitogoController
-     * @see Lifecycle
      * @since 1.0.0
      */
     @NonNull
