@@ -1,5 +1,6 @@
-include ':library', ':testing', ':examples'
-project(":library").name = "hitogo-core"
+include ':core', ':support', ':testing', ':examples'
+project(":core").name = "hitogo-core"
+project(":support").name = "hitogo-support"
 project(":testing").name = "hitogo-testing"
 project(":examples").name = "hitogo-examples"
 rootProject.name = "hitogo-library"
