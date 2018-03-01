@@ -22,10 +22,9 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
     implementation project(path: ':hitogo-core')
-    //implementation 'org.hitogo:hitogo-core:1.0.0-beta19.1'
-    //testImplementation 'org.hitogo:hitogo-testing:1.0.0-beta19.1'
+    implementation project(path: ':hitogo-support')
 
     //Support lib dependencies
-    implementation 'com.android.support:appcompat-v7:27.0.2'
-    implementation 'com.android.support:design:27.0.2'
+    implementation 'com.android.support:appcompat-v7:27.1.0'
+    implementation 'com.android.support:design:27.1.0'
 }

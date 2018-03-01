@@ -2,13 +2,13 @@ apply plugin: 'com.android.library'
 
 ext {
     bintrayRepo = 'android'
-    bintrayName = 'hitogo-testing'
+    bintrayName = 'hitogo-core'
 
     publishedGroupId = 'org.hitogo'
-    libraryName = 'hitogo-testing'
-    artifact = 'hitogo-testing'
+    libraryName = 'hitogo-core'
+    artifact = 'hitogo-core'
 
-    libraryDescription = 'Testing tools for the Android library Hitogo.'
+    libraryDescription = 'Android library to simplify alerts for your app.'
 
     siteUrl = 'https://github.com/Mordag/hitogo'
     gitUrl = 'https://github.com/Mordag/hitogo.git'
@@ -45,18 +45,16 @@ android {
 
 android.libraryVariants.all { variant ->
     variant.outputs.all {
-        outputFileName = "Hitogo-Testing-${version}.aar"
+        outputFileName = "Hitogo-Core-${version}.aar"
     }
 }
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    //implementation 'org.hitogo:hitogo-core:1.0.0-rc1'
-    implementation project(path: ':hitogo-core')
 
-    implementation "com.android.support:support-annotations:27.1.0"
-    implementation "junit:junit:4.12"
-    implementation "org.mockito:mockito-all:1.10.19"
+    //Support lib dependencies
+    implementation "android.arch.lifecycle:runtime:1.1.0"
+    implementation 'com.android.support:design:27.1.0'
 }
 
 apply from: 'https://raw.githubusercontent.com/nuuneoi/JCenter/master/installv1.gradle'

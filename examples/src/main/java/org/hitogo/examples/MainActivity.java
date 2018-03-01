@@ -15,7 +15,7 @@ import org.hitogo.button.core.ButtonListener;
 import org.hitogo.button.text.TextButton;
 import org.hitogo.button.view.ViewButton;
 import org.hitogo.core.Hitogo;
-import org.hitogo.core.HitogoActivity;
+import org.hitogo.support.HitogoActivity;
 import org.hitogo.core.HitogoController;
 
 public class MainActivity extends HitogoActivity {
