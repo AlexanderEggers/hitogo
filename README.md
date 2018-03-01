@@ -162,7 +162,7 @@ If you have finished step 1 and 2, you are ready to go! Using Hitogo you can cre
 
 Status
 ------
-Version 1.1 is currently under development. Updates are currently released at least monthly with new features and bug fixes. The latest stable version is 1.0.0-RC1 which can be found in the 1.0 branch.
+Version 1.1 is currently under development in the master branch. Updates are currently released at least monthly with new features (master only) and bug fixes. The latest stable version is 1.0.0-RC1 which can be found in the 1.0 branch.
 
 Comments/bugs/questions/pull requests are always welcome!
 
