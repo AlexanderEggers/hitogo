@@ -86,7 +86,7 @@ public class AlertController extends HitogoController {
 HitogoActivity and HitogoFragment are using the interface HitogoContainer. This interface is used to give you a certain structure in how to connect alerts to your app. It includes some getter-methods which will be used by the alert builder system.
 
 ```java
-public class MainActivity extends HitogoActivity {
+public class MainActivity extends HitogoActivity<AlertController> {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
