@@ -164,6 +164,8 @@ Status
 ------
 Version 1.1.0 is currently under development in the master branch. Updates are released at least monthly with new features (master only) and bug fixes. The latest stable version is 1.0.0-RC1 which can be found in the 1.0.x branch.
 
+Each major version will be supported until the next major version is released. Like 1.0.0 is supported until 1.1.0 is out.
+
 Comments/bugs/questions/pull requests are always welcome!
 
 Compatibility
