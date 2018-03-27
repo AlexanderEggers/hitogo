@@ -2,7 +2,7 @@ Hitogo
 =====
 [![Download](https://api.bintray.com/packages/mordag/android/hitogo-core/images/download.svg) ](https://bintray.com/mordag/android/hitogo-core/_latestVersion)
 
-Hitogo is a fluent-api for Android which helps you to simplify alerts for your app! This api can be initialsed by only a few lines of codes.
+Hitogo is a fluent-api for Android which helps you to simplify alerts for your app! This api can be initialised by only a few lines of codes.
 
 Motivation
 --------
@@ -86,7 +86,7 @@ public class AlertController extends HitogoController {
 HitogoActivity and HitogoFragment are using the interface HitogoContainer. This interface is used to give you a certain structure in how to connect alerts to your app. It includes some getter-methods which will be used by the alert builder system.
 
 ```java
-public class MainActivity extends HitogoActivity {
+public class MainActivity extends HitogoActivity<AlertController> {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -97,7 +97,7 @@ public class MainActivity extends HitogoActivity {
 
     @NonNull
     @Override
-    public HitogoController initialiseController(@NonNull Lifecycle lifecycle) {
+    public AlertController initialiseController(@NonNull Lifecycle lifecycle) {
         return new AlertController(lifecycle);
     }
 }
@@ -163,6 +163,8 @@ If you have finished step 1 and 2, you are ready to go! Using Hitogo you can cre
 Status
 ------
 Version 1.1.0 is currently under development in the master branch. Updates are released at least monthly with new features (master only) and bug fixes. The latest stable version is 1.0.0-RC1 which can be found in the 1.0.x branch.
+
+Each new major version will be supported until the next major version is released. For example: 1.0.0 is supported until 1.1.0 is out.
 
 Comments/bugs/questions/pull requests are always welcome!
 
