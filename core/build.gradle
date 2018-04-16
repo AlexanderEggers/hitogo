@@ -13,7 +13,7 @@ ext {
     siteUrl = 'https://github.com/Mordag/hitogo'
     gitUrl = 'https://github.com/Mordag/hitogo.git'
 
-    libraryVersion = '1.0.0'
+    libraryVersion = "$hitogo_library_version"
 
     developerId = 'mordag'
     developerName = 'Alexander Eggers'
@@ -33,7 +33,7 @@ android {
 
     defaultConfig {
         minSdkVersion 16
-        versionName "1.0.0"
+        versionName "$hitogo_library_version"
         consumerProguardFiles 'proguard-rules.pro'
     }
 
@@ -43,17 +43,11 @@ android {
     }
 }
 
-android.libraryVariants.all { variant ->
-    variant.outputs.all {
-        outputFileName = "Hitogo-Core-${version}.aar"
-    }
-}
-
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
     //Support lib dependencies
-    implementation 'com.android.support:design:27.1.1'
+    implementation "com.android.support:design:$support_lib_version"
 }
 
 apply from: 'https://raw.githubusercontent.com/nuuneoi/JCenter/master/installv1.gradle'
