@@ -170,8 +170,7 @@ public abstract class HitogoController implements LifecycleObserver {
      * @param showLater      true if the given alert should be displayed later, false otherwise
      * @since 1.0.0
      */
-    protected void internalShow(@NonNull final LinkedList<AlertImpl> currentObjects, @NonNull final AlertImpl newAlert,
-                                final boolean showLater) {
+    protected void internalShow(@NonNull final LinkedList<AlertImpl> currentObjects, @NonNull final AlertImpl newAlert, final boolean showLater) {
         currentObjects.addLast(newAlert);
 
         if (showLater) {

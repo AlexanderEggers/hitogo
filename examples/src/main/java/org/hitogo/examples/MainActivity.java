@@ -28,14 +28,14 @@ public class MainActivity extends HitogoActivity {
         //Examples and tests for different cases
 
         //sourceTest(); //Test if x given alerts are still only showing one alert
-        //showFirstView(); //Click path using different alerts
+        showFirstView(); //Click path using different alerts
         //showPrioAlerts(); //Alerts using the priority function
-        showPrioAlerts2(); //More alerts which are using the priority function
+        //showPrioAlerts2(); //More alerts which are using the priority function
         //testImage(); //Alert which has an image
         //testButtonImage(); //Alert button which has an image
 
-        //testToast(); //Testing toast implementation
-        testSnackbar(); //Testing snackbar implementation
+        testToast(); //Testing toast implementation
+        //testSnackbar(); //Testing snackbar implementation
     }
 
     public void sourceTest() {
@@ -87,7 +87,7 @@ public class MainActivity extends HitogoActivity {
                     public void onClick(@NonNull Alert alert, Object parameter) {
                         testOnClick();
                     }
-                }, false)
+                })
                 .setView(R.id.button)
                 .addText("Click me!")
                 .build();
@@ -99,7 +99,7 @@ public class MainActivity extends HitogoActivity {
                     public void onClick(@NonNull Alert alert, Object parameter) {
                         getController().closeAll();
                     }
-                }, false)
+                })
                 .addText(R.string.test_id)
                 .setView(R.id.close)
                 .build();
@@ -404,7 +404,7 @@ public class MainActivity extends HitogoActivity {
                     public void onClick(@NonNull Alert alert, Object parameter) {
                         showPopup();
                     }
-                }, false)
+                })
                 .addText("Ok")
                 .build();
 
@@ -427,7 +427,7 @@ public class MainActivity extends HitogoActivity {
                     public void onClick(@NonNull Alert alert, Object parameter) {
                         showTestView();
                     }
-                }, false)
+                })
                 .setView(R.id.button)
                 .addText("Click me!")
                 .build();
@@ -436,7 +436,6 @@ public class MainActivity extends HitogoActivity {
                 .asViewAlert()
                 .withAnimations(R.id.content)
                 .addText("Test 2")
-                .closeOthers(false)
                 .asLayoutChild(R.id.container_layout)
                 .addButton(button)
                 .setState(AlertState.WARNING)
@@ -452,7 +451,7 @@ public class MainActivity extends HitogoActivity {
                     public void onClick(@NonNull Alert alert, Object parameter) {
                         getController().showNext(alert);
                     }
-                }, true)
+                })
                 .setView(R.id.button)
                 .addText("Next")
                 .build();
@@ -475,7 +474,6 @@ public class MainActivity extends HitogoActivity {
                 .addText("Test for 'Show Later'")
                 .asLayoutChild(R.id.container_layout)
                 .addButton(next)
-                .closeOthers(true)
                 .addButton(save)
                 .setState(AlertState.HINT)
                 .setTag("TestHint 2")
@@ -490,7 +488,7 @@ public class MainActivity extends HitogoActivity {
                     public void onClick(@NonNull Alert alert, Object parameter) {
                         dialogTest2();
                     }
-                }, false)
+                })
                 .setView(R.id.button)
                 .addText("Click me!")
                 .build();
