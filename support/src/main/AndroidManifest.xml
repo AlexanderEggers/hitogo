@@ -1,4 +1,1 @@
-<manifest package="org.hitogo">
-
-    <application />
-</manifest>
+<manifest package="org.hitogo.support" />

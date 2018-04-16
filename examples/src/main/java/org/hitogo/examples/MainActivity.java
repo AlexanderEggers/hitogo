@@ -24,166 +24,18 @@ public class MainActivity extends HitogoActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        //sourceTest();
-        //showFirstView();
-        //showPrioAlerts();
-        showPrioAlerts2();
-        //testImage();
-        //testButtonImage();
 
-        //testToast();
-        testSnackbar();
-    }
+        //Examples and tests for different cases
 
-    private void showPrioAlerts2() {
-        ViewButton closeButton = Hitogo.with(this)
-                .asViewButton()
-                .setButtonListener(new ButtonListener<String>() {
-                    @Override
-                    public void onClick(@NonNull Alert alert, String parameter) {
-                        getController().showNext(alert);
-                    }
-                }, "Test parameter")
-                .addText(R.string.test_id)
-                .setView(R.id.close)
-                .build();
+        //sourceTest(); //Test if x given alerts are still only showing one alert
+        //showFirstView(); //Click path using different alerts
+        //showPrioAlerts(); //Alerts using the priority function
+        showPrioAlerts2(); //More alerts which are using the priority function
+        //testImage(); //Alert which has an image
+        //testButtonImage(); //Alert button which has an image
 
-        Hitogo.with(this)
-                .asViewAlert()
-                .withAnimations(R.id.content)
-                .asDismissible(closeButton)
-                .addText("Test")
-                .setTitle("Test Prio 1")
-                .asLayoutChild(R.id.container_layout)
-                .setState(AlertState.HINT)
-                .setPriority(1)
-                .show();
-
-        Hitogo.with(this)
-                .asViewAlert()
-                .withAnimations(R.id.content)
-                .asDismissible(closeButton)
-                .addText("Test")
-                .setTitle("Test Prio 1")
-                .asLayoutChild(R.id.container_layout)
-                .setState(AlertState.HINT)
-                .setPriority(2)
-                .show();
-
-        Hitogo.with(this)
-                .asViewAlert()
-                .withAnimations(R.id.content)
-                .asDismissible(closeButton)
-                .addText("Test")
-                .setTitle("Test Prio 1 copy")
-                .asLayoutChild(R.id.container_layout)
-                .setState(AlertState.HINT)
-                .setPriority(2)
-                .show();
-
-        Hitogo.with(this)
-                .asViewAlert()
-                .withAnimations(R.id.content)
-                .asDismissible(closeButton)
-                .addText("Test")
-                .setTitle("Test Prio 1 copy")
-                .asLayoutChild(R.id.container_layout)
-                .setState(AlertState.HINT)
-                .setPriority(2)
-                .show();
-
-        Hitogo.with(this)
-                .asViewAlert()
-                .withAnimations(R.id.content)
-                .asDismissible(closeButton)
-                .addText("Test")
-                .setTitle("Test Prio 3")
-                .asLayoutChild(R.id.container_layout)
-                .setState(AlertState.HINT)
-                .setPriority(3)
-                .show();
-    }
-
-    private void testButtonImage() {
-        ViewButton viewButton = Hitogo.with(this)
-                .asViewButton()
-                .setButtonListener(new ButtonListener<String>() {
-                    @Override
-                    public void onClick(@NonNull Alert alert, String parameter) {
-                        testImageDialog();
-                    }
-                }, false)
-                .addText(R.id.button_text, "Dialog")
-                .setView(R.id.button_test_image)
-                .addDrawable(R.id.button_image, android.R.drawable.star_on)
-                .build();
-
-        Hitogo.with(this)
-                .asViewAlert()
-                .addText("Test Image Alert")
-                .asLayoutChild()
-                .addButton(viewButton)
-                .setState(AlertState.SUCCESS)
-                .show();
-    }
-
-    public void testImage() {
-        ViewButton viewButton = Hitogo.with(this)
-                .asViewButton()
-                .setButtonListener(new ButtonListener<String>() {
-                    @Override
-                    public void onClick(@NonNull Alert alert, String parameter) {
-                        testImageDialog();
-                    }
-                }, false)
-                .addText("Dialog")
-                .setView(R.id.close)
-                .build();
-
-        Hitogo.with(this)
-                .asViewAlert()
-                .addText("Test Image Alert")
-                .asLayoutChild()
-                .addButton(viewButton)
-                .setState(AlertState.HINT)
-                .addDrawable(R.id.imageTest, android.R.drawable.star_on)
-                .show();
-    }
-
-    public void testImageDialog() {
-        Hitogo.with(this)
-                .asDialogAlert()
-                .setTitle("Test")
-                .addText("Test Image Alert")
-                .addButton("Ok")
-                .addDrawable(android.R.drawable.star_on)
-                .show();
-    }
-
-    public void testToast() {
-        findViewById(R.id.button_test).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Hitogo.with(MainActivity.this)
-                        .asToastAlert()
-                        .addText("Test Toast")
-                        .setDuration(Toast.LENGTH_SHORT)
-                        .show();
-            }
-        });
-    }
-
-    public void testSnackbar() {
-        findViewById(R.id.button_test).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Hitogo.with(MainActivity.this)
-                        .asSnackbarAlert()
-                        .addText("Test Snackbar")
-                        .setDuration(Snackbar.LENGTH_SHORT)
-                        .show();
-            }
-        });
+        //testToast(); //Testing toast implementation
+        testSnackbar(); //Testing snackbar implementation
     }
 
     public void sourceTest() {
@@ -224,6 +76,52 @@ public class MainActivity extends HitogoActivity {
                 .asLayoutChild(R.id.container_layout)
                 .setState(AlertState.HINT)
                 .setPriority(1)
+                .show();
+    }
+
+    private void showFirstView() {
+        ViewButton button = Hitogo.with(this)
+                .asViewButton()
+                .setButtonListener(new ButtonListener() {
+                    @Override
+                    public void onClick(@NonNull Alert alert, Object parameter) {
+                        testOnClick();
+                    }
+                }, false)
+                .setView(R.id.button)
+                .addText("Click me!")
+                .build();
+
+        ViewButton closeButton = Hitogo.with(this)
+                .asViewButton()
+                .setButtonListener(new ButtonListener() {
+                    @Override
+                    public void onClick(@NonNull Alert alert, Object parameter) {
+                        getController().closeAll();
+                    }
+                }, false)
+                .addText(R.string.test_id)
+                .setView(R.id.close)
+                .build();
+
+        Hitogo.with(this)
+                .asViewAlert()
+                .withAnimations(R.id.content)
+                .asDismissible(closeButton)
+                .addText("Test")
+                .setTitle("Test Title")
+                .asLayoutChild(R.id.fake_id)
+                .addButton(button)
+                .dismissByLayoutClick(true)
+                .addVisibilityListener(new VisibilityListener<ViewAlert>() {
+
+                    @Override
+                    public void onShow(ViewAlert object) {
+                        Log.i(MainActivity.class.getName(), "Showing Alert");
+                    }
+                })
+                .setState(AlertState.HINT)
+                .setTag("TestHint 1")
                 .show();
     }
 
@@ -302,6 +200,131 @@ public class MainActivity extends HitogoActivity {
                 .show();
     }
 
+    private void showPrioAlerts2() {
+        ViewButton closeButton = Hitogo.with(this)
+                .asViewButton()
+                .setButtonListener(new ButtonListener<String>() {
+                    @Override
+                    public void onClick(@NonNull Alert alert, String parameter) {
+                        getController().showNext(alert);
+                    }
+                }, "Test parameter")
+                .addText(R.string.test_id)
+                .setView(R.id.close)
+                .build();
+
+        Hitogo.with(this)
+                .asViewAlert()
+                .withAnimations(R.id.content)
+                .asDismissible(closeButton)
+                .addText("Test")
+                .setTitle("Test Prio 1")
+                .asLayoutChild(R.id.container_layout)
+                .setState(AlertState.HINT)
+                .setPriority(1)
+                .show();
+
+        Hitogo.with(this)
+                .asViewAlert()
+                .withAnimations(R.id.content)
+                .asDismissible(closeButton)
+                .addText("Test")
+                .setTitle("Test Prio 1")
+                .asLayoutChild(R.id.container_layout)
+                .setState(AlertState.HINT)
+                .setPriority(2)
+                .show();
+
+        Hitogo.with(this)
+                .asViewAlert()
+                .withAnimations(R.id.content)
+                .asDismissible(closeButton)
+                .addText("Test")
+                .setTitle("Test Prio 1 copy")
+                .asLayoutChild(R.id.container_layout)
+                .setState(AlertState.HINT)
+                .setPriority(2)
+                .show();
+
+        Hitogo.with(this)
+                .asViewAlert()
+                .withAnimations(R.id.content)
+                .asDismissible(closeButton)
+                .addText("Test")
+                .setTitle("Test Prio 1 copy")
+                .asLayoutChild(R.id.container_layout)
+                .setState(AlertState.HINT)
+                .setPriority(2)
+                .show();
+
+        Hitogo.with(this)
+                .asViewAlert()
+                .withAnimations(R.id.content)
+                .asDismissible(closeButton)
+                .addText("Test")
+                .setTitle("Test Prio 3")
+                .asLayoutChild(R.id.container_layout)
+                .setState(AlertState.HINT)
+                .setPriority(3)
+                .show();
+    }
+
+    public void testImage() {
+        ViewButton viewButton = Hitogo.with(this)
+                .asViewButton()
+                .setButtonListener(new ButtonListener<String>() {
+                    @Override
+                    public void onClick(@NonNull Alert alert, String parameter) {
+                        testImageDialog();
+                    }
+                }, false)
+                .addText("Dialog")
+                .setView(R.id.close)
+                .build();
+
+        Hitogo.with(this)
+                .asViewAlert()
+                .addText("Test Image Alert")
+                .asLayoutChild()
+                .addButton(viewButton)
+                .setState(AlertState.HINT)
+                .addDrawable(R.id.imageTest, android.R.drawable.star_on)
+                .show();
+    }
+
+    private void testButtonImage() {
+        ViewButton viewButton = Hitogo.with(this)
+                .asViewButton()
+                .setButtonListener(new ButtonListener<String>() {
+                    @Override
+                    public void onClick(@NonNull Alert alert, String parameter) {
+                        testImageDialog();
+                    }
+                }, false)
+                .addText(R.id.button_text, "Dialog")
+                .setView(R.id.button_test_image)
+                .addDrawable(R.id.button_image, android.R.drawable.star_on)
+                .build();
+
+        Hitogo.with(this)
+                .asViewAlert()
+                .addText("Test Image Alert")
+                .asLayoutChild()
+                .addButton(viewButton)
+                .setState(AlertState.SUCCESS)
+                .show();
+    }
+
+    public void testImageDialog() {
+        Hitogo.with(this)
+                .asDialogAlert()
+                .setTitle("Test")
+                .addText("Test Image Alert")
+                .addButton("Ok")
+                .addDrawable(android.R.drawable.star_on)
+                .show();
+    }
+
     private void thirdPrioTest() {
         ViewButton closeButton = Hitogo.with(this)
                 .asViewButton()
@@ -348,52 +371,6 @@ public class MainActivity extends HitogoActivity {
                 .setState(AlertState.HINT)
                 .setPriority(1)
                 .showLater(true);
-    }
-
-    private void showFirstView() {
-        ViewButton button = Hitogo.with(this)
-                .asViewButton()
-                .setButtonListener(new ButtonListener() {
-                    @Override
-                    public void onClick(@NonNull Alert alert, Object parameter) {
-                        testOnClick();
-                    }
-                }, false)
-                .setView(R.id.button)
-                .addText("Click me!")
-                .build();
-
-        ViewButton closeButton = Hitogo.with(this)
-                .asViewButton()
-                .setButtonListener(new ButtonListener() {
-                    @Override
-                    public void onClick(@NonNull Alert alert, Object parameter) {
-                        getController().closeAll();
-                    }
-                }, false)
-                .addText(R.string.test_id)
-                .setView(R.id.close)
-                .build();
-
-        Hitogo.with(this)
-                .asViewAlert()
-                .withAnimations(R.id.content)
-                .asDismissible(closeButton)
-                .addText("Test")
-                .setTitle("Test Title")
-                .asLayoutChild(R.id.fake_id)
-                .addButton(button)
-                .dismissByLayoutClick(true)
-                .addVisibilityListener(new VisibilityListener<ViewAlert>() {
-
-                    @Override
-                    public void onShow(ViewAlert object) {
-                        Log.i(MainActivity.class.getName(), "Showing Alert");
-                    }
-                })
-                .setState(AlertState.HINT)
-                .setTag("TestHint 1")
-                .show();
     }
 
     private void testOnClick() {
@@ -537,6 +514,32 @@ public class MainActivity extends HitogoActivity {
                 .setState(AlertState.HINT)
                 .asDismissible()
                 .show();
+    }
+
+    public void testToast() {
+        findViewById(R.id.button_test).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Hitogo.with(MainActivity.this)
+                        .asToastAlert()
+                        .addText("Test Toast")
+                        .setDuration(Toast.LENGTH_SHORT)
+                        .show();
+            }
+        });
+    }
+
+    public void testSnackbar() {
+        findViewById(R.id.button_test).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Hitogo.with(MainActivity.this)
+                        .asSnackbarAlert()
+                        .addText("Test Snackbar")
+                        .setDuration(Snackbar.LENGTH_SHORT)
+                        .show();
+            }
+        });
     }
 
     @NonNull
