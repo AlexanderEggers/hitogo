@@ -2,18 +2,18 @@ apply plugin: 'com.android.library'
 
 ext {
     bintrayRepo = 'android'
-    bintrayName = 'hitogo-testing'
+    bintrayName = 'hitogo-support'
 
     publishedGroupId = 'org.hitogo'
-    libraryName = 'hitogo-testing'
-    artifact = 'hitogo-testing'
+    libraryName = 'hitogo-support'
+    artifact = 'hitogo-support'
 
-    libraryDescription = 'Testing tools for the Android library Hitogo.'
+    libraryDescription = 'Support tools for the Android library Hitogo.'
 
     siteUrl = 'https://github.com/Mordag/hitogo'
     gitUrl = 'https://github.com/Mordag/hitogo.git'
 
-    libraryVersion = '1.0.0-rc1'
+    libraryVersion = '1.0.0'
 
     developerId = 'mordag'
     developerName = 'Alexander Eggers'
@@ -33,7 +33,7 @@ android {
 
     defaultConfig {
         minSdkVersion 16
-        versionName "1.0.0-rc1"
+        versionName "1.0.0"
         consumerProguardFiles 'proguard-rules.pro'
     }
 
