@@ -162,7 +162,7 @@ If you have finished step 1 and 2, you are ready to go! Using Hitogo you can cre
 
 Status
 ------
-Version 1.1.0 is currently under development in the master branch. Updates are released at least monthly with new features (master only) and bug fixes. The latest stable version is 1.0.0 which can be found in the 1.0.x branch.
+Version 1.1.0 is currently under development in the master branch. The latest stable version is 1.0.0 which can be found in the 1.0.x branch.
 
 Each new major version will be supported until the next major version is released. For example: 1.0.0 is supported until 1.1.0 is out. Each minor release won't include any public API changes.
 
