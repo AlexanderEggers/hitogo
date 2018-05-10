@@ -13,7 +13,7 @@ ext {
     siteUrl = 'https://github.com/Mordag/hitogo'
     gitUrl = 'https://github.com/Mordag/hitogo.git'
 
-    libraryVersion = '1.0.0'
+    libraryVersion = '1.0.1'
 
     developerId = 'mordag'
     developerName = 'Alexander Eggers'
@@ -51,7 +51,7 @@ android.libraryVariants.all { variant ->
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    //implementation 'org.hitogo:hitogo-core:1.0.0'
+    //implementation 'org.hitogo:hitogo-core:1.0.1'
     implementation project(path: ':hitogo-core')
 
     implementation "com.android.support:support-annotations:27.0.2"

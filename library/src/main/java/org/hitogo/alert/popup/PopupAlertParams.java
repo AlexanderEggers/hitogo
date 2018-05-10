@@ -1,5 +1,6 @@
 package org.hitogo.alert.popup;
 
+import android.os.Build;
 import android.transition.Transition;
 import android.view.View;
 
@@ -52,8 +53,11 @@ public class PopupAlertParams extends AlertParams {
         dismissByLayoutClick = holder.getBoolean(PopupAlertParamsKeys.DISMISS_BY_LAYOUT_CLICK_KEY);
         fullScreen = holder.getBoolean(PopupAlertParamsKeys.FULLSCREEN_KEY);
 
-        enterTransition = holder.getCustomObject(PopupAlertParamsKeys.ENTER_TRANSITION_KEY);
-        exitTransition = holder.getCustomObject(PopupAlertParamsKeys.EXIT_TRANSITION_KEY);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            enterTransition = holder.getCustomObject(PopupAlertParamsKeys.ENTER_TRANSITION_KEY);
+            exitTransition = holder.getCustomObject(PopupAlertParamsKeys.EXIT_TRANSITION_KEY);
+        }
+
         onTouchListener = holder.getCustomObject(PopupAlertParamsKeys.TOUCH_LISTENER_KEY);
     }
 
