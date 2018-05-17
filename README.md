@@ -164,7 +164,7 @@ Status
 ------
 Version 1.1.0 is currently under development in the master branch. The latest stable version is 1.0.1 which can be found in the 1.0.x branch.
 
-Each new major version will be supported until the next major version is released. For example: 1.0.1 is supported until 1.1.0 is out. Each minor release won't include any public API changes.
+Each new version version will be supported until the next version is released. For example: 1.0.1 is supported until 1.1.0 or 1.0.2 is out. Each minor release won't include any public API changes.
 
 Comments/bugs/questions/pull requests are always welcome!
 
@@ -172,11 +172,6 @@ Compatibility
 -------------
 
  * **Minimum Android SDK**: Hitogo requires a minimum API level of 16.
- 
-TODO
--------------
-* Unit testing
-* Wiki documentation
 
 Author
 ------
