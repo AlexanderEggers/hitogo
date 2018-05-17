@@ -8,7 +8,7 @@ Motivation
 --------
 This api is not only usable to simplify the creation of alerts, but also helps you to keep control of all alerts, their trigger sources and the actual alerts which are displayed to the user. Trigger sources are for example server requests, actions triggered by the user or something similar.
 
-Handling alerts can be especially difficult if the trigger sources are not just one but many different per activity/fragment/... This api helps you to prioritise, sort and filter those sources to show only the most relevant alerts to your user base. 
+Handling alerts can be especially difficult if the trigger sources are not just one but many different per activity/fragment/... This api helps you to prioritise, sort and filter these sources to show only the most relevant alerts to your user base. 
 
 **Here one example:**
 
