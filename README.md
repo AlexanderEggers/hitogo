@@ -12,13 +12,13 @@ Handling alerts can be especially difficult if the trigger sources are not just 
 
 **Here one example:**
 
-You have 20 different trigger sources in your acitivty. In this example those sources are server requests. Each source can trigger an alert to the user to inform him in the case that the request has failed. Makes sense, right? So, let's say 10 of those requests failed. Normally 10 alerts would be triggered now. That probably would look wired to the user or fill up the whole screen with error messages.
+You have 20 different trigger sources in your acitivty. In this example these sources are server requests. Each source can trigger an alert to the user to inform him in the case that the request has failed. Makes sense, right? So, let's say 10 of these requests failed. Normally 10 alerts would be triggered now. That probably would look wired to the user or fill up the whole screen with error messages.
 
 At this point Hitogo can help you to structure your alerts to only show one error message instead of 10 (in the case all 10 alerts have the same text).
 
 **And another example:**
 
-You have again 20 different trigger sources which are based on server requests and one addtional which will trigger when user clicks a certain button. All alerts will be displayed as Snackbars. Because we all know that only one Snackbar can be displayed at the time, it would make sense to focus on the user interaction alert instead of the error messages of those 20 sources, right? So when the user clicks the button, the current Snackbar message should always be dismissed to show the user alert. And it should also surpress attemps of the other trigger sources to dismiss this user alert.
+You have again 20 different trigger sources which are based on server requests and one addtional which will trigger when user clicks a certain button. All alerts will be displayed as Snackbars. Because we all know that only one Snackbar can be displayed at the time, it would make sense to focus on the user interaction alert instead of the error messages of these 20 sources, right? So when the user clicks the button, the current Snackbar message should always be dismissed to show the user alert. And it should also surpress attemps of the other trigger sources to dismiss this user alert.
 
 To solve this problem, the library allows you to define a priority for your alert. This priority could be 1 for the user interaction and 2 for the error messages. That means that the user interaction alert will always be displayed.
 
