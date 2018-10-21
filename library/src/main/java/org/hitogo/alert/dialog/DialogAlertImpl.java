@@ -30,7 +30,6 @@ import java.util.List;
 @SuppressWarnings({"unchecked"})
 public class DialogAlertImpl extends AlertImpl<DialogAlertParams> implements DialogAlert {
 
-    private static final int MAX_BUILDER_BUTTON_AMOUNT = 3;
     private static final int PRIMARY_BUTTON = 0;
     private static final int SECONDARY_BUTTON = 1;
     private static final int NEUTRAL_BUTTON = 2;

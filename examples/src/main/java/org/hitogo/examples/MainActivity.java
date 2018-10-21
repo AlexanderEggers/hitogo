@@ -382,7 +382,7 @@ public class MainActivity extends HitogoActivity {
                 .asDismissible(closeButton)
                 .addText("Test")
                 .setTitle("Test Title")
-                .asLayoutChild(R.id.fake_id)
+                .asLayoutChild(-1)
                 .addButton(button)
                 .dismissByLayoutClick(true)
                 .addVisibilityListener(new VisibilityListener<ViewAlert>() {
