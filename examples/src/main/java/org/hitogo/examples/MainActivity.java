@@ -27,9 +27,10 @@ public class MainActivity extends HitogoActivity {
         //sourceTest();
         //showFirstView();
         //showPrioAlerts();
-        showPrioAlerts2();
+        //showPrioAlerts2();
         //testImage();
         //testButtonImage();
+        dialogTestThreeButtons(); // DialogAlerts support up to three buttons
 
         //testToast();
         testSnackbar();
@@ -439,6 +440,53 @@ public class MainActivity extends HitogoActivity {
                 .addButton(button)
                 .asDismissible()
                 .setTag("Test Dialog 2")
+                .show();
+    }
+
+    private void dialogTestThreeButtons() {
+        TextButton button1 = Hitogo.with(this)
+                .asTextButton()
+                .setButtonListener(new ButtonListener() {
+                    @Override
+                    public void onClick(@NonNull Alert alert, Object parameter) {
+                        showPopup();
+                    }
+                })
+                .addText("Button 1")
+                .build();
+
+        TextButton button2 = Hitogo.with(this)
+                .asTextButton()
+                .setButtonListener(new ButtonListener() {
+                    @Override
+                    public void onClick(@NonNull Alert alert, Object parameter) {
+                        showPopup();
+                    }
+                })
+                .addText("Button 2")
+                .build();
+
+        TextButton button3 = Hitogo.with(this)
+                .asTextButton()
+                .setButtonListener(new ButtonListener() {
+                    @Override
+                    public void onClick(@NonNull Alert alert, Object parameter) {
+                        showPopup();
+                    }
+                })
+                .addText("Button 3")
+                .build();
+
+        Hitogo.with(this)
+                .asDialogAlert()
+                .setTitle(R.id.title, "Test Dialog")
+                .addText(R.id.text, "Long message...")
+                .setState(AlertState.DANGER)
+                .addButton(button1)
+                .addButton(button2)
+                .addButton(button3)
+                .asDismissible()
+                .setTag("Test Dialog 2 Buttons")
                 .show();
     }
 
