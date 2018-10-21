@@ -30,7 +30,6 @@ import java.util.List;
 @SuppressWarnings({"unchecked"})
 public class DialogAlertImpl extends AlertImpl<DialogAlertParams> implements DialogAlert {
 
-    private static final int MAX_BUILDER_BUTTON_AMOUNT = 3;
     private static final int PRIMARY_BUTTON = 0;
     private static final int SECONDARY_BUTTON = 1;
     private static final int NEUTRAL_BUTTON = 2;
@@ -288,14 +287,14 @@ public class DialogAlertImpl extends AlertImpl<DialogAlertParams> implements Dia
                     });
                     break;
                 default:
+                    if (getController().provideIsDebugState()) {
+                        throw new InvalidParameterException("Dialog only supports up to three different " +
+                                "builder buttons (primary, secondary and neutral)!");
+                    }
                     break;
             }
-            dialogButtonCount++;
 
-            if (getController().provideIsDebugState() && dialogButtonCount >= MAX_BUILDER_BUTTON_AMOUNT) {
-                throw new InvalidParameterException("Dialog only supports up to three different " +
-                        "builder buttons (primary, secondary and neutral)!");
-            }
+            dialogButtonCount++;
         } else if (getController().provideIsDebugState()) {
             throw new InvalidParameterException("Empty button text cannot be added to the dialog.");
         }

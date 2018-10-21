@@ -25,17 +25,16 @@ public class MainActivity extends HitogoActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //Examples and tests for different cases
+        //sourceTest();
+        //showFirstView();
+        //showPrioAlerts();
+        //showPrioAlerts2();
+        //testImage();
+        //testButtonImage();
+        dialogTestThreeButtons(); // DialogAlerts support up to three buttons
 
-        //sourceTest(); //Test if x given alerts are still only showing one alert
-        showFirstView(); //Click path using different alerts
-        //showPrioAlerts(); //Alerts using the priority function
-        //showPrioAlerts2(); //More alerts which are using the priority function
-        //testImage(); //Alert which has an image
-        //testButtonImage(); //Alert button which has an image
-
-        testToast(); //Testing toast implementation
-        //testSnackbar(); //Testing snackbar implementation
+        //testToast();
+        testSnackbar();
     }
 
     public void sourceTest() {
@@ -110,7 +109,7 @@ public class MainActivity extends HitogoActivity {
                 .asDismissible(closeButton)
                 .addText("Test")
                 .setTitle("Test Title")
-                .asLayoutChild(R.id.fake_id)
+                .asLayoutChild(-1)
                 .addButton(button)
                 .dismissByLayoutClick(true)
                 .addVisibilityListener(new VisibilityListener<ViewAlert>() {
@@ -416,6 +415,53 @@ public class MainActivity extends HitogoActivity {
                 .addButton(button)
                 .asDismissible()
                 .setTag("Test Dialog 2")
+                .show();
+    }
+
+    private void dialogTestThreeButtons() {
+        TextButton button1 = Hitogo.with(this)
+                .asTextButton()
+                .setButtonListener(new ButtonListener() {
+                    @Override
+                    public void onClick(@NonNull Alert alert, Object parameter) {
+                        showPopup();
+                    }
+                })
+                .addText("Button 1")
+                .build();
+
+        TextButton button2 = Hitogo.with(this)
+                .asTextButton()
+                .setButtonListener(new ButtonListener() {
+                    @Override
+                    public void onClick(@NonNull Alert alert, Object parameter) {
+                        showPopup();
+                    }
+                })
+                .addText("Button 2")
+                .build();
+
+        TextButton button3 = Hitogo.with(this)
+                .asTextButton()
+                .setButtonListener(new ButtonListener() {
+                    @Override
+                    public void onClick(@NonNull Alert alert, Object parameter) {
+                        showPopup();
+                    }
+                })
+                .addText("Button 3")
+                .build();
+
+        Hitogo.with(this)
+                .asDialogAlert()
+                .setTitle(R.id.title, "Test Dialog")
+                .addText(R.id.text, "Long message...")
+                .setState(AlertState.DANGER)
+                .addButton(button1)
+                .addButton(button2)
+                .addButton(button3)
+                .asDismissible()
+                .setTag("Test Dialog 2 Buttons")
                 .show();
     }
 
