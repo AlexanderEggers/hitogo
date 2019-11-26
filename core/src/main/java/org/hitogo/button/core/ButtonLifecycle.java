@@ -1,7 +1,7 @@
 package org.hitogo.button.core;
 
-import android.support.annotation.CallSuper;
-import android.support.annotation.NonNull;
+import androidx.annotation.CallSuper;
+import androidx.annotation.NonNull;
 
 import org.hitogo.core.HitogoController;
 

@@ -1,6 +1,6 @@
 package org.hitogo.button.text;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 import android.util.Log;
 
 import org.hitogo.button.core.ButtonImpl;

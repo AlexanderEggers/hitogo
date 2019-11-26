@@ -1,9 +1,9 @@
 package org.hitogo.alert.core;
 
 import android.os.Bundle;
-import android.support.annotation.IntRange;
-import android.support.annotation.NonNull;
-import android.support.annotation.StringRes;
+import androidx.annotation.IntRange;
+import androidx.annotation.NonNull;
+import androidx.annotation.StringRes;
 
 import org.hitogo.core.HitogoController;
 import org.hitogo.core.HitogoHelper;

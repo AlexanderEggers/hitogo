@@ -1,6 +1,6 @@
 package org.hitogo.alert.popup;
 
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 import android.widget.PopupWindow;
 
 import org.hitogo.alert.core.Alert;

@@ -51,7 +51,7 @@ dependencies {
     //implementation "org.hitogo:hitogo-core:$hitogo_library_version"
     implementation project(path: ':hitogo-core')
 
-    implementation "com.android.support:appcompat-v7:$support_lib_version"
+    implementation "androidx.appcompat:appcompat:$support_appcompat_version"
 }
 
 if (project.rootProject.file('local.properties').exists()) {

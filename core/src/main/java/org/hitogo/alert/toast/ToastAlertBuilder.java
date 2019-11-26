@@ -1,8 +1,8 @@
 package org.hitogo.alert.toast;
 
-import android.support.annotation.IntRange;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
+import androidx.annotation.IntRange;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import org.hitogo.alert.core.Alert;
 import org.hitogo.alert.core.AlertBuilder;

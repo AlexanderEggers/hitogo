@@ -1,6 +1,6 @@
 package org.hitogo.core;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import org.hitogo.alert.core.AlertImpl;
 import org.hitogo.alert.core.AlertParams;

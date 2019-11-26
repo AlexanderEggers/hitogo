@@ -1,6 +1,6 @@
 package org.hitogo.core;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import org.hitogo.alert.DialogAlertBuilderMock;
 import org.hitogo.alert.PopupAlertBuilderMock;

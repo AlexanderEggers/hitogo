@@ -1,6 +1,6 @@
 package org.hitogo.alert.view;
 
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 
 import org.hitogo.alert.core.AlertParams;
 import org.hitogo.core.HitogoAnimation;

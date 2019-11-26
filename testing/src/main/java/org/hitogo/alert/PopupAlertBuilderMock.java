@@ -3,7 +3,7 @@ package org.hitogo.alert;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 import android.transition.Transition;
 import android.view.View;
 

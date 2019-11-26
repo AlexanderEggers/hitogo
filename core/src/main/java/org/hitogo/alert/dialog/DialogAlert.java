@@ -1,7 +1,7 @@
 package org.hitogo.alert.dialog;
 
 import android.app.Dialog;
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 
 import org.hitogo.alert.core.Alert;
 import org.hitogo.alert.core.AlertImpl;

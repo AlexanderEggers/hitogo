@@ -1,7 +1,7 @@
 package org.hitogo.button;
 
 import android.graphics.drawable.Drawable;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import org.hitogo.button.core.ButtonListener;
 import org.hitogo.button.view.ViewButton;

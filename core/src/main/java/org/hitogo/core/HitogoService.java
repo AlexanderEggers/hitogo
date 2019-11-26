@@ -1,6 +1,6 @@
 package org.hitogo.core;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 /**
  * A class which can be used to create a MVVM-based alert system. This service could be injected by

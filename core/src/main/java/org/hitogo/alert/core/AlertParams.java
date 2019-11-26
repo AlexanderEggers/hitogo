@@ -2,7 +2,7 @@ package org.hitogo.alert.core;
 
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 import android.util.SparseArray;
 
 import org.hitogo.button.core.Button;

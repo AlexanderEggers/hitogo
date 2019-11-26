@@ -1,6 +1,6 @@
 package org.hitogo.alert.snackbar;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import org.hitogo.alert.core.AlertBuilderBase;
 import org.hitogo.alert.core.AlertImpl;

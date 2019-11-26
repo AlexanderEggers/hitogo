@@ -1,7 +1,7 @@
 package org.hitogo.alert.snackbar;
 
 import android.content.res.ColorStateList;
-import android.support.design.widget.Snackbar;
+import com.google.android.material.snackbar.Snackbar;
 
 import org.hitogo.alert.core.AlertParams;
 import org.hitogo.core.HitogoParamsHolder;

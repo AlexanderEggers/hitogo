@@ -1,9 +1,9 @@
 package org.hitogo.alert.dialog;
 
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.annotation.StringRes;
-import android.support.annotation.StyleRes;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.annotation.StringRes;
+import androidx.annotation.StyleRes;
 
 import org.hitogo.alert.core.Alert;
 import org.hitogo.alert.core.AlertBuilder;

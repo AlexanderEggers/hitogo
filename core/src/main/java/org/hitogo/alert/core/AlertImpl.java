@@ -2,10 +2,10 @@ package org.hitogo.alert.core;
 
 import android.app.Activity;
 import android.app.Dialog;
-import android.arch.lifecycle.Lifecycle;
+import androidx.lifecycle.Lifecycle;
 import android.content.Context;
 import android.os.Handler;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.PopupWindow;

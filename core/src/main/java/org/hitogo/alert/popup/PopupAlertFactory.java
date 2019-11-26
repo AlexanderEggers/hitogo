@@ -1,6 +1,6 @@
 package org.hitogo.alert.popup;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import org.hitogo.alert.core.AlertBuilder;
 import org.hitogo.alert.core.AlertImpl;

@@ -45,7 +45,7 @@ dependencies {
     //implementation "org.hitogo:hitogo-core:$hitogo_library_version"
     implementation project(path: ':hitogo-core')
 
-    implementation "com.android.support:support-annotations:$support_lib_version"
+    implementation "androidx.annotation:annotation:$support_annotation_version"
     implementation "junit:junit:$juni_version"
     implementation "org.mockito:mockito-all:$mockito_version"
 }

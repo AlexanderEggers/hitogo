@@ -1,6 +1,6 @@
 package org.hitogo.button.close;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import org.hitogo.button.core.ButtonBuilder;
 import org.hitogo.button.core.ButtonImpl;

@@ -1,8 +1,8 @@
 package org.hitogo.examples;
 
-import android.arch.lifecycle.Lifecycle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
+import androidx.lifecycle.Lifecycle;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import org.hitogo.alert.core.AlertType;
 import org.hitogo.alert.view.anim.TopAnimation;

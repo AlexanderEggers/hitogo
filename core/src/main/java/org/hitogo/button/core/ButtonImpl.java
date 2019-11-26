@@ -1,6 +1,6 @@
 package org.hitogo.button.core;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import org.hitogo.core.HitogoAccessor;
 import org.hitogo.core.HitogoContainer;

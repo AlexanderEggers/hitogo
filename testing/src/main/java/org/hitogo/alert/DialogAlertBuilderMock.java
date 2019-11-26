@@ -2,7 +2,7 @@ package org.hitogo.alert;
 
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import org.hitogo.alert.core.VisibilityListener;
 import org.hitogo.alert.dialog.DialogAlert;

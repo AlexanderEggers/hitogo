@@ -1,7 +1,7 @@
 package org.hitogo.core;
 
-import android.support.annotation.CallSuper;
-import android.support.annotation.NonNull;
+import androidx.annotation.CallSuper;
+import androidx.annotation.NonNull;
 
 /**
  * This class is used to provide all needed alert-related values which has been initialised via

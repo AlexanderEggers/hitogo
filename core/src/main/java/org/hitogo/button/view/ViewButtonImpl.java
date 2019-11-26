@@ -1,6 +1,6 @@
 package org.hitogo.button.view;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 import android.util.Log;
 import android.util.SparseArray;
 
