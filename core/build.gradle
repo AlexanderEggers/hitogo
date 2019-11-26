@@ -7,8 +7,9 @@ ext {
     publishedGroupId = 'org.hitogo'
     libraryName = 'hitogo-core'
     artifact = 'hitogo-core'
+    libraryYear = '2017'
 
-    libraryDescription = 'Android library to simplify alerts for your app.'
+    libraryDescription = 'Core artifact for the Android library Hitogo.'
 
     siteUrl = 'https://github.com/Mordag/hitogo'
     gitUrl = 'https://github.com/Mordag/hitogo.git'
@@ -18,9 +19,7 @@ ext {
     developerId = 'mordag'
     developerName = 'Alexander Eggers'
 
-    Properties properties = new Properties()
-    properties.load(project.rootProject.file("local.properties").newDataInputStream())
-    developerEmail = properties.getProperty("user.email", "")
+    developerEmail = ''
 
     licenseName = 'The Apache Software License, Version 2.0'
     licenseUrl = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
