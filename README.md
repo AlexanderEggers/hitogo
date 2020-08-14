@@ -32,12 +32,12 @@ repositories {
 }
 
 dependencies {
-  implementation 'org.hitogo:hitogo-core:1.0.2'
-  testImplementation 'org.hitogo:hitogo-testing:1.0.2' //mocks and testing tools
+  implementation 'org.hitogo:hitogo-core:1.0.3'
+  testImplementation 'org.hitogo:hitogo-testing:1.0.3' //mocks and testing tools
 }
 ```
 
-How do I use Hitogo? (Step-by-step introduction for 1.0.2)
+How do I use Hitogo? (Step-by-step introduction for 1.0.3)
 -------------------
 
 1. Extend the HitogoController
@@ -162,9 +162,9 @@ If you have finished step 1 and 2, you are ready to go! Using Hitogo you can cre
 
 Status
 ------
-Version 1.1.0 is currently under development in the develop branch. The latest stable version is 1.0.2 which can be found in the 1.0.x branch.
+Version 1.1.0 is currently under development in the develop branch. The latest stable version is 1.0.3 which can be found in the 1.0.x branch.
 
-Each new version version will be supported until the next version is released. For example: 1.0.1 is supported until 1.1.0 or 1.0.2 is out. Each minor release won't include any public API changes.
+Each new version version will be supported until the next version is released. For example: 1.0.3 is supported until 1.1.0 or 1.0.4 is out. Each minor release won't include any public API changes.
 
 Comments/bugs/questions/pull requests are always welcome!
 

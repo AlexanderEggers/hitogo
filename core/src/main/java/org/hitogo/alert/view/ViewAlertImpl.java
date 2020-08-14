@@ -64,7 +64,7 @@ public class ViewAlertImpl extends AlertImpl<ViewAlertParams> implements ViewAle
                         "Use for example the LinearLayout to solve this issue.");
             }
 
-            if (containerView != null && containerView instanceof ViewGroup) {
+            if (containerView instanceof ViewGroup) {
                 viewGroup = (ViewGroup) containerView;
             } else {
                 Log.e(ViewAlertBuilderImpl.class.getName(), "Cannot find any container view. " +

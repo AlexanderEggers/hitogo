@@ -22,7 +22,6 @@ dependencies {
     implementation project(path: ':hitogo-core')
     implementation project(path: ':hitogo-support')
 
-    //Support lib dependencies
     implementation "androidx.appcompat:appcompat:$support_appcompat_version"
-    implementation "com.google.android.material:material:$support_default_lib_version"
+    implementation "com.google.android.material:material:$support_material_version"
 }

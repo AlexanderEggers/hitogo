@@ -42,9 +42,7 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-
-    //Support lib dependencies
-    implementation "com.google.android.material:material:$support_default_lib_version"
+    implementation "com.google.android.material:material:$support_material_version"
 }
 
 if (project.rootProject.file('local.properties').exists()) {
