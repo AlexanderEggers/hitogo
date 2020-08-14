@@ -13,14 +13,12 @@ ext {
     siteUrl = 'https://github.com/Mordag/hitogo'
     gitUrl = 'https://github.com/Mordag/hitogo.git'
 
-    libraryVersion = '1.0.2'
+    libraryVersion = '1.0.3'
 
     developerId = 'mordag'
     developerName = 'Alexander Eggers'
 
-    Properties properties = new Properties()
-    properties.load(project.rootProject.file("local.properties").newDataInputStream())
-    developerEmail = properties.getProperty("user.email", "")
+    developerEmail = ""
 
     licenseName = 'The Apache Software License, Version 2.0'
     licenseUrl = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
@@ -29,11 +27,10 @@ ext {
 
 android {
     compileSdkVersion 28
-    buildToolsVersion "28.0.3"
 
     defaultConfig {
         minSdkVersion 16
-        versionName "1.0.2"
+        versionName "1.0.3"
         consumerProguardFiles 'proguard-rules.pro'
     }
 

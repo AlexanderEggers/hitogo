@@ -133,7 +133,7 @@ public class DialogAlertImpl extends AlertImpl<DialogAlertParams> implements Dia
                 Drawable drawable = drawableMap.valueAt(i);
                 setDrawable(view, viewId, drawable);
             }
-        } else if (textMap.size() > 0) {
+        } else if (drawableMap.size() > 0) {
             builder.setIcon(drawableMap.valueAt(0));
         }
     }
