@@ -3,6 +3,8 @@
 buildscript {
 
     ext {
+        kotlin_version = '1.4.21'
+
         support_material_version = "1.2.1"
         support_appcompat_version = "1.2.0"
         support_annotation_version = "1.1.0"
@@ -16,12 +18,14 @@ buildscript {
     repositories {
         google()
         jcenter()
+        mavenCentral()
     }
 
     dependencies {
         classpath 'com.android.tools.build:gradle:4.1.1'
         classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.8.5'
         classpath 'com.github.dcendents:android-maven-gradle-plugin:2.1'
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
     }
 }
 
@@ -33,6 +37,7 @@ allprojects {
     repositories {
         google()
         jcenter()
+        mavenCentral()
     }
 }
 
