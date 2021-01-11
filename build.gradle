@@ -3,11 +3,11 @@
 buildscript {
 
     ext {
-        support_material_version = "1.2.0"
+        support_material_version = "1.2.1"
         support_appcompat_version = "1.2.0"
         support_annotation_version = "1.1.0"
 
-        juni_version = "4.13"
+        juni_version = "4.13.1"
         mockito_version = "1.10.19"
 
         hitogo_library_version = "1.1.0"
@@ -19,14 +19,14 @@ buildscript {
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:4.0.1'
+        classpath 'com.android.tools.build:gradle:4.1.1'
         classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.8.5'
         classpath 'com.github.dcendents:android-maven-gradle-plugin:2.1'
     }
 }
 
 plugins {
-    id "org.sonarqube" version "2.6"
+    id "org.sonarqube" version "3.0"
 }
 
 allprojects {
