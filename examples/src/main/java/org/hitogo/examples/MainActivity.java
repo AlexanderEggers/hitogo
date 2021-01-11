@@ -1,12 +1,14 @@
 package org.hitogo.examples;
 
-import androidx.lifecycle.Lifecycle;
 import android.os.Bundle;
-import androidx.annotation.NonNull;
-import com.google.android.material.snackbar.Snackbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.lifecycle.Lifecycle;
+
+import com.google.android.material.snackbar.Snackbar;
 
 import org.hitogo.alert.core.Alert;
 import org.hitogo.alert.core.VisibilityListener;
@@ -15,10 +17,10 @@ import org.hitogo.button.core.ButtonListener;
 import org.hitogo.button.text.TextButton;
 import org.hitogo.button.view.ViewButton;
 import org.hitogo.core.Hitogo;
-import org.hitogo.support.HitogoActivity;
+import org.hitogo.core.HitogoActivity;
 import org.hitogo.core.HitogoController;
 
-public class MainActivity extends HitogoActivity {
+public class MainActivity extends HitogoActivity<AlertController> {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -588,7 +590,7 @@ public class MainActivity extends HitogoActivity {
 
     @NonNull
     @Override
-    public HitogoController initialiseController(@NonNull Lifecycle lifecycle) {
+    public AlertController initialiseController(@NonNull Lifecycle lifecycle) {
         return new AlertController(lifecycle);
     }
 }

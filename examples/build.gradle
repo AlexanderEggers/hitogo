@@ -20,7 +20,6 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
     implementation project(path: ':hitogo-core')
-    implementation project(path: ':hitogo-support')
 
     implementation "androidx.appcompat:appcompat:$support_appcompat_version"
     implementation "com.google.android.material:material:$support_material_version"

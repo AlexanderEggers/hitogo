@@ -1,30 +1,31 @@
-package org.hitogo.support;
+package org.hitogo.core;
 
+import android.app.Activity;
 import androidx.lifecycle.Lifecycle;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
+import androidx.appcompat.app.AppCompatActivity;
 import android.view.View;
 
 import org.hitogo.core.HitogoContainer;
 import org.hitogo.core.HitogoController;
 
 /**
- * Fully implemented fragment that is using the HitogoContainer. This class can be used to have
+ * Fully implemented activity that is using the HitogoContainer. This class can be used to have
  * certain values pre-defined.
  *
  * @param <T> Class which is extending HitogoController
  * @see HitogoController
  * @since 1.0.0
  */
-public abstract class HitogoFragment<T extends HitogoController> extends Fragment implements HitogoContainer {
+public abstract class HitogoActivity<T extends HitogoController> extends AppCompatActivity implements HitogoContainer {
 
     private T hitogoController;
 
     @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
         hitogoController = initialiseController(getLifecycle());
     }
 
@@ -36,8 +37,20 @@ public abstract class HitogoFragment<T extends HitogoController> extends Fragmen
 
     @Nullable
     @Override
+    public View getView() {
+        return getWindow().getDecorView().findViewById(android.R.id.content);
+    }
+
+    @NonNull
+    @Override
+    public Activity getActivity() {
+        return this;
+    }
+
+    @Nullable
+    @Override
     public View getActivityView() {
-        return getActivity().getWindow().getDecorView().findViewById(android.R.id.content);
+        return getView();
     }
 
     /**
