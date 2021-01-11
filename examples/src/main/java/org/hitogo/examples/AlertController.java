@@ -1,8 +1,8 @@
 package org.hitogo.examples;
 
-import androidx.lifecycle.Lifecycle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.lifecycle.Lifecycle;
 
 import org.hitogo.alert.core.AlertType;
 import org.hitogo.alert.view.anim.TopAnimation;
@@ -35,23 +35,13 @@ public class AlertController extends HitogoController {
     @Nullable
     @Override
     public Integer provideDialogLayout(int state) {
-        AlertState alertState = AlertState.parse(state);
-
-        switch (alertState) {
-            default:
-                return R.layout.hitogo_dialog_danger;
-        }
+        return R.layout.hitogo_dialog_danger;
     }
 
     @Nullable
     @Override
     public Integer providePopupLayout(int state) {
-        AlertState alertState = AlertState.parse(state);
-
-        switch (alertState) {
-            default:
-                return R.layout.hitogo_popup;
-        }
+        return R.layout.hitogo_popup;
     }
 
     @Nullable
