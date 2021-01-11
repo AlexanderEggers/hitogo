@@ -16,7 +16,6 @@ import static org.mockito.Mockito.when;
  *
  * @since 1.0.0
  */
-@SuppressWarnings("unchecked")
 public class HitogoServiceMock {
 
     /**

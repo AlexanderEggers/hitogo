@@ -82,7 +82,6 @@ public class HitogoMock {
      * @return a new Hitogo
      * @since 1.0.0
      */
-    @SuppressWarnings("unchecked")
     public static Hitogo getMock(DialogAlertBuilder dialogAlertBuilder, PopupAlertBuilder popupAlertBuilder,
                                  SnackbarAlertBuilder snackbarAlertBuilder, ToastAlertBuilder toastAlertBuilder,
                                  ViewAlertBuilder viewAlertBuilder, ViewButtonBuilder closeButtonBuilderMock,
